@@ -2,6 +2,7 @@ defmodule Journey.Prospects.Client do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:client_uuid]}
   schema "clients" do
     field :city, :string
     field :client_uuid, Ecto.UUID
