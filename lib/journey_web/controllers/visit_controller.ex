@@ -18,21 +18,33 @@ defmodule JourneyWeb.VisitController do
 
   def create(conn, %{"visit" => visit_params}) do
     remote_ip = conn.remote_ip |> :inet_parse.ntoa() |> to_string()
+
+    visit_params =
+      case GeoIP.lookup(remote_ip) do
+        {:ok, geoip} ->
+          Map.merge(visit_params, %{
+            "country" => geoip.country_code,
+            "state" => geoip.region_name,
+            "city" => geoip.city_name,
+            "lat" => Float.to_string(geoip.latitude, decimals: 2),
+            "lon" => Float.to_string(geoip.longitude, decimals: 2)
+          })
+
+        _ ->
+          visit_params
+      end
+
     visit_params = Map.put(visit_params, "ipaddress", remote_ip)
     visit_params = Map.put(visit_params, "status", "ACTIVE")
 
     client = Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
-    require IEx
-    IEx.pry()
 
     visit_params =
       if client == nil do
-        Map.put(visit_params, "client_id", client.id)
-      else
         Map.put(visit_params, "client_id", 1)
+      else
+        Map.put(visit_params, "client_id", client.id)
       end
-
-    IEx.pry()
 
     case Analytics.create_visit(visit_params) do
       {:ok, _} ->

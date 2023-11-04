@@ -61,6 +61,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :geoip,
+  provider: :ip2locationio,
+  cache_ttl_secs: 1800,
+  api_key: "447907624DE4B3BA9E36816DD399F5A0"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

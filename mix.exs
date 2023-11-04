@@ -53,7 +53,8 @@ defmodule Journey.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:timescale, "~> 0.1.0"},
       {:uuid, "~> 1.1"},
-      {:remote_ip, "~> 1.1"}
+      {:remote_ip, "~> 1.1"},
+      {:geoip, git: "git@github.com:ip2location/geoip.git", branch: "master"}
     ]
   end
 
