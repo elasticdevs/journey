@@ -23,9 +23,12 @@ defmodule JourneyWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", JourneyWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", JourneyWeb do
+    pipe_through :api
+
+    resources "/clients", ClientController
+    resources "/visits", VisitController
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:journey, :dev_routes) do

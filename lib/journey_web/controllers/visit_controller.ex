@@ -16,7 +16,7 @@ defmodule JourneyWeb.VisitController do
 
   def create(conn, %{"visit" => visit_params}) do
     case Analytics.create_visit(visit_params) do
-      {:ok, visit} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "Visit created successfully.")
         |> redirect(to: ~p"/visits")
