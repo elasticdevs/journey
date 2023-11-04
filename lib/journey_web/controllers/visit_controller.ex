@@ -37,23 +37,39 @@ defmodule JourneyWeb.VisitController do
     visit_params = Map.put(visit_params, "ipaddress", remote_ip)
     visit_params = Map.put(visit_params, "status", "ACTIVE")
 
-    client = Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
-
     visit_params =
-      if client == nil do
-        Map.put(visit_params, "client_id", 1)
-      else
-        Map.put(visit_params, "client_id", client.id)
+      try do
+        client = Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
+
+        if client == nil do
+          Map.put(visit_params, "client_id", 1)
+        else
+          Map.put(visit_params, "client_id", client.id)
+        end
+      catch
+        _ -> Map.put(visit_params, "client_id", 1)
+      rescue
+        _ -> Map.put(visit_params, "client_id", 1)
       end
+
+    headers = Enum.into(conn.req_headers, %{})
 
     case Analytics.create_visit(visit_params) do
       {:ok, _} ->
-        conn
-        |> put_flash(:info, "Visit created successfully.")
-        |> redirect(to: ~p"/visits")
+        if headers["content-type"] == "application/json" do
+          json(conn, %{status: "success"})
+        else
+          conn
+          |> put_flash(:info, "Visit created successfully.")
+          |> redirect(to: ~p"/visits")
+        end
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        if headers["content-type"] == "application/json" do
+          json(conn, %{status: "error"})
+        else
+          render(conn, :new, changeset: changeset)
+        end
     end
   end
 
