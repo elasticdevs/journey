@@ -1,0 +1,8 @@
+<.header>
+  Edit Client <%= @client.id %>
+  <:subtitle>Use this form to manage client records in your database.</:subtitle>
+</.header>
+
+<.client_form changeset={@changeset} action={~p"/clients/#{@client}"} />
+
+<.back navigate={~p"/clients"}>Back to clients</.back>

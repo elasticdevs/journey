@@ -18,6 +18,8 @@ defmodule JourneyWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    resources "/clients", ClientController
+    resources "/visits", VisitController
   end
 
   # Other scopes may use custom stacks.

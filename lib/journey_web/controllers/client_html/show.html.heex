@@ -1,0 +1,28 @@
+<.header>
+  Client <%= @client.id %>
+  <:subtitle>This is a client record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/clients/#{@client}/edit"}>
+      <.button>Edit client</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Client uuid"><%= @client.client_uuid %></:item>
+  <:item title="External"><%= @client.external_id %></:item>
+  <:item title="Name"><%= @client.name %></:item>
+  <:item title="Email"><%= @client.email %></:item>
+  <:item title="Phone"><%= @client.phone %></:item>
+  <:item title="Company"><%= @client.company %></:item>
+  <:item title="Linkedin"><%= @client.linkedin %></:item>
+  <:item title="Job title"><%= @client.job_title %></:item>
+  <:item title="Country"><%= @client.country %></:item>
+  <:item title="State"><%= @client.state %></:item>
+  <:item title="City"><%= @client.city %></:item>
+  <:item title="Comments"><%= @client.comments %></:item>
+  <:item title="Tags"><%= @client.tags %></:item>
+  <:item title="Status"><%= @client.status %></:item>
+</.list>
+
+<.back navigate={~p"/clients"}>Back to clients</.back>

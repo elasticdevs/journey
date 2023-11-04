@@ -1,0 +1,36 @@
+<.header>
+  Listing Clients
+  <:actions>
+    <.link href={~p"/clients/new"}>
+      <.button>New Client</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>
+  <:col :let={client} label="Client uuid"><%= client.client_uuid %></:col>
+  <:col :let={client} label="External"><%= client.external_id %></:col>
+  <:col :let={client} label="Name"><%= client.name %></:col>
+  <:col :let={client} label="Email"><%= client.email %></:col>
+  <:col :let={client} label="Phone"><%= client.phone %></:col>
+  <:col :let={client} label="Company"><%= client.company %></:col>
+  <:col :let={client} label="Linkedin"><%= client.linkedin %></:col>
+  <:col :let={client} label="Job title"><%= client.job_title %></:col>
+  <:col :let={client} label="Country"><%= client.country %></:col>
+  <:col :let={client} label="State"><%= client.state %></:col>
+  <:col :let={client} label="City"><%= client.city %></:col>
+  <:col :let={client} label="Comments"><%= client.comments %></:col>
+  <:col :let={client} label="Tags"><%= client.tags %></:col>
+  <:col :let={client} label="Status"><%= client.status %></:col>
+  <:action :let={client}>
+    <div class="sr-only">
+      <.link navigate={~p"/clients/#{client}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/clients/#{client}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={client}>
+    <.link href={~p"/clients/#{client}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

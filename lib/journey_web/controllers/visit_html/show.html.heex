@@ -1,0 +1,30 @@
+<.header>
+  Visit <%= @visit.id %>
+  <:subtitle>This is a visit record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/visits/#{@visit}/edit"}>
+      <.button>Edit visit</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Time"><%= @visit.time %></:item>
+  <:item title="Client uuid"><%= @visit.client_uuid %></:item>
+  <:item title="Ipaddress"><%= @visit.ipaddress %></:item>
+  <:item title="Country"><%= @visit.country %></:item>
+  <:item title="State"><%= @visit.state %></:item>
+  <:item title="City"><%= @visit.city %></:item>
+  <:item title="Lat"><%= @visit.lat %></:item>
+  <:item title="Lon"><%= @visit.lon %></:item>
+  <:item title="Page"><%= @visit.page %></:item>
+  <:item title="Session"><%= @visit.session %></:item>
+  <:item title="Campaign"><%= @visit.campaign %></:item>
+  <:item title="Source"><%= @visit.source %></:item>
+  <:item title="Ua"><%= @visit.ua %></:item>
+  <:item title="Device"><%= @visit.device %></:item>
+  <:item title="Tags"><%= @visit.tags %></:item>
+  <:item title="Info"><%= @visit.info %></:item>
+</.list>
+
+<.back navigate={~p"/visits"}>Back to visits</.back>

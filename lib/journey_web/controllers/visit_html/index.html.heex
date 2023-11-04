@@ -1,0 +1,27 @@
+<.header>
+  Listing Visits
+  <:actions>
+    <.link href={~p"/visits/new"}>
+      <.button>New Visit</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="visits" rows={@visits}>
+  <:col :let={visit} label="Time"><%= visit.time %></:col>
+  <:col :let={visit} label="Client uuid"><%= visit.client_uuid %></:col>
+  <:col :let={visit} label="Ipaddress"><%= visit.ipaddress %></:col>
+  <:col :let={visit} label="Country"><%= visit.country %></:col>
+  <:col :let={visit} label="State"><%= visit.state %></:col>
+  <:col :let={visit} label="City"><%= visit.city %></:col>
+  <:col :let={visit} label="Lat"><%= visit.lat %></:col>
+  <:col :let={visit} label="Lon"><%= visit.lon %></:col>
+  <:col :let={visit} label="Page"><%= visit.page %></:col>
+  <:col :let={visit} label="Session"><%= visit.session %></:col>
+  <:col :let={visit} label="Campaign"><%= visit.campaign %></:col>
+  <:col :let={visit} label="Source"><%= visit.source %></:col>
+  <:col :let={visit} label="Ua"><%= visit.ua %></:col>
+  <:col :let={visit} label="Device"><%= visit.device %></:col>
+  <:col :let={visit} label="Tags"><%= visit.tags %></:col>
+  <:col :let={visit} label="Info"><%= visit.info %></:col>
+</.table>
