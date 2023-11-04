@@ -30,6 +30,7 @@ defmodule Journey.Analytics.Visit do
     visit
     |> cast(attrs, [
       :time,
+      :client_id,
       :client_uuid,
       :ipaddress,
       :country,

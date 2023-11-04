@@ -9,3 +9,10 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+Journey.Repo.insert!(%Journey.Prospects.Client{
+  name: "Generic",
+  client_uuid: "61dfe77c-7afe-11ee-b962-0242ac120002",
+  external_id: "NONE",
+  status: "ACTIVE"
+})

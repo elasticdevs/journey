@@ -4,7 +4,7 @@ defmodule Journey.Repo.Migrations.CreateVisits do
 
   def change do
     create table(:visits, primary_key: false) do
-      add :time, :naive_datetime_usec, default: fragment("now()")
+      add :time, :naive_datetime_usec, default: fragment("now()"), primary_key: true
       add :client_uuid, :uuid
       add :ipaddress, :string
       add :country, :string
@@ -20,7 +20,7 @@ defmodule Journey.Repo.Migrations.CreateVisits do
       add :device, :string
       add :tags, :string
       add :info, :map
-      add :client_id, references(:clients, on_delete: :nothing)
+      add :client_id, references(:clients, on_delete: :nothing), primary_key: true
 
       timestamps(type: :utc_datetime)
     end
