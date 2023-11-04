@@ -37,20 +37,28 @@ defmodule JourneyWeb.VisitController do
     visit_params = Map.put(visit_params, "ipaddress", remote_ip)
     visit_params = Map.put(visit_params, "status", "ACTIVE")
 
-    visit_params =
-      try do
-        client = Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
+    default_client = Repo.get(Client, 1)
 
-        if client == nil do
-          Map.put(visit_params, "client_id", 1)
+    client =
+      try do
+        c = Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
+
+        if c == nil do
+          default_client
         else
-          Map.put(visit_params, "client_id", client.id)
+          c
         end
-      catch
-        _ -> Map.put(visit_params, "client_id", 1)
       rescue
-        _ -> Map.put(visit_params, "client_id", 1)
+        _ -> default_client
+      catch
+        _ -> default_client
       end
+
+    visit_params =
+      Map.merge(visit_params, %{
+        "client_id" => client.id,
+        "client_uuid" => client.client_uuid
+      })
 
     headers = Enum.into(conn.req_headers, %{})
 
