@@ -7,6 +7,9 @@ defmodule JourneyWeb.VisitController do
   alias Journey.Analytics.Visit
 
   def index(conn, _params) do
+    require IEx
+    IEx.pry()
+
     visits = Analytics.list_visits()
     render(conn, :index, visits: visits)
   end
@@ -17,6 +20,13 @@ defmodule JourneyWeb.VisitController do
   end
 
   def create(conn, %{"visit" => visit_params}) do
+    # grab headers
+    headers = Enum.into(conn.req_headers, %{})
+
+    # grab UA
+    visit_params = Map.put(visit_params, "ua", headers["user-agent"])
+
+    # grab IP address and geolocation data
     remote_ip = conn.remote_ip |> :inet_parse.ntoa() |> to_string()
 
     visit_params =
@@ -35,8 +45,8 @@ defmodule JourneyWeb.VisitController do
       end
 
     visit_params = Map.put(visit_params, "ipaddress", remote_ip)
-    visit_params = Map.put(visit_params, "status", "ACTIVE")
 
+    # grab client
     default_client = Repo.get(Client, 1)
 
     client =
@@ -60,7 +70,8 @@ defmodule JourneyWeb.VisitController do
         "client_uuid" => client.client_uuid
       })
 
-    headers = Enum.into(conn.req_headers, %{})
+    # Set status
+    visit_params = Map.put(visit_params, "status", "ACTIVE")
 
     case Analytics.create_visit(visit_params) do
       {:ok, _} ->

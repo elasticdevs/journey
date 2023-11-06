@@ -1,27 +1,31 @@
-<.header>
-  Listing Visits
-  <:actions>
-    <.link href={~p"/visits/new"}>
-      <.button>New Visit</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="no-margin">
+  <div class="page-heading">Listing Visits</div>
+  <a href={~p"/visits/new"}>
+    <.button>New Visit</.button>
+  </a>
+</div>
 
 <.table id="visits" rows={@visits}>
   <:col :let={visit} label="Time"><%= visit.time %></:col>
-  <:col :let={visit} label="Client uuid"><%= visit.client_uuid %></:col>
-  <:col :let={visit} label="Ipaddress"><%= visit.ipaddress %></:col>
+  <:col :let={visit} label="Client UUID"><%= visit.client_uuid %></:col>
+  <:col :let={visit} label="IP Address"><%= visit.ipaddress %></:col>
   <:col :let={visit} label="Country"><%= visit.country %></:col>
   <:col :let={visit} label="State"><%= visit.state %></:col>
   <:col :let={visit} label="City"><%= visit.city %></:col>
   <:col :let={visit} label="Lat"><%= visit.lat %></:col>
   <:col :let={visit} label="Lon"><%= visit.lon %></:col>
   <:col :let={visit} label="Page"><%= visit.page %></:col>
+  <:col :let={visit} label="Hash"><%= visit.hash %></:col>
   <:col :let={visit} label="Session"><%= visit.session %></:col>
   <:col :let={visit} label="Campaign"><%= visit.campaign %></:col>
   <:col :let={visit} label="Source"><%= visit.source %></:col>
-  <:col :let={visit} label="Ua"><%= visit.ua %></:col>
+  <:col :let={visit} label="UA"><%= visit.ua %></:col>
   <:col :let={visit} label="Device"><%= visit.device %></:col>
   <:col :let={visit} label="Tags"><%= visit.tags %></:col>
   <:col :let={visit} label="Info"><%= visit.info %></:col>
+  <:col :let={visit} label="UTM Campaign"><%= visit.utm_campaign %></:col>
+  <:col :let={visit} label="UTM Source"><%= visit.utm_source %></:col>
+  <:col :let={visit} label="UTM Medium"><%= visit.utm_medium %></:col>
+  <:col :let={visit} label="UTM Term"><%= visit.utm_term %></:col>
+  <:col :let={visit} label="UTM Content"><%= visit.utm_content %></:col>
 </.table>

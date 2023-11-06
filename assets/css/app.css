@@ -1,5 +1,9 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+.top-bar {
+  margin: 1rem 0 5rem 0;
+  font-size: 48px;
+}
 
-/* This file is for your main application CSS */
+.page-heading {
+  margin: 2rem 0;
+  font-size: 32px;
+}

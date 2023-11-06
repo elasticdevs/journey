@@ -14,6 +14,7 @@ defmodule Journey.Analytics.Visit do
     field :lat, :string
     field :lon, :string
     field :page, :string
+    field :hash, :string
     field :session, :string
     field :source, :string
     field :state, :string
@@ -21,6 +22,11 @@ defmodule Journey.Analytics.Visit do
     field :time, :naive_datetime_usec
     field :ua, :string
     field :client_id, :id
+    field :utm_campaign, :string
+    field :utm_source, :string
+    field :utm_medium, :string
+    field :utm_term, :string
+    field :utm_content, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -39,13 +45,19 @@ defmodule Journey.Analytics.Visit do
       :lat,
       :lon,
       :page,
+      :hash,
       :session,
       :campaign,
       :source,
       :ua,
       :device,
       :tags,
-      :info
+      :info,
+      :utm_campaign,
+      :utm_source,
+      :utm_medium,
+      :utm_term,
+      :utm_content
     ])
     |> validate_required([:client_uuid])
   end

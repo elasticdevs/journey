@@ -25,8 +25,7 @@ config :journey, JourneyWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "dJU9KQh72ij/56ci0Tkn/Zn83XS6oWruKZwuJTApkm8qZuOC2M8V+Q7uXwHMQfIu",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
 # ## SSL Support
