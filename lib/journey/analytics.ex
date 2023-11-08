@@ -101,4 +101,100 @@ defmodule Journey.Analytics do
   def change_visit(%Visit{} = visit, attrs \\ %{}) do
     Visit.changeset(visit, attrs)
   end
+
+  alias Journey.Analytics.Browsing
+
+  @doc """
+  Returns the list of browsings.
+
+  ## Examples
+
+      iex> list_browsings()
+      [%Browsing{}, ...]
+
+  """
+  def list_browsings do
+    Repo.all(Browsing)
+  end
+
+  @doc """
+  Gets a single browsing.
+
+  Raises `Ecto.NoResultsError` if the Browsing does not exist.
+
+  ## Examples
+
+      iex> get_browsing!(123)
+      %Browsing{}
+
+      iex> get_browsing!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_browsing!(id), do: Repo.get!(Browsing, id)
+
+  @doc """
+  Creates a browsing.
+
+  ## Examples
+
+      iex> create_browsing(%{field: value})
+      {:ok, %Browsing{}}
+
+      iex> create_browsing(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_browsing(attrs \\ %{}) do
+    %Browsing{}
+    |> Browsing.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a browsing.
+
+  ## Examples
+
+      iex> update_browsing(browsing, %{field: new_value})
+      {:ok, %Browsing{}}
+
+      iex> update_browsing(browsing, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_browsing(%Browsing{} = browsing, attrs) do
+    browsing
+    |> Browsing.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a browsing.
+
+  ## Examples
+
+      iex> delete_browsing(browsing)
+      {:ok, %Browsing{}}
+
+      iex> delete_browsing(browsing)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_browsing(%Browsing{} = browsing) do
+    Repo.delete(browsing)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking browsing changes.
+
+  ## Examples
+
+      iex> change_browsing(browsing)
+      %Ecto.Changeset{data: %Browsing{}}
+
+  """
+  def change_browsing(%Browsing{} = browsing, attrs \\ %{}) do
+    Browsing.changeset(browsing, attrs)
+  end
 end

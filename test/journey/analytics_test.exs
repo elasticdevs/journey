@@ -86,4 +86,58 @@ defmodule Journey.AnalyticsTest do
       assert %Ecto.Changeset{} = Analytics.change_visit(visit)
     end
   end
+
+  describe "browsings" do
+    alias Journey.Analytics.Browsing
+
+    import Journey.AnalyticsFixtures
+
+    @invalid_attrs %{browsing_uuid: nil}
+
+    test "list_browsings/0 returns all browsings" do
+      browsing = browsing_fixture()
+      assert Analytics.list_browsings() == [browsing]
+    end
+
+    test "get_browsing!/1 returns the browsing with given id" do
+      browsing = browsing_fixture()
+      assert Analytics.get_browsing!(browsing.id) == browsing
+    end
+
+    test "create_browsing/1 with valid data creates a browsing" do
+      valid_attrs = %{browsing_uuid: "7488a646-e31f-11e4-aace-600308960662"}
+
+      assert {:ok, %Browsing{} = browsing} = Analytics.create_browsing(valid_attrs)
+      assert browsing.browsing_uuid == "7488a646-e31f-11e4-aace-600308960662"
+    end
+
+    test "create_browsing/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Analytics.create_browsing(@invalid_attrs)
+    end
+
+    test "update_browsing/2 with valid data updates the browsing" do
+      browsing = browsing_fixture()
+      update_attrs = %{browsing_uuid: "7488a646-e31f-11e4-aace-600308960668"}
+
+      assert {:ok, %Browsing{} = browsing} = Analytics.update_browsing(browsing, update_attrs)
+      assert browsing.browsing_uuid == "7488a646-e31f-11e4-aace-600308960668"
+    end
+
+    test "update_browsing/2 with invalid data returns error changeset" do
+      browsing = browsing_fixture()
+      assert {:error, %Ecto.Changeset{}} = Analytics.update_browsing(browsing, @invalid_attrs)
+      assert browsing == Analytics.get_browsing!(browsing.id)
+    end
+
+    test "delete_browsing/1 deletes the browsing" do
+      browsing = browsing_fixture()
+      assert {:ok, %Browsing{}} = Analytics.delete_browsing(browsing)
+      assert_raise Ecto.NoResultsError, fn -> Analytics.get_browsing!(browsing.id) end
+    end
+
+    test "change_browsing/1 returns a browsing changeset" do
+      browsing = browsing_fixture()
+      assert %Ecto.Changeset{} = Analytics.change_browsing(browsing)
+    end
+  end
 end

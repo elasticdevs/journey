@@ -4,12 +4,10 @@ defmodule JourneyWeb.VisitController do
   alias Journey.Repo
   alias Journey.Prospects.Client
   alias Journey.Analytics
+  alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
 
   def index(conn, _params) do
-    require IEx
-    IEx.pry()
-
     visits = Analytics.list_visits()
     render(conn, :index, visits: visits)
   end
@@ -23,7 +21,7 @@ defmodule JourneyWeb.VisitController do
     # grab headers
     headers = Enum.into(conn.req_headers, %{})
 
-    # grab UA
+    # grab UA, and skip if the UA contains the word "bot"
     visit_params = Map.put(visit_params, "ua", headers["user-agent"])
 
     # grab IP address and geolocation data
@@ -46,37 +44,141 @@ defmodule JourneyWeb.VisitController do
 
     visit_params = Map.put(visit_params, "ipaddress", remote_ip)
 
-    # grab client
-    default_client = Repo.get(Client, 1)
+    # grab gdpr_accepted
+    gdpr_accepted = visit_params["gdpr_accepted"]
 
+    # grab client
     client =
       try do
-        c = Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
-
-        if c == nil do
-          default_client
-        else
-          c
-        end
+        Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
       rescue
-        _ -> default_client
+        _ -> nil
       catch
-        _ -> default_client
+        _ -> nil
       end
 
+    # grab browsing
+    browsing =
+      try do
+        Repo.get_by(Browsing, browsing_uuid: visit_params["browsing_uuid"])
+      rescue
+        _ -> nil
+      catch
+        _ -> nil
+      end
+
+    # if client exists
     visit_params =
-      Map.merge(visit_params, %{
-        "client_id" => client.id,
-        "client_uuid" => client.client_uuid
-      })
+      case client do
+        nil ->
+          visit_params
+
+        c ->
+          Map.merge(visit_params, %{
+            "client_id" => c.id
+          })
+      end
+
+    # if browsing exists
+    visit_params =
+      case browsing do
+        nil ->
+          visit_params
+
+        b ->
+          Map.merge(visit_params, %{
+            "browsing_id" => b.id
+          })
+      end
+
+    # CASE1: gdpr=false, we just record an
+    # anonymous visit on the website
+
+    # CASE2: gdpr=true, when both client_uuid and
+    # browsing_uuid didnt come
+    # this means that a very new client has clicked
+    # the sponsored link for the first time
+
+    # CASE3: gdpr=true, when only client_uuid comes
+    # this means that a very new client has clicked
+    # the sponsored link for the first time
+
+    # CASE4: gdpr=true, when only browsing_uuid comes
+    # this means that a unknown client is visting
+    # the website
+
+    # CASE5: gdpr=true, when both client_uuid and browsing_uuid come
+    # this means that a known client has clicked
+    # the sponsored link
+
+    {visit_params, browsing} =
+      case {gdpr_accepted, client, browsing} do
+        # CASE1
+        {false, _, _} ->
+          {visit_params, browsing}
+
+        # CASE2
+        {true, nil, nil} ->
+          {:ok, b} = Analytics.create_browsing(%{})
+          b = Repo.get(Browsing, b.id)
+
+          {Map.merge(visit_params, %{
+             "browsing_id" => b.id
+           }), b}
+
+        # CASE3
+        {true, client, nil} ->
+          {:ok, b} =
+            Analytics.create_browsing(%{
+              "client_id" => client.id
+            })
+
+          b = Repo.get(Browsing, b.id)
+
+          {Map.merge(visit_params, %{
+             "client_id" => client.id,
+             "browsing_id" => b.id
+           }), b}
+
+        # CASE4
+        {true, nil, browsing} ->
+          {Map.merge(visit_params, %{
+             "browsing_id" => browsing.id
+           }), browsing}
+
+        # CASE5
+        {true, client, browsing} ->
+          {Map.merge(visit_params, %{
+             "client_id" => client.id,
+             "browsing_id" => browsing.id
+           }), browsing}
+      end
 
     # Set status
     visit_params = Map.put(visit_params, "status", "ACTIVE")
 
+    browsing =
+      if browsing && client do
+        case Analytics.update_browsing(browsing, %{
+               client_id: client.id
+             }) do
+          {:ok, b} ->
+            Repo.get(Browsing, b.id)
+
+          {:error, %Ecto.Changeset{} = _} ->
+            browsing
+        end
+      else
+        browsing
+      end
+
     case Analytics.create_visit(visit_params) do
       {:ok, _} ->
         if headers["content-type"] == "application/json" do
-          json(conn, %{status: "success"})
+          json(conn, %{
+            status: "success",
+            browsing_uuid: if(browsing, do: browsing.browsing_uuid, else: nil)
+          })
         else
           conn
           |> put_flash(:info, "Visit created successfully.")

@@ -7,6 +7,7 @@ defmodule Journey.Analytics.Visit do
     field :campaign, :string
     field :city, :string
     field :client_uuid, Ecto.UUID
+    field :browsing_uuid, Ecto.UUID
     field :country, :string
     field :device, :string
     field :info, :map
@@ -22,6 +23,7 @@ defmodule Journey.Analytics.Visit do
     field :time, :naive_datetime_usec
     field :ua, :string
     field :client_id, :id
+    field :browsing_id, :id
     field :utm_campaign, :string
     field :utm_source, :string
     field :utm_medium, :string
@@ -38,6 +40,8 @@ defmodule Journey.Analytics.Visit do
       :time,
       :client_id,
       :client_uuid,
+      :browsing_id,
+      :browsing_uuid,
       :ipaddress,
       :country,
       :state,
@@ -59,6 +63,5 @@ defmodule Journey.Analytics.Visit do
       :utm_term,
       :utm_content
     ])
-    |> validate_required([:client_uuid])
   end
 end

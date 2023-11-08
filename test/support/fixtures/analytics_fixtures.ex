@@ -32,4 +32,25 @@ defmodule Journey.AnalyticsFixtures do
 
     visit
   end
+
+  @doc """
+  Generate a unique browsing browsing_uuid.
+  """
+  def unique_browsing_browsing_uuid do
+    raise "implement the logic to generate a unique browsing browsing_uuid"
+  end
+
+  @doc """
+  Generate a browsing.
+  """
+  def browsing_fixture(attrs \\ %{}) do
+    {:ok, browsing} =
+      attrs
+      |> Enum.into(%{
+        browsing_uuid: unique_browsing_browsing_uuid()
+      })
+      |> Journey.Analytics.create_browsing()
+
+    browsing
+  end
 end

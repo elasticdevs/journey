@@ -1,0 +1,23 @@
+<.header>
+  Listing Browsings
+  <:actions>
+    <.link href={~p"/browsings/new"}>
+      <.button>New Browsing</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="browsings" rows={@browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
+  <:col :let={browsing} label="Browsing uuid"><%= browsing.browsing_uuid %></:col>
+  <:action :let={browsing}>
+    <div class="sr-only">
+      <.link navigate={~p"/browsings/#{browsing}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/browsings/#{browsing}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={browsing}>
+    <.link href={~p"/browsings/#{browsing}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

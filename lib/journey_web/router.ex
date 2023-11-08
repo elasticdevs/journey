@@ -19,6 +19,7 @@ defmodule JourneyWeb.Router do
 
     get "/", PageController, :home
     resources "/clients", ClientController
+    resources "/browsings", BrowsingController
     resources "/visits", VisitController
   end
 
@@ -27,6 +28,7 @@ defmodule JourneyWeb.Router do
     pipe_through :api
 
     resources "/clients", ClientController
+    resources "/browsings", BrowsingController
     resources "/visits", VisitController
   end
 

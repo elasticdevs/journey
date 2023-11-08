@@ -1,0 +1,8 @@
+<.header>
+  Edit Browsing <%= @browsing.id %>
+  <:subtitle>Use this form to manage browsing records in your database.</:subtitle>
+</.header>
+
+<.browsing_form changeset={@changeset} action={~p"/browsings/#{@browsing}"} />
+
+<.back navigate={~p"/browsings"}>Back to browsings</.back>
