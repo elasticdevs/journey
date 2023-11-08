@@ -71,7 +71,9 @@ defmodule JourneyWeb.VisitController do
     visit_params =
       case client do
         nil ->
-          visit_params
+          Map.merge(visit_params, %{
+            "client_uuid" => nil
+          })
 
         c ->
           Map.merge(visit_params, %{
@@ -83,7 +85,9 @@ defmodule JourneyWeb.VisitController do
     visit_params =
       case browsing do
         nil ->
-          visit_params
+          Map.merge(visit_params, %{
+            "browsing_uuid" => nil
+          })
 
         b ->
           Map.merge(visit_params, %{
@@ -114,20 +118,25 @@ defmodule JourneyWeb.VisitController do
     {visit_params, browsing} =
       case {gdpr_accepted, client, browsing} do
         # CASE1
-        {false, _, _} ->
+        {nil, _, _} ->
+          {visit_params, browsing}
+
+        # CASE1 repeated
+        {"false", _, _} ->
           {visit_params, browsing}
 
         # CASE2
-        {true, nil, nil} ->
+        {"true", nil, nil} ->
           {:ok, b} = Analytics.create_browsing(%{})
           b = Repo.get(Browsing, b.id)
 
           {Map.merge(visit_params, %{
+             "browsing_uuid" => b.browsing_uuid,
              "browsing_id" => b.id
            }), b}
 
         # CASE3
-        {true, client, nil} ->
+        {"true", client, nil} ->
           {:ok, b} =
             Analytics.create_browsing(%{
               "client_id" => client.id
@@ -136,18 +145,19 @@ defmodule JourneyWeb.VisitController do
           b = Repo.get(Browsing, b.id)
 
           {Map.merge(visit_params, %{
+             "browsing_uuid" => b.browsing_uuid,
              "client_id" => client.id,
              "browsing_id" => b.id
            }), b}
 
         # CASE4
-        {true, nil, browsing} ->
+        {"true", nil, browsing} ->
           {Map.merge(visit_params, %{
              "browsing_id" => browsing.id
            }), browsing}
 
         # CASE5
-        {true, client, browsing} ->
+        {"true", client, browsing} ->
           {Map.merge(visit_params, %{
              "client_id" => client.id,
              "browsing_id" => browsing.id
@@ -186,6 +196,9 @@ defmodule JourneyWeb.VisitController do
         end
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        require IEx
+        IEx.pry()
+
         if headers["content-type"] == "application/json" do
           json(conn, %{status: "error"})
         else
