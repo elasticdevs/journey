@@ -196,9 +196,6 @@ defmodule JourneyWeb.VisitController do
         end
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        require IEx
-        IEx.pry()
-
         if headers["content-type"] == "application/json" do
           json(conn, %{status: "error"})
         else
