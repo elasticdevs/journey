@@ -1,11 +1,6 @@
-<.header>
-  Listing Browsings
-  <:actions>
-    <.link href={~p"/browsings/new"}>
-      <.button>New Browsing</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="page-heading">
+  Listing Browsings <a href="/browsings/new" class="button">+ Add Browsing</a>
+</div>
 
 <.table id="browsings" rows={@browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
   <:col :let={browsing} label="Browsing uuid"><%= browsing.browsing_uuid %></:col>

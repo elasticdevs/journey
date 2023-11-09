@@ -1,11 +1,6 @@
-<.header>
-  Listing Clients
-  <:actions>
-    <.link href={~p"/clients/new"}>
-      <.button>New Client</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="page-heading">
+  Listing Clients <a href="/clients/new" class="button">+ Add Client</a>
+</div>
 
 <.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>
   <:col :let={client} label="Client uuid"><%= client.client_uuid %></:col>

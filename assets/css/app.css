@@ -1,3 +1,7 @@
+a:hover {
+  text-decoration: none;
+}
+
 .top-bar {
   margin: 1rem 0 5rem 0;
   font-size: 48px;
@@ -8,14 +12,19 @@
   font-size: 32px;
 }
 
+.button {
+  border-radius: 15px;
+  padding: 5px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: rgb(22, 119, 168);
+  color: white;
+}
+
 a.main-link {
   display: block;
   padding: 50px 0 20px 0;
   font-size: 32px;
-}
-
-a.main-link:hover {
-  text-decoration: none;
 }
 
 .data-point {
