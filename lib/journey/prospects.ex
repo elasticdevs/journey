@@ -5,7 +5,6 @@ defmodule Journey.Prospects do
 
   import Ecto.Query, warn: false
   alias Journey.Repo
-
   alias Journey.Prospects.Client
 
   @doc """
@@ -35,7 +34,9 @@ defmodule Journey.Prospects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_client!(id), do: Repo.get!(Client, id)
+  def get_client!(id) do
+    Repo.one(from c in Client, where: c.id == ^id, preload: :browsings)
+  end
 
   @doc """
   Creates a client.

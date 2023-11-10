@@ -1,5 +1,6 @@
 defmodule JourneyWeb.VisitController do
   use JourneyWeb, :controller
+  import Logger
 
   alias Journey.Repo
   alias Journey.Prospects.Client
@@ -132,16 +133,19 @@ defmodule JourneyWeb.VisitController do
         case {gdpr_accepted, client, browsing} do
           # CASE1
           {nil, _, _} ->
+            Logger.debug("CASE1: country=#{visit_params['country']}")
             {visit_params, browsing}
 
-          # CASE1 repeated
+          # CASE1.1
           {"false", _, _} ->
+            Logger.debug("CASE1.1_REPEATED: country=#{visit_params['country']}")
             {visit_params, browsing}
 
           # CASE2
           {"true", nil, nil} ->
             {:ok, b} = Analytics.create_browsing(%{})
             b = Repo.get(Browsing, b.id)
+            Logger.debug("CASE2_BOTH_MISSING: created a browsing, b.id=#{b.id}")
 
             {Map.merge(visit_params, %{
                "browsing_uuid" => b.browsing_uuid,
@@ -156,6 +160,7 @@ defmodule JourneyWeb.VisitController do
               })
 
             b = Repo.get(Browsing, b.id)
+            Logger.debug("CASE3_CLIENT_EXISTS: created a browsing, b.id=#{b.id}")
 
             {Map.merge(visit_params, %{
                "browsing_uuid" => b.browsing_uuid,
@@ -165,12 +170,16 @@ defmodule JourneyWeb.VisitController do
 
           # CASE4
           {"true", nil, browsing} ->
+            Logger.debug("CASE4_BROWSING_EXISTS: browsing.id=#{browsing.id}")
+
             {Map.merge(visit_params, %{
                "browsing_id" => browsing.id
              }), browsing}
 
           # CASE5
           {"true", client, browsing} ->
+            Logger.debug("CASE5_BOTH_EXISTS: client.id=#{client.id}, browsing.id=#{browsing.id}")
+
             {Map.merge(visit_params, %{
                "client_id" => client.id,
                "browsing_id" => browsing.id

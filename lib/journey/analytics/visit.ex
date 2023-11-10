@@ -1,6 +1,8 @@
 defmodule Journey.Analytics.Visit do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Journey.Prospects.Client
+  alias Journey.Analytics.Browsing
 
   @primary_key false
   schema "visits" do
@@ -22,8 +24,10 @@ defmodule Journey.Analytics.Visit do
     field :tags, :string
     field :time, :naive_datetime_usec
     field :ua, :string
-    field :client_id, :id
-    field :browsing_id, :id
+    # field :client_id, :id
+    belongs_to :client, Client
+    # field :browsing_id, :id
+    belongs_to :browsing, Browsing
     field :utm_campaign, :string
     field :utm_source, :string
     field :utm_medium, :string

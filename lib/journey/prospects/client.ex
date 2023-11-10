@@ -1,6 +1,7 @@
 defmodule Journey.Prospects.Client do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Journey.Analytics.Browsing
 
   @derive {Jason.Encoder, only: [:client_uuid]}
   schema "clients" do
@@ -18,6 +19,7 @@ defmodule Journey.Prospects.Client do
     field :state, :string
     field :status, :string
     field :tags, :string
+    has_many :browsings, Browsing
 
     timestamps(type: :utc_datetime)
   end

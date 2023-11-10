@@ -12,6 +12,11 @@ a:hover {
   font-size: 32px;
 }
 
+.page-heading-2 {
+  margin: 1rem 0;
+  font-size: 24px;
+}
+
 .button {
   border-radius: 15px;
   padding: 5px 15px;
@@ -29,4 +34,8 @@ a.main-link {
 
 .data-point {
   font-size: 24px;
+}
+
+dt {
+  color: grey;
 }

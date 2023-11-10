@@ -1,10 +1,14 @@
 defmodule Journey.Analytics.Browsing do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Journey.Prospects.Client
+  alias Journey.Analytics.Visit
 
   schema "browsings" do
     field :browsing_uuid, Ecto.UUID
-    field :client_id, :id
+    # field :client_id, :id
+    belongs_to :client, Client
+    has_many :visits, Visit
 
     timestamps(type: :utc_datetime)
   end

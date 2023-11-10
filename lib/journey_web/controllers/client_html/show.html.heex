@@ -1,15 +1,9 @@
-<.header>
-  Client <%= @client.id %>
-  <:subtitle>This is a client record from your database.</:subtitle>
-  <:actions>
-    <.link href={~p"/clients/#{@client}/edit"}>
-      <.button>Edit client</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="page-heading">
+  Client: <b><%= @client.name || @client.external_id || @client.client_uuid || @client.id %></b>
+</div>
 
 <.list>
-  <:item title="Client uuid"><%= @client.client_uuid %></:item>
+  <:item title="Client UUID"><%= @client.client_uuid %></:item>
   <:item title="External"><%= @client.external_id %></:item>
   <:item title="Name"><%= @client.name %></:item>
   <:item title="Email"><%= @client.email %></:item>
@@ -24,5 +18,7 @@
   <:item title="Tags"><%= @client.tags %></:item>
   <:item title="Status"><%= @client.status %></:item>
 </.list>
+
+<div class="page-heading-2">Browsings (<%= length(@client.browsings) %>)</div>
 
 <.back navigate={~p"/clients"}>Back to clients</.back>

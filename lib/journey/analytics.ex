@@ -6,6 +6,8 @@ defmodule Journey.Analytics do
   import Ecto.Query, warn: false
   alias Journey.Repo
 
+  alias Journey.Analytics
+  alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
 
   @doc """
