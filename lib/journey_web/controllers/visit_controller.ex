@@ -1,6 +1,6 @@
 defmodule JourneyWeb.VisitController do
   use JourneyWeb, :controller
-  import Logger
+  require Logger
 
   alias Journey.Repo
   alias Journey.Prospects.Client
@@ -48,8 +48,8 @@ defmodule JourneyWeb.VisitController do
               "country" => geoip.country_code,
               "state" => geoip.region_name,
               "city" => geoip.city_name,
-              "lat" => Float.to_string(geoip.latitude, decimals: 2),
-              "lon" => Float.to_string(geoip.longitude, decimals: 2)
+              "lat" => :erlang.float_to_binary(geoip.latitude, decimals: 2),
+              "lon" => :erlang.float_to_binary(geoip.longitude, decimals: 2)
             })
 
           _ ->
