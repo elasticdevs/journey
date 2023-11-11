@@ -13,7 +13,7 @@ a:hover {
 }
 
 .page-heading-2 {
-  margin: 1rem 0;
+  margin: 1.5rem 0 0.5rem 0;
   font-size: 24px;
 }
 
@@ -38,4 +38,8 @@ a.main-link {
 
 dt {
   color: grey;
+}
+
+table tr:hover {
+  background-color: blanchedalmond;
 }

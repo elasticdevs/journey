@@ -439,7 +439,10 @@ defmodule JourneyWeb.CoreComponents do
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
             <td :for={{col, i} <- Enum.with_index(@col)} phx-click={@row_click && @row_click.(row)}>
               <div>
-                <span>
+                <span :if={col[:label] == "Time"} class="utc_to_local">
+                  <%= render_slot(col, @row_item.(row)) %>
+                </span>
+                <span :if={col[:label] != "Time"}>
                   <%= render_slot(col, @row_item.(row)) %>
                 </span>
               </div>

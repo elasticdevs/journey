@@ -86,6 +86,7 @@ defmodule JourneyWeb do
       # Core UI components and translation
       import JourneyWeb.CoreComponents
       import JourneyWeb.Gettext
+      import JourneyWeb.HTMLHelpers
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

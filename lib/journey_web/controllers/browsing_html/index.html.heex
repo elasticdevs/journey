@@ -3,7 +3,8 @@
 </div>
 
 <.table id="browsings" rows={@browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
-  <:col :let={browsing} label="Browsing uuid"><%= browsing.browsing_uuid %></:col>
+  <:col :let={browsing} label="Browsing UUID"><%= browsing.browsing_uuid %></:col>
+  <:col :let={browsing} label="Client"><%= get_client_display_name(browsing.client) %></:col>
   <:action :let={browsing}>
     <div class="sr-only">
       <.link navigate={~p"/browsings/#{browsing}"}>Show</.link>

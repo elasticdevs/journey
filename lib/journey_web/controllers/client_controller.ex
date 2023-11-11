@@ -3,6 +3,7 @@ defmodule JourneyWeb.ClientController do
 
   alias Journey.Prospects
   alias Journey.Prospects.Client
+  alias Journey.Analytics
 
   def index(conn, _params) do
     clients = Prospects.list_clients()
@@ -28,7 +29,9 @@ defmodule JourneyWeb.ClientController do
 
   def show(conn, %{"id" => id}) do
     client = Prospects.get_client!(id)
-    render(conn, :show, client: client)
+    visits = Analytics.list_visits(client)
+
+    render(conn, :show, client: client, visits: visits)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -17,7 +17,7 @@ defmodule Journey.Prospects do
 
   """
   def list_clients do
-    Repo.all(Client)
+    Repo.all(Client) |> Repo.preload(:browsings)
   end
 
   @doc """

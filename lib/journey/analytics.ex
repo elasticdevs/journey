@@ -4,9 +4,9 @@ defmodule Journey.Analytics do
   """
 
   import Ecto.Query, warn: false
-  alias Journey.Repo
 
-  alias Journey.Analytics
+  alias Journey.Repo
+  alias Journey.Prospects.Client
   alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
 
@@ -19,8 +19,19 @@ defmodule Journey.Analytics do
       [%Visit{}, ...]
 
   """
+  def list_visits(%Client{} = client) do
+    browsing_ids = Enum.map(client.browsings, fn b -> b.id end)
+
+    Repo.all(
+      from v in Visit,
+        join: b in assoc(v, :browsing),
+        where: b.id in ^browsing_ids,
+        order_by: [desc: :inserted_at]
+    )
+  end
+
   def list_visits do
-    Repo.all(Visit)
+    Repo.all(from v in Visit, order_by: [desc: :inserted_at])
   end
 
   @doc """
@@ -116,7 +127,7 @@ defmodule Journey.Analytics do
 
   """
   def list_browsings do
-    Repo.all(Browsing)
+    Repo.all(Browsing) |> Repo.preload(:client)
   end
 
   @doc """

@@ -41,3 +41,9 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+let convert_dates = function () {
+  $(".utc_to_local").text(function (index, utc_date) {
+    return moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS');
+  });
+};
+$(document).ready(convert_dates);
