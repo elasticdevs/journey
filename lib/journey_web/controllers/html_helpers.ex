@@ -8,4 +8,12 @@ defmodule JourneyWeb.HTMLHelpers do
   def get_client_display_name(_) do
     ""
   end
+
+  def filter_clients_with_browsings(clients) do
+    Enum.filter(clients, fn c -> length(c.browsings) > 0 end)
+  end
+
+  def enum_browsings_visits(browsings) do
+    Enum.reduce(browsings, 0, fn b, acc -> acc + length(b.visits) end)
+  end
 end

@@ -1,18 +1,26 @@
 <div class="type-container">
   <a href="/clients" class="main-link">
-    Clients
+    Clients <span class="small">(across all the time)</span>
   </a>
-  <div class="data-point"># of clients: <%= @count_clients %></div>
+  <div class="data-point"># of clients: <%= length(@clients) %></div>
+  <div class="data-point">
+    # of clients with browsings: <%= length(filter_clients_with_browsings(@clients)) %>
+  </div>
 </div>
 <div class="type-container">
   <a href="/browsings" class="main-link">
-    Browsings
+    Browsings <span class="small">(based on time selected)</span>
   </a>
-  <div class="data-point"># of browsings: <%= @count_browsings %></div>
+  <div class="data-point"># of browsings: <%= length(@browsings) %></div>
+  <div class="data-point"># of browsing visits: <%= enum_browsings_visits(@browsings) %></div>
 </div>
 <div class="type-container">
   <a href="/visits" class="main-link">
-    Visits
+    Visits <span class="small">(based on time selected)</span>
   </a>
-  <div class="data-point"># of visits: <%= @count_visits %></div>
+  <div class="data-point"># of visits: <%= length(@visits) %></div>
+  <div class="data-point"># of browsing visits: <%= enum_browsings_visits(@browsings) %></div>
+  <div class="data-point">
+    # of anonymous visits: <%= length(@visits) - enum_browsings_visits(@browsings) %>
+  </div>
 </div>

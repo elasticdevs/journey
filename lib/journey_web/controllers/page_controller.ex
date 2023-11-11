@@ -7,14 +7,16 @@ defmodule JourneyWeb.PageController do
     # The home page is often custom made,
     # so skip the default app layout.
 
-    count_clients = length(Prospects.list_clients())
-    count_browsings = length(Analytics.list_browsings())
-    count_visits = length(Analytics.list_visits())
+    in_last_days = conn.req_cookies["in_last_days"]
+
+    clients = Prospects.list_clients()
+    browsings = Analytics.list_browsings(%{in_last_days: in_last_days})
+    visits = Analytics.list_visits(%{in_last_days: in_last_days})
 
     render(conn, :home,
-      count_clients: count_clients,
-      count_browsings: count_browsings,
-      count_visits: count_visits
+      clients: clients,
+      browsings: browsings,
+      visits: visits
     )
   end
 end

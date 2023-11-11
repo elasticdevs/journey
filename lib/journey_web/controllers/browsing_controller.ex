@@ -5,7 +5,9 @@ defmodule JourneyWeb.BrowsingController do
   alias Journey.Analytics.Browsing
 
   def index(conn, _params) do
-    browsings = Analytics.list_browsings()
+    in_last_days = conn.req_cookies["in_last_days"]
+
+    browsings = Analytics.list_browsings(%{in_last_days: in_last_days})
     render(conn, :index, browsings: browsings)
   end
 

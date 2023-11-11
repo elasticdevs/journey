@@ -47,3 +47,54 @@ let convert_dates = function () {
   });
 };
 $(document).ready(convert_dates);
+
+$(function () {
+  // Function to set the value of the select element from a cookie
+  function setSelectFromCookie() {
+    var selectElement = document.getElementById('in_last_days')
+    var selectedValue = getCookie('in_last_days')
+
+    if (selectedValue) {
+      selectElement.value = selectedValue;
+    } else {
+      setCookie('in_last_days', 1, 10000) // Cookie will expire in x days
+      setSelectFromCookie()
+    }
+  }
+  // Function to get the value of a cookie
+  function getCookie(name) {
+    var value = "; " + document.cookie
+    var parts = value.split("; " + name + "=")
+
+    if (parts.length === 2) {
+      return parts.pop().split(";").shift()
+    }
+  }
+
+  // Function to update the cookie when the selection changes
+  function updateCookie() {
+    var selectElement = document.getElementById('in_last_days')
+    var selectedValue = selectElement.value
+    setCookie('in_last_days', selectedValue, 10000) // Cookie will expire in x days
+    location.reload()
+  }
+
+  // Function to set a cookie
+  function setCookie(name, value, days) {
+    var expires = ""
+
+    if (days) {
+      var date = new Date()
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+      expires = "; expires=" + date.toUTCString()
+    }
+
+    document.cookie = name + "=" + value + expires + "; path=/"
+  }
+
+  // Set initial value from cookie
+  setSelectFromCookie()
+
+  // Add event listener for change event
+  document.getElementById('in_last_days').addEventListener('change', updateCookie)
+})

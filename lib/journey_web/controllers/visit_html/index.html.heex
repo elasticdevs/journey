@@ -8,6 +8,7 @@
 <.table id="visits" rows={@visits}>
   <:col :let={visit} label="Time"><%= visit.time %></:col>
   <:col :let={visit} label="Client UUID"><%= visit.client_uuid %></:col>
+  <:col :let={visit} label="Browsing UUID"><%= visit.browsing_uuid %></:col>
   <:col :let={visit} label="IP Address"><%= visit.ipaddress %></:col>
   <:col :let={visit} label="Country"><%= visit.country %></:col>
   <:col :let={visit} label="State"><%= visit.state %></:col>

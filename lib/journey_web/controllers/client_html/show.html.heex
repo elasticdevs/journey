@@ -1,6 +1,10 @@
 <div class="page-heading">
   Client: <b><%= get_client_display_name(@client) %></b>
 </div>
+<div class="page-heading-3">
+  Sponsored Link:
+  <span class="link"><b>https://elasticdevs.io/?uuid=<%= @client.client_uuid %></b></span>
+</div>
 
 <.list>
   <:item title="Client UUID"><%= @client.client_uuid %></:item>
@@ -23,12 +27,14 @@
 <.table id="browsings" rows={@client.browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
   <:col :let={browsing} label="Browsing UUID"><%= browsing.browsing_uuid %></:col>
   <:col :let={browsing} label="Client"><%= get_client_display_name(@client) %></:col>
+  <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
 </.table>
 <br /><br />
 <div class="page-heading-2">Visits (<%= length(@visits) %>)</div>
 <.table id="visits" rows={@visits}>
   <:col :let={visit} label="Time"><%= visit.time %></:col>
   <:col :let={visit} label="Client UUID"><%= visit.client_uuid %></:col>
+  <:col :let={visit} label="Browsing UUID"><%= visit.browsing_uuid %></:col>
   <:col :let={visit} label="IP Address"><%= visit.ipaddress %></:col>
   <:col :let={visit} label="Country"><%= visit.country %></:col>
   <:col :let={visit} label="State"><%= visit.state %></:col>

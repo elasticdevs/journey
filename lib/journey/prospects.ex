@@ -35,7 +35,7 @@ defmodule Journey.Prospects do
 
   """
   def get_client!(id) do
-    Repo.one(from c in Client, where: c.id == ^id, preload: :browsings)
+    Repo.one(from c in Client, where: c.id == ^id, preload: [browsings: :visits])
   end
 
   @doc """
