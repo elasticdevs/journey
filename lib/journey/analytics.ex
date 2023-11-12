@@ -24,14 +24,17 @@ defmodule Journey.Analytics do
     Repo.all(
       from v in Visit,
         join: b in assoc(v, :browsing),
-        where: b.id in ^browsing_ids and ago(^days, "day") < b.inserted_at,
+        where: b.id in ^browsing_ids and ago(^days, "day") < v.inserted_at,
         order_by: [desc: :inserted_at]
     )
   end
 
   def list_visits(%{in_last_days: in_last_days}) do
+    {days, _} = Integer.parse(in_last_days)
+
     Repo.all(
       from v in Visit,
+        where: ago(^days, "day") < v.inserted_at,
         order_by: [desc: :inserted_at]
     )
   end

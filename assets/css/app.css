@@ -57,3 +57,12 @@ table tr:hover {
   font-size: 1.3rem;
   color: grey;
 }
+
+.copy {
+  color: darkgrey;
+}
+
+.copy:hover {
+  cursor: pointer;
+  color: grey;
+}

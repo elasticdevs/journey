@@ -41,6 +41,16 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+// Feather icons
+feather.replace();
+// Setup copy button
+$(function () {
+  $(".copy").click(function () {
+    let value = $("#sponsored_url").text()
+    navigator.clipboard.writeText(value)
+  })
+})
+
 let convert_dates = function () {
   $(".utc_to_local").text(function (index, utc_date) {
     return moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS');
