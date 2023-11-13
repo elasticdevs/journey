@@ -28,10 +28,10 @@ defmodule JourneyWeb.ClientController do
   end
 
   def show(conn, %{"id" => id}) do
-    in_last_days = conn.req_cookies["in_last_days"]
+    in_last_secs = get_in_last_secs_from_cookie(conn)
 
     client = Prospects.get_client!(id)
-    visits = Analytics.list_visits(%{in_last_days: in_last_days, client: client})
+    visits = Analytics.list_visits(%{in_last_secs: in_last_secs, client: client})
 
     render(conn, :show, client: client, visits: visits)
   end

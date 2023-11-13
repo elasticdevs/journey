@@ -6,121 +6,20 @@ defmodule Journey.Analytics do
   import Ecto.Query, warn: false
 
   alias Journey.Repo
-  alias Journey.Analytics.Visit
-
-  @doc """
-  Returns the list of visits.
-
-  ## Examples
-
-      iex> list_visits()
-      [%Visit{}, ...]
-
-  """
-  def list_visits(%{in_last_days: in_last_days, client: client}) do
-    {days, _} = Integer.parse(in_last_days)
-    browsing_ids = Enum.map(client.browsings, fn b -> b.id end)
-
-    Repo.all(
-      from v in Visit,
-        join: b in assoc(v, :browsing),
-        where: b.id in ^browsing_ids and ago(^days, "day") < v.inserted_at,
-        order_by: [desc: :inserted_at]
-    )
-  end
-
-  def list_visits(%{in_last_days: in_last_days}) do
-    {days, _} = Integer.parse(in_last_days)
-
-    Repo.all(
-      from v in Visit,
-        where: ago(^days, "day") < v.inserted_at,
-        order_by: [desc: :inserted_at]
-    )
-  end
-
-  @doc """
-  Gets a single visit.
-
-  Raises `Ecto.NoResultsError` if the Visit does not exist.
-
-  ## Examples
-
-      iex> get_visit!(123)
-      %Visit{}
-
-      iex> get_visit!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_visit!(id), do: Repo.get!(Visit, id)
-
-  @doc """
-  Creates a visit.
-
-  ## Examples
-
-      iex> create_visit(%{field: value})
-      {:ok, %Visit{}}
-
-      iex> create_visit(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_visit(attrs \\ %{}) do
-    %Visit{}
-    |> Visit.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a visit.
-
-  ## Examples
-
-      iex> update_visit(visit, %{field: new_value})
-      {:ok, %Visit{}}
-
-      iex> update_visit(visit, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_visit(%Visit{} = visit, attrs) do
-    visit
-    |> Visit.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a visit.
-
-  ## Examples
-
-      iex> delete_visit(visit)
-      {:ok, %Visit{}}
-
-      iex> delete_visit(visit)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_visit(%Visit{} = visit) do
-    Repo.delete(visit)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking visit changes.
-
-  ## Examples
-
-      iex> change_visit(visit)
-      %Ecto.Changeset{data: %Visit{}}
-
-  """
-  def change_visit(%Visit{} = visit, attrs \\ %{}) do
-    Visit.changeset(visit, attrs)
-  end
 
   alias Journey.Analytics.Browsing
+
+  def count_browsings_by_country_city(%{in_last_secs: in_last_secs}) do
+    in_last_secs = in_last_secs || 315_360_000
+
+    Repo.all(
+      from b in Browsing,
+        join: v in assoc(b, :visits),
+        select: {v.country, v.city, count(b.id, :distinct)},
+        where: ago(^in_last_secs, "second") < b.inserted_at,
+        group_by: [v.country, v.city]
+    )
+  end
 
   @doc """
   Returns the list of browsings.
@@ -131,12 +30,12 @@ defmodule Journey.Analytics do
       [%Browsing{}, ...]
 
   """
-  def list_browsings(%{in_last_days: in_last_days}) do
-    {days, _} = Integer.parse(in_last_days)
+  def list_browsings(%{in_last_secs: in_last_secs}) do
+    in_last_secs = in_last_secs || 315_360_000
 
     Repo.all(
       from b in Browsing,
-        where: ago(^days, "day") < b.inserted_at,
+        where: ago(^in_last_secs, "second") < b.inserted_at,
         order_by: [desc: :inserted_at]
     )
     |> Repo.preload([:client, :visits])
@@ -221,5 +120,119 @@ defmodule Journey.Analytics do
   """
   def change_browsing(%Browsing{} = browsing, attrs \\ %{}) do
     Browsing.changeset(browsing, attrs)
+  end
+
+  alias Journey.Analytics.Visit
+
+  @doc """
+  Returns the list of visits.
+
+  ## Examples
+
+      iex> list_visits()
+      [%Visit{}, ...]
+
+  """
+  def list_visits(%{in_last_secs: in_last_secs, client: client}) do
+    in_last_secs = in_last_secs || 315_360_000
+    browsing_ids = Enum.map(client.browsings, fn b -> b.id end)
+
+    Repo.all(
+      from v in Visit,
+        join: b in assoc(v, :browsing),
+        where: b.id in ^browsing_ids and ago(^in_last_secs, "second") < v.inserted_at,
+        order_by: [desc: :inserted_at]
+    )
+  end
+
+  def list_visits(%{in_last_secs: in_last_secs}) do
+    in_last_secs = in_last_secs || 315_360_000
+
+    Repo.all(
+      from v in Visit,
+        where: ago(^in_last_secs, "second") < v.inserted_at,
+        order_by: [desc: :inserted_at]
+    )
+  end
+
+  @doc """
+  Gets a single visit.
+
+  Raises `Ecto.NoResultsError` if the Visit does not exist.
+
+  ## Examples
+
+      iex> get_visit!(123)
+      %Visit{}
+
+      iex> get_visit!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_visit!(id), do: Repo.get!(Visit, id)
+
+  @doc """
+  Creates a visit.
+
+  ## Examples
+
+      iex> create_visit(%{field: value})
+      {:ok, %Visit{}}
+
+      iex> create_visit(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_visit(attrs \\ %{}) do
+    %Visit{}
+    |> Visit.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a visit.
+
+  ## Examples
+
+      iex> update_visit(visit, %{field: new_value})
+      {:ok, %Visit{}}
+
+      iex> update_visit(visit, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_visit(%Visit{} = visit, attrs) do
+    visit
+    |> Visit.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a visit.
+
+  ## Examples
+
+      iex> delete_visit(visit)
+      {:ok, %Visit{}}
+
+      iex> delete_visit(visit)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_visit(%Visit{} = visit) do
+    Repo.delete(visit)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking visit changes.
+
+  ## Examples
+
+      iex> change_visit(visit)
+      %Ecto.Changeset{data: %Visit{}}
+
+  """
+  def change_visit(%Visit{} = visit, attrs \\ %{}) do
+    Visit.changeset(visit, attrs)
   end
 end

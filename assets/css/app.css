@@ -1,3 +1,12 @@
+.logo {
+  color: rgb(30, 127, 30);
+}
+
+a {
+  /* color: #253C78; */
+  color: #345995;
+}
+
 a:hover {
   text-decoration: none;
 }
@@ -22,6 +31,11 @@ a:hover {
   font-size: 18px;
 }
 
+.subheading {
+  margin: 10px 0;
+  font-size: 0.9rem;
+}
+
 .button {
   border-radius: 15px;
   padding: 5px 15px;
@@ -31,14 +45,21 @@ a:hover {
   color: white;
 }
 
-a.main-link {
+.main-link {
   display: block;
-  padding: 50px 0 20px 0;
+  padding: 20px 0;
   font-size: 32px;
 }
 
 .data-point {
-  font-size: 24px;
+  padding: 2px;
+  font-size: 22px;
+  color: black;
+}
+
+.data {
+  font-size: 1.7rem;
+  color: rgb(199, 43, 43);
 }
 
 dt {
@@ -65,4 +86,46 @@ table tr:hover {
 .copy:hover {
   cursor: pointer;
   color: grey;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.container-left {
+  border-right: 1px solid #ecbfbf;
+}
+
+.type-container {
+  display: block;
+  padding: 20px;
+}
+
+.type-container:hover {
+  border: 1px solid #ff5d5d;
+  background-color: #ffd4c0;
+}
+
+form label {
+  width: 10%;
+  padding: 0 20px;
+  text-align: right;
+  font-weight: bold;
+}
+
+form input {
+  width: 25%;
+}
+
+form div:has(button) {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+svg {
+  vertical-align: text-top;
 }

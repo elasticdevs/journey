@@ -1,3 +1,5 @@
+<.back navigate={~p"/clients"} position={~s"left"}>Back to Clients</.back>
+
 <div class="page-heading">
   Client: <b><%= get_client_display_name(@client) %></b>
 </div>
@@ -60,4 +62,4 @@
   <:col :let={visit} label="UTM Content"><%= visit.utm_content %></:col>
 </.table>
 
-<.back navigate={~p"/clients"}>Back to clients</.back>
+<.back navigate={~p"/clients"} position={~s"center"}>Back to Clients</.back>

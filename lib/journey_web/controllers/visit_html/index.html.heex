@@ -1,5 +1,9 @@
+<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
 <div class="page-heading">
-  Listing Visits (<%= length(@visits) %>)
+  Listing Visits
+  <span class="data-point"><span class="data">(<%= length(@visits) %>)</span></span>
+  <span class="small">(based on time selected)</span>
+
   <a href="/visits/new" class="button">
     + Add Visit
   </a>
@@ -30,3 +34,4 @@
   <:col :let={visit} label="UTM Term"><%= visit.utm_term %></:col>
   <:col :let={visit} label="UTM Content"><%= visit.utm_content %></:col>
 </.table>
+<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

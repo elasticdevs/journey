@@ -46,6 +46,22 @@ defmodule JourneyWeb do
       import JourneyWeb.Gettext
 
       unquote(verified_routes())
+
+      def get_in_last_secs_from_cookie(conn) do
+        in_last_secs = conn.req_cookies["in_last_secs"]
+
+        if in_last_secs == nil do
+          nil
+        else
+        case Integer.parse(in_last_secs) do
+          {in_last_secs, _} ->
+            in_last_secs
+
+          :error ->
+            nil
+        end
+      end
+      end
     end
   end
 

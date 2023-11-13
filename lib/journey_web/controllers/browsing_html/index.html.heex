@@ -1,10 +1,18 @@
+<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
 <div class="page-heading">
-  Listing Browsings (<%= length(@browsings) %>, # of visits: <%= enum_browsings_visits(@browsings) %>)
+  Listing Browsings
+  <span class="data-point"><span class="data">(<%= length(@browsings) %>)</span></span>
+  <span class="small">(based on time selected)</span>
   <a href="/browsings/new" class="button">+ Add Browsing</a>
+
+  <div class="data-point">
+    Total # of visits: <span class="data"><%= enum_browsings_visits(@browsings) %></span>
+  </div>
 </div>
 
-<.table id="browsings" rows={@browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
+<.table id="browsings" rows={@browsings}>
   <:col :let={browsing} label="Browsing UUID"><%= browsing.browsing_uuid %></:col>
   <:col :let={browsing} label="Client"><%= get_client_display_name(browsing.client) %></:col>
   <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
 </.table>
+<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

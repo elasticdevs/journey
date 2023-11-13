@@ -1,12 +1,8 @@
-<.header>
-  Visit <%= @visit.id %>
-  <:subtitle>This is a visit record from your database.</:subtitle>
-  <:actions>
-    <.link href={~p"/visits/#{@visit}/edit"}>
-      <.button>Edit visit</.button>
-    </.link>
-  </:actions>
-</.header>
+<.back navigate={~p"/visits"} class={~s"center"}>Back to Visits</.back>
+<div class="page-heading">
+  Visit #<%= @visit.id %>
+  <div class="subtitle">This is a visit record from your database.</div>
+</div>
 
 <.list>
   <:item title="Time"><%= @visit.time %></:item>
@@ -27,4 +23,4 @@
   <:item title="Info"><%= @visit.info %></:item>
 </.list>
 
-<.back navigate={~p"/visits"}>Back to visits</.back>
+<.back navigate={~p"/visits"} class={~s"center"}>Back to Visits</.back>

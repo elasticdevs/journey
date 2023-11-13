@@ -60,15 +60,15 @@ $(document).ready(convert_dates);
 
 $(function () {
   // Function to set the value of the select element from a cookie
-  function setSelectFromCookie() {
-    var selectElement = document.getElementById('in_last_days')
-    var selectedValue = getCookie('in_last_days')
+  function setTimeFromCookie() {
+    var selectElement = document.getElementById('in_last_secs')
+    var selectedValue = getCookie('in_last_secs')
 
     if (selectedValue) {
-      selectElement.value = selectedValue;
+      selectElement.value = selectedValue
     } else {
-      setCookie('in_last_days', 1, 10000) // Cookie will expire in x days
-      setSelectFromCookie()
+      setCookie('in_last_secs', "all", 10000) // Cookie will expire in x days
+      setTimeFromCookie()
     }
   }
   // Function to get the value of a cookie
@@ -83,9 +83,9 @@ $(function () {
 
   // Function to update the cookie when the selection changes
   function updateCookie() {
-    var selectElement = document.getElementById('in_last_days')
+    var selectElement = document.getElementById('in_last_secs')
     var selectedValue = selectElement.value
-    setCookie('in_last_days', selectedValue, 10000) // Cookie will expire in x days
+    setCookie('in_last_secs', selectedValue, 10000) // Cookie will expire in x days
     location.reload()
   }
 
@@ -103,8 +103,8 @@ $(function () {
   }
 
   // Set initial value from cookie
-  setSelectFromCookie()
+  setTimeFromCookie()
 
   // Add event listener for change event
-  document.getElementById('in_last_days').addEventListener('change', updateCookie)
+  document.getElementById('in_last_secs').addEventListener('change', updateCookie)
 })

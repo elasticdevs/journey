@@ -9,9 +9,9 @@ defmodule JourneyWeb.VisitController do
   alias Journey.Analytics.Visit
 
   def index(conn, _params) do
-    in_last_days = conn.req_cookies["in_last_days"]
+    in_last_secs = get_in_last_secs_from_cookie(conn)
 
-    visits = Analytics.list_visits(%{in_last_days: in_last_days})
+    visits = Analytics.list_visits(%{in_last_secs: in_last_secs})
     render(conn, :index, visits: visits)
   end
 

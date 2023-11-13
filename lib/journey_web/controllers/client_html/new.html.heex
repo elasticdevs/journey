@@ -1,8 +1,9 @@
-<.header>
+<.back navigate={~p"/clients"} class={~s"left"}>Back to Clients</.back>
+<div class="page-heading center">
   New Client
-  <:subtitle>Use this form to manage client records in your database.</:subtitle>
-</.header>
+  <div class="subheading">Use this form to manage client records in your database.</div>
+</div>
 
 <.client_form changeset={@changeset} action={~p"/clients"} />
 
-<.back navigate={~p"/clients"}>Back to clients</.back>
+<.back navigate={~p"/clients"} class={~s"center"}>Back to Clients</.back>

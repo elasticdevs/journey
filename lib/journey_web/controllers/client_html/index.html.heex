@@ -1,5 +1,7 @@
+<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
 <div class="page-heading">
-  Listing Clients <a href="/clients/new" class="button">+ Add Client</a>
+  Listing Clients <span class="small">(across all the time)</span>
+  <a href="/clients/new" class="button">+ Add Client</a>
 </div>
 
 <.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>
@@ -30,3 +32,4 @@
     </.link>
   </:action>
 </.table>
+<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

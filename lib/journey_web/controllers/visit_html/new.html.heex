@@ -1,8 +1,9 @@
-<.header>
+<.back navigate={~p"/visits"} class={~s"center"}>Back to visits</.back>
+<div class="page-heading center">
   New Visit
-  <:subtitle>Use this form to manage visit records in your database.</:subtitle>
-</.header>
+  <div class="subheading">Use this form to manage visit records in your database.</div>
+</div>
 
 <.visit_form changeset={@changeset} action={~p"/visits"} />
 
-<.back navigate={~p"/visits"}>Back to visits</.back>
+<.back navigate={~p"/visits"} class={~s"center"}>Back to visits</.back>

@@ -1,16 +1,23 @@
 <div class="top-bar no-margin">
   <div>
     <div>
-      <a href="/">
+      <a href="/" class="logo">
         Journey
       </a>
-      <select name="in-last-days" id="in_last_days">
-        <option value="1">In last 1 day</option>
-        <option value="7">In last 1 week</option>
-        <option value="30">In last 1 month</option>
-        <option value="90">In last 3 months</option>
-        <option value="180">In last 6 months</option>
-        <option value="365">In last 1 year</option>
+      <select name="in-last-days" id="in_last_secs">
+        <option value="600">In last 10 mins</option>
+        <option value="1800">In last 30 mins</option>
+        <option value="3600">In last 1 hour</option>
+        <option value="10800">In last 3 hours</option>
+        <option value="21600">In last 6 hours</option>
+        <option value="43200">In last 12 hours</option>
+        <option value="86400">In last 1 day</option>
+        <option value="604800">In last 1 week</option>
+        <option value="2592000">In last 1 month</option>
+        <option value="7776000">In last 3 months</option>
+        <option value="15552000">In last 6 months</option>
+        <option value="31536000">In last 1 year</option>
+        <option value="all">All time</option>
       </select>
     </div>
     <br />

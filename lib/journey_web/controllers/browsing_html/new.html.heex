@@ -1,8 +1,9 @@
-<.header>
+<.back navigate={~p"/browsings"} class={~s"left"}>Back to Browsings</.back>
+<div class="page-heading center">
   New Browsing
-  <:subtitle>Use this form to manage browsing records in your database.</:subtitle>
-</.header>
+  <div class="subheading">Use this form to manage browsing records in your database.</div>
+</div>
 
 <.browsing_form changeset={@changeset} action={~p"/browsings"} />
 
-<.back navigate={~p"/browsings"}>Back to browsings</.back>
+<.back navigate={~p"/browsings"} class={~s"center"}>Back to Browsings</.back>

@@ -496,13 +496,14 @@ defmodule JourneyWeb.CoreComponents do
       <.back navigate={~p"/posts"}>Back to posts</.back>
   """
   attr :navigate, :any, required: true
+  attr :class, :any, required: true
   slot :inner_block, required: true
 
   def back(assigns) do
     ~H"""
-    <div>
+    <div class={@class}>
       <.link navigate={@navigate}>
-        <.icon name="hero-arrow-left-solid" />
+        <i class="copy" data-feather="arrow-left"></i>
         <%= render_slot(@inner_block) %>
       </.link>
     </div>
