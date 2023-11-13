@@ -7,7 +7,7 @@
   --slight-blue: #cae9ff;
   --lighter-blue: #0466c8;
   --light-blue: #0353a4;
-  --blue: #023e7d;
+  --blue: #2297b7;
   --grey: #eeeeee;
   --dark-grey: #aaaaaa;
   --darker-grey: #777777;
@@ -18,7 +18,8 @@
 }
 
 .logo {
-  color: var(--green);
+  color: var(--blue);
+  font-weight: 900;
 }
 
 a {
