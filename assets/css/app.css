@@ -1,10 +1,28 @@
+:root {
+  --white: #ffffff;
+  --slight-red: #ecbfbf;
+  --light-red: #ff5d5d;
+  --red: #C72B2B;
+  --green: #1E7F1E;
+  --slight-blue: #cae9ff;
+  --lighter-blue: #0466c8;
+  --light-blue: #0353a4;
+  --blue: #023e7d;
+  --grey: #eeeeee;
+  --dark-grey: #aaaaaa;
+  --black: #000000;
+
+
+  --hover: blanchedalmond;
+}
+
 .logo {
-  color: rgb(30, 127, 30);
+  color: var(--green);
 }
 
 a {
   /* color: #253C78; */
-  color: #345995;
+  color: var(--light-blue);
 }
 
 a:hover {
@@ -19,16 +37,19 @@ a:hover {
 .page-heading {
   margin: 2rem 0 1rem 0;
   font-size: 32px;
+  color: var(--light-blue);
 }
 
 .page-heading-2 {
   margin: 1.5rem 0 0.5rem 0;
   font-size: 24px;
+  color: var(--lighter-blue);
 }
 
 .page-heading-3 {
   margin: 1rem 0 0.5rem 0;
   font-size: 18px;
+  color: var(--slight-blue);
 }
 
 .subheading {
@@ -41,8 +62,8 @@ a:hover {
   padding: 5px 15px;
   font-size: 18px;
   font-weight: bold;
-  background-color: rgb(22, 119, 168);
-  color: white;
+  background-color: var(--blue);
+  color: var(--white);
 }
 
 .main-link {
@@ -54,38 +75,38 @@ a:hover {
 .data-point {
   padding: 2px;
   font-size: 22px;
-  color: black;
+  color: var(--black);
 }
 
 .data {
   font-size: 1.7rem;
-  color: rgb(199, 43, 43);
+  color: var(--red);
 }
 
 dt {
-  color: grey;
+  color: var(--grey);
 }
 
 table tr:hover {
-  background-color: blanchedalmond;
+  background-color: var(--hover);
 }
 
 .link {
-  color: rgb(9, 9, 165);
+  color: var(--blue);
 }
 
 .small {
-  font-size: 1.3rem;
-  color: grey;
+  font-size: 0.9rem;
+  color: var(--dark-grey);
 }
 
 .copy {
-  color: darkgrey;
+  color: var(--dark-grey);
 }
 
 .copy:hover {
   cursor: pointer;
-  color: grey;
+  color: var(--grey);
 }
 
 .container {
@@ -94,7 +115,7 @@ table tr:hover {
 }
 
 .container-left {
-  border-right: 1px solid #ecbfbf;
+  border-right: 1px solid var(--slight-red);
 }
 
 .type-container {
@@ -103,8 +124,8 @@ table tr:hover {
 }
 
 .type-container:hover {
-  border: 1px solid #ff5d5d;
-  background-color: #ffd4c0;
+  border: 1px solid var(--light-red);
+  background-color: var(--slight-red);
 }
 
 form label {
@@ -128,4 +149,51 @@ form div:has(button) {
 
 svg {
   vertical-align: text-top;
+}
+
+td>div>span {
+  display: inline-block;
+}
+
+.utc_to_local {
+  font-weight: bold;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+}
+
+.client-uuid {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--red);
+}
+
+.browsing-uuid {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--green);
+}
+
+.visit-uuid {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--blue);
+}
+
+.ip-address {
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.lat-lon {
+  font-size: 0.9rem;
+  color: var(--black);
+}
+
+.ua {
+  font-size: 0.7rem;
+  line-height: 1.1rem;
+}
+
+#sponsored_url {
+  color: var(--red);
 }

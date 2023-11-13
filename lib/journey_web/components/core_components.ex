@@ -414,6 +414,7 @@ defmodule JourneyWeb.CoreComponents do
 
   slot :col, required: true do
     attr :label, :string
+    attr :class, :string
   end
 
   slot :action, doc: "the slot for showing user actions in the last table column"
@@ -439,10 +440,7 @@ defmodule JourneyWeb.CoreComponents do
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
             <td :for={{col, i} <- Enum.with_index(@col)} phx-click={@row_click && @row_click.(row)}>
               <div>
-                <span :if={col[:label] == "Time"} class="utc_to_local">
-                  <%= render_slot(col, @row_item.(row)) %>
-                </span>
-                <span :if={col[:label] != "Time"}>
+                <span class={col[:class]}>
                   <%= render_slot(col, @row_item.(row)) %>
                 </span>
               </div>

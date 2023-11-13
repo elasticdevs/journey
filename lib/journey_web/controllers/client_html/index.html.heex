@@ -1,11 +1,11 @@
 <.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
 <div class="page-heading">
-  Listing Clients <span class="small">(across all the time)</span>
+  Listing Clients <span class="small">(based on time selected)</span>
   <a href="/clients/new" class="button">+ Add Client</a>
 </div>
 
 <.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>
-  <:col :let={client} label="Client UUID"><%= client.client_uuid %></:col>
+  <:col :let={client} label="Client UUID" class="client-uuid"><%= client.client_uuid %></:col>
   <:col :let={client} label="# of Browsings"><%= length(client.browsings) %></:col>
   <:col :let={client} label="# of Visits">
     <%= length(enum_browsings_visits(client.browsings)) %>

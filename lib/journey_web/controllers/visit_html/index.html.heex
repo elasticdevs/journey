@@ -10,22 +10,21 @@
 </div>
 
 <.table id="visits" rows={@visits}>
-  <:col :let={visit} label="Time"><%= visit.time %></:col>
+  <:col :let={visit} label="Time" class="utc_to_local"><%= visit.time %></:col>
   <:col :let={visit} label="Client"><%= get_client_display_name_from_visit(visit) %></:col>
-  <:col :let={visit} label="Client UUID"><%= visit.client_uuid %></:col>
-  <:col :let={visit} label="Browsing UUID"><%= visit.browsing_uuid %></:col>
-  <:col :let={visit} label="IP Address"><%= visit.ipaddress %></:col>
+  <:col :let={visit} label="Client UUID" class="client-uuid"><%= visit.client_uuid %></:col>
+  <:col :let={visit} label="Browsing UUID" class="browsing-uuid"><%= visit.browsing_uuid %></:col>
+  <:col :let={visit} label="IP Address" class="ip-address"><%= visit.ipaddress %></:col>
   <:col :let={visit} label="Country"><%= visit.country %></:col>
   <:col :let={visit} label="State"><%= visit.state %></:col>
   <:col :let={visit} label="City"><%= visit.city %></:col>
-  <:col :let={visit} label="Lat"><%= visit.lat %></:col>
-  <:col :let={visit} label="Lon"><%= visit.lon %></:col>
+  <:col :let={visit} label="Lat, Lon" class="lat-lon"><%= visit.lat %>, <%= visit.lon %></:col>
   <:col :let={visit} label="Page"><%= visit.page %></:col>
   <:col :let={visit} label="Hash"><%= visit.hash %></:col>
   <:col :let={visit} label="Session"><%= visit.session %></:col>
   <:col :let={visit} label="Campaign"><%= visit.campaign %></:col>
   <:col :let={visit} label="Source"><%= visit.source %></:col>
-  <:col :let={visit} label="UA"><%= visit.ua %></:col>
+  <:col :let={visit} label="UA" class="ua"><%= visit.ua %></:col>
   <:col :let={visit} label="Device"><%= visit.device %></:col>
   <:col :let={visit} label="Tags"><%= visit.tags %></:col>
   <:col :let={visit} label="Info"><%= visit.info %></:col>
