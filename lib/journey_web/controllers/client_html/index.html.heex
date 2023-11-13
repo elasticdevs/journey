@@ -7,7 +7,9 @@
 <.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>
   <:col :let={client} label="Client UUID"><%= client.client_uuid %></:col>
   <:col :let={client} label="# of Browsings"><%= length(client.browsings) %></:col>
-  <:col :let={client} label="# of Visits"><%= enum_browsings_visits(client.browsings) %></:col>
+  <:col :let={client} label="# of Visits">
+    <%= length(enum_browsings_visits(client.browsings)) %>
+  </:col>
   <:col :let={client} label="External"><%= client.external_id %></:col>
   <:col :let={client} label="Name"><%= client.name %></:col>
   <:col :let={client} label="Email"><%= client.email %></:col>

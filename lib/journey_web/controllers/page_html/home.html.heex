@@ -20,7 +20,8 @@
         # of browsings: <span class="data"><%= length(@browsings) %></span>
       </div>
       <div class="data-point">
-        # of browsing visits: <span class="data"><%= enum_browsings_visits(@browsings) %></span>
+        # of browsing visits:
+        <span class="data"><%= length(enum_browsings_visits(@browsings)) %></span>
       </div>
     </a>
     <a href="/visits" class="type-container">
@@ -29,11 +30,14 @@
       </div>
       <div class="data-point"># of visits: <span class="data"><%= length(@visits) %></span></div>
       <div class="data-point">
-        # of browsing visits: <span class="data"><%= enum_browsings_visits(@browsings) %></span>
+        # of browsing visits:
+        <span class="data"><%= length(enum_browsings_visits(@browsings)) %></span>
       </div>
       <div class="data-point">
         # of anonymous visits:
-        <span class="data"><%= length(@visits) - enum_browsings_visits(@browsings) %></span>
+        <span class="data">
+          <%= length(@visits) - length(enum_browsings_visits(@browsings)) %>
+        </span>
       </div>
     </a>
   </div>

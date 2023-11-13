@@ -1,13 +1,9 @@
 defmodule JourneyWeb.HTMLHelpers do
-  alias Journey.Prospects.Client
-  alias Journey.Analytics.Browsing
-  alias Journey.Analytics.Visit
-
-  def get_client_display_name_from_client(%Client{} = client) do
+  def get_client_display_name_from_client(client) do
     if client, do: client.name || client.external_id || client.client_uuid || client.id, else: ""
   end
 
-  def get_client_display_name_from_browsing(%Browsing{} = browsing) do
+  def get_client_display_name_from_browsing(browsing) do
     if browsing && browsing.client,
       do:
         browsing.client.name || browsing.client.external_id || browsing.client.client_uuid ||
@@ -15,7 +11,7 @@ defmodule JourneyWeb.HTMLHelpers do
       else: ""
   end
 
-  def get_client_display_name_from_visit(%Visit{} = visit) do
+  def get_client_display_name_from_visit(visit) do
     if visit && visit.browsing && visit.browsing.client,
       do:
         visit.browsing.client.name || visit.browsing.client.external_id ||
@@ -28,6 +24,6 @@ defmodule JourneyWeb.HTMLHelpers do
   end
 
   def enum_browsings_visits(browsings) do
-    Enum.reduce(browsings, 0, fn b, acc -> acc + length(b.visits) end)
+    Enum.flat_map(browsings, fn b -> b.visits end)
   end
 end

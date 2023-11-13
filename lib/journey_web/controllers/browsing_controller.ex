@@ -29,7 +29,9 @@ defmodule JourneyWeb.BrowsingController do
   end
 
   def show(conn, %{"id" => id}) do
-    browsing = Analytics.get_browsing!(id)
+    in_last_secs = get_in_last_secs_from_cookie(conn)
+
+    browsing = Analytics.get_browsing(%{in_last_secs: in_last_secs, id: id})
     render(conn, :show, browsing: browsing)
   end
 

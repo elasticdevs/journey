@@ -42,8 +42,8 @@
 
 <br /><br />
 
-<div class="page-heading-2">Visits (<%= length(@visits) %>)</div>
-<.table id="visits" rows={@visits}>
+<div class="page-heading-2">Visits (<%= length(enum_browsings_visits(@client.browsings)) %>)</div>
+<.table id="visits" rows={enum_browsings_visits(@client.browsings)}>
   <:col :let={visit} label="Time"><%= visit.time %></:col>
   <:col :let={visit} label="Client UUID"><%= visit.client_uuid %></:col>
   <:col :let={visit} label="Browsing UUID"><%= visit.browsing_uuid %></:col>

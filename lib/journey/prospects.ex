@@ -54,8 +54,18 @@ defmodule Journey.Prospects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_client!(id) do
-    Repo.one(from c in Client, where: c.id == ^id, preload: [browsings: :visits])
+  def get_client(%{in_last_secs: in_last_secs, id: id}) do
+    in_last_secs = in_last_secs || 315_360_000
+
+    browsings_query =
+      from b in Browsing,
+        distinct: b.id,
+        join: v in assoc(b, :visits),
+        where: ago(^in_last_secs, "second") < v.inserted_at
+
+    visits_query = from v in Visit, where: ago(^in_last_secs, "second") < v.inserted_at
+
+    Repo.get(Client, id) |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
   end
 
   @doc """

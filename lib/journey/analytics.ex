@@ -60,7 +60,13 @@ defmodule Journey.Analytics do
       ** (Ecto.NoResultsError)
 
   """
-  def get_browsing!(id), do: Repo.get!(Browsing, id)
+  def get_browsing(%{in_last_secs: in_last_secs, id: id}) do
+    in_last_secs = in_last_secs || 315_360_000
+
+    visits_query = from v in Visit, where: ago(^in_last_secs, "second") < v.inserted_at
+
+    Repo.get(Browsing, id) |> Repo.preload([:client, visits: visits_query])
+  end
 
   @doc """
   Creates a browsing.
@@ -138,17 +144,18 @@ defmodule Journey.Analytics do
       [%Visit{}, ...]
 
   """
-  def list_visits(%{in_last_secs: in_last_secs, client: client}) do
-    in_last_secs = in_last_secs || 315_360_000
-    browsing_ids = Enum.map(client.browsings, fn b -> b.id end)
 
-    Repo.all(
-      from v in Visit,
-        join: b in assoc(v, :browsing),
-        where: b.id in ^browsing_ids and ago(^in_last_secs, "second") < v.inserted_at,
-        order_by: [desc: :inserted_at]
-    )
-  end
+  # def list_visits(%{in_last_secs: in_last_secs, client: client}) do
+  #   in_last_secs = in_last_secs || 315_360_000
+  #   browsing_ids = Enum.map(client.browsings, fn b -> b.id end)
+
+  #   Repo.all(
+  #     from v in Visit,
+  #       join: b in assoc(v, :browsing),
+  #       where: b.id in ^browsing_ids and ago(^in_last_secs, "second") < v.inserted_at,
+  #       order_by: [desc: :inserted_at]
+  #   )
+  # end
 
   def list_visits(%{in_last_secs: in_last_secs}) do
     in_last_secs = in_last_secs || 315_360_000
