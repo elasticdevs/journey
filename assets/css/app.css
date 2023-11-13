@@ -10,6 +10,7 @@
   --blue: #023e7d;
   --grey: #eeeeee;
   --dark-grey: #aaaaaa;
+  --darker-grey: #777777;
   --black: #000000;
 
 
@@ -161,13 +162,17 @@ td>div>span {
   line-height: 1.2rem;
 }
 
-.client-uuid {
+.client-name,
+.client-name a,
+.client-uuid,
+.client-uuid a {
   font-weight: bold;
   font-size: 0.9rem;
   color: var(--red);
 }
 
-.browsing-uuid {
+.browsing-uuid,
+.browsing-uuid a {
   font-weight: bold;
   font-size: 0.9rem;
   color: var(--green);
@@ -184,9 +189,24 @@ td>div>span {
   font-size: 0.9rem;
 }
 
+.country-state-city {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--darker-grey);
+}
+
 .lat-lon {
   font-size: 0.9rem;
   color: var(--black);
+}
+
+.page-hash {
+  border-radius: 10px;
+  padding: 1px 10px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: var(--black);
+  background-color: var(--slight-red);
 }
 
 .ua {
@@ -196,4 +216,9 @@ td>div>span {
 
 #sponsored_url {
   color: var(--red);
+}
+
+.external-icon {
+  vertical-align: sub;
+  width: 15px;
 }

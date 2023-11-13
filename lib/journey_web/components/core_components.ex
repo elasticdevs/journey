@@ -415,6 +415,7 @@ defmodule JourneyWeb.CoreComponents do
   slot :col, required: true do
     attr :label, :string
     attr :class, :string
+    attr :navigate, :any
   end
 
   slot :action, doc: "the slot for showing user actions in the last table column"
@@ -438,7 +439,7 @@ defmodule JourneyWeb.CoreComponents do
         </thead>
         <tbody id={@id} phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}>
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
-            <td :for={{col, i} <- Enum.with_index(@col)} phx-click={@row_click && @row_click.(row)}>
+            <td :for={{col, _} <- Enum.with_index(@col)} phx-click={@row_click && @row_click.(row)}>
               <div>
                 <span class={col[:class]}>
                   <%= render_slot(col, @row_item.(row)) %>

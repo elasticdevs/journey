@@ -8,7 +8,7 @@ defmodule Journey.Analytics.Browsing do
     field :browsing_uuid, Ecto.UUID
     # field :client_id, :id
     belongs_to :client, Client
-    has_many :visits, Visit
+    has_many :visits, Visit, preload_order: [desc: :inserted_at]
 
     timestamps(type: :utc_datetime)
   end

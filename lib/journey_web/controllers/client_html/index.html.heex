@@ -5,12 +5,18 @@
 </div>
 
 <.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>
-  <:col :let={client} label="Client UUID" class="client-uuid"><%= client.client_uuid %></:col>
+  <:col :let={client} label="Client UUID" class="client-uuid">
+    <a href={get_client_url_from_client(client)}>
+      <%= client.client_uuid %>
+    </a>
+  </:col>
   <:col :let={client} label="# of Browsings"><%= length(client.browsings) %></:col>
   <:col :let={client} label="# of Visits">
     <%= length(enum_browsings_visits(client.browsings)) %>
   </:col>
-  <:col :let={client} label="External"><%= client.external_id %></:col>
+  <:col :let={client} label="External" class="external-id">
+    <%= client.external_id %> <i class="external-icon" data-feather="external-link"></i>
+  </:col>
   <:col :let={client} label="Name"><%= client.name %></:col>
   <:col :let={client} label="Email"><%= client.email %></:col>
   <:col :let={client} label="Phone"><%= client.phone %></:col>

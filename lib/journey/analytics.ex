@@ -145,18 +145,6 @@ defmodule Journey.Analytics do
 
   """
 
-  # def list_visits(%{in_last_secs: in_last_secs, client: client}) do
-  #   in_last_secs = in_last_secs || 315_360_000
-  #   browsing_ids = Enum.map(client.browsings, fn b -> b.id end)
-
-  #   Repo.all(
-  #     from v in Visit,
-  #       join: b in assoc(v, :browsing),
-  #       where: b.id in ^browsing_ids and ago(^in_last_secs, "second") < v.inserted_at,
-  #       order_by: [desc: :inserted_at]
-  #   )
-  # end
-
   def list_visits(%{in_last_secs: in_last_secs}) do
     in_last_secs = in_last_secs || 315_360_000
 
