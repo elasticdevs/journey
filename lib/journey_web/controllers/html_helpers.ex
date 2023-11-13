@@ -48,4 +48,8 @@ defmodule JourneyWeb.HTMLHelpers do
   def get_browsing_url_from_visit(visit) do
     if visit, do: "/browsings/#{visit.browsing_id}", else: ""
   end
+
+  def get_google_maps_link_from_visit(visit) do
+    if visit, do: "https://www.google.com/maps/place/#{visit.lat},#{visit.lon}", else: ""
+  end
 end
