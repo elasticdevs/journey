@@ -1,4 +1,5 @@
 <.back navigate={~p"/visits"} class={~s"center"}>Back to Visits</.back>
+
 <div class="page-heading">
   Visit #<%= @visit.id %>
   <div class="subtitle">This is a visit record from your database.</div>
@@ -6,8 +7,8 @@
 
 <.list>
   <:item title="Time"><%= @visit.time %></:item>
-  <:item title="Client uuid"><%= @visit.client_uuid %></:item>
-  <:item title="Ipaddress"><%= @visit.ipaddress %></:item>
+  <:item title="Client UUID"><%= @visit.client_uuid %></:item>
+  <:item title="IP Address"><%= @visit.ipaddress %></:item>
   <:item title="Country"><%= @visit.country %></:item>
   <:item title="State"><%= @visit.state %></:item>
   <:item title="City"><%= @visit.city %></:item>
@@ -17,7 +18,7 @@
   <:item title="Session"><%= @visit.session %></:item>
   <:item title="Campaign"><%= @visit.campaign %></:item>
   <:item title="Source"><%= @visit.source %></:item>
-  <:item title="Ua"><%= @visit.ua %></:item>
+  <:item title="UA"><%= @visit.ua %></:item>
   <:item title="Device"><%= @visit.device %></:item>
   <:item title="Tags"><%= @visit.tags %></:item>
   <:item title="Info"><%= @visit.info %></:item>

@@ -10,9 +10,11 @@
   </div>
 </div>
 
-<.table id="browsings" rows={@browsings}>
+<.table id="browsings" rows={@browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
   <:col :let={browsing} label="Browsing UUID"><%= browsing.browsing_uuid %></:col>
-  <:col :let={browsing} label="Client"><%= get_client_display_name(browsing.client) %></:col>
+  <:col :let={browsing} label="Client">
+    <%= get_client_display_name_from_browsing(browsing) %>
+  </:col>
   <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
 </.table>
 <.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

@@ -6,6 +6,8 @@ defmodule Journey.Prospects do
   import Ecto.Query, warn: false
   alias Journey.Repo
   alias Journey.Prospects.Client
+  alias Journey.Analytics.Browsing
+  alias Journey.Analytics.Visit
 
   @doc """
   Returns the list of clients.
@@ -16,8 +18,26 @@ defmodule Journey.Prospects do
       [%Client{}, ...]
 
   """
-  def list_clients do
-    Repo.all(Client) |> Repo.preload(:browsings)
+  def list_clients(%{in_last_secs: in_last_secs}) do
+    in_last_secs = in_last_secs || 315_360_000
+
+    browsings_query =
+      from b in Browsing,
+        distinct: b.id,
+        join: v in assoc(b, :visits),
+        where: ago(^in_last_secs, "second") < v.inserted_at
+
+    visits_query = from v in Visit, where: ago(^in_last_secs, "second") < v.inserted_at
+
+    Repo.all(
+      from c in Client,
+        distinct: c.id,
+        join: b in assoc(c, :browsings),
+        join: v in assoc(b, :visits),
+        where: ago(^in_last_secs, "second") < v.inserted_at,
+        order_by: [desc: v.inserted_at]
+    )
+    |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
   end
 
   @doc """

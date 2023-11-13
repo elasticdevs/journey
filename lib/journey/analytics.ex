@@ -8,18 +8,19 @@ defmodule Journey.Analytics do
   alias Journey.Repo
 
   alias Journey.Analytics.Browsing
+  alias Journey.Analytics.Visit
 
-  def count_browsings_by_country_city(%{in_last_secs: in_last_secs}) do
-    in_last_secs = in_last_secs || 315_360_000
+  # def count_browsings_by_country_city(%{in_last_secs: in_last_secs}) do
+  #   in_last_secs = in_last_secs || 315_360_000
 
-    Repo.all(
-      from b in Browsing,
-        join: v in assoc(b, :visits),
-        select: {v.country, v.city, count(b.id, :distinct)},
-        where: ago(^in_last_secs, "second") < b.inserted_at,
-        group_by: [v.country, v.city]
-    )
-  end
+  #   Repo.all(
+  #     from b in Browsing,
+  #       select: {v.country, v.city, count(b.id, :distinct)},
+  #       join: v in assoc(b, :visits),
+  #       where: ago(^in_last_secs, "second") < b.inserted_at,
+  #       group_by: [v.country, v.city]
+  #   )
+  # end
 
   @doc """
   Returns the list of browsings.
@@ -33,12 +34,16 @@ defmodule Journey.Analytics do
   def list_browsings(%{in_last_secs: in_last_secs}) do
     in_last_secs = in_last_secs || 315_360_000
 
+    visits_query = from v in Visit, where: ago(^in_last_secs, "second") < v.inserted_at
+
     Repo.all(
       from b in Browsing,
-        where: ago(^in_last_secs, "second") < b.inserted_at,
-        order_by: [desc: :inserted_at]
+        distinct: b.id,
+        join: v in assoc(b, :visits),
+        where: ago(^in_last_secs, "second") < v.inserted_at,
+        order_by: [desc: v.inserted_at]
     )
-    |> Repo.preload([:client, :visits])
+    |> Repo.preload([:client, visits: visits_query])
   end
 
   @doc """
@@ -153,6 +158,7 @@ defmodule Journey.Analytics do
         where: ago(^in_last_secs, "second") < v.inserted_at,
         order_by: [desc: :inserted_at]
     )
+    |> Repo.preload(browsing: :client)
   end
 
   @doc """

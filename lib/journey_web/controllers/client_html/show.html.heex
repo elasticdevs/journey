@@ -1,7 +1,7 @@
-<.back navigate={~p"/clients"} position={~s"left"}>Back to Clients</.back>
+<.back navigate={~p"/clients"} class={~s"left"}>Back to Clients</.back>
 
 <div class="page-heading">
-  Client: <b><%= get_client_display_name(@client) %></b>
+  Client: <b><%= get_client_display_name_from_client(@client) %></b>
 </div>
 <div class="page-heading-3">
   Sponsored Link:
@@ -11,30 +11,37 @@
   <span><i class="copy" data-feather="copy"></i></span>
 </div>
 
-<.list>
-  <:item title="Client UUID"><%= @client.client_uuid %></:item>
-  <:item title="External"><%= @client.external_id %></:item>
-  <:item title="Name"><%= @client.name %></:item>
-  <:item title="Email"><%= @client.email %></:item>
-  <:item title="Phone"><%= @client.phone %></:item>
-  <:item title="Company"><%= @client.company %></:item>
-  <:item title="Linkedin"><%= @client.linkedin %></:item>
-  <:item title="Job title"><%= @client.job_title %></:item>
-  <:item title="Country"><%= @client.country %></:item>
-  <:item title="State"><%= @client.state %></:item>
-  <:item title="City"><%= @client.city %></:item>
-  <:item title="Comments"><%= @client.comments %></:item>
-  <:item title="Tags"><%= @client.tags %></:item>
-  <:item title="Status"><%= @client.status %></:item>
-</.list>
+<br /><br />
+
+<.table id="clients" rows={[@client]} row_click={&JS.navigate(~p"/clients/#{&1}")}>
+  <:col :let={client} label="Client UUID"><%= client.client_uuid %></:col>
+  <:col :let={client} label="# of Browsings"><%= length(client.browsings) %></:col>
+  <:col :let={client} label="External"><%= client.external_id %></:col>
+  <:col :let={client} label="Name"><%= client.name %></:col>
+  <:col :let={client} label="Email"><%= client.email %></:col>
+  <:col :let={client} label="Phone"><%= client.phone %></:col>
+  <:col :let={client} label="Company"><%= client.company %></:col>
+  <:col :let={client} label="LinkedIn"><%= client.linkedin %></:col>
+  <:col :let={client} label="Job Title"><%= client.job_title %></:col>
+  <:col :let={client} label="Country"><%= client.country %></:col>
+  <:col :let={client} label="State"><%= client.state %></:col>
+  <:col :let={client} label="City"><%= client.city %></:col>
+  <:col :let={client} label="Comments"><%= client.comments %></:col>
+  <:col :let={client} label="Tags"><%= client.tags %></:col>
+  <:col :let={client} label="Status"><%= client.status %></:col>
+</.table>
+
+<br /><br />
 
 <div class="page-heading-2">Browsings (<%= length(@client.browsings) %>)</div>
 <.table id="browsings" rows={@client.browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
   <:col :let={browsing} label="Browsing UUID"><%= browsing.browsing_uuid %></:col>
-  <:col :let={browsing} label="Client"><%= get_client_display_name(@client) %></:col>
+  <:col :let={browsing} label="Client"><%= get_client_display_name_from_client(@client) %></:col>
   <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
 </.table>
+
 <br /><br />
+
 <div class="page-heading-2">Visits (<%= length(@visits) %>)</div>
 <.table id="visits" rows={@visits}>
   <:col :let={visit} label="Time"><%= visit.time %></:col>
@@ -62,4 +69,4 @@
   <:col :let={visit} label="UTM Content"><%= visit.utm_content %></:col>
 </.table>
 
-<.back navigate={~p"/clients"} position={~s"center"}>Back to Clients</.back>
+<.back navigate={~p"/clients"} class={~s"center"}>Back to Clients</.back>

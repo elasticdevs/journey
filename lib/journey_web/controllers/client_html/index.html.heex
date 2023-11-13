@@ -7,6 +7,7 @@
 <.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>
   <:col :let={client} label="Client UUID"><%= client.client_uuid %></:col>
   <:col :let={client} label="# of Browsings"><%= length(client.browsings) %></:col>
+  <:col :let={client} label="# of Visits"><%= enum_browsings_visits(client.browsings) %></:col>
   <:col :let={client} label="External"><%= client.external_id %></:col>
   <:col :let={client} label="Name"><%= client.name %></:col>
   <:col :let={client} label="Email"><%= client.email %></:col>
@@ -17,19 +18,8 @@
   <:col :let={client} label="Country"><%= client.country %></:col>
   <:col :let={client} label="State"><%= client.state %></:col>
   <:col :let={client} label="City"><%= client.city %></:col>
-  <%!-- <:col :let={client} label="Comments"><%= client.comments %></:col>
+  <:col :let={client} label="Comments"><%= client.comments %></:col>
   <:col :let={client} label="Tags"><%= client.tags %></:col>
-  <:col :let={client} label="Status"><%= client.status %></:col> --%>
-  <:action :let={client}>
-    <div class="sr-only">
-      <.link navigate={~p"/clients/#{client}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/clients/#{client}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={client}>
-    <.link href={~p"/clients/#{client}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
+  <:col :let={client} label="Status"><%= client.status %></:col>
 </.table>
 <.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

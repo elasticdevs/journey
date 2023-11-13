@@ -9,12 +9,12 @@ defmodule JourneyWeb.PageController do
 
     in_last_secs = get_in_last_secs_from_cookie(conn)
 
-    clients = Prospects.list_clients()
+    clients = Prospects.list_clients(%{in_last_secs: in_last_secs})
     browsings = Analytics.list_browsings(%{in_last_secs: in_last_secs})
     visits = Analytics.list_visits(%{in_last_secs: in_last_secs})
 
-    count_browsings_by_country_city =
-      Analytics.count_browsings_by_country_city(%{in_last_secs: in_last_secs})
+    # count_browsings_by_country_city =
+    #   Analytics.count_browsings_by_country_city(%{in_last_secs: in_last_secs})
 
     # count_browings_by_country = Enum.reduce()
 

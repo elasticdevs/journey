@@ -11,6 +11,7 @@
 
 <.table id="visits" rows={@visits}>
   <:col :let={visit} label="Time"><%= visit.time %></:col>
+  <:col :let={visit} label="Client"><%= get_client_display_name_from_visit(visit) %></:col>
   <:col :let={visit} label="Client UUID"><%= visit.client_uuid %></:col>
   <:col :let={visit} label="Browsing UUID"><%= visit.browsing_uuid %></:col>
   <:col :let={visit} label="IP Address"><%= visit.ipaddress %></:col>

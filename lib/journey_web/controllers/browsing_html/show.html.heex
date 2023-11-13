@@ -1,15 +1,12 @@
-<.header>
-  Browsing <%= @browsing.id %>
-  <:subtitle>This is a browsing record from your database.</:subtitle>
-  <:actions>
-    <.link href={~p"/browsings/#{@browsing}/edit"}>
-      <.button>Edit browsing</.button>
-    </.link>
-  </:actions>
-</.header>
+<.back navigate={~p"/browsings"} class={~s"left"}>Back to browsings</.back>
+
+<div class="page-heading">
+  Browsing #<%= @browsing.id %>
+  <div class="subheading">This is a browsing record from your database.</div>
+</div>
 
 <.list>
   <:item title="Browsing uuid"><%= @browsing.browsing_uuid %></:item>
 </.list>
 
-<.back navigate={~p"/browsings"}>Back to browsings</.back>
+<.back navigate={~p"/browsings"} class={~s"center"}>Back to browsings</.back>
