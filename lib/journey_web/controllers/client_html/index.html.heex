@@ -2,6 +2,7 @@
 <div class="page-heading">
   Listing Clients <span class="small">(based on time selected)</span>
   <a href="/clients/new" class="button">+ Add Client</a>
+  <a href="/clients/bulk" class="button">+ Bulk Clients</a>
 </div>
 
 <.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>

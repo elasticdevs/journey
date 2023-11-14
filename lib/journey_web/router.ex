@@ -18,6 +18,8 @@ defmodule JourneyWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    get "/clients/bulk", ClientController, :bulk
     resources "/clients", ClientController
     resources "/browsings", BrowsingController
     resources "/visits", VisitController

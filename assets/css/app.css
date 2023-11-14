@@ -223,3 +223,8 @@ td>div>span {
   vertical-align: sub;
   width: 15px;
 }
+
+textarea {
+  vertical-align: middle;
+  width: 30%;
+}

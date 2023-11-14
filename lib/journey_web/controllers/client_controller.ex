@@ -3,6 +3,7 @@ defmodule JourneyWeb.ClientController do
 
   alias Journey.Prospects
   alias Journey.Prospects.Client
+  alias Journey.Prospects.Bulk
 
   def index(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
@@ -26,6 +27,14 @@ defmodule JourneyWeb.ClientController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :new, changeset: changeset)
     end
+  end
+
+  def bulk(conn, _params) do
+    bulk = %Bulk{}
+    types = %{external_ids: :string}
+    attrs = %{}
+    changeset = {bulk, types} |> Ecto.Changeset.cast(attrs, Map.keys(types))
+    render(conn, :bulk, changeset: changeset)
   end
 
   def show(conn, %{"id" => id}) do
