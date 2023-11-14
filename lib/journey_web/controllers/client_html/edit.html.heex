@@ -1,8 +1,10 @@
-<.header>
-  Edit Client <%= @client.id %>
-  <:subtitle>Use this form to manage client records in your database.</:subtitle>
-</.header>
+<.back navigate={~p"/clients"} class="left">Back to Clients</.back>
+
+<div class="page-heading center">
+  Edit Client #<%= @client.id %>
+  <div class="subheading">Use this form to manage client records in your database.</div>
+</div>
 
 <.client_form changeset={@changeset} action={~p"/clients/#{@client}"} />
 
-<.back navigate={~p"/clients"}>Back to clients</.back>
+<.back navigate={~p"/clients"} class="center">Back to Clients</.back>

@@ -29,5 +29,10 @@
   <:col :let={client} label="Comments"><%= client.comments %></:col>
   <:col :let={client} label="Tags"><%= client.tags %></:col>
   <:col :let={client} label="Status"><%= client.status %></:col>
+  <:action :let={client}>
+    <.link navigate={~p"/clients/#{client}/edit"}>
+      <i class="action" data-feather="edit-2"></i>
+    </.link>
+  </:action>
 </.table>
 <.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

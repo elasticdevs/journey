@@ -3,7 +3,6 @@ defmodule JourneyWeb.ClientController do
 
   alias Journey.Prospects
   alias Journey.Prospects.Client
-  alias Journey.Analytics
 
   def index(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
