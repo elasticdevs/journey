@@ -16,7 +16,7 @@
   --black: #000000;
 
 
-  --hover: var(--slightest-red);
+  --hover: var(--slightest-blue);
 }
 
 .logo {
@@ -220,7 +220,7 @@ td>div>span {
   font-weight: bold;
   font-size: 0.9rem;
   color: var(--black);
-  background-color: var(--slight-red);
+  background-color: var(--slightest-blue);
 }
 
 .ua {
