@@ -256,3 +256,9 @@ textarea {
 table {
   font-size: 1rem;
 }
+
+#search {
+  padding: 5px;
+  border-bottom-width: thick;
+  width: 100%;
+}
