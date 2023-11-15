@@ -1,35 +1,52 @@
 <.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
 <div class="page-heading">
-  Listing Clients <span class="small">(based on time selected)</span>
+  Listing Clients
+  <span class="data-point"><span class="data">(<%= length(@clients) %>)</span></span>
+  <span class="small">(based on time selected)</span>
   <a href="/clients/new" class="button">+ Add Client</a>
-  <a href="/clients/bulk" class="button">+ Bulk Clients</a>
+  <.simple_form for={%{}} action={~p"/clients/refresh"} class="inline">
+    <:actions>
+      <.button>Refresh Clients</.button>
+    </:actions>
+  </.simple_form>
 </div>
 
-<.table id="clients" rows={@clients} row_click={&JS.navigate(~p"/clients/#{&1}")}>
+<input type="text" id="search" placeholder="Search for names.." />
+<.table id="clients" rows={@clients}>
   <:col :let={client} label="Client UUID" class="client-uuid">
     <a href={get_client_url_from_client(client)}>
-      <%= client.client_uuid %>
+      <%= get_shortened_uuid(client.client_uuid) %>
     </a>
   </:col>
-  <:col :let={client} label="# of Browsings"><%= length(client.browsings) %></:col>
-  <:col :let={client} label="# of Visits">
+  <:col :let={client} label="# of Bs"><%= length(client.browsings) %></:col>
+  <:col :let={client} label="# of Vs">
     <%= length(enum_browsings_visits(client.browsings)) %>
   </:col>
   <:col :let={client} label="External" class="external-id">
-    <%= client.external_id %> <i class="external-icon" data-feather="external-link"></i>
+    <a href={get_freshsales_link_from_client(client)} class="freshsales-link" target="_blank">
+      <%= client.external_id %>
+    </a>
   </:col>
-  <:col :let={client} label="Name"><%= client.name %></:col>
+  <:col :let={client} label="Name"><b><%= client.name %></b></:col>
   <:col :let={client} label="Email"><%= client.email %></:col>
   <:col :let={client} label="Phone"><%= client.phone %></:col>
   <:col :let={client} label="Company"><%= client.company %></:col>
-  <:col :let={client} label="LinkedIn"><%= client.linkedin %></:col>
+  <:col :let={client} label="LinkedIn">
+    <a
+      :if={get_linked_in_url_from_client(client)}
+      href={get_linked_in_url_from_client(client)}
+      target="_blank"
+    >
+      <%= client.linkedin %>
+    </a>
+  </:col>
   <:col :let={client} label="Job Title"><%= client.job_title %></:col>
   <:col :let={client} label="Country"><%= client.country %></:col>
   <:col :let={client} label="State"><%= client.state %></:col>
   <:col :let={client} label="City"><%= client.city %></:col>
-  <:col :let={client} label="Comments"><%= client.comments %></:col>
+  <%!-- <:col :let={client} label="Comments"><%= client.comments %></:col>
   <:col :let={client} label="Tags"><%= client.tags %></:col>
-  <:col :let={client} label="Status"><%= client.status %></:col>
+  <:col :let={client} label="Status"><%= client.status %></:col> --%>
   <:action :let={client}>
     <.link navigate={~p"/clients/#{client}/edit"}>
       <i class="action" data-feather="edit-2"></i>

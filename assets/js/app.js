@@ -108,3 +108,26 @@ $(function () {
   // Add event listener for change event
   document.getElementById('in_last_secs').addEventListener('change', updateCookie)
 })
+
+$(function () {
+  $("#search").keyup(function () {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toLowerCase();
+    table = document.getElementById("clients");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      if (tr[i]) {
+        txtValue = tr[i].textContent || tr[i].innerText;
+        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  })
+})

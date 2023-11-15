@@ -9,6 +9,8 @@ defmodule Journey.Prospects do
   alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
 
+  alias Journey.Prospects.FreshSales
+
   @doc """
   Returns the list of clients.
 
@@ -146,5 +148,22 @@ defmodule Journey.Prospects do
   """
   def change_client(%Client{} = client, attrs \\ %{}) do
     Client.changeset(client, attrs)
+  end
+
+  def refresh_clients(page \\ 1) do
+    contacts = FreshSales.get_contacts(page)
+
+    Enum.each(contacts, fn c ->
+      case Repo.get_by(Client, external_id: c[:external_id]) do
+        nil -> %Client{}
+        client -> client
+      end
+      |> Client.changeset(c)
+      |> Repo.insert_or_update()
+    end)
+
+    if length(contacts) > 0 do
+      refresh_clients(page + 1)
+    end
   end
 end

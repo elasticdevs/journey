@@ -111,16 +111,14 @@ defmodule JourneyWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       {@rest}
+      class="message"
     >
-      <p :if={@title}>
+      <span :if={@title}>
         <.icon :if={@kind == :info} name="hero-information-circle-mini" />
         <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" />
         <%= @title %>
-      </p>
-      <p><%= msg %></p>
-      <button type="button" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" />
-      </button>
+      </span>
+      <span><%= msg %></span>
     </div>
     """
   end
@@ -180,6 +178,7 @@ defmodule JourneyWeb.CoreComponents do
   """
   attr :for, :any, required: true, doc: "the datastructure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
+  attr :class, :string, default: nil
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
@@ -190,7 +189,7 @@ defmodule JourneyWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest}>
+    <.form :let={f} for={@for} as={@as} class={@class} {@rest}>
       <div>
         <%= render_slot(@inner_block, f) %>
         <div :for={action <- @actions}>

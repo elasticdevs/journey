@@ -18,12 +18,12 @@
   </:col>
   <:col :let={visit} label="Client UUID" class="client-uuid">
     <a href={get_client_url_from_visit(visit)}>
-      <%= visit.client_uuid %>
+      <%= get_shortened_uuid(visit.client_uuid) %>
     </a>
   </:col>
   <:col :let={visit} label="Browsing UUID" class="browsing-uuid">
     <a href={get_browsing_url_from_visit(visit)}>
-      <%= visit.browsing_uuid %>
+      <%= get_shortened_uuid(visit.browsing_uuid) %>
     </a>
   </:col>
   <:col :let={visit} label="IP Address" class="ip-address"><%= visit.ipaddress %></:col>

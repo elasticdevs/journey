@@ -1,24 +1,26 @@
 :root {
   --white: #ffffff;
+  --slightest-red: #ffecec;
   --slight-red: #ecbfbf;
   --light-red: #ff5d5d;
   --red: #C72B2B;
   --green: #1E7F1E;
-  --slight-blue: #cae9ff;
-  --lighter-blue: #0466c8;
-  --light-blue: #0353a4;
-  --blue: #2297b7;
+  --slightest-blue: #dff8ff;
+  --slight-blue: #5ac3e0;
+  --lighter-blue: #2297b7;
+  --light-blue: #0a82a3;
+  --blue: #016a87;
   --grey: #eeeeee;
   --dark-grey: #aaaaaa;
   --darker-grey: #777777;
   --black: #000000;
 
 
-  --hover: blanchedalmond;
+  --hover: var(--slightest-red);
 }
 
 .logo {
-  color: var(--blue);
+  color: var(--lighter-blue);
   font-weight: 900;
 }
 
@@ -60,12 +62,26 @@ a:hover {
 }
 
 .button {
-  border-radius: 15px;
-  padding: 5px 15px;
-  font-size: 18px;
-  font-weight: bold;
-  background-color: var(--blue);
-  color: var(--white);
+  font-family: system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.125rem;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.85625rem;
+  background: #f2f2f2;
+  color: #191919;
+  cursor: pointer;
+  display: inline;
+  margin-bottom: 1.125rem;
+  margin-right: 0.45rem;
+  border-radius: 3.6px;
+  padding: 0.4078125rem 1.4625rem;
+  text-align: center;
+}
+
+.button:hover {
+  background: #d9d9d9;
+  color: #000;
 }
 
 .main-link {
@@ -82,7 +98,7 @@ a:hover {
 
 .data {
   font-size: 1.7rem;
-  color: var(--red);
+  color: var(--blue);
 }
 
 dt {
@@ -116,18 +132,15 @@ table tr:hover {
   grid-template-columns: 1fr 4fr;
 }
 
-.container-left {
-  border-right: 1px solid var(--slight-red);
-}
-
 .type-container {
   display: block;
+  border-right: 5px solid var(--slightest-blue);
   padding: 20px;
 }
 
 .type-container:hover {
-  border: 1px solid var(--light-red);
-  background-color: var(--slight-red);
+  border-right: 5px solid var(--slight-blue);
+  background-color: var(--slightest-blue);
 }
 
 form label {
@@ -168,20 +181,20 @@ td>div>span {
 .client-uuid,
 .client-uuid a {
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: var(--red);
 }
 
 .browsing-uuid,
 .browsing-uuid a {
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: var(--green);
 }
 
 .visit-uuid {
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: var(--blue);
 }
 
@@ -227,4 +240,19 @@ td>div>span {
 textarea {
   vertical-align: middle;
   width: 30%;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background-color: var(--slightest-blue);
+}
+
+table {
+  font-size: 1rem;
 }

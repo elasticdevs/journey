@@ -52,4 +52,19 @@ defmodule JourneyWeb.HTMLHelpers do
   def get_google_maps_link_from_visit(visit) do
     if visit, do: "https://www.google.com/maps/place/#{visit.lat},#{visit.lon}", else: ""
   end
+
+  def get_linked_in_url_from_client(client) do
+    if client && client.linkedin, do: "https://linkedin.com/in/#{client.linkedin}", else: nil
+  end
+
+  def get_shortened_uuid(uuid \\ "") do
+    uuid = uuid || ""
+    Enum.at(String.split(uuid, "-"), 0)
+  end
+
+  def get_freshsales_link_from_client(client) do
+    if client && client.external_id,
+      do: "https://elasticdevs.myfreshworks.com/crm/sales/contacts/#{client.external_id}",
+      else: nil
+  end
 end

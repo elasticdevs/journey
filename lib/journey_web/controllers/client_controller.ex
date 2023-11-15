@@ -65,6 +65,14 @@ defmodule JourneyWeb.ClientController do
     end
   end
 
+  def refresh(conn, _) do
+    Prospects.refresh_clients()
+
+    conn
+    |> put_flash(:info, "Clients refreshed successfully.")
+    |> redirect(to: ~p"/clients")
+  end
+
   def delete(conn, %{"id" => id}) do
     client = Prospects.get_client!(id)
     {:ok, _client} = Prospects.delete_client(client)
