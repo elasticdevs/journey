@@ -119,15 +119,19 @@ $(function () {
     tr = table.getElementsByTagName("tr");
 
     // Loop through all table rows, and hide those who don't match the search query
+    count = 0;
     for (i = 0; i < tr.length; i++) {
       if (tr[i]) {
         txtValue = tr[i].textContent || tr[i].innerText;
         if (txtValue.toLowerCase().indexOf(filter) > -1) {
           tr[i].style.display = "";
+          count++;
         } else {
           tr[i].style.display = "none";
         }
       }
     }
+
+    $("#search-count").html(count);
   })
 })

@@ -39,7 +39,7 @@ a:hover {
 }
 
 .page-heading {
-  margin: 3rem 0;
+  margin: 2rem 0;
   font-size: 32px;
   color: var(--light-blue);
 }
@@ -261,4 +261,12 @@ table {
   padding: 5px;
   border-bottom-width: thick;
   width: 100%;
+}
+#search-results-info {
+  margin-top: -15px;
+  margin-bottom: 1rem;
+
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--darker-grey);
 }

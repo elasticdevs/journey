@@ -12,6 +12,7 @@
 </div>
 
 <input type="text" id="search" placeholder="Search for names.." />
+<div id="search-results-info">Showing <span id="search-count"><%= length @clients %></span> / <span id=""><%= length @clients %></span></div>
 <.table id="clients" rows={@clients}>
   <:col :let={client} label="Client UUID" class="client-uuid">
     <a href={get_client_url_from_client(client)}>
