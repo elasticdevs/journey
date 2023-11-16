@@ -6,7 +6,7 @@ defmodule Journey.Analytics.Browsing do
 
   schema "browsings" do
     field :browsing_uuid, Ecto.UUID
-    # field :client_id, :id
+    field :last_visited_at, :utc_datetime
     belongs_to :client, Client
     has_many :visits, Visit, preload_order: [desc: :inserted_at]
 
@@ -16,6 +16,6 @@ defmodule Journey.Analytics.Browsing do
   @doc false
   def changeset(browsing, attrs) do
     browsing
-    |> cast(attrs, [:browsing_uuid, :client_id])
+    |> cast(attrs, [:browsing_uuid, :client_id, :last_visited_at])
   end
 end

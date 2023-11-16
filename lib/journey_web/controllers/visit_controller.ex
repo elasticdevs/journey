@@ -3,6 +3,7 @@ defmodule JourneyWeb.VisitController do
   require Logger
 
   alias Journey.Repo
+  alias Journey.Prospects
   alias Journey.Prospects.Client
   alias Journey.Analytics
   alias Journey.Analytics.Browsing
@@ -63,20 +64,33 @@ defmodule JourneyWeb.VisitController do
       # grab gdpr_accepted
       gdpr_accepted = visit_params["gdpr_accepted"]
 
-      # grab client
-      client =
+      # grab browsing
+      browsing =
         try do
-          Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
+          Repo.get_by(Browsing, browsing_uuid: visit_params["browsing_uuid"])
+          |> Repo.preload(:client)
         rescue
           _ -> nil
         catch
           _ -> nil
         end
 
-      # grab browsing
-      browsing =
+      # if browsing exists
+      visit_params =
+        case browsing do
+          nil ->
+            visit_params
+
+          b ->
+            Map.merge(visit_params, %{
+              "browsing_id" => b.id
+            })
+        end
+
+      # grab client, we trust browsing's client over whats coming in params
+      client =
         try do
-          Repo.get_by(Browsing, browsing_uuid: visit_params["browsing_uuid"])
+          browsing.client || Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
         rescue
           _ -> nil
         catch
@@ -87,27 +101,11 @@ defmodule JourneyWeb.VisitController do
       visit_params =
         case client do
           nil ->
-            Map.merge(visit_params, %{
-              "client_uuid" => nil
-            })
+            visit_params
 
           c ->
             Map.merge(visit_params, %{
               "client_id" => c.id
-            })
-        end
-
-      # if browsing exists
-      visit_params =
-        case browsing do
-          nil ->
-            Map.merge(visit_params, %{
-              "browsing_uuid" => nil
-            })
-
-          b ->
-            Map.merge(visit_params, %{
-              "browsing_id" => b.id
             })
         end
 
@@ -191,23 +189,41 @@ defmodule JourneyWeb.VisitController do
       # Set status
       visit_params = Map.put(visit_params, "status", "ACTIVE")
 
-      browsing =
-        if browsing && client do
-          case Analytics.update_browsing(browsing, %{
-                 client_id: client.id
-               }) do
-            {:ok, b} ->
-              Repo.get(Browsing, b.id)
-
-            {:error, %Ecto.Changeset{} = _} ->
-              browsing
-          end
-        else
-          browsing
-        end
-
       case Analytics.create_visit(visit_params) do
-        {:ok, _} ->
+        {:ok, v} ->
+          # Update browsing
+          client =
+            if browsing do
+              attrs =
+                if client && !browsing.client_id do
+                  %{
+                    client_id: client.id,
+                    last_visited_at: v.inserted_at
+                  }
+                else
+                  %{
+                    last_visited_at: v.inserted_at
+                  }
+                end
+
+              case Analytics.update_browsing(browsing, attrs) do
+                {:ok, b} ->
+                  Analytics.get_browsing!(b.id).client
+
+                {:error, _} ->
+                  client
+              end
+            else
+              client
+            end
+
+          # Update client
+          if client do
+            Prospects.update_client(client, %{
+              last_visited_at: v.inserted_at
+            })
+          end
+
           if headers["content-type"] == "application/json" do
             json(conn, %{
               status: "success",

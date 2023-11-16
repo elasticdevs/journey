@@ -19,6 +19,7 @@ defmodule Journey.Prospects.Client do
     field :state, :string
     field :status, :string
     field :tags, :string
+    field :last_visited_at, :utc_datetime
     has_many :browsings, Browsing
 
     timestamps(type: :utc_datetime)
@@ -41,7 +42,8 @@ defmodule Journey.Prospects.Client do
       :city,
       :comments,
       :tags,
-      :status
+      :status,
+      :last_visited_at
     ])
     |> validate_required([:external_id])
     |> unique_constraint(:client_uuid)

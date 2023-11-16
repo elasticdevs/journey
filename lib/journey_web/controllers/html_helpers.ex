@@ -23,6 +23,10 @@ defmodule JourneyWeb.HTMLHelpers do
     Enum.filter(clients, fn c -> length(c.browsings) > 0 end)
   end
 
+  def enum_clients_browsings(clients) do
+    Enum.flat_map(clients, fn c -> c.browsings end)
+  end
+
   def enum_browsings_visits(browsings) do
     Enum.flat_map(browsings, fn b -> b.visits end)
   end
