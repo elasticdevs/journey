@@ -49,39 +49,6 @@ defmodule Journey.Prospects do
         order_by: [desc_nulls_last: :last_visited_at],
         preload: [browsings: ^{browsings_query, [visits: visits_query]}]
     )
-
-    # {clients_where_query, browsings_where_query, visits_where_query} =
-    #   case in_last_secs do
-    #     nil ->
-    #       {true, true, true}
-
-    #     in_last_secs ->
-    #       {
-    #         dynamic([c, b, v], ago(^in_last_secs, "second") < v.inserted_at),
-    #         dynamic([b, v], ago(^in_last_secs, "second") < v.inserted_at),
-    #         dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
-    #       }
-    #   end
-
-    # # in_last_secs = in_last_secs || 315_360_000
-
-    # browsings_query =
-    #   from b in Browsing,
-    #     distinct: b.id,
-    #     left_join: v in assoc(b, :visits),
-    #     where: ^browsings_where_query
-
-    # visits_query = from v in Visit, where: ^visits_where_query
-
-    # Repo.all(
-    #   from c in Client,
-    #     distinct: c.id,
-    #     left_join: b in assoc(c, :browsings),
-    #     left_join: v in assoc(b, :visits),
-    #     where: ^clients_where_query,
-    #     order_by: [desc: v.inserted_at]
-    # )
-    # |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
   end
 
   @doc """
@@ -101,15 +68,27 @@ defmodule Journey.Prospects do
   def get_client!(id), do: Repo.get!(Client, id)
 
   def get_client(%{in_last_secs: in_last_secs, id: id}) do
-    in_last_secs = in_last_secs || 315_360_000
+    {clients_where, browsings_where, visits_where} =
+      case in_last_secs do
+        "all" ->
+          {true, true, true}
+
+        nil ->
+          {true, true, true}
+
+        _ ->
+          {
+            dynamic([c], ago(^in_last_secs, "second") < c.last_visited_at),
+            dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
+            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+          }
+      end
 
     browsings_query =
       from b in Browsing,
-        distinct: b.id,
-        join: v in assoc(b, :visits),
-        where: ago(^in_last_secs, "second") < v.inserted_at
+        where: ^browsings_where
 
-    visits_query = from v in Visit, where: ago(^in_last_secs, "second") < v.inserted_at
+    visits_query = from v in Visit, where: ^visits_where
 
     Repo.get(Client, id) |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
   end
