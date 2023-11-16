@@ -1,4 +1,6 @@
 defmodule JourneyWeb.HTMLHelpers do
+  alias Journey.Prospects
+
   def get_client_display_name_from_client(client) do
     if client, do: client.name || client.external_id || client.client_uuid || client.id, else: ""
   end
@@ -40,9 +42,13 @@ defmodule JourneyWeb.HTMLHelpers do
   end
 
   def get_client_url_from_visit(visit) do
-    if visit && visit.browsing && visit.browsing.client,
-      do: "/clients/#{visit.browsing.client.id}",
-      else: ""
+    if visit && visit.browsing && visit.browsing.client do
+      "/clients/#{visit.browsing.client.id}"
+    else
+      if visit && visit.client_uuid,
+        do: "/clients/get/?client_uuid=#{visit.client_uuid}",
+        else: nil
+    end
   end
 
   def get_browsing_url_from_browsing(browsing) do

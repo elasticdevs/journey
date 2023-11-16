@@ -29,7 +29,7 @@ defmodule JourneyWeb.VisitController do
     ua = headers["user-agent"]
     visit_params = Map.put(visit_params, "ua", ua)
 
-    if String.contains?(ua, "bot") || String.contains?(ua, "headless") do
+    if String.match?(ua, ~r/bot/i) || String.match?(ua, ~r/headless/i) do
       if headers["content-type"] == "application/json" do
         json(conn, %{
           status: "success",

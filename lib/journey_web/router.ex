@@ -21,6 +21,7 @@ defmodule JourneyWeb.Router do
 
     get "/clients/bulk", ClientController, :bulk
     post "/clients/refresh", ClientController, :refresh
+    get "/clients/get", ClientController, :get
     resources "/clients", ClientController
     resources "/browsings", BrowsingController
     resources "/visits", VisitController

@@ -37,6 +37,19 @@ defmodule JourneyWeb.ClientController do
     render(conn, :bulk, changeset: changeset)
   end
 
+  def get(conn, %{"client_uuid" => client_uuid}) do
+    case Prospects.get_client_by_client_uuid(client_uuid) do
+      nil ->
+        conn
+        |> put_flash(:info, "Client could not be found.")
+        |> redirect(to: ~p"/")
+
+      c ->
+        conn
+        |> redirect(to: ~p"/clients/#{c.id}")
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
 

@@ -65,6 +65,7 @@ defmodule Journey.Prospects do
       ** (Ecto.NoResultsError)
 
   """
+  def get_client_by_client_uuid(client_uuid), do: Repo.get_by(Client, client_uuid: client_uuid)
   def get_client!(id), do: Repo.get!(Client, id)
 
   def get_client(%{in_last_secs: in_last_secs, id: id}) do
