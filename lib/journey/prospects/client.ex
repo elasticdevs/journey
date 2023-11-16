@@ -20,7 +20,7 @@ defmodule Journey.Prospects.Client do
     field :status, :string
     field :tags, :string
     field :last_visited_at, :utc_datetime
-    has_many :browsings, Browsing
+    has_many :browsings, Browsing, preload_order: [desc: :last_visited_at]
 
     timestamps(type: :utc_datetime)
   end

@@ -90,7 +90,8 @@ defmodule JourneyWeb.VisitController do
       # grab client, we trust browsing's client over whats coming in params
       client =
         try do
-          browsing.client || Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
+          (browsing && browsing.client) ||
+            Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
         rescue
           _ -> nil
         catch
@@ -133,12 +134,12 @@ defmodule JourneyWeb.VisitController do
         case {gdpr_accepted, client, browsing} do
           # CASE1
           {nil, _, _} ->
-            Logger.debug("CASE1: country=#{visit_params['country']}")
+            Logger.debug("CASE1: country=#{visit_params["country"]}")
             {visit_params, browsing}
 
           # CASE1.1
           {"false", _, _} ->
-            Logger.debug("CASE1.1_REPEATED: country=#{visit_params['country']}")
+            Logger.debug("CASE1.1_REPEATED: country=#{visit_params["country"]}")
             {visit_params, browsing}
 
           # CASE2
