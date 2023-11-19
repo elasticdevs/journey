@@ -22,6 +22,9 @@ defmodule JourneyWeb.VisitController do
   end
 
   def create(conn, %{"visit" => visit_params}) do
+    # grab params first thing
+    visit_params = Map.put(visit_params, "params", visit_params)
+
     # grab headers
     headers = Enum.into(conn.req_headers, %{})
 
@@ -63,6 +66,33 @@ defmodule JourneyWeb.VisitController do
 
       # grab gdpr_accepted
       gdpr_accepted = visit_params["gdpr_accepted"]
+
+      visit_params =
+        if gdpr_accepted && String.match?(gdpr_accepted, ~r/true/i) do
+          Map.put(visit_params, "gdpr", true)
+        else
+          Map.put(visit_params, "gdpr", false)
+        end
+
+      # clean browsing_uuid
+      visit_params =
+        case UUID.info(visit_params["browsing_uuid"]) do
+          {:ok, _} ->
+            visit_params
+
+          {:error, _} ->
+            Map.put(visit_params, "browsing_uuid", nil)
+        end
+
+      # clean client_uuid
+      visit_params =
+        case UUID.info(visit_params["client_uuid"]) do
+          {:ok, _} ->
+            visit_params
+
+          {:error, _} ->
+            Map.put(visit_params, "client_uuid", nil)
+        end
 
       # grab browsing
       browsing =

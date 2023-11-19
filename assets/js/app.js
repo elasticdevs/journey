@@ -52,8 +52,8 @@ $(function () {
 })
 
 let convert_dates = function () {
-  $(".utc_to_local").text(function (index, utc_date) {
-    return moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS');
+  $(".utc_to_local").html(function (index, utc_date) {
+    return moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS') + "<div class='time-ago'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").fromNow() + "</div>";
   });
 };
 $(document).ready(convert_dates);

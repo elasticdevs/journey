@@ -34,8 +34,30 @@ a:hover {
 }
 
 .top-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 3fr;
   margin: 1rem 0 2rem 0;
   font-size: 48px;
+}
+
+.top-bar-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.top-bar-actions a {
+  padding: 7px 15px;
+  /* border: 1px solid #000000; */
+  border-radius: 15px;
+  color: var(--white);
+  background-color: var(--lighter-blue);
+}
+
+.top-bar-actions a:hover {
+  background-color: var(--light-blue);
 }
 
 .page-heading {
@@ -171,9 +193,14 @@ td>div>span {
 }
 
 .utc_to_local {
-  font-weight: bold;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   line-height: 1.2rem;
+}
+
+.time-ago {
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--blue);
 }
 
 .client-name,
@@ -196,6 +223,16 @@ td>div>span {
   font-weight: bold;
   font-size: 0.7rem;
   color: var(--blue);
+}
+
+.gdpr {
+  font-weight: bold;
+  font-size: 0.7rem;
+  color: var(--red);
+}
+
+.gdpr-true {
+  color: var(--green);
 }
 
 .ip-address {
@@ -262,6 +299,7 @@ table {
   border-bottom-width: thick;
   width: 100%;
 }
+
 #search-results-info {
   margin-top: -15px;
   margin-bottom: 1rem;

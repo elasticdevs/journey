@@ -6,6 +6,7 @@ defmodule Journey.Analytics.Visit do
 
   @primary_key false
   schema "visits" do
+    field :gdpr, :boolean
     field :campaign, :string
     field :city, :string
     field :client_uuid, Ecto.UUID
@@ -24,15 +25,14 @@ defmodule Journey.Analytics.Visit do
     field :tags, :string
     field :time, :naive_datetime_usec
     field :ua, :string
-    # field :client_id, :id
     belongs_to :client, Client
-    # field :browsing_id, :id
     belongs_to :browsing, Browsing
     field :utm_campaign, :string
     field :utm_source, :string
     field :utm_medium, :string
     field :utm_term, :string
     field :utm_content, :string
+    field :params, :map
 
     timestamps(type: :utc_datetime)
   end
@@ -42,6 +42,7 @@ defmodule Journey.Analytics.Visit do
     visit
     |> cast(attrs, [
       :time,
+      :gdpr,
       :client_id,
       :client_uuid,
       :browsing_id,
@@ -65,7 +66,8 @@ defmodule Journey.Analytics.Visit do
       :utm_source,
       :utm_medium,
       :utm_term,
-      :utm_content
+      :utm_content,
+      :params
     ])
   end
 end

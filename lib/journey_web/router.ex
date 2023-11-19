@@ -1,5 +1,6 @@
 defmodule JourneyWeb.Router do
   use JourneyWeb, :router
+  import Plug.BasicAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,6 +9,7 @@ defmodule JourneyWeb.Router do
     plug :put_root_layout, html: {JourneyWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :basic_auth, username: "journey", password: "ElasticDevs@"
   end
 
   pipeline :api do
@@ -31,9 +33,7 @@ defmodule JourneyWeb.Router do
   scope "/api", JourneyWeb do
     pipe_through :api
 
-    resources "/clients", ClientController
-    resources "/browsings", BrowsingController
-    resources "/visits", VisitController
+    post "/visits", VisitController, :create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
