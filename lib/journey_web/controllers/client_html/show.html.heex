@@ -33,6 +33,26 @@
 
 <br /><br />
 
+<div class="page-heading-2">
+  Emails (<%= length(@client.emails) %>)
+  <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="button">+ Send Email</a>
+</div>
+<.table id="emails" rows={@client.emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+  <:col :let={email} label="Email UUID"><%= email.email_uuid %></:col>
+  <:col :let={email} label="Template"><%= (email.template && email.template.name) || "" %></:col>
+  <:col :let={email} label="Subject"><%= email.subject %></:col>
+  <:col :let={email} label="Body"><%= email.body %></:col>
+  <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
+  <:col :let={email} label="Status"><%= email.status %></:col>
+  <:action :let={email}>
+    <.link navigate={~p"/emails/#{email}/edit"}>
+      <i class="action" data-feather="edit-2"></i>
+    </.link>
+  </:action>
+</.table>
+
+<br /><br />
+
 <div class="page-heading-2">Browsings (<%= length(@client.browsings) %>)</div>
 <.table id="browsings" rows={@client.browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
   <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">

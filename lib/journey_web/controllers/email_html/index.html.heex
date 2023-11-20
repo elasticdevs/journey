@@ -1,0 +1,23 @@
+<div class="page-heading">
+  Listing Emails
+  <span class="data-point"><span class="data">(<%= length(@emails) %>)</span></span>
+</div>
+
+<.table id="emails" rows={@emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+  <:col :let={email} label="Email UUID"><%= email.email_uuid %></:col>
+  <:col :let={email} label="Client">
+    <%= get_client_display_name_from_client(email.client) %>
+  </:col>
+  <:col :let={email} label="Subject"><%= email.subject %></:col>
+  <:col :let={email} label="Body"><%= email.body %></:col>
+  <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
+  <:col :let={email} label="Status"><%= email.status %></:col>
+  <:action :let={email}>
+    <div class="sr-only">
+      <.link navigate={~p"/emails/#{email}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/emails/#{email}/edit"}>
+      <i class="action" data-feather="edit-2"></i>
+    </.link>
+  </:action>
+</.table>

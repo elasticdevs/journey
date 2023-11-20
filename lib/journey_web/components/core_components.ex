@@ -290,10 +290,10 @@ defmodule JourneyWeb.CoreComponents do
     ~H"""
     <div phx-feedback-for={@name}>
       <label>
-        <input type="hidden" name={@name} value="false" />
-        <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} {@rest} />
         <%= @label %>
       </label>
+      <input type="hidden" name={@name} value="false" />
+      <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} {@rest} />
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """

@@ -27,6 +27,8 @@ defmodule JourneyWeb.Router do
     resources "/clients", ClientController
     resources "/browsings", BrowsingController
     resources "/visits", VisitController
+    resources "/templates", TemplateController
+    resources "/emails", EmailController
   end
 
   # Other scopes may use custom stacks.

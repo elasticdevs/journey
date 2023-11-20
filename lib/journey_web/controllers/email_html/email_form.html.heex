@@ -1,0 +1,20 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:client_id]} type="hidden" value={@client.id} />
+  <.input field={f[:status]} type="hidden" />
+  <.input
+    field={f[:template_id]}
+    type="select"
+    label="Template"
+    options={@templates}
+    prompt="Choose a template (optional)"
+  />
+  <.input field={f[:subject]} type="text" label="Subject" />
+  <.input field={f[:body]} type="textarea" label="Body" />
+  <.input field={f[:read_tracking]} type="checkbox" label="Read Tracking" />
+  <:actions>
+    <.button>Save Email</.button>
+  </:actions>
+</.simple_form>

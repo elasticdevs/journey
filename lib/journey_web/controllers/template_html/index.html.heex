@@ -1,0 +1,17 @@
+<div class="page-heading">
+  Listing Templates
+  <span class="data-point"><span class="data">(<%= length(@templates) %>)</span></span>
+  <a href="/templates/new" class="button">+ Add Template</a>
+</div>
+
+<.table id="templates" rows={@templates} row_click={&JS.navigate(~p"/templates/#{&1}")}>
+  <:col :let={template} label="Name"><%= template.name %></:col>
+  <:col :let={template} label="Subject"><%= template.subject %></:col>
+  <:col :let={template} label="Body"><pre><%= template.body %></pre></:col>
+  <:col :let={template} label="Read Tracking"><%= template.read_tracking %></:col>
+  <:action :let={template}>
+    <.link navigate={~p"/templates/#{template}/edit"}>
+      <i class="action" data-feather="edit-2"></i>
+    </.link>
+  </:action>
+</.table>

@@ -1,0 +1,15 @@
+<.back navigate={~p"/emails"} class="back">Back to Emails</.back>
+
+<div class="page-heading center">
+  Edit Email <%= @email.id %>
+  <div class="subheading">Use this form to manage email records in your database.</div>
+</div>
+
+<.email_form
+  changeset={@changeset}
+  action={~p"/emails/#{@email}"}
+  templates={@templates}
+  client={@client}
+/>
+
+<.back navigate={~p"/emails"} class="back center">Back to Emails</.back>

@@ -1,0 +1,22 @@
+<.back navigate={~p"/emails"} class="back">Back to Emails</.back>
+
+<div class="page-heading">
+  Email #<%= @email.id %>
+  <div class="subheading">This is a email record from your database.</div>
+  <a href={~p"/emails/#{@email}/edit"} class="button">Edit</a>
+</div>
+
+<.table id="emails" rows={[@email]} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+  <:col :let={email} label="Email UUID"><%= email.email_uuid %></:col>
+  <:col :let={email} label="Subject"><%= email.subject %></:col>
+  <:col :let={email} label="Body"><%= email.body %></:col>
+  <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
+  <:col :let={email} label="Status"><%= email.status %></:col>
+  <:action :let={email}>
+    <.link navigate={~p"/emails/#{email}/edit"}>
+      <i class="action" data-feather="edit-2"></i>
+    </.link>
+  </:action>
+</.table>
+
+<.back navigate={~p"/emails"} class="back">Back to Emails</.back>

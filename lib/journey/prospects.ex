@@ -65,21 +65,19 @@ defmodule Journey.Prospects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_client_by_client_uuid(client_uuid), do: Repo.get_by(Client, client_uuid: client_uuid)
   def get_client!(id), do: Repo.get!(Client, id)
 
   def get_client(%{in_last_secs: in_last_secs, id: id}) do
-    {clients_where, browsings_where, visits_where} =
+    {browsings_where, visits_where} =
       case in_last_secs do
         "all" ->
-          {true, true, true}
+          {true, true}
 
         nil ->
-          {true, true, true}
+          {true, true}
 
         _ ->
           {
-            dynamic([c], ago(^in_last_secs, "second") < c.last_visited_at),
             dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
             dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
           }
@@ -91,8 +89,14 @@ defmodule Journey.Prospects do
 
     visits_query = from v in Visit, where: ^visits_where
 
-    Repo.get(Client, id) |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
+    Repo.get(Client, id)
+    |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
+    |> Repo.preload(emails: :template)
   end
+
+  def get_client(%{id: id}), do: Repo.get(Client, id)
+
+  def get_client_by_client_uuid(client_uuid), do: Repo.get_by(Client, client_uuid: client_uuid)
 
   @doc """
   Creates a client.
