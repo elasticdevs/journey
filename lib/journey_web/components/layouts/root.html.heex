@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <script src="https://unpkg.com/feather-icons">
-    </script>
+    <script src="https://unpkg.com/feather-icons" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.slim.min.js" />
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"
     />
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
-    </script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"} />
   </head>
   <body>
     <%= @inner_content %>
