@@ -52,6 +52,9 @@
     <.link navigate={~p"/clients/#{client}/edit"}>
       <i class="action" data-feather="edit-2"></i>
     </.link>
+    <.link navigate={~p"/clients/#{client}"}>
+      <i class="action" data-feather="copy"></i>
+    </.link>
   </:action>
 </.table>
 <.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>
