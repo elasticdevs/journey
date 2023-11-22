@@ -4,6 +4,16 @@ defmodule JourneyWeb.EmailController do
   alias Journey.Prospects
   alias Journey.Comms
   alias Journey.Comms.Email
+  alias Journey.Comms.TestEmail
+  alias Journey.Mailer
+
+  def send_test_email(conn, _) do
+    TestEmail.test_email() |> Mailer.deliver()
+
+    conn
+    |> put_flash(:info, "Test email sent.")
+    |> redirect(to: ~p"/emails")
+  end
 
   def index(conn, _params) do
     emails = Comms.list_emails()

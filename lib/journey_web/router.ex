@@ -25,9 +25,12 @@ defmodule JourneyWeb.Router do
     post "/clients/refresh", ClientController, :refresh
     get "/clients/get", ClientController, :get
     resources "/clients", ClientController
+
     resources "/browsings", BrowsingController
     resources "/visits", VisitController
     resources "/templates", TemplateController
+
+    post "/emails/send_test_email", EmailController, :send_test_email
     resources "/emails", EmailController
   end
 

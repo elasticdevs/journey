@@ -60,7 +60,7 @@
       <%= browsing.browsing_uuid %>
     </a>
   </:col>
-  <:col :let={browsing} label="Client"><%= get_client_display_name_from_client(@client) %></:col>
+  <:col label="Client"><%= get_client_display_name_from_client(@client) %></:col>
   <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
 </.table>
 

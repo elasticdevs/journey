@@ -29,7 +29,10 @@ config :journey, JourneyWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :journey, Journey.Mailer, adapter: Swoosh.Adapters.Local
+# config :journey, Journey.Mailer, adapter: Swoosh.Adapters.Local
+config :journey, Journey.Mailer,
+  adapter: Swoosh.Adapters.Gmail,
+  access_token: System.get_env("GMAIL_API_ACCESS_TOKEN") || ""
 
 # Configure esbuild (the version is required)
 config :esbuild,

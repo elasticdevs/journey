@@ -1,6 +1,4 @@
 defmodule JourneyWeb.HTMLHelpers do
-  alias Journey.Prospects
-
   def get_client_display_name_from_client(client) do
     if client, do: client.name || client.external_id || client.client_uuid || client.id, else: ""
   end

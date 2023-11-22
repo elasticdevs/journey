@@ -1,6 +1,11 @@
 <div class="page-heading">
   Listing Emails
   <span class="data-point"><span class="data">(<%= length(@emails) %>)</span></span>
+  <.simple_form for={%{}} action={~p"/emails/send_test_email"} class="inline">
+    <:actions>
+      <.button>Send Test Email to <b>mgmt@elasticdevs.io</b></.button>
+    </:actions>
+  </.simple_form>
 </div>
 
 <.table id="emails" rows={@emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
