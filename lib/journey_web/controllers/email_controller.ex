@@ -1,5 +1,6 @@
 defmodule JourneyWeb.EmailController do
   use JourneyWeb, :controller
+  require Logger
 
   alias Journey.Prospects
   alias Journey.Comms

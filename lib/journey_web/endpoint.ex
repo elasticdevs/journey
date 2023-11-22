@@ -1,6 +1,7 @@
 defmodule JourneyWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :journey
 
+  plug Plug.RequestId, assign_as: :request_id
   plug RemoteIp
   plug CORSPlug
   plug JourneyWeb.Plugs.ClientIp
@@ -39,7 +40,6 @@ defmodule JourneyWeb.Endpoint do
     param_key: "request_logger",
     cookie_key: "request_logger"
 
-  plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
