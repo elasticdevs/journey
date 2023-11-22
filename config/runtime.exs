@@ -28,7 +28,7 @@ if config_env() == :prod do
   #     For example: ecto://USER:PASS@HOST/DATABASE
   #     """
 
-  maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
+  # maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
   # config :journey, Journey.Repo,
   #   ssl: true,
@@ -50,7 +50,8 @@ if config_env() == :prod do
   # to check this value into version control, so we use an environment
   # variable instead.
   secret_key_base =
-    System.get_env("SECRET_KEY_BASE") || "dJU9KQh72ij/56ci0Tkn/Zn83XS6oWruKZwuJTApkm8qZuOC2M8V+Q7uXwHMQfIu"
+    System.get_env("SECRET_KEY_BASE") ||
+      "dJU9KQh72ij/56ci0Tkn/Zn83XS6oWruKZwuJTApkm8qZuOC2M8V+Q7uXwHMQfIu"
 
   host = System.get_env("PHX_HOST") || "journey.im"
   port = String.to_integer(System.get_env("PORT") || "4000")
@@ -96,8 +97,7 @@ if config_env() == :prod do
   # We also recommend setting `force_ssl` in your endpoint, ensuring
   # no data is ever sent via http, always redirecting to https:
   #
-  config :journey, JourneyWeb.Endpoint,
-    force_ssl: [hsts: true]
+  config :journey, JourneyWeb.Endpoint, force_ssl: [hsts: true]
   #
   # Check `Plug.SSL` for all available options in `force_ssl`.
 

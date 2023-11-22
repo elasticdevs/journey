@@ -1,8 +1,8 @@
-<.header>
+<div class="page-heading center">
   Edit Visit <%= @visit.id %>
-  <:subtitle>Use this form to manage visit records in your database.</:subtitle>
-</.header>
+  <div class="subheading">Use this form to manage visit records in your database.</div>
+</>
 
 <.visit_form changeset={@changeset} action={~p"/visits/#{@visit}"} />
 
-<.back navigate={~p"/visits"}>Back to visits</.back>
+<.back navigate={~p"/visits"} class="back center">Back to visits</.back>

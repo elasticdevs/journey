@@ -1,8 +1,8 @@
-<.header>
+<div class="page-heading center">
   Edit Browsing <%= @browsing.id %>
-  <:subtitle>Use this form to manage browsing records in your database.</:subtitle>
-</.header>
+  <div class="subheading">Use this form to manage browsing records in your database.</div>
+</div>
 
 <.browsing_form changeset={@changeset} action={~p"/browsings/#{@browsing}"} />
 
-<.back navigate={~p"/browsings"}>Back to browsings</.back>
+<.back navigate={~p"/browsings"} class="back center">Back to browsings</.back>
