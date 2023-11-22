@@ -5,11 +5,11 @@ defmodule JourneyWeb.EmailController do
   alias Journey.Prospects
   alias Journey.Comms
   alias Journey.Comms.Email
-  alias Journey.Comms.TestEmail
+  alias Journey.Comms.Gmail
   alias Journey.Mailer
 
   def send_test_email(conn, _) do
-    TestEmail.test_email() |> Mailer.deliver()
+    Gmail.test_email() |> Mailer.deliver()
 
     conn
     |> put_flash(:info, "Test email sent.")
@@ -127,5 +127,14 @@ defmodule JourneyWeb.EmailController do
     conn
     |> put_flash(:info, "Email deleted successfully.")
     |> redirect(to: ~p"/emails")
+  end
+
+  def send(conn, %{"id" => id}) do
+    email = Comms.get_email!(id)
+    Gmail.send(email) |> Mailer.deliver()
+
+    conn
+    |> put_flash(:info, "Email sent.")
+    |> redirect(to: ~p"/emails/#{email}")
   end
 end

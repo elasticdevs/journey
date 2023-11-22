@@ -131,7 +131,7 @@ defmodule Journey.Comms do
       ** (Ecto.NoResultsError)
 
   """
-  def get_email!(id), do: Repo.get!(Email, id)
+  def get_email!(id), do: Repo.get!(Email, id) |> Repo.preload(:client)
 
   @doc """
   Creates a email.

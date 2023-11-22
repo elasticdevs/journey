@@ -31,6 +31,7 @@ defmodule JourneyWeb.Router do
     resources "/templates", TemplateController
 
     post "/emails/send_test_email", EmailController, :send_test_email
+    post "/emails/:id/send", EmailController, :send
     resources "/emails", EmailController
   end
 
