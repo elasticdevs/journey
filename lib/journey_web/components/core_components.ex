@@ -294,7 +294,7 @@ defmodule JourneyWeb.CoreComponents do
       </label>
       <input type="hidden" name={@name} value="false" />
       <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} {@rest} />
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <.error :for={msg <- @errors} class="error"><%= msg %></.error>
     </div>
     """
   end
@@ -307,7 +307,7 @@ defmodule JourneyWeb.CoreComponents do
         <option :if={@prompt} value=""><%= @prompt %></option>
         <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
       </select>
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <.error :for={msg <- @errors} class="error"><%= msg %></.error>
     </div>
     """
   end
@@ -317,7 +317,7 @@ defmodule JourneyWeb.CoreComponents do
     <div phx-feedback-for={@name}>
       <.label for={@id}><%= @label %></.label>
       <textarea id={@id} name={@name} {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <.error :for={msg <- @errors} class="error"><%= msg %></.error>
     </div>
     """
   end
@@ -334,7 +334,7 @@ defmodule JourneyWeb.CoreComponents do
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         {@rest}
       />
-      <.error :for={msg <- @errors}><%= msg %></.error>
+      <.error :for={msg <- @errors} class="error"><%= msg %></.error>
     </div>
     """
   end
@@ -360,7 +360,7 @@ defmodule JourneyWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p>
+    <p class="error">
       <.icon name="hero-exclamation-circle-mini" />
       <%= render_slot(@inner_block) %>
     </p>

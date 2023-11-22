@@ -8,6 +8,12 @@
   To: <span class="name"><%= get_client_display_name_from_client(@client) %></span>
 </div>
 
-<.email_form changeset={@changeset} action={~p"/emails"} templates_options={@templates_options} client={@client} templates_map={@templates_map} />
+<.email_form
+  changeset={@changeset}
+  action={~p"/emails"}
+  client={@client}
+  templates_options={@templates_options}
+  templates_map={@templates_map}
+/>
 
 <.back navigate={~p"/emails"} class="back center">Back to Emails</.back>

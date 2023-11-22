@@ -197,4 +197,16 @@ defmodule Journey.Comms do
   def change_email(%Email{} = email, attrs \\ %{}) do
     Email.changeset(email, attrs)
   end
+
+  def templates_options do
+    Enum.reduce(list_templates(), Keyword.new(), fn t, ts ->
+      Keyword.put_new(ts, String.to_atom(t.name), t.id)
+    end)
+  end
+
+  def templates_map do
+    Enum.reduce(list_templates(), %{}, fn template, map ->
+      Map.put_new(map, template.id, Ecto.embedded_dump(template, :json))
+    end)
+  end
 end

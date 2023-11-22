@@ -28,6 +28,6 @@ defmodule Journey.Comms.Email do
       :read_tracking,
       :status
     ])
-    |> validate_required([:client_id, :template_id, :subject, :body, :read_tracking, :status])
+    |> validate_required([:client_id, :subject, :body, :read_tracking, :status])
   end
 end

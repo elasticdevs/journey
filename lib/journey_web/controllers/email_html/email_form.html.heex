@@ -12,7 +12,7 @@
       label="Template"
       options={@templates_options}
       prompt="Choose a template (optional)"
-      onchange="handleChange()"
+      onchange="handleTemplateChange()"
     />
     <.input field={f[:subject]} type="text" label="Subject" />
     <.input field={f[:body]} type="textarea" label="Body" />
@@ -26,8 +26,9 @@
 <script type="text/javascript">
   let template = <%= raw Jason.encode!(@templates_map) %>
 
-  function handleChange() {
+  function handleTemplateChange() {
     let select = document.getElementById("options")
+
     let selected_id = select.options[select.selectedIndex].value
     let email_subject = document.getElementById("email_subject")
     email_subject.value = template[selected_id].subject

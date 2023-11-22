@@ -12,17 +12,6 @@ defmodule JourneyWeb.EmailController do
   end
 
   def new(conn, %{"client_uuid" => client_uuid}) do
-    templates_options =
-      Enum.reduce(Comms.list_templates(), Keyword.new(), fn t, ts ->
-        Keyword.put_new(ts, String.to_atom(t.name), t.id)
-      end)
-
-
-    templates_map =Enum.reduce(Comms.list_templates(), %{},fn template, map->
-      Map.put_new(map, template.id, Ecto.embedded_dump(template, :json))
-    end)
-
-
     case Prospects.get_client_by_client_uuid(client_uuid) do
       nil ->
         conn
@@ -31,7 +20,13 @@ defmodule JourneyWeb.EmailController do
 
       c ->
         changeset = Comms.change_email(%Email{client_id: c.id, status: "DRAFT"})
-        render(conn, :new, changeset: changeset, client: c, templates_options: templates_options,  templates_map: templates_map)
+
+        render(conn, :new,
+          changeset: changeset,
+          client: c,
+          templates_options: Comms.templates_options(),
+          templates_map: Comms.templates_map()
+        )
     end
   end
 
@@ -48,9 +43,6 @@ defmodule JourneyWeb.EmailController do
         |> redirect(to: ~p"/emails/#{email}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        require IEx
-        IEx.pry()
-
         case Prospects.get_client(changeset.changes.client_id) do
           nil ->
             conn
@@ -58,7 +50,12 @@ defmodule JourneyWeb.EmailController do
             |> redirect(to: ~p"/")
 
           c ->
-            render(conn, :new, changeset: changeset, client: c, templates: templates)
+            render(conn, :new,
+              changeset: changeset,
+              client: c,
+              templates_options: Comms.templates_options(),
+              templates_map: Comms.templates_map()
+            )
         end
     end
   end
@@ -71,11 +68,6 @@ defmodule JourneyWeb.EmailController do
   def edit(conn, %{"id" => id}) do
     email = Comms.get_email!(id)
 
-    templates =
-      Enum.reduce(Comms.list_templates(), Keyword.new(), fn t, ts ->
-        Keyword.put_new(ts, String.to_atom(t.name), t.id)
-      end)
-
     case Prospects.get_client(%{id: email.client_id}) do
       nil ->
         conn
@@ -84,7 +76,14 @@ defmodule JourneyWeb.EmailController do
 
       c ->
         changeset = Comms.change_email(email)
-        render(conn, :edit, email: email, changeset: changeset, client: c, templates: templates)
+
+        render(conn, :edit,
+          email: email,
+          changeset: changeset,
+          client: c,
+          templates_options: Comms.templates_options(),
+          templates_map: Comms.templates_map()
+        )
     end
   end
 
@@ -98,7 +97,21 @@ defmodule JourneyWeb.EmailController do
         |> redirect(to: ~p"/emails/#{email}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, email: email, changeset: changeset)
+        case Prospects.get_client(%{id: email.client_id}) do
+          nil ->
+            conn
+            |> put_flash(:info, "Could not find client with the given Client UUID.")
+            |> redirect(to: ~p"/")
+
+          c ->
+            render(conn, :edit,
+              email: email,
+              changeset: changeset,
+              client: c,
+              templates_options: Comms.templates_options(),
+              templates_map: Comms.templates_map()
+            )
+        end
     end
   end
 
