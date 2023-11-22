@@ -4,7 +4,6 @@ defmodule JourneyWeb.EmailController do
   alias Journey.Prospects
   alias Journey.Comms
   alias Journey.Comms.Email
-  alias Journey.Repo
 
   def index(conn, _params) do
     emails = Comms.list_emails()
@@ -31,11 +30,6 @@ defmodule JourneyWeb.EmailController do
   end
 
   def create(conn, %{"email" => email_params}) do
-    templates =
-      Enum.reduce(Comms.list_templates(), Keyword.new(), fn t, ts ->
-        Keyword.put_new(ts, String.to_atom(t.name), t.id)
-      end)
-
     case Comms.create_email(email_params) do
       {:ok, email} ->
         conn
