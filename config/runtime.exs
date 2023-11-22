@@ -52,8 +52,8 @@ if config_env() == :prod do
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") || "dJU9KQh72ij/56ci0Tkn/Zn83XS6oWruKZwuJTApkm8qZuOC2M8V+Q7uXwHMQfIu"
 
-  host = System.get_env("PHX_HOST") || "journey.elasticdevs.net"
-  port = String.to_integer(System.get_env("PORT") || "80")
+  host = System.get_env("PHX_HOST") || "journey.im"
+  port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :journey, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
@@ -78,8 +78,8 @@ if config_env() == :prod do
     https: [
       port: 443,
       cipher_suite: :strong,
-      keyfile: "/etc/letsencrypt/live/journey.elasticdevs.net/privkey.pem",
-      certfile: "/etc/letsencrypt/live/journey.elasticdevs.net/fullchain.pem"
+      keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem"
     ]
 
   #
@@ -96,8 +96,8 @@ if config_env() == :prod do
   # We also recommend setting `force_ssl` in your endpoint, ensuring
   # no data is ever sent via http, always redirecting to https:
   #
-  #     config :journey, JourneyWeb.Endpoint,
-  #       force_ssl: [hsts: true]
+  config :journey, JourneyWeb.Endpoint,
+    force_ssl: [hsts: true]
   #
   # Check `Plug.SSL` for all available options in `force_ssl`.
 
