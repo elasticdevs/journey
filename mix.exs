@@ -44,6 +44,7 @@ defmodule Journey.MixProject do
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
       {:mail, ">= 0.0.0"},
+      {:gen_smtp, "~> 1.1"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},

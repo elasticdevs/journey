@@ -8,7 +8,7 @@ defmodule Journey.Comms.Gmail do
     new()
     |> to({"MGMT ElasticDevs", "mgmt@elasticdevs.io"})
     |> from({"Shailesh Narayan", "shailesh@elasticdevs.io"})
-    |> subject("test email")
+    |> subject("test email, utc_now=#{DateTime.utc_now()}")
     |> html_body(
       "<div>Hi there, just testing. Relax and Enjoy!!</div><div>REQUEST_ID, request_id=#{request_id}</div>"
     )
