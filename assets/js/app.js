@@ -46,7 +46,7 @@ feather.replace();
 // Setup copy button
 $(function () {
   $(".copy").click(function () {
-    let value = $("#sponsored_url").text()
+    let value = $(this).attr("copy-value")
     navigator.clipboard.writeText(value)
   })
 })

@@ -29,6 +29,8 @@ defmodule Journey.Prospects.Client do
 
   @doc false
   def changeset(client, attrs) do
+    attrs = attrs |> remove_bad_chars
+
     client
     |> cast(attrs, [
       :client_uuid,
@@ -49,5 +51,9 @@ defmodule Journey.Prospects.Client do
     ])
     |> validate_required([:external_id])
     |> unique_constraint(:client_uuid)
+  end
+
+  def remove_bad_chars(changeset) do
+    Enum.into(Enum.map(changeset, fn {k, v} -> {k, String.replace(v, "\"", "")} end), %{})
   end
 end

@@ -141,12 +141,17 @@ table tr:hover {
 }
 
 .copy {
+  width: 20px;
   color: var(--dark-grey);
+}
+
+.copy.small {
+  width: 15px;
 }
 
 .copy:hover {
   cursor: pointer;
-  color: var(--grey);
+  color: var(--black);
 }
 
 .container {
@@ -334,6 +339,11 @@ pre {
 .client .name {
   font-size: 1.4rem;
   color: var(--black);
+}
+
+.email {
+  font-size: 0.8rem;
+  color: var(--light-blue);
 }
 
 .error {
