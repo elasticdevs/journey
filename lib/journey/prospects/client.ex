@@ -21,7 +21,7 @@ defmodule Journey.Prospects.Client do
     field :state, :string
     field :status, :string
     field :tags, :string
-    field :last_visited_at, :utc_datetime
+    field :last_visited_at, :utc_datetime_usec
     has_many :browsings, Browsing, preload_order: [desc: :last_visited_at]
     has_many :emails, Email, preload_order: [desc: :updated_at]
 
