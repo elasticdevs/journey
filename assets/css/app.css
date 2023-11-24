@@ -4,6 +4,8 @@
   --slight-red: #ecbfbf;
   --light-red: #ff5d5d;
   --red: #C72B2B;
+  --lightest-green: #7EEF7E;
+  --light-green: #4EBF4E;
   --green: #1E7F1E;
   --slightest-blue: #dff8ff;
   --slight-blue: #5ac3e0;
@@ -26,12 +28,15 @@
 }
 
 a {
-  /* color: #253C78; */
+  border: 1px solid var(--white);
   color: var(--light-blue);
 }
 
 a:hover {
+  box-sizing: border-box;
+  border: 1px solid var(--dark-grey);
   text-decoration: none;
+  color: var(--black);
 }
 
 .top-bar {
@@ -43,6 +48,7 @@ a:hover {
 .top-bar-actions {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: 20%;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
@@ -50,30 +56,28 @@ a:hover {
 
 .top-bar-actions a {
   padding: 7px 15px;
-  /* border: 1px solid #000000; */
   border-radius: 15px;
-  color: var(--white);
-  background-color: var(--lighter-blue);
+  color: var(--black);
 }
 
 .top-bar-actions a:hover {
-  background-color: var(--light-blue);
+  background-color: var(--grey);
 }
 
 .page-heading {
-  margin: 2rem 0;
+  margin: 1rem 0;
   font-size: 32px;
   color: var(--light-blue);
 }
 
 .page-heading-2 {
-  margin: 1.5rem 0 0.5rem 0;
+  margin: 0.7rem 0 0.5rem 0;
   font-size: 24px;
   color: var(--lighter-blue);
 }
 
 .page-heading-3 {
-  margin: 1rem 0 0.5rem 0;
+  margin: 0.5rem 0 0.5rem 0;
   font-size: 18px;
   color: var(--slight-blue);
 }
@@ -300,11 +304,6 @@ table {
   font-size: 1rem;
 }
 
-#search {
-  padding: 5px;
-  border-bottom-width: thick;
-  width: 100%;
-}
 
 #search-results-info {
   margin-top: -15px;
@@ -368,6 +367,15 @@ button.logo {
   background: inherit !important;
 }
 
-a:hover {
-  color: var(--black);
+#search {
+  border-radius: 20px;
+  border-bottom-width: thick;
+  padding: 5px 15px;
+  width: 30%;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
+  background-position-x: 97%;
+}
+
+#search:focus {
+  border-color: var(--light-green);
 }
