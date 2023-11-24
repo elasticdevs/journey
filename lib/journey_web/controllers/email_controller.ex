@@ -134,7 +134,7 @@ defmodule JourneyWeb.EmailController do
     Gmail.send(email) |> Mailer.deliver()
 
     conn
-    |> put_flash(:info, "Email sent.")
+    |> put_flash(:info, "Email sent successfully.")
     |> redirect(to: ~p"/emails/#{email}")
   end
 end
