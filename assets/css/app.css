@@ -13,6 +13,7 @@
   --grey: #eeeeee;
   --dark-grey: #aaaaaa;
   --darker-grey: #777777;
+  --darkest-grey: #333333;
   --black: #000000;
 
 
@@ -36,7 +37,6 @@ a:hover {
 .top-bar {
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
-  margin: 1rem 0 2rem 0;
   font-size: 48px;
 }
 
@@ -350,4 +350,24 @@ pre {
   margin: -20px 0 20px 0;
   font-weight: bold;
   color: var(--red);
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+#msg {
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+  background-color: var(--slightest-blue);
+  color: var(--darkest-grey)
+}
+
+button.logo {
+  background: inherit !important;
+}
+
+a:hover {
+  color: var(--black);
 }

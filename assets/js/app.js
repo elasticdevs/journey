@@ -135,3 +135,8 @@ $(function () {
     $("#search-count").html(count);
   })
 })
+$(function () {
+  setTimeout(() => {
+    $("#msg").addClass("hidden")
+  }, 5000)
+})

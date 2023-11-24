@@ -30,9 +30,29 @@ config :journey, JourneyWeb.Endpoint,
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
 # config :journey, Journey.Mailer, adapter: Swoosh.Adapters.Local
+# config :journey, Journey.Mailer,
+#   adapter: Swoosh.Adapters.Gmail,
+#   access_token: System.get_env("GMAIL_API_ACCESS_TOKEN") || ""
 config :journey, Journey.Mailer,
-  adapter: Swoosh.Adapters.Gmail,
-  access_token: System.get_env("GMAIL_API_ACCESS_TOKEN") || ""
+  adapter: Swoosh.Adapters.SMTP,
+  relay: "smtp.gmail.com",
+  username: "shailesh@elasticdevs.io",
+  password: System.get_env("GMAIL_PASSWORD"),
+  ssl: false,
+  ssl_opts: [
+    verify: :verify_peer,
+    cacertfile: '/home/linuxuser/journey/priv/tls/ca-certificate.crt'
+  ],
+  tls: :always,
+  auth: :always,
+  port: 465,
+  # dkim: [
+  #   s: "default",
+  #   d: "domain.com",
+  #   private_key: {:pem_plain, File.read!("priv/keys/domain.private")}
+  # ],
+  retries: 2,
+  no_mx_lookups: false
 
 # Configure esbuild (the version is required)
 config :esbuild,

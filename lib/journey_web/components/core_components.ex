@@ -216,7 +216,7 @@ defmodule JourneyWeb.CoreComponents do
 
   def button(assigns) do
     ~H"""
-    <button type={@type} {@rest}>
+    <button type={@type} class={@class} {@rest}>
       <%= render_slot(@inner_block) %>
     </button>
     """

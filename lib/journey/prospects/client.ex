@@ -3,6 +3,7 @@ defmodule Journey.Prospects.Client do
   import Ecto.Changeset
   alias Journey.Analytics.Browsing
   alias Journey.Comms.Email
+  alias Journey.Common.Types
 
   @derive {Jason.Encoder, only: [:client_uuid]}
   schema "clients" do
@@ -54,6 +55,11 @@ defmodule Journey.Prospects.Client do
   end
 
   def remove_bad_chars(changeset) do
-    Enum.into(Enum.map(changeset, fn {k, v} -> {k, String.replace(v, "\"", "")} end), %{})
+    Enum.into(
+      Enum.map(changeset, fn {k, v} ->
+        {k, if(Types.typeof(v) == "string", do: String.replace(v, "\"", ""), else: v)}
+      end),
+      %{}
+    )
   end
 end

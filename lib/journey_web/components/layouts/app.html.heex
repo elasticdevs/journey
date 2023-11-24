@@ -36,9 +36,10 @@
     </div>
   </div>
 </div>
+<div id="msg">
+  <.flash_group flash={@flash} />
+</div>
+
 <main>
-  <div>
-    <.flash_group flash={@flash} />
-    <%= @inner_content %>
-  </div>
+  <%= @inner_content %>
 </main>
