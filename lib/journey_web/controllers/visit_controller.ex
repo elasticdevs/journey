@@ -33,6 +33,8 @@ defmodule JourneyWeb.VisitController do
     visit_params = Map.put(visit_params, "ua", ua)
 
     if String.match?(ua, ~r/bot/i) || String.match?(ua, ~r/headless/i) do
+      Logger.debug("BOT_IGNORED_SUCCESSFULLY, ua=#{ua}")
+
       if headers["content-type"] == "application/json" do
         json(conn, %{
           status: "success",
