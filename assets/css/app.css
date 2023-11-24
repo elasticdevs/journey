@@ -71,13 +71,13 @@ a:hover {
 }
 
 .page-heading-2 {
-  margin: 0.7rem 0 0.5rem 0;
+  margin: 0.7rem 0;
   font-size: 24px;
   color: var(--lighter-blue);
 }
 
 .page-heading-3 {
-  margin: 0.5rem 0 0.5rem 0;
+  margin: 0.5rem 0;
   font-size: 18px;
   color: var(--slight-blue);
 }
