@@ -25,8 +25,8 @@
       <%= get_shortened_uuid(client.client_uuid) %>
     </a>
   </:col>
-  <:col :let={client} label="# of Bs"><%= length(client.browsings) %></:col>
-  <:col :let={client} label="# of Vs">
+  <:col :let={client} label="# Bs"><%= length(client.browsings) %></:col>
+  <:col :let={client} label="# Vs">
     <%= length(enum_browsings_visits(client.browsings)) %>
   </:col>
   <:col :let={client} label="External" class="external-id">
