@@ -22,6 +22,10 @@
   --hover: var(--slightest-blue);
 }
 
+body {
+  box-sizing: border-box;
+}
+
 .logo {
   color: var(--lighter-blue);
   font-weight: 900;
@@ -33,7 +37,6 @@ a {
 }
 
 a:hover {
-  box-sizing: border-box;
   border: 1px solid var(--dark-grey);
   text-decoration: none;
   color: var(--black);
@@ -56,12 +59,12 @@ a:hover {
 
 .top-bar-actions a {
   padding: 7px 15px;
-  border-radius: 15px;
   color: var(--black);
 }
 
 .top-bar-actions a:hover {
-  background-color: var(--grey);
+  border: none;
+  border-bottom: 3px solid var(--light-blue);
 }
 
 .page-heading {

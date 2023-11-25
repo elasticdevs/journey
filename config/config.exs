@@ -36,16 +36,16 @@ config :journey, JourneyWeb.Endpoint,
 config :journey, Journey.Mailer,
   adapter: Swoosh.Adapters.SMTP,
   relay: "smtp.gmail.com",
-  username: "shailesh@elasticdevs.io",
-  password: System.get_env("GMAIL_PASSWORD"),
+  username: "info@elasticdevs.io",
+  password: System.get_env("GMAIL_LESS_SECURE_APP_PASSWORD"),
   ssl: false,
-  ssl_opts: [
-    verify: :verify_peer,
-    cacertfile: '/home/linuxuser/journey/priv/tls/ca-certificate.crt'
-  ],
-  tls: :always,
+  # ssl_opts: [
+  #   verify: :verify_peer,
+  #   cacertfile: '/home/linuxuser/journey/priv/tls/ca-certificate.crt'
+  # ],
+  # tls: :always,
   auth: :always,
-  port: 465,
+  port: 587,
   # dkim: [
   #   s: "default",
   #   d: "domain.com",

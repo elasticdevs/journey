@@ -36,15 +36,7 @@
   </:col>
   <:col :let={client} label="Name, Email">
     <b>
-      <%= client.name %> <span class="email">&lt;<%= client.email %>&gt;</span>
-      <span>
-        <i
-          copy-value={"#{client.name} &lt;#{client.email}&gt;"}
-          class="copy small"
-          data-feather="copy"
-        >
-        </i>
-      </span>
+      <%= raw(get_display_name_email_from_client(client)) %>
     </b>
   </:col>
   <:col :let={client} label="Phone"><%= client.phone %></:col>

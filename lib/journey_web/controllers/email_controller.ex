@@ -8,14 +8,6 @@ defmodule JourneyWeb.EmailController do
   alias Journey.Comms.Gmail
   alias Journey.Mailer
 
-  def send_test_email(conn, _) do
-    Gmail.test_email() |> Mailer.deliver()
-
-    conn
-    |> put_flash(:info, "Test email sent.")
-    |> redirect(to: ~p"/emails")
-  end
-
   def index(conn, _params) do
     emails = Comms.list_emails()
     render(conn, :index, emails: emails)
@@ -129,12 +121,39 @@ defmodule JourneyWeb.EmailController do
     |> redirect(to: ~p"/emails")
   end
 
-  def send(conn, %{"id" => id}) do
-    email = Comms.get_email!(id)
-    Gmail.send(email) |> Mailer.deliver()
+  def send_test_email(conn, _) do
+    message =
+      case Gmail.test_email() |> Mailer.deliver() do
+        {:ok, result} ->
+          Logger.debug("GMAIL_SMTP_TEST_MAIL_SENT_SUCCESSFULLY, result=#{result}")
+          "Test email sent successfully !!"
+
+        {:error, reason} ->
+          Logger.debug("GMAIL_SMTP_TEST_MAIL_ERROR, reason=#{reason}")
+          "Error sending test email."
+      end
 
     conn
-    |> put_flash(:info, "Email sent successfully.")
+    |> put_flash(:info, message)
+    |> redirect(to: ~p"/emails")
+  end
+
+  def send(conn, %{"id" => id}) do
+    email = Comms.get_email!(id)
+
+    message =
+      case Gmail.send(email) |> Mailer.deliver() do
+        {:ok, result} ->
+          Logger.debug("GMAIL_SMTP_MAIL_SENT_SUCCESSFULLY, result=#{result}")
+          "Email sent successfully !!"
+
+        {:error, reason} ->
+          Logger.debug("GMAIL_SMTP_MAIL_ERROR, reason=#{reason}")
+          "Error sending email."
+      end
+
+    conn
+    |> put_flash(:info, message)
     |> redirect(to: ~p"/emails/#{email}")
   end
 end

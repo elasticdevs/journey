@@ -10,14 +10,17 @@
 </div>
 
 <.table id="browsings" rows={@browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
-  <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">
-    <a href={get_browsing_url_from_browsing(browsing)}>
-      <%= browsing.browsing_uuid %>
-    </a>
+  <:col :let={browsing} label="Last Visited At ⬇" class="utc_to_local">
+    <%= browsing.last_visited_at %>
   </:col>
   <:col :let={browsing} label="Client" class="client-name">
     <a href={get_client_url_from_browsing(browsing)}>
       <%= get_client_display_name_from_browsing(browsing) %>
+    </a>
+  </:col>
+  <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">
+    <a href={get_browsing_url_from_browsing(browsing)}>
+      <%= get_shortened_uuid(browsing.browsing_uuid) %>
     </a>
   </:col>
   <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>

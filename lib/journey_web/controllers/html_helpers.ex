@@ -75,4 +75,38 @@ defmodule JourneyWeb.HTMLHelpers do
       do: "https://elasticdevs.myfreshworks.com/crm/sales/contacts/#{client.external_id}",
       else: nil
   end
+
+  def get_display_name_email_from_client(client) do
+    case({client.name, client.email}) do
+      {nil, nil} ->
+        ""
+
+      {n, nil} ->
+        "#{n}
+        <span>
+          <i
+            copy-value={\"#{client.name} &lt;#{client.email}&gt;\"}
+            class=\"copy small\"
+            data-feather=\"copy\"
+          >
+          </i>
+        </span>
+        "
+
+      {nil, e} ->
+        "<span class=\"email\">#{e}</span>
+        <span>
+          <i
+            copy-value={\"#{client.name} &lt;#{client.email}&gt;\"}
+            class=\"copy small\"
+            data-feather=\"copy\"
+          >
+          </i>
+        </span>
+        "
+
+      {n, e} ->
+        "#{n} <span class=\"email\">&lt;#{e}&gt;</span>"
+    end
+  end
 end
