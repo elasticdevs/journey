@@ -6,7 +6,8 @@ defmodule JourneyWeb.EmailController do
   alias Journey.Comms
   alias Journey.Comms.Email
   alias Journey.Comms.Gmail
-  alias Journey.Mailer
+  alias Journey.GmailSMTPMailer
+  alias Journey.GmailAPIMailer
 
   def index(conn, _params) do
     emails = Comms.list_emails()

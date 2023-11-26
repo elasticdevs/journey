@@ -57,7 +57,8 @@ defmodule Journey.MixProject do
       {:uuid, "~> 1.1"},
       {:remote_ip, "~> 1.1"},
       {:geoip, git: "git@github.com:ip2location/geoip.git", branch: "master"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:ueberauth_google, "~> 0.10"}
     ]
   end
 

@@ -30,10 +30,11 @@ config :journey, JourneyWeb.Endpoint,
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
 # config :journey, Journey.Mailer, adapter: Swoosh.Adapters.Local
-# config :journey, Journey.Mailer,
-#   adapter: Swoosh.Adapters.Gmail,
-#   access_token: System.get_env("GMAIL_API_ACCESS_TOKEN") || ""
-config :journey, Journey.Mailer,
+config :journey, Journey.GmailAPIMailer,
+  adapter: Swoosh.Adapters.Gmail,
+  access_token: System.get_env("GMAIL_API_ACCESS_TOKEN")
+
+config :journey, Journey.GmailSMTPMailer,
   adapter: Swoosh.Adapters.SMTP,
   relay: "smtp.gmail.com",
   username: "info@elasticdevs.io",
@@ -76,6 +77,16 @@ config :geoip,
   provider: :ip2locationio,
   cache_ttl_secs: 1800,
   api_key: "447907624DE4B3BA9E36816DD399F5A0"
+
+# Ueberauth
+config :ueberauth, Ueberauth,
+  providers: [
+    google: {Ueberauth.Strategy.Google, []}
+  ]
+
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: System.get_env("GOOGLE_CLIENT_ID"),
+  client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
