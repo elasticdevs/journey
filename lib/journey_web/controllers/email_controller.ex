@@ -124,7 +124,7 @@ defmodule JourneyWeb.EmailController do
 
   def send_test_email(conn, _) do
     message =
-      case Gmail.test_email() |> Mailer.deliver() do
+      case Gmail.test_email() |> GmailSMTPMailer.deliver() do
         {:ok, result} ->
           Logger.debug("GMAIL_SMTP_TEST_MAIL_SENT_SUCCESSFULLY, result=#{result}")
           "Test email sent successfully !!"
@@ -143,7 +143,7 @@ defmodule JourneyWeb.EmailController do
     email = Comms.get_email!(id)
 
     message =
-      case Gmail.send(email) |> Mailer.deliver() do
+      case Gmail.send(email) |> GmailSMTPMailer.deliver() do
         {:ok, result} ->
           Logger.debug("GMAIL_SMTP_MAIL_SENT_SUCCESSFULLY, result=#{result}")
           "Email sent successfully !!"

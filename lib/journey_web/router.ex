@@ -1,5 +1,7 @@
 defmodule JourneyWeb.Router do
   use JourneyWeb, :router
+
+  import JourneyWeb.UserAuth
   import Plug.BasicAuth
 
   pipeline :browser do
@@ -9,6 +11,7 @@ defmodule JourneyWeb.Router do
     plug :put_root_layout, html: {JourneyWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
     plug :basic_auth, username: "journey", password: "ElasticDevs@"
   end
 
@@ -16,10 +19,17 @@ defmodule JourneyWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", JourneyWeb do
+  scope "/auth", JourneyWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    post "/:provider/callback", AuthController, :callback
+    delete "/logout", AuthController, :delete
+  end
+
+  scope "/", JourneyWeb do
+    pipe_through [:browser, :require_authenticated_user]
 
     get "/clients/bulk", ClientController, :bulk
     post "/clients/refresh", ClientController, :refresh
@@ -33,6 +43,12 @@ defmodule JourneyWeb.Router do
     post "/emails/send_test_email", EmailController, :send_test_email
     post "/emails/:id/send", EmailController, :send
     resources "/emails", EmailController
+  end
+
+  scope "/", JourneyWeb do
+    pipe_through :browser
+
+    get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.
@@ -56,6 +72,44 @@ defmodule JourneyWeb.Router do
 
       live_dashboard "/dashboard", metrics: JourneyWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  ## Authentication routes
+
+  scope "/", JourneyWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    live_session :redirect_if_user_is_authenticated,
+      on_mount: [{JourneyWeb.UserAuth, :redirect_if_user_is_authenticated}] do
+      live "/users/register", UserRegistrationLive, :new
+      live "/users/log_in", UserLoginLive, :new
+      live "/users/reset_password", UserForgotPasswordLive, :new
+      live "/users/reset_password/:token", UserResetPasswordLive, :edit
+    end
+
+    post "/users/log_in", UserSessionController, :create
+  end
+
+  scope "/", JourneyWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :require_authenticated_user,
+      on_mount: [{JourneyWeb.UserAuth, :ensure_authenticated}] do
+      live "/users/settings", UserSettingsLive, :edit
+      live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+    end
+  end
+
+  scope "/", JourneyWeb do
+    pipe_through [:browser]
+
+    delete "/users/log_out", UserSessionController, :delete
+
+    live_session :current_user,
+      on_mount: [{JourneyWeb.UserAuth, :mount_current_user}] do
+      live "/users/confirm/:token", UserConfirmationLive, :edit
+      live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 end

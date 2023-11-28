@@ -22,6 +22,7 @@ config :journey, JourneyWeb.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 4000, protocol_options: [idle_timeout: 300_000]],
   https: [
     port: 443,
+    protocol_options: [idle_timeout: 300_000],
     cipher_suite: :strong,
     keyfile: "/etc/letsencrypt/live/staging.journey.im/privkey.pem",
     certfile: "/etc/letsencrypt/live/staging.journey.im/fullchain.pem"
@@ -80,3 +81,4 @@ config :phoenix_live_view, :debug_heex_annotations, true
 
 # Disable swoosh api client as it is only required for production adapters.
 # config :swoosh, :api_client, false
+import_config "dev.secret.exs"

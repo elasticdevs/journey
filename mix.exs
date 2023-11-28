@@ -32,6 +32,7 @@ defmodule Journey.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.9"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
@@ -42,7 +43,7 @@ defmodule Journey.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
-      {:swoosh, "~> 1.3"},
+      {:swoosh, "~> 1.4"},
       {:mail, ">= 0.0.0"},
       {:gen_smtp, "~> 1.1"},
       {:finch, "~> 0.13"},
@@ -58,7 +59,8 @@ defmodule Journey.MixProject do
       {:remote_ip, "~> 1.1"},
       {:geoip, git: "git@github.com:ip2location/geoip.git", branch: "master"},
       {:cors_plug, "~> 3.0"},
-      {:ueberauth_google, "~> 0.10"}
+      {:ueberauth, "~> 0.10.5"},
+      {:ueberauth_google, "~> 0.12.1"}
     ]
   end
 

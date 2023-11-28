@@ -60,8 +60,8 @@ defmodule Journey.Common.Types do
     end
   end
 
-  @equal_types %{
-    "number" => ["integer", "float"],
-    "string" => ["binary", "bitstring"]
-  }
+  # @equal_types %{
+  #   "number" => ["integer", "float"],
+  #   "string" => ["binary", "bitstring"]
+  # }
 end
