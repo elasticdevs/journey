@@ -2,7 +2,7 @@ defmodule JourneyWeb.Router do
   use JourneyWeb, :router
 
   import JourneyWeb.UserAuth
-  import Plug.BasicAuth
+  # import Plug.BasicAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,7 +12,7 @@ defmodule JourneyWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
-    plug :basic_auth, username: "journey", password: "ElasticDevs@"
+    # plug :basic_auth, username: "journey", password: "ElasticDevs@"
   end
 
   pipeline :api do
@@ -29,8 +29,15 @@ defmodule JourneyWeb.Router do
   end
 
   scope "/", JourneyWeb do
+    pipe_through :browser
+
+    get "/", PageController, :landing
+  end
+
+  scope "/", JourneyWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    get "/home", PageController, :home
     get "/clients/bulk", ClientController, :bulk
     post "/clients/refresh", ClientController, :refresh
     get "/clients/get", ClientController, :get
@@ -43,12 +50,6 @@ defmodule JourneyWeb.Router do
     post "/emails/send_test_email", EmailController, :send_test_email
     post "/emails/:id/send", EmailController, :send
     resources "/emails", EmailController
-  end
-
-  scope "/", JourneyWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.
