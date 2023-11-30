@@ -356,41 +356,47 @@ defmodule Journey.Accounts do
   end
 
   # https://iacobson.medium.com/phx-gen-auth-and-oauth-for-a-phoenix-liveview-app-a19a27e6befa
-  def fetch_or_create_user(attrs) do
-    case get_user_by_email(attrs.email) do
+  def find_or_create_user(user_params) do
+    case get_user_by_email(user_params.email) do
       %User{} = user ->
         {:ok, user}
 
       _ ->
         %User{}
-        |> User.registration_changeset(attrs)
+        |> User.registration_changeset(user_params)
         |> Repo.insert()
     end
   end
 
-  def find_or_create(%Auth{provider: :identity} = auth) do
-    case validate_pass(auth.credentials) do
-      :ok ->
-        {:ok, basic_info(auth)}
+  # def find_or_create(%Auth{provider: :identity} = auth) do
+  #   case validate_pass(auth.credentials) do
+  #     :ok ->
+  #       {:ok, basic_info(auth)}
 
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
+  #     {:error, reason} ->
+  #       {:error, reason}
+  #   end
+  # end
 
   def find_or_create(%Auth{} = auth) do
     {:ok, basic_info(auth)}
   end
 
-  # default case if nothing matches
+  defp email_from_auth(auth) do
+    auth.info.email
+  end
+
   defp avatar_from_auth(auth) do
-    Logger.warn("#{auth.provider} needs to find an avatar URL!")
-    # Logger.debug(Jason.encode(auth))
-    nil
+    auth.info.image
   end
 
   defp basic_info(auth) do
-    %{id: auth.uid, name: name_from_auth(auth), avatar: avatar_from_auth(auth)}
+    %{
+      id: auth.uid,
+      email: email_from_auth(auth),
+      name: name_from_auth(auth),
+      avatar: avatar_from_auth(auth)
+    }
   end
 
   defp name_from_auth(auth) do

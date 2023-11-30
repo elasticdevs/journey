@@ -22,10 +22,10 @@ defmodule JourneyWeb.Router do
   scope "/auth", JourneyWeb do
     pipe_through :browser
 
-    get "/:provider", AuthController, :request
-    get "/:provider/callback", AuthController, :callback
-    post "/:provider/callback", AuthController, :callback
-    delete "/logout", AuthController, :delete
+    get "/:provider", GoogleAuthController, :request
+    get "/:provider/callback", GoogleAuthController, :callback
+    post "/:provider/callback", GoogleAuthController, :callback
+    delete "/logout", GoogleAuthController, :delete
   end
 
   scope "/", JourneyWeb do
