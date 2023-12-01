@@ -1,24 +1,4 @@
 defmodule JourneyWeb.HTMLHelpers do
-  def get_client_display_name_from_client(client) do
-    if client, do: client.name || client.external_id || client.client_uuid || client.id, else: ""
-  end
-
-  def get_client_display_name_from_browsing(browsing) do
-    if browsing && browsing.client,
-      do:
-        browsing.client.name || browsing.client.external_id || browsing.client.client_uuid ||
-          browsing.client.id,
-      else: ""
-  end
-
-  def get_client_display_name_from_visit(visit) do
-    if visit && visit.browsing && visit.browsing.client,
-      do:
-        visit.browsing.client.name || visit.browsing.client.external_id ||
-          visit.browsing.client.client_uuid || visit.browsing.client.id,
-      else: ""
-  end
-
   def filter_clients_with_browsings(clients) do
     Enum.filter(clients, fn c -> length(c.browsings) > 0 end)
   end
@@ -76,37 +56,40 @@ defmodule JourneyWeb.HTMLHelpers do
       else: nil
   end
 
+  # Display functions
+  def get_client_display_name_from_client(client) do
+    if client, do: client.name || client.external_id || client.client_uuid || client.id, else: ""
+  end
+
+  def get_client_display_name_from_browsing(browsing) do
+    if browsing && browsing.client,
+      do:
+        browsing.client.name || browsing.client.external_id || browsing.client.client_uuid ||
+          browsing.client.id,
+      else: ""
+  end
+
+  def get_client_display_name_from_visit(visit) do
+    if visit && visit.browsing && visit.browsing.client,
+      do:
+        visit.browsing.client.name || visit.browsing.client.external_id ||
+          visit.browsing.client.client_uuid || visit.browsing.client.id,
+      else: ""
+  end
+
   def get_display_name_email_from_client(client) do
     case({client.name, client.email}) do
       {nil, nil} ->
-        ""
+        "<span class='empty'>empty</span>"
 
-      {n, nil} ->
-        "#{n}
-        <span>
-          <i
-            copy-value={\"#{client.name} &lt;#{client.email}&gt;\"}
-            class=\"copy small\"
-            data-feather=\"copy\"
-          >
-          </i>
-        </span>
-        "
+      {name, nil} ->
+        name
 
-      {nil, e} ->
-        "<span class=\"email\">#{e}</span>
-        <span>
-          <i
-            copy-value={\"#{client.name} &lt;#{client.email}&gt;\"}
-            class=\"copy small\"
-            data-feather=\"copy\"
-          >
-          </i>
-        </span>
-        "
+      {nil, email} ->
+        email
 
-      {n, e} ->
-        "#{n} <span class=\"email\">&lt;#{e}&gt;</span>"
+      {name, email} ->
+        "#{name} <span class='email'>&lt;#{email}&gt;</span>"
     end
   end
 end

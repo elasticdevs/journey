@@ -6,7 +6,7 @@ defmodule Journey.Comms.Gmail do
     request_id = Logger.metadata()[:request_id]
 
     new()
-    |> to({"MGMT ElasticDevs", "mgmt@elasticdevs.io"})
+    |> to({"ED Management", "mgmt@elasticdevs.io"})
     |> from({"Shailesh Narayan", "shailesh@elasticdevs.io"})
     |> subject("test email, utc_now=#{DateTime.utc_now()}")
     |> html_body(

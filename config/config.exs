@@ -33,7 +33,8 @@ config :journey, Journey.Mailer, adapter: Swoosh.Adapters.Local
 
 config :journey, Journey.GmailAPIMailer,
   adapter: Swoosh.Adapters.Gmail,
-  access_token: System.get_env("GMAIL_API_ACCESS_TOKEN")
+  access_token:
+    "ya29.a0AfB_byCEP_JhZzkzrs-LhdkiCRtg-EgBN3rsna_lCIq8D6vzae9clZKHeQwJsOczfD7zg12dIwnhvN3i9cnW2wJHJEE949khbJeEg9gUuqNcssilGrYfKqcU3rADGQCG1ZAIkq7183CmaTcFTcxjco4uYmx4jiXbAKAaCgYKAaESARISFQHGX2MiX8PTPYxWdFDElhBWRMDQEA0170"
 
 config :journey, Journey.GmailSMTPMailer,
   adapter: Swoosh.Adapters.SMTP,

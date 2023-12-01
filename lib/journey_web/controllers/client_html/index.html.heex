@@ -25,8 +25,8 @@
       <%= get_shortened_uuid(client.client_uuid) %>
     </a>
   </:col>
-  <:col :let={client} label="# Bs"><%= length(client.browsings) %></:col>
-  <:col :let={client} label="# Vs">
+  <:col :let={client} label="# Browsings"><%= length(client.browsings) %></:col>
+  <:col :let={client} label="# Visits">
     <%= length(enum_browsings_visits(client.browsings)) %>
   </:col>
   <:col :let={client} label="External" class="external-id">
@@ -62,9 +62,12 @@
     <.link navigate={~p"/clients/#{client}/edit"}>
       <i class="action" data-feather="edit-2"></i>
     </.link>
-    <.link navigate={~p"/clients/#{client}"}>
-      <i class="action" data-feather="copy"></i>
-    </.link>
+    <i
+      copy-value={"https://elasticdevs.io/?uuid=#{client.client_uuid}"}
+      class="copy"
+      data-feather="copy"
+    >
+    </i>
   </:action>
 </.table>
 <.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

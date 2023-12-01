@@ -143,7 +143,7 @@ defmodule JourneyWeb.EmailController do
     email = Comms.get_email!(id)
 
     message =
-      case Gmail.send(email) |> GmailSMTPMailer.deliver() do
+      case Gmail.send(email) |> GmailAPIMailer.deliver() do
         {:ok, result} ->
           Logger.debug("GMAIL_SMTP_MAIL_SENT_SUCCESSFULLY, result=#{result}")
           "Email sent successfully !!"

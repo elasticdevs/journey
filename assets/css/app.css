@@ -7,23 +7,21 @@
   --lightest-green: #7EEF7E;
   --light-green: #4EBF4E;
   --green: #1E7F1E;
+  --merely-blue: #eefbff;
   --slightest-blue: #dff8ff;
   --slight-blue: #5ac3e0;
   --lighter-blue: #2297b7;
   --light-blue: #0a82a3;
   --blue: #016a87;
-  --grey: #eeeeee;
+  --grey: #d5d5d5;
+  --light-grey: #eeeeee;
   --dark-grey: #aaaaaa;
   --darker-grey: #777777;
   --darkest-grey: #333333;
   --black: #000000;
 
 
-  --hover: var(--slightest-blue);
-}
-
-body {
-  box-sizing: border-box;
+  --hover: var(--merely-blue);
 }
 
 .logo {
@@ -32,14 +30,12 @@ body {
 }
 
 a {
-  border: 1px solid var(--white);
   color: var(--light-blue);
 }
 
 a:hover {
-  border: 1px solid var(--dark-grey);
   text-decoration: none;
-  color: var(--black);
+  color: var(--blue);
 }
 
 .top-bar {
@@ -59,12 +55,12 @@ a:hover {
 
 .top-bar-actions a {
   padding: 7px 15px;
+  border-radius: 15px;
   color: var(--black);
 }
 
 .top-bar-actions a:hover {
-  border: none;
-  border-bottom: 3px solid var(--light-blue);
+  background-color: var(--light-grey);
 }
 
 .page-heading {
@@ -381,4 +377,11 @@ button.logo {
 
 #search:focus {
   border-color: var(--light-green);
+}
+
+.empty {
+  font-weight: 500;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--dark-grey);
 }

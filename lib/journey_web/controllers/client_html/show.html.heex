@@ -52,6 +52,12 @@
     <.link navigate={~p"/clients/#{client}/edit"}>
       <i class="action" data-feather="edit-2"></i>
     </.link>
+    <i
+      copy-value={"https://elasticdevs.io/?uuid=#{client.client_uuid}"}
+      class="copy"
+      data-feather="copy"
+    >
+    </i>
   </:action>
 </.table>
 

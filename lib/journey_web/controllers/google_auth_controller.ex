@@ -23,15 +23,12 @@ defmodule JourneyWeb.GoogleAuthController do
   def callback(%{assigns: %{ueberauth_auth: %{info: user_info}}} = conn, %{"provider" => "google"}) do
     user_params = %{email: user_info.email, password: random_password()}
 
+    require IEx
+    IEx.pry()
+
     case Accounts.find_or_create_user(user_params) do
       {:ok, user} ->
         UserAuth.log_in_user(conn, user)
-
-      # conn
-      # |> put_flash(:info, "Successfully authenticated.")
-      # |> put_session(:current_user, user)
-      # |> configure_session(renew: true)
-      # |> redirect(to: "/")
 
       {:error, reason} ->
         conn
