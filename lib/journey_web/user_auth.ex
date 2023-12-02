@@ -31,6 +31,7 @@ defmodule JourneyWeb.UserAuth do
 
     conn
     |> renew_session()
+    |> put_user_in_session(user)
     |> put_token_in_session(token)
     |> maybe_write_remember_me_cookie(token, params)
     |> redirect(to: user_return_to || signed_in_path(conn))
@@ -209,6 +210,11 @@ defmodule JourneyWeb.UserAuth do
       |> redirect(to: ~p"/users/log_in")
       |> halt()
     end
+  end
+
+  defp put_user_in_session(conn, user) do
+    conn
+    |> put_session(:user, user)
   end
 
   defp put_token_in_session(conn, token) do

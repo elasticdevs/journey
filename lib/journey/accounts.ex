@@ -359,6 +359,10 @@ defmodule Journey.Accounts do
   def find_or_create_user(user_params) do
     case get_user_by_email(user_params.email) do
       %User{} = user ->
+        user
+        |> User.google_login_changeset(user_params)
+        |> Repo.update()
+
         {:ok, user}
 
       _ ->

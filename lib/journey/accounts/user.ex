@@ -3,7 +3,13 @@ defmodule Journey.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
+    field :sub, :string
     field :email, :string
+    field :name, :string
+    field :picture, :string
+    field :locale, :string
+    field :hd, :string
+    field :token, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
@@ -36,9 +42,16 @@ defmodule Journey.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:sub, :email, :name, :picture, :locale, :hd, :token, :password])
     |> validate_email(opts)
     |> validate_password(opts)
+  end
+
+  # We use this changeset to update user details post google login
+  def google_login_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:sub, :email, :name, :picture, :locale, :hd, :token])
+    |> validate_email(opts)
   end
 
   defp validate_email(changeset, opts) do
