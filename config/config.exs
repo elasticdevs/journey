@@ -34,7 +34,7 @@ config :journey, Journey.Mailer, adapter: Swoosh.Adapters.Local
 config :journey, Journey.GmailAPIMailer,
   adapter: Swoosh.Adapters.Gmail,
   access_token:
-    "ya29.a0AfB_byCEP_JhZzkzrs-LhdkiCRtg-EgBN3rsna_lCIq8D6vzae9clZKHeQwJsOczfD7zg12dIwnhvN3i9cnW2wJHJEE949khbJeEg9gUuqNcssilGrYfKqcU3rADGQCG1ZAIkq7183CmaTcFTcxjco4uYmx4jiXbAKAaCgYKAaESARISFQHGX2MiX8PTPYxWdFDElhBWRMDQEA0170"
+    "ya29.a0AfB_byC1VryAOHEAcQbQJ5tS8D8JwzzhCk-ngzLJOAMmtGepNDGOT2Y0hwzGLFDFcBysYeu5Z9foDWIkAFT6CwIa75px6ime1LKWefYi0QLwZ0LXXsUKLg0u4VH-7VPnDlJglJGYF2eBZXBTunZCiIEzVfoQ_Bykw7-UaCgYKAQESARMSFQHGX2MiS9vaJy7iL_b_dIbrEdg5mA0171"
 
 config :journey, Journey.GmailSMTPMailer,
   adapter: Swoosh.Adapters.SMTP,
@@ -83,7 +83,9 @@ config :geoip,
 # Ueberauth
 config :ueberauth, Ueberauth,
   providers: [
-    google: {Ueberauth.Strategy.Google, [default_scope: "email profile"]}
+    google:
+      {Ueberauth.Strategy.Google,
+       [default_scope: "email profile https://www.googleapis.com/auth/gmail.send"]}
   ]
 
 # Import environment specific config. This must remain at the bottom

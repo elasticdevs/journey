@@ -17,7 +17,7 @@
   / <span id=""><%= length(@clients) %></span>
 </div>
 <.table id="clients" rows={@clients}>
-  <:col :let={client} label="Last Visited At ⬇" class="utc_to_local">
+  <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
     <%= client.last_visited_at %>
   </:col>
   <:col :let={client} label="Client UUID" class="client-uuid">
@@ -25,8 +25,8 @@
       <%= get_shortened_uuid(client.client_uuid) %>
     </a>
   </:col>
-  <:col :let={client} label="# Browsings"><%= length(client.browsings) %></:col>
-  <:col :let={client} label="# Visits">
+  <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
+  <:col :let={client} label="Visits">
     <%= length(enum_browsings_visits(client.browsings)) %>
   </:col>
   <:col :let={client} label="External" class="external-id">
