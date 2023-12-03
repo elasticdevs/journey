@@ -12,7 +12,7 @@ defmodule JourneyWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
-    # plug :basic_auth, username: "journey", password: "ElasticDevs@"
+    # plug :basic_auth, username: "journey", password: "AmazingJourney@"
   end
 
   pipeline :api do
