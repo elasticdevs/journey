@@ -39,7 +39,7 @@ defmodule JourneyWeb.Router do
 
     get "/home", PageController, :home
     get "/clients/bulk", ClientController, :bulk
-    post "/clients/refresh", ClientController, :refresh
+    post "/clients/sync_fresh_sales", ClientController, :sync_fresh_sales
     get "/clients/get", ClientController, :get
     resources "/clients", ClientController
 
@@ -50,6 +50,7 @@ defmodule JourneyWeb.Router do
     post "/emails/send_test_email", EmailController, :send_test_email
     post "/emails/:id/send", EmailController, :send
     resources "/emails", EmailController
+    resources "/urls", URLController
   end
 
   # Other scopes may use custom stacks.

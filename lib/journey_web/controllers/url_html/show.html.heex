@@ -1,0 +1,18 @@
+<.back navigate={~p"/urls"} class="back">Back to URLs</.back>
+
+<div class="page-heading center">
+  URL <%= @url.id %>
+  <div class="subheading">This is a url record from your database.</div>
+  <a href={~p"/urls/#{@url}/edit"} class="button">Edit</a>
+</div>
+
+<.list>
+  <:item title="Name"><%= @url.name %></:item>
+  <:item title="Purpose"><%= @url.purpose %></:item>
+  <:item title="URL"><%= @url.url %></:item>
+  <:item title="Fallback URL"><%= @url.fallback_url %></:item>
+  <:item title="Code"><%= @url.code %></:item>
+  <:item title="Status"><%= @url.status %></:item>
+</.list>
+
+<.back navigate={~p"/urls"} class="back center">Back to URLs</.back>

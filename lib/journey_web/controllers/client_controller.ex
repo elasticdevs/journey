@@ -78,8 +78,8 @@ defmodule JourneyWeb.ClientController do
     end
   end
 
-  def refresh(conn, _) do
-    Prospects.refresh_clients()
+  def sync_fresh_sales(conn, _) do
+    Prospects.sync_fresh_sales()
 
     conn
     |> put_flash(:info, "Clients refreshed successfully.")

@@ -92,4 +92,42 @@ defmodule JourneyWeb.HTMLHelpers do
         "#{name} <span class='email'>&lt;#{email}&gt;</span>"
     end
   end
+
+  def get_display_job_title_company_from_client(client) do
+    case({client.job_title, client.company}) do
+      {nil, nil} ->
+        "<span class='empty'>empty</span>"
+
+      {job_title, nil} ->
+        job_title
+
+      {nil, company} ->
+        company
+
+      {job_title, company} ->
+        "#{job_title} <span class='company'>&lt;#{company}&gt;</span>"
+    end
+  end
+
+  def get_display_or_empty_span(values) do
+    case Enum.filter(values, fn v -> v != nil end) do
+      [] ->
+        "<span class='empty'>empty</span>"
+
+      vs ->
+        Enum.join(vs, ", ")
+    end
+  end
+
+  def get_website_from_client(client) do
+    email = client.email || ""
+
+    case Enum.at(String.split(email, "@", trim: true), 1) do
+      nil ->
+        "<span class='empty'>empty</span>"
+
+      domain ->
+        "<a href=\"https://#{domain}\" class=\"domain\" target=\"_blank\">#{domain}</a>"
+    end
+  end
 end

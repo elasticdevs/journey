@@ -1,0 +1,24 @@
+<div class="page-heading">
+  Listing Urls <span class="data-point"><span class="data">(<%= length(@urls) %>)</span></span>
+  <a href={~p"/urls/new"} class="button">+ New URL</a>
+</div>
+
+<.table id="urls" rows={@urls} row_click={&JS.navigate(~p"/urls/#{&1}")}>
+  <:col :let={url} label="Name"><%= url.name %></:col>
+  <:col :let={url} label="Purpose"><%= url.purpose %></:col>
+  <:col :let={url} label="Url"><%= url.url %></:col>
+  <:col :let={url} label="Fallback url"><%= url.fallback_url %></:col>
+  <:col :let={url} label="Code"><%= url.code %></:col>
+  <:col :let={url} label="Status"><%= url.status %></:col>
+  <:action :let={url}>
+    <div class="sr-only">
+      <.link navigate={~p"/urls/#{url}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/urls/#{url}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={url}>
+    <.link href={~p"/urls/#{url}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

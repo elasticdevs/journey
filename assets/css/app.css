@@ -14,6 +14,7 @@
   --light-blue: #0a82a3;
   --blue: #016a87;
   --grey: #d5d5d5;
+  --lighter-grey: #fafafa;
   --light-grey: #eeeeee;
   --dark-grey: #aaaaaa;
   --darker-grey: #777777;
@@ -22,6 +23,21 @@
 
 
   --hover: var(--merely-blue);
+}
+
+pre {
+  margin-bottom: 0;
+  white-space: pre-wrap;
+  /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+  font-size: x-small;
 }
 
 .logo {
@@ -46,7 +62,9 @@ a:hover {
 
 .top-bar-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: auto auto auto auto auto auto;
+  gap: 1ch;
+
   width: 20%;
   font-size: 20px;
   font-weight: bold;
@@ -56,11 +74,14 @@ a:hover {
 .top-bar-actions a {
   padding: 7px 15px;
   border-radius: 15px;
-  color: var(--black);
+  border: 1px dashed var(--white);
+  background-color: var(--light-grey);
+  color: var(--darker-grey);
 }
 
 .top-bar-actions a:hover {
-  background-color: var(--light-grey);
+  border: 1px dashed var(--dark-grey);
+  color: var(--darkest-grey);
 }
 
 .page-heading {
@@ -86,27 +107,31 @@ a:hover {
   font-size: 0.9rem;
 }
 
+button,
 .button {
   font-family: system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.125rem;
   font-stretch: normal;
   font-style: normal;
-  font-weight: 400;
+  font-weight: bold;
   line-height: 1.85625rem;
   background: #f2f2f2;
-  color: #191919;
+  color: var(--black);
   cursor: pointer;
   display: inline;
   margin-bottom: 1.125rem;
   margin-right: 0.45rem;
   border-radius: 3.6px;
+  border: 1px dashed var(--white);
   padding: 0.4078125rem 1.4625rem;
   text-align: center;
 }
 
+button:hover,
 .button:hover {
-  background: #d9d9d9;
-  color: #000;
+  border: 1px dashed var(--dark-grey);
+  background-color: var(--light-grey);
+  color: var(--blue);
 }
 
 .main-link {
@@ -313,20 +338,6 @@ table {
   color: var(--darker-grey);
 }
 
-pre {
-  margin-bottom: 0;
-  white-space: pre-wrap;
-  /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap;
-  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;
-  /* Opera 4-6 */
-  white-space: -o-pre-wrap;
-  /* Opera 7 */
-  word-wrap: break-word;
-  /* Internet Explorer 5.5+ */
-}
-
 .client {
   margin: 10px 0;
   font-weight: bold;
@@ -384,4 +395,11 @@ button.logo {
   font-style: italic;
   font-size: 0.8rem;
   color: var(--dark-grey);
+}
+
+.section {
+  border-radius: 5px;
+  border: 1px solid var(--light-grey);
+  padding: 10px 20px;
+  background: var(--lighter-grey);
 }

@@ -20,113 +20,146 @@
 
 <br /><br />
 
-<.table id="clients" rows={[@client]}>
-  <:col :let={client} label="Client UUID" class="client-uuid"><%= client.client_uuid %></:col>
-  <:col :let={client} label="# of Browsings"><%= length(client.browsings) %></:col>
-  <:col :let={client} label="External"><%= client.external_id %></:col>
-  <:col :let={client} label="Name, Email">
-    <b>
-      <%= client.name %> <span class="email">&lt;<%= client.email %>&gt;</span>
-      <span>
-        <i
-          copy-value={"#{client.name} &lt;#{client.email}&gt;"}
-          class="copy small"
-          data-feather="copy"
-        >
-        </i>
-      </span>
-    </b>
-  </:col>
-  <:col :let={client} label="Phone"><%= client.phone %></:col>
-  <:col :let={client} label="Job-Title, Company">
-    <%= client.job_title %>, <%= client.company %>
-  </:col>
-  <:col :let={client} label="LinkedIn"><%= client.linkedin %></:col>
-  <:col :let={client} label="Country-State-City" class="country-state-city">
-    <%= client.country %>, <%= client.state %>, <%= client.city %>
-  </:col>
-  <:col :let={client} label="Comments"><%= client.comments %></:col>
+<div class="section">
+  <.table id="clients" rows={[@client]}>
+    <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
+      <%= client.last_visited_at %>
+    </:col>
+    <:col :let={client} label="Client UUID" class="client-uuid">
+      <a href={get_client_url_from_client(client)}>
+        <%= get_shortened_uuid(client.client_uuid) %>
+      </a>
+    </:col>
+    <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
+    <:col :let={client} label="Visits">
+      <%= length(enum_browsings_visits(client.browsings)) %>
+    </:col>
+    <:col :let={client} label="External" class="external-id">
+      <a href={get_freshsales_link_from_client(client)} class="freshsales-link" target="_blank">
+        <%= client.external_id %>
+      </a>
+    </:col>
+    <:col :let={client} label="Name, Email">
+      <b>
+        <%= raw(get_display_name_email_from_client(client)) %>
+      </b>
+    </:col>
+    <:col :let={client} label="Website">
+      <b>
+        <%= raw(get_website_from_client(client)) %>
+      </b>
+    </:col>
+    <:col :let={client} label="Phone"><%= raw(get_display_or_empty_span([client.phone])) %></:col>
+    <:col :let={client} label="Job-Title, Company">
+      <%= raw(get_display_or_empty_span([client.job_title, client.company])) %>
+    </:col>
+    <:col :let={client} label="LinkedIn">
+      <a
+        :if={get_linked_in_url_from_client(client)}
+        href={get_linked_in_url_from_client(client)}
+        target="_blank"
+      >
+        <%= raw(get_display_or_empty_span([client.linkedin])) %>
+      </a>
+    </:col>
+    <:col :let={client} label="Country-State-City" class="country-state-city">
+      <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>
+    </:col>
+    <%!-- <:col :let={client} label="Comments"><%= client.comments %></:col>
   <:col :let={client} label="Tags"><%= client.tags %></:col>
-  <:col :let={client} label="Status"><%= client.status %></:col>
-  <:action :let={client}>
-    <.link navigate={~p"/clients/#{client}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
-    <i
-      copy-value={"https://elasticdevs.io/?uuid=#{client.client_uuid}"}
-      class="copy"
-      data-feather="copy"
-    >
-    </i>
-  </:action>
-</.table>
-
-<br /><br />
-
-<div class="page-heading-2">
-  Emails (<%= length(@client.emails) %>)
-  <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="button">+ Send Email</a>
+  <:col :let={client} label="Status"><%= client.status %></:col> --%>
+    <:action :let={client}>
+      <.link navigate={~p"/clients/#{client}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+      <i
+        copy-value={"https://elasticdevs.io/?uuid=#{client.client_uuid}"}
+        class="copy"
+        data-feather="copy"
+      >
+      </i>
+    </:action>
+  </.table>
 </div>
-<.table id="emails" rows={@client.emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
-  <:col :let={email} label="Email UUID"><%= email.email_uuid %></:col>
-  <:col :let={email} label="Template"><%= (email.template && email.template.name) || "" %></:col>
-  <:col :let={email} label="Subject"><%= email.subject %></:col>
-  <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
-  <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
-  <:col :let={email} label="Status"><%= email.status %></:col>
-  <:action :let={email}>
-    <.link navigate={~p"/emails/#{email}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
-  </:action>
-</.table>
 
 <br /><br />
 
-<div class="page-heading-2">Browsings (<%= length(@client.browsings) %>)</div>
-<.table id="browsings" rows={@client.browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
-  <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">
-    <a href={get_browsing_url_from_browsing(browsing)}>
-      <%= browsing.browsing_uuid %>
-    </a>
-  </:col>
-  <:col label="Client"><%= get_client_display_name_from_client(@client) %></:col>
-  <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
-</.table>
+<div class="section">
+  <div class="page-heading-2">
+    Emails (<%= length(@client.emails) %>)
+    <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="button">+ Send Email</a>
+  </div>
+  <.table id="emails" rows={@client.emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+    <:col :let={email} label="Email UUID"><%= email.email_uuid %></:col>
+    <:col :let={email} label="Template">
+      <%= (email.template && email.template.name) || "" %>
+    </:col>
+    <:col :let={email} label="Subject"><%= email.subject %></:col>
+    <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
+    <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
+    <:col :let={email} label="Status"><%= email.status %></:col>
+    <:action :let={email}>
+      <.link navigate={~p"/emails/#{email}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+    </:action>
+  </.table>
+</div>
 
 <br /><br />
 
-<div class="page-heading-2">Visits (<%= length(enum_browsings_visits(@client.browsings)) %>)</div>
-<.table id="visits" rows={enum_browsings_visits(@client.browsings)}>
-  <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
-  <:col :let={visit} label="Client UUID" class="client-uuid"><%= visit.client_uuid %></:col>
-  <:col :let={visit} label="Browsing UUID" class="browsing-uuid">
-    <a href={get_browsing_url_from_visit(visit)}>
-      <%= visit.browsing_uuid %>
-    </a>
-  </:col>
-  <:col :let={visit} label="IP Address" class="ip-address"><%= visit.ipaddress %></:col>
-  <:col :let={visit} label="Country-State-City" class="country-state-city">
-    <%= visit.country %>, <%= visit.state %>, <%= visit.city %>
-  </:col>
-  <:col :let={visit} label="Lat, Lon" class="lat-lon">
-    <a href={get_google_maps_link_from_visit(visit)} target="_blank">
-      <%= visit.lat %>, <%= visit.lon %>
-    </a>
-  </:col>
-  <:col :let={visit} label="Page-Hash" class="page-hash"><%= visit.page %><%= visit.hash %></:col>
-  <:col :let={visit} label="Session"><%= visit.session %></:col>
-  <:col :let={visit} label="Campaign"><%= visit.campaign %></:col>
-  <:col :let={visit} label="Source"><%= visit.source %></:col>
-  <:col :let={visit} label="UA" class="ua"><%= visit.ua %></:col>
-  <:col :let={visit} label="Device"><%= visit.device %></:col>
-  <:col :let={visit} label="Tags"><%= visit.tags %></:col>
-  <:col :let={visit} label="Info"><%= visit.info %></:col>
-  <:col :let={visit} label="UTM Campaign"><%= visit.utm_campaign %></:col>
-  <:col :let={visit} label="UTM Source"><%= visit.utm_source %></:col>
-  <:col :let={visit} label="UTM Medium"><%= visit.utm_medium %></:col>
-  <:col :let={visit} label="UTM Term"><%= visit.utm_term %></:col>
-  <:col :let={visit} label="UTM Content"><%= visit.utm_content %></:col>
-</.table>
+<div class="section">
+  <div class="page-heading-2">Browsings (<%= length(@client.browsings) %>)</div>
+  <.table id="browsings" rows={@client.browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
+    <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">
+      <a href={get_browsing_url_from_browsing(browsing)}>
+        <%= browsing.browsing_uuid %>
+      </a>
+    </:col>
+    <:col label="Client"><%= get_client_display_name_from_client(@client) %></:col>
+    <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
+  </.table>
+</div>
+
+<br /><br />
+
+<div class="section">
+  <div class="page-heading-2">
+    Visits (<%= length(enum_browsings_visits(@client.browsings)) %>)
+  </div>
+  <.table id="visits" rows={enum_browsings_visits(@client.browsings)}>
+    <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
+    <:col :let={visit} label="Client UUID" class="client-uuid"><%= visit.client_uuid %></:col>
+    <:col :let={visit} label="Browsing UUID" class="browsing-uuid">
+      <a href={get_browsing_url_from_visit(visit)}>
+        <%= visit.browsing_uuid %>
+      </a>
+    </:col>
+    <:col :let={visit} label="IP Address" class="ip-address"><%= visit.ipaddress %></:col>
+    <:col :let={visit} label="Country-State-City" class="country-state-city">
+      <%= visit.country %>, <%= visit.state %>, <%= visit.city %>
+    </:col>
+    <:col :let={visit} label="Lat, Lon" class="lat-lon">
+      <a href={get_google_maps_link_from_visit(visit)} target="_blank">
+        <%= visit.lat %>, <%= visit.lon %>
+      </a>
+    </:col>
+    <:col :let={visit} label="Page-Hash" class="page-hash">
+      <%= visit.page %><%= visit.hash %>
+    </:col>
+    <:col :let={visit} label="Session"><%= visit.session %></:col>
+    <:col :let={visit} label="Campaign"><%= visit.campaign %></:col>
+    <:col :let={visit} label="Source"><%= visit.source %></:col>
+    <:col :let={visit} label="UA" class="ua"><%= visit.ua %></:col>
+    <:col :let={visit} label="Device"><%= visit.device %></:col>
+    <:col :let={visit} label="Tags"><%= visit.tags %></:col>
+    <:col :let={visit} label="Info"><%= visit.info %></:col>
+    <:col :let={visit} label="UTM Campaign"><%= visit.utm_campaign %></:col>
+    <:col :let={visit} label="UTM Source"><%= visit.utm_source %></:col>
+    <:col :let={visit} label="UTM Medium"><%= visit.utm_medium %></:col>
+    <:col :let={visit} label="UTM Term"><%= visit.utm_term %></:col>
+    <:col :let={visit} label="UTM Content"><%= visit.utm_content %></:col>
+  </.table>
+</div>
 
 <.back navigate={~p"/clients"} class={~s"center"}>Back to Clients</.back>

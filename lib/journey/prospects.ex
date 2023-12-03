@@ -163,7 +163,7 @@ defmodule Journey.Prospects do
     Client.changeset(client, attrs)
   end
 
-  def refresh_clients(page \\ 1) do
+  def sync_fresh_sales(page \\ 1) do
     contacts = FreshSales.get_contacts(page)
 
     Enum.each(contacts, fn c ->
@@ -176,7 +176,7 @@ defmodule Journey.Prospects do
     end)
 
     if length(contacts) > 0 do
-      refresh_clients(page + 1)
+      sync_fresh_sales(page + 1)
     end
   end
 

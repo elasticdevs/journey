@@ -4,9 +4,9 @@
   <span class="data-point"><span class="data">(<%= length(@clients) %>)</span></span>
   <span class="small">(based on time selected)</span>
   <a href="/clients/new" class="button">+ Add Client</a>
-  <.simple_form for={%{}} action={~p"/clients/refresh"} class="inline">
+  <.simple_form for={%{}} action={~p"/clients/sync_fresh_sales"} class="inline">
     <:actions>
-      <.button>Refresh Clients</.button>
+      <.button>Sync Fresh Sales</.button>
     </:actions>
   </.simple_form>
 </div>
@@ -39,9 +39,14 @@
       <%= raw(get_display_name_email_from_client(client)) %>
     </b>
   </:col>
-  <:col :let={client} label="Phone"><%= client.phone %></:col>
+  <:col :let={client} label="Website">
+    <b>
+      <%= raw(get_website_from_client(client)) %>
+    </b>
+  </:col>
+  <:col :let={client} label="Phone"><%= raw(get_display_or_empty_span([client.phone])) %></:col>
   <:col :let={client} label="Job-Title, Company">
-    <%= client.job_title %>, <%= client.company %>
+    <%= raw(get_display_or_empty_span([client.job_title, client.company])) %>
   </:col>
   <:col :let={client} label="LinkedIn">
     <a
@@ -49,11 +54,11 @@
       href={get_linked_in_url_from_client(client)}
       target="_blank"
     >
-      <%= client.linkedin %>
+      <%= raw(get_display_or_empty_span([client.linkedin])) %>
     </a>
   </:col>
   <:col :let={client} label="Country-State-City" class="country-state-city">
-    <%= client.country %>, <%= client.state %>, <%= client.city %>
+    <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>
   </:col>
   <%!-- <:col :let={client} label="Comments"><%= client.comments %></:col>
   <:col :let={client} label="Tags"><%= client.tags %></:col>
