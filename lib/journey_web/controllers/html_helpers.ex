@@ -66,7 +66,7 @@ defmodule JourneyWeb.HTMLHelpers do
       do:
         browsing.client.name || browsing.client.external_id || browsing.client.client_uuid ||
           browsing.client.id,
-      else: ""
+      else: "<span class='empty'>empty</span>"
   end
 
   def get_client_display_name_from_visit(visit) do
@@ -74,7 +74,7 @@ defmodule JourneyWeb.HTMLHelpers do
       do:
         visit.browsing.client.name || visit.browsing.client.external_id ||
           visit.browsing.client.client_uuid || visit.browsing.client.id,
-      else: ""
+      else: "<span class='empty'>empty</span>"
   end
 
   def get_display_name_email_from_client(client) do
@@ -105,17 +105,7 @@ defmodule JourneyWeb.HTMLHelpers do
         company
 
       {job_title, company} ->
-        "#{job_title} <span class='company'>&lt;#{company}&gt;</span>"
-    end
-  end
-
-  def get_display_or_empty_span(values) do
-    case Enum.filter(values, fn v -> v != nil end) do
-      [] ->
-        "<span class='empty'>empty</span>"
-
-      vs ->
-        Enum.join(vs, ", ")
+        "#{job_title}, <span class='company'>&lt;#{company}&gt;</span>"
     end
   end
 
@@ -129,5 +119,32 @@ defmodule JourneyWeb.HTMLHelpers do
       domain ->
         "<a href=\"https://#{domain}\" class=\"domain\" target=\"_blank\">#{domain}</a>"
     end
+  end
+
+  def get_display_or_empty_span(values) do
+    case Enum.filter(values, fn v -> v != nil end) do
+      [] ->
+        "<span class='empty'>empty</span>"
+
+      vs ->
+        Enum.join(vs, ", ")
+    end
+  end
+
+  # URL functions
+  def sponsored_link_full(client) do
+    "#{Application.fetch_env!(:journey, Journey.URLs)[:website_url]}/?uuid=#{client.client_uuid}"
+  end
+
+  def sponsored_link_shortened(client) do
+    if client && client.url && client.url.code,
+      do: "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.url.code}",
+      else: nil
+  end
+
+  def sponsored_link_shortened_or_empty(client) do
+    if client && client.url && client.url.code,
+      do: "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.url.code}",
+      else: "<span class='empty'>empty</span>"
   end
 end

@@ -4,6 +4,7 @@ defmodule Journey.Prospects.Client do
   alias Journey.Analytics.Browsing
   alias Journey.Comms.Email
   alias Journey.Common.Types
+  alias Journey.URLs.URL
 
   @derive {Jason.Encoder, only: [:client_uuid]}
   schema "clients" do
@@ -24,6 +25,7 @@ defmodule Journey.Prospects.Client do
     field :last_visited_at, :utc_datetime_usec
     has_many :browsings, Browsing, preload_order: [desc: :last_visited_at]
     has_many :emails, Email, preload_order: [desc: :updated_at]
+    has_one :url, URL
 
     timestamps(type: :utc_datetime)
   end

@@ -22,6 +22,11 @@ config :journey, JourneyWeb.Endpoint,
   pubsub_server: Journey.PubSub,
   live_view: [signing_salt: "937VmCbU"]
 
+# URL Config
+config :journey, Journey.URLs,
+  website_url: "https://elasticdevs.io",
+  shortener_url: "https://eldv.io" || "https://jou.im"
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
@@ -30,11 +35,7 @@ config :journey, JourneyWeb.Endpoint,
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
 config :journey, Journey.Mailer, adapter: Swoosh.Adapters.Local
-
-config :journey, Journey.GmailAPIMailer,
-  adapter: Swoosh.Adapters.Gmail,
-  access_token:
-    "ya29.a0AfB_byC1VryAOHEAcQbQJ5tS8D8JwzzhCk-ngzLJOAMmtGepNDGOT2Y0hwzGLFDFcBysYeu5Z9foDWIkAFT6CwIa75px6ime1LKWefYi0QLwZ0LXXsUKLg0u4VH-7VPnDlJglJGYF2eBZXBTunZCiIEzVfoQ_Bykw7-UaCgYKAQESARMSFQHGX2MiS9vaJy7iL_b_dIbrEdg5mA0171"
+config :journey, Journey.GmailAPIMailer, adapter: Swoosh.Adapters.Gmail
 
 config :journey, Journey.GmailSMTPMailer,
   adapter: Swoosh.Adapters.SMTP,

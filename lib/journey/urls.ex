@@ -51,7 +51,7 @@ defmodule Journey.URLs do
   """
   def create_url(attrs \\ %{}) do
     %URL{}
-    |> URL.changeset(attrs)
+    |> URL.create_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -69,7 +69,7 @@ defmodule Journey.URLs do
   """
   def update_url(%URL{} = url, attrs) do
     url
-    |> URL.changeset(attrs)
+    |> URL.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -99,6 +99,6 @@ defmodule Journey.URLs do
 
   """
   def change_url(%URL{} = url, attrs \\ %{}) do
-    URL.changeset(url, attrs)
+    URL.update_changeset(url, attrs)
   end
 end

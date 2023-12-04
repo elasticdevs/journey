@@ -16,63 +16,66 @@
   Showing <span id="search-count"><%= length(@clients) %></span>
   / <span id=""><%= length(@clients) %></span>
 </div>
-<.table id="clients" rows={@clients}>
-  <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
-    <%= client.last_visited_at %>
-  </:col>
-  <:col :let={client} label="Client UUID" class="client-uuid">
-    <a href={get_client_url_from_client(client)}>
-      <%= get_shortened_uuid(client.client_uuid) %>
-    </a>
-  </:col>
-  <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
-  <:col :let={client} label="Visits">
-    <%= length(enum_browsings_visits(client.browsings)) %>
-  </:col>
-  <:col :let={client} label="External" class="external-id">
-    <a href={get_freshsales_link_from_client(client)} class="freshsales-link" target="_blank">
-      <%= client.external_id %>
-    </a>
-  </:col>
-  <:col :let={client} label="Name, Email">
-    <b>
-      <%= raw(get_display_name_email_from_client(client)) %>
-    </b>
-  </:col>
-  <:col :let={client} label="Website">
-    <b>
-      <%= raw(get_website_from_client(client)) %>
-    </b>
-  </:col>
-  <:col :let={client} label="Phone"><%= raw(get_display_or_empty_span([client.phone])) %></:col>
-  <:col :let={client} label="Job-Title, Company">
-    <%= raw(get_display_or_empty_span([client.job_title, client.company])) %>
-  </:col>
-  <:col :let={client} label="LinkedIn">
-    <a
-      :if={get_linked_in_url_from_client(client)}
-      href={get_linked_in_url_from_client(client)}
-      target="_blank"
-    >
-      <%= raw(get_display_or_empty_span([client.linkedin])) %>
-    </a>
-  </:col>
-  <:col :let={client} label="Country-State-City" class="country-state-city">
-    <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>
-  </:col>
-  <%!-- <:col :let={client} label="Comments"><%= client.comments %></:col>
+
+<div class="section">
+  <.table id="clients" rows={@clients}>
+    <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
+      <%= client.last_visited_at %>
+    </:col>
+    <:col :let={client} label="Client UUID" class="client-uuid">
+      <a href={get_client_url_from_client(client)}>
+        <%= get_shortened_uuid(client.client_uuid) %>
+      </a>
+    </:col>
+    <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
+    <:col :let={client} label="Visits">
+      <%= length(enum_browsings_visits(client.browsings)) %>
+    </:col>
+    <:col :let={client} label="External" class="external-id">
+      <a href={get_freshsales_link_from_client(client)} class="freshsales-link" target="_blank">
+        <%= client.external_id %>
+      </a>
+    </:col>
+    <:col :let={client} label="Name, Email">
+      <b>
+        <%= raw(get_display_name_email_from_client(client)) %>
+      </b>
+    </:col>
+    <:col :let={client} label="Website">
+      <b>
+        <%= raw(get_website_from_client(client)) %>
+      </b>
+    </:col>
+    <:col :let={client} label="Phone"><%= raw(get_display_or_empty_span([client.phone])) %></:col>
+    <:col :let={client} label="Job-Title, Company">
+      <%= raw(get_display_or_empty_span([client.job_title, client.company])) %>
+    </:col>
+    <:col :let={client} label="LinkedIn">
+      <a
+        :if={get_linked_in_url_from_client(client)}
+        href={get_linked_in_url_from_client(client)}
+        target="_blank"
+      >
+        <%= raw(get_display_or_empty_span([client.linkedin])) %>
+      </a>
+    </:col>
+    <:col :let={client} label="Country-State-City" class="country-state-city">
+      <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>
+    </:col>
+    <%!-- <:col :let={client} label="Comments"><%= client.comments %></:col>
   <:col :let={client} label="Tags"><%= client.tags %></:col>
   <:col :let={client} label="Status"><%= client.status %></:col> --%>
-  <:action :let={client}>
-    <.link navigate={~p"/clients/#{client}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
-    <i
-      copy-value={"https://elasticdevs.io/?uuid=#{client.client_uuid}"}
-      class="copy"
-      data-feather="copy"
-    >
-    </i>
-  </:action>
-</.table>
+    <:action :let={client}>
+      <.link navigate={~p"/clients/#{client}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+      <i
+        copy-value={"https://elasticdevs.io/?uuid=#{client.client_uuid}"}
+        class="copy"
+        data-feather="copy"
+      >
+      </i>
+    </:action>
+  </.table>
+</div>
 <.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

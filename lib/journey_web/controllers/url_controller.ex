@@ -18,7 +18,7 @@ defmodule JourneyWeb.URLController do
     case URLs.create_url(url_params) do
       {:ok, url} ->
         conn
-        |> put_flash(:info, "Url created successfully.")
+        |> put_flash(:info, "URL created successfully.")
         |> redirect(to: ~p"/urls/#{url}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -43,7 +43,7 @@ defmodule JourneyWeb.URLController do
     case URLs.update_url(url, url_params) do
       {:ok, url} ->
         conn
-        |> put_flash(:info, "Url updated successfully.")
+        |> put_flash(:info, "URL updated successfully.")
         |> redirect(to: ~p"/urls/#{url}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -56,7 +56,7 @@ defmodule JourneyWeb.URLController do
     {:ok, _url} = URLs.delete_url(url)
 
     conn
-    |> put_flash(:info, "Url deleted successfully.")
+    |> put_flash(:info, "URL deleted successfully.")
     |> redirect(to: ~p"/urls")
   end
 end

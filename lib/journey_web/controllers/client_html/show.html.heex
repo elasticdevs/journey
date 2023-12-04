@@ -6,15 +6,12 @@
 <div class="page-heading-3">
   Sponsored Link:
   <span class="link">
-    <b id="sponsored_url">https://elasticdevs.io/?uuid=<%= @client.client_uuid %></b>
+    <b id="sponsored_url">
+      <%= raw(sponsored_link_shortened(@client) || sponsored_link_full(@client)) %>
+    </b>
   </span>
   <span>
-    <i
-      copy-value={"https://elasticdevs.io/?uuid=#{@client.client_uuid}"}
-      class="copy"
-      data-feather="copy"
-    >
-    </i>
+    <i copy-value={sponsored_link_shortened(@client)} class="copy" data-feather="copy"></i>
   </span>
 </div>
 

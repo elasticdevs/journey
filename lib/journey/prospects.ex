@@ -10,6 +10,7 @@ defmodule Journey.Prospects do
   alias Journey.Analytics.Visit
 
   alias Journey.Prospects.FreshSales
+  alias Journey.URLs
 
   @doc """
   Returns the list of clients.
@@ -47,7 +48,7 @@ defmodule Journey.Prospects do
       from c in Client,
         where: ^clients_where,
         order_by: [desc_nulls_last: :last_visited_at],
-        preload: [browsings: ^{browsings_query, [visits: visits_query]}]
+        preload: [:url, browsings: ^{browsings_query, [visits: visits_query]}]
     )
   end
 
@@ -92,6 +93,7 @@ defmodule Journey.Prospects do
     Repo.get(Client, id)
     |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
     |> Repo.preload(emails: :template)
+    |> Repo.preload(:url)
   end
 
   def get_client(%{id: id}), do: Repo.get(Client, id)
@@ -111,9 +113,21 @@ defmodule Journey.Prospects do
 
   """
   def create_client(attrs \\ %{}) do
-    %Client{}
-    |> Client.changeset(attrs)
-    |> Repo.insert()
+    response =
+      %Client{}
+      |> Client.changeset(attrs)
+      |> Repo.insert()
+
+    case response do
+      {:ok, c} ->
+        client = get_client!(c.id)
+        URLs.create_url(%{client_id: client.id, url: sponsored_link_full(client)})
+
+        {:ok, client}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -128,10 +142,16 @@ defmodule Journey.Prospects do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_client(%Client{} = client, attrs) do
-    client
-    |> Client.changeset(attrs)
-    |> Repo.update()
+  def update_client(%Client{} = c, attrs) do
+    client =
+      c
+      |> Client.changeset(attrs)
+      |> Repo.update!()
+      |> Repo.preload(:url)
+
+    client.url || URLs.create_url(%{client_id: client.id, url: sponsored_link_full(client)})
+
+    {:ok, client}
   end
 
   @doc """
@@ -167,12 +187,16 @@ defmodule Journey.Prospects do
     contacts = FreshSales.get_contacts(page)
 
     Enum.each(contacts, fn c ->
-      case Repo.get_by(Client, external_id: c[:external_id]) do
-        nil -> %Client{}
-        client -> client
-      end
-      |> Client.changeset(c)
-      |> Repo.insert_or_update()
+      client =
+        case Repo.get_by(Client, external_id: c[:external_id]) do
+          nil -> %Client{}
+          client -> client
+        end
+        |> Client.changeset(c)
+        |> Repo.insert_or_update!()
+        |> Repo.preload(:url)
+
+      client.url || URLs.create_url(%{client_id: client.id, url: sponsored_link_full(client)})
     end)
 
     if length(contacts) > 0 do
@@ -182,5 +206,13 @@ defmodule Journey.Prospects do
 
   def enum_clients_browsings(clients) do
     Enum.flat_map(clients, fn c -> c.browsings end)
+  end
+
+  def sponsored_link_full(client) do
+    "#{Application.fetch_env!(:journey, Journey.URLs)[:website_url]}/?uuid=#{client.client_uuid}"
+  end
+
+  def sponsored_link_shortened(client) do
+    "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.code}"
   end
 end
