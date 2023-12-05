@@ -36,6 +36,7 @@ defmodule Journey.URLs do
 
   """
   def get_url!(id), do: Repo.get!(URL, id)
+  def get_url_by_code!(code), do: Repo.get_by!(URL, code: code)
 
   @doc """
   Creates a url.

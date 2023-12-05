@@ -20,6 +20,20 @@ if System.get_env("PHX_SERVER") do
   config :journey, JourneyWeb.Endpoint, server: true
 end
 
+# ## SSL Support
+#
+# To get SSL working, you will need to add the `https` key
+# to your endpoint configuration:
+#
+config :journey, JourneyWeb.Endpoint,
+  https: [
+    sni_fun: &JourneyWeb.Endpoint.ssloptions/1,
+    port: 443,
+    # keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
+    # certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem"
+    cipher_suite: :strong
+  ]
+
 if config_env() == :prod do
   # database_url =
   #   System.get_env("DATABASE_URL") ||
@@ -69,19 +83,6 @@ if config_env() == :prod do
       port: port
     ],
     secret_key_base: secret_key_base
-
-  # ## SSL Support
-  #
-  # To get SSL working, you will need to add the `https` key
-  # to your endpoint configuration:
-  #
-  config :journey, JourneyWeb.Endpoint,
-    https: [
-      port: 443,
-      cipher_suite: :strong,
-      keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
-      certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem"
-    ]
 
   #
   # The `cipher_suite` is set to `:strong` to support only the

@@ -5,6 +5,9 @@
 
 <div class="section">
   <.table id="urls" rows={@urls} row_click={&JS.navigate(~p"/urls/#{&1}")}>
+    <:col :let={url} label="Shortened URL" class="shortened">
+      <%= raw(sponsored_link_shortened_from_url_or_empty(url)) %>
+    </:col>
     <:col :let={url} label="Name"><%= url.name %></:col>
     <:col :let={url} label="Purpose"><%= url.purpose %></:col>
     <:col :let={url} label="Url"><%= url.url %></:col>

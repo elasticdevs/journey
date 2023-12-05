@@ -1,18 +1,29 @@
 <.back navigate={~p"/urls"} class="back">Back to URLs</.back>
 
 <div class="page-heading center">
-  URL <%= @url.id %>
+  URL #<%= @url.id %>
   <div class="subheading">This is a url record from your database.</div>
   <a href={~p"/urls/#{@url}/edit"} class="button">Edit</a>
 </div>
 
-<.list>
-  <:item title="Name"><%= @url.name %></:item>
-  <:item title="Purpose"><%= @url.purpose %></:item>
-  <:item title="URL"><%= @url.url %></:item>
-  <:item title="Fallback URL"><%= @url.fallback_url %></:item>
-  <:item title="Code"><%= @url.code %></:item>
-  <:item title="Status"><%= @url.status %></:item>
-</.list>
+<div class="section">
+  <.table id="urls" rows={[@url]}>
+    <:col :let={url} label="Shortened URL" class="shortened">
+      <%= raw(sponsored_link_shortened_from_url_or_empty(url)) %>
+    </:col>
+    <:col :let={url} label="Name"><%= url.name %></:col>
+    <:col :let={url} label="Purpose"><%= url.purpose %></:col>
+    <:col :let={url} label="Url"><%= url.url %></:col>
+    <:col :let={url} label="Fallback url"><%= url.fallback_url %></:col>
+    <:col :let={url} label="Code"><%= url.code %></:col>
+    <:col :let={url} label="Client ID"><%= url.client_id %></:col>
+    <:col :let={url} label="Status"><%= url.status %></:col>
+    <:action :let={url}>
+      <.link navigate={~p"/urls/#{url}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+    </:action>
+  </.table>
+</div>
 
 <.back navigate={~p"/urls"} class="back center">Back to URLs</.back>

@@ -59,4 +59,11 @@ defmodule JourneyWeb.URLController do
     |> put_flash(:info, "URL deleted successfully.")
     |> redirect(to: ~p"/urls")
   end
+
+  def url_redirect(conn, %{"code" => code}) do
+    url = URLs.get_url_by_code!(code)
+
+    conn
+    |> redirect(external: url.url)
+  end
 end

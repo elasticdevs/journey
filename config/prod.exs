@@ -25,5 +25,10 @@ config :swoosh, local: false
 # Do not print debug messages in production
 config :logger, level: :debug
 
+# URL Config
+config :journey, Journey.URLs,
+  website_url: "https://elasticdevs.io",
+  shortener_url: "https://jou.im" || "https://eldv.io"
+
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.

@@ -121,7 +121,7 @@ defmodule Journey.Prospects do
     case response do
       {:ok, c} ->
         client = get_client!(c.id)
-        URLs.create_url(%{client_id: client.id, url: sponsored_link_full(client)})
+        URLs.create_url(%{client_id: client.id, url: sponsored_link_full_from_client(client)})
 
         {:ok, client}
 
@@ -149,7 +149,8 @@ defmodule Journey.Prospects do
       |> Repo.update!()
       |> Repo.preload(:url)
 
-    client.url || URLs.create_url(%{client_id: client.id, url: sponsored_link_full(client)})
+    client.url ||
+      URLs.create_url(%{client_id: client.id, url: sponsored_link_full_from_client(client)})
 
     {:ok, client}
   end
@@ -196,7 +197,8 @@ defmodule Journey.Prospects do
         |> Repo.insert_or_update!()
         |> Repo.preload(:url)
 
-      client.url || URLs.create_url(%{client_id: client.id, url: sponsored_link_full(client)})
+      client.url ||
+        URLs.create_url(%{client_id: client.id, url: sponsored_link_full_from_client(client)})
     end)
 
     if length(contacts) > 0 do
@@ -208,11 +210,11 @@ defmodule Journey.Prospects do
     Enum.flat_map(clients, fn c -> c.browsings end)
   end
 
-  def sponsored_link_full(client) do
+  def sponsored_link_full_from_client(client) do
     "#{Application.fetch_env!(:journey, Journey.URLs)[:website_url]}/?uuid=#{client.client_uuid}"
   end
 
-  def sponsored_link_shortened(client) do
+  def sponsored_link_shortened_from_client(client) do
     "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.code}"
   end
 end

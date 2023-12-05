@@ -22,11 +22,6 @@ config :journey, JourneyWeb.Endpoint,
   pubsub_server: Journey.PubSub,
   live_view: [signing_salt: "937VmCbU"]
 
-# URL Config
-config :journey, Journey.URLs,
-  website_url: "https://elasticdevs.io",
-  shortener_url: "https://eldv.io" || "https://jou.im"
-
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

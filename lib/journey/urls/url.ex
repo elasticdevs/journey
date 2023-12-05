@@ -21,15 +21,32 @@ defmodule Journey.URLs.URL do
     url
     |> cast(attrs, [:name, :purpose, :url, :fallback_url, :client_id, :status])
     |> validate_required([:url])
+    |> check_http_https(:url)
+    |> validate_url(:url)
     |> add_code()
     |> unique_constraint(:code)
-    |> validate_url(:url)
   end
 
   @doc false
   def update_changeset(url, attrs) do
     url
-    |> cast(attrs, [:name, :purpose, :fallback_url, :status])
+    |> cast(attrs, [:name, :purpose, :url, :fallback_url, :status])
+    |> check_http_https(:url)
+    |> validate_url(:url)
+  end
+
+  def check_http_https(changeset, field) do
+    url = get_change(changeset, field)
+
+    case url do
+      nil ->
+        changeset
+
+      _ ->
+        url = if String.match?(url, ~r/^(http:|https:)/), do: url, else: "https://#{url}"
+
+        put_change(changeset, field, url)
+    end
   end
 
   def add_code(changeset) do
@@ -45,7 +62,8 @@ defmodule Journey.URLs.URL do
   defp validate_url(changeset, field) do
     validate_change(changeset, field, fn field, url ->
       case :uri_string.parse(String.to_charlist(url)) do
-        %{host: host} -> []
+        %{host: _} -> []
+        %{path: _} -> []
         {:error, _} -> [{field, "is not a url"}]
       end
     end)

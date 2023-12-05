@@ -1,5 +1,10 @@
 import Config
 
+# URL Config
+config :journey, Journey.URLs,
+  website_url: "https://staging.elasticdevs.io",
+  shortener_url: "https://sg.jou.im" || "https://sg.eldv.io"
+
 # Configure your database
 config :journey, Journey.Repo,
   username: "postgres",
@@ -19,7 +24,7 @@ config :journey, Journey.Repo,
 config :journey, JourneyWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {0, 0, 0, 0}, port: 4000, protocol_options: [idle_timeout: 300_000]],
+  http: [ip: {0, 0, 0, 0}, port: 80, protocol_options: [idle_timeout: 300_000]],
   https: [
     port: 443,
     protocol_options: [idle_timeout: 300_000],
@@ -81,4 +86,5 @@ config :phoenix_live_view, :debug_heex_annotations, true
 
 # Disable swoosh api client as it is only required for production adapters.
 # config :swoosh, :api_client, false
+
 import_config "dev.secret.exs"

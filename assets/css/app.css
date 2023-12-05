@@ -3,6 +3,7 @@
   --slightest-red: #ffecec;
   --slight-red: #ecbfbf;
   --light-red: #ff5d5d;
+  --bright-red: #ffb2b2;
   --red: #C72B2B;
   --lightest-green: #7EEF7E;
   --light-green: #4EBF4E;
@@ -40,11 +41,6 @@ pre {
   font-size: x-small;
 }
 
-.logo {
-  color: var(--lighter-blue);
-  font-weight: 900;
-}
-
 a {
   color: var(--light-blue);
 }
@@ -52,6 +48,19 @@ a {
 a:hover {
   text-decoration: none;
   color: var(--blue);
+}
+
+td,
+th {
+  border-bottom: 0.0675rem solid var(--grey);
+  padding: 0.928125rem 1.125rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.logo {
+  color: var(--lighter-blue);
+  font-weight: 900;
 }
 
 .top-bar {
@@ -230,6 +239,10 @@ td>div>span {
   line-height: 1.2rem;
 }
 
+td:first-child {
+  width: 10%;
+}
+
 .time-ago {
   font-weight: bold;
   font-size: 1rem;
@@ -296,10 +309,6 @@ td>div>span {
 .ua {
   font-size: 0.7rem;
   line-height: 1.1rem;
-}
-
-#sponsored_url {
-  color: var(--red);
 }
 
 .external-icon {
@@ -402,4 +411,13 @@ button.logo {
   border: 1px solid var(--light-grey);
   padding: 10px 20px;
   background: var(--lighter-grey);
+}
+
+#sponsored_url,
+.shortened {
+  margin: 0 5px;
+  border-radius: 5px;
+  padding: 2px 5px;
+  background: var(--bright-red);
+  color: var(--black);
 }

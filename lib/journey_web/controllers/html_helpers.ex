@@ -132,19 +132,25 @@ defmodule JourneyWeb.HTMLHelpers do
   end
 
   # URL functions
-  def sponsored_link_full(client) do
+  def sponsored_link_full_from_client(client) do
     "#{Application.fetch_env!(:journey, Journey.URLs)[:website_url]}/?uuid=#{client.client_uuid}"
   end
 
-  def sponsored_link_shortened(client) do
+  def sponsored_link_shortened_from_client(client) do
     if client && client.url && client.url.code,
       do: "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.url.code}",
       else: nil
   end
 
-  def sponsored_link_shortened_or_empty(client) do
+  def sponsored_link_shortened_from_client_or_empty(client) do
     if client && client.url && client.url.code,
       do: "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.url.code}",
+      else: "<span class='empty'>empty</span>"
+  end
+
+  def sponsored_link_shortened_from_url_or_empty(url) do
+    if url && url.code,
+      do: "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{url.code}",
       else: "<span class='empty'>empty</span>"
   end
 end
