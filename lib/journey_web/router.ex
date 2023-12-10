@@ -45,6 +45,9 @@ defmodule JourneyWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     get "/home", PageController, :home
+
+    resources "/companies", CompanyController
+
     get "/clients/bulk", ClientController, :bulk
     post "/clients/sync_fresh_sales", ClientController, :sync_fresh_sales
     get "/clients/get", ClientController, :get
@@ -58,6 +61,8 @@ defmodule JourneyWeb.Router do
     post "/emails/:id/send", EmailController, :send
     resources "/emails", EmailController
     resources "/urls", URLController
+    resources "/targets", TargetController
+    resources "/activities", ActivityController
   end
 
   # Other scopes may use custom stacks.

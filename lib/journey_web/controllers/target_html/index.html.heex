@@ -1,0 +1,22 @@
+<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
+<div class="page-heading">
+  Listing Targets <a href="/targets/new" class="button">+ Add Target</a>
+</div>
+
+<.table id="targets" rows={@targets} row_click={&JS.navigate(~p"/targets/#{&1}")}>
+  <:col :let={target} label="Notes"><%= target.notes %></:col>
+  <:col :let={target} label="Status"><%= target.status %></:col>
+  <:action :let={target}>
+    <div class="sr-only">
+      <.link navigate={~p"/targets/#{target}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/targets/#{target}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={target}>
+    <.link href={~p"/targets/#{target}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

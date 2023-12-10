@@ -1,0 +1,9 @@
+<.back navigate={~p"/activities"} class="left">Back to activities</.back>
+<div class="page-heading">
+  Edit Activity #<%= @activity.id %>
+  <div class="subheading">Use this form to manage activity records in your database.</div>
+</div>
+
+<.activity_form changeset={@changeset} action={~p"/activities/#{@activity}"} />
+
+<.back navigate={~p"/activities"} class="center">Back to activities</.back>

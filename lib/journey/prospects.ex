@@ -48,7 +48,7 @@ defmodule Journey.Prospects do
       from c in Client,
         where: ^clients_where,
         order_by: [desc_nulls_last: :last_visited_at],
-        preload: [:url, browsings: ^{browsings_query, [visits: visits_query]}]
+        preload: [:company, :url, browsings: ^{browsings_query, [visits: visits_query]}]
     )
   end
 
@@ -93,6 +93,7 @@ defmodule Journey.Prospects do
     Repo.get(Client, id)
     |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
     |> Repo.preload(emails: :template)
+    |> Repo.preload(:company)
     |> Repo.preload(:url)
   end
 
@@ -216,5 +217,201 @@ defmodule Journey.Prospects do
 
   def sponsored_link_shortened_from_client(client) do
     "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.code}"
+  end
+
+  alias Journey.Prospects.Company
+
+  @doc """
+  Returns the list of companies.
+
+  ## Examples
+
+      iex> list_companies()
+      [%Company{}, ...]
+
+  """
+  def list_companies do
+    Repo.all(Company)
+  end
+
+  @doc """
+  Gets a single company.
+
+  Raises `Ecto.NoResultsError` if the Company does not exist.
+
+  ## Examples
+
+      iex> get_company!(123)
+      %Company{}
+
+      iex> get_company!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_company!(id), do: Repo.get!(Company, id)
+
+  def find_company(txt) do
+    Repo.get_by(Company, :name, txt) || Repo.get_by(Company, :website, txt)
+  end
+
+  @doc """
+  Creates a company.
+
+  ## Examples
+
+      iex> create_company(%{field: value})
+      {:ok, %Company{}}
+
+      iex> create_company(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_company(attrs \\ %{}) do
+    %Company{}
+    |> Company.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a company.
+
+  ## Examples
+
+      iex> update_company(company, %{field: new_value})
+      {:ok, %Company{}}
+
+      iex> update_company(company, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_company(%Company{} = company, attrs) do
+    company
+    |> Company.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a company.
+
+  ## Examples
+
+      iex> delete_company(company)
+      {:ok, %Company{}}
+
+      iex> delete_company(company)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_company(%Company{} = company) do
+    Repo.delete(company)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking company changes.
+
+  ## Examples
+
+      iex> change_company(company)
+      %Ecto.Changeset{data: %Company{}}
+
+  """
+  def change_company(%Company{} = company, attrs \\ %{}) do
+    Company.changeset(company, attrs)
+  end
+
+  alias Journey.Prospects.Target
+
+  @doc """
+  Returns the list of targets.
+
+  ## Examples
+
+      iex> list_targets()
+      [%Target{}, ...]
+
+  """
+  def list_targets do
+    Repo.all(Target)
+  end
+
+  @doc """
+  Gets a single target.
+
+  Raises `Ecto.NoResultsError` if the Target does not exist.
+
+  ## Examples
+
+      iex> get_target!(123)
+      %Target{}
+
+      iex> get_target!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_target!(id), do: Repo.get!(Target, id)
+
+  @doc """
+  Creates a target.
+
+  ## Examples
+
+      iex> create_target(%{field: value})
+      {:ok, %Target{}}
+
+      iex> create_target(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_target(attrs \\ %{}) do
+    %Target{}
+    |> Target.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a target.
+
+  ## Examples
+
+      iex> update_target(target, %{field: new_value})
+      {:ok, %Target{}}
+
+      iex> update_target(target, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_target(%Target{} = target, attrs) do
+    target
+    |> Target.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a target.
+
+  ## Examples
+
+      iex> delete_target(target)
+      {:ok, %Target{}}
+
+      iex> delete_target(target)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_target(%Target{} = target) do
+    Repo.delete(target)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking target changes.
+
+  ## Examples
+
+      iex> change_target(target)
+      %Ecto.Changeset{data: %Target{}}
+
+  """
+  def change_target(%Target{} = target, attrs \\ %{}) do
+    Target.changeset(target, attrs)
   end
 end

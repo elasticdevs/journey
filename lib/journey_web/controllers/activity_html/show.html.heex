@@ -1,0 +1,17 @@
+<.back navigate={~p"/activities"} class="left">Back to Activities</.back>
+
+<div class="page-heading">
+  Activity #<%= @activity.id %>
+  <div class="subheading">This is a activity record from your database.</div>
+</div>
+
+<.list>
+  <:item title="Type"><%= @activity.type %></:item>
+  <:item title="Message"><%= @activity.message %></:item>
+  <:item title="Details"><%= @activity.details %></:item>
+  <:item title="Scheduled @"><%= @activity.scheduled_at %></:item>
+  <:item title="Executed @"><%= @activity.executed_at %></:item>
+  <:item title="Status"><%= @activity.status %></:item>
+</.list>
+
+<.back navigate={~p"/activities"} class="center">Back to Activities</.back>

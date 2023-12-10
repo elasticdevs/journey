@@ -9,9 +9,9 @@ defmodule JourneyWeb.GoogleAuthController do
 
   @rand_pass_length 32
 
-  def request(conn, _params) do
-    render(conn, "request.html", callback_url: Helpers.callback_url(conn))
-  end
+  # def request(conn, _params) do
+  #   render(conn, "request.html", callback_url: Helpers.callback_url(conn))
+  # end
 
   def delete(conn, _params) do
     conn

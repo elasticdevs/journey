@@ -1,0 +1,66 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input
+    field={f[:company_uuid]}
+    type="text"
+    label="Company UUID"
+    placeholder="its auto-generated"
+  />
+  <.input field={f[:name]} type="text" label="Name" placeholder="company name" />
+  <.input
+    field={f[:website]}
+    type="text"
+    label="Website"
+    placeholder="website address of the company"
+  />
+  <.input
+    field={f[:funding]}
+    type="text"
+    label="Funding"
+    placeholder="amount (in USD) of the last funding round they received"
+  />
+  <.input
+    field={f[:founded_year]}
+    type="text"
+    label="Founded Year"
+    placeholder="the year the company was founded"
+  />
+  <.input field={f[:team_size]} type="text" label="Team Size" placeholder="the team size" />
+  <.input field={f[:industries]} type="text" label="Industries" placeholder="csv of industries" />
+  <.input
+    field={f[:annual_revenue]}
+    type="text"
+    label="Annual Revenue"
+    placeholder="annual revenue in USD"
+  />
+  <.input
+    field={f[:market_cap]}
+    type="text"
+    label="Market Cap"
+    placeholder="market cap or the net worth in the last funding round"
+  />
+  <.input field={f[:phone]} type="text" label="Phone" placeholder="company's phone number" />
+  <.input field={f[:linkedin]} type="text" label="LinkedIn" placeholder="company's linkedin page" />
+  <.input field={f[:logo]} type="text" label="Logo" placeholder="logo URL" />
+  <.input
+    field={f[:country]}
+    type="text"
+    label="Country"
+    placeholder="country where the company is based in"
+  />
+  <.input field={f[:state]} type="text" label="State" placeholder="company's state" />
+  <.input field={f[:city]} type="text" label="City" placeholder="its city" />
+  <.input field={f[:lat]} type="text" label="Lat" placeholder="latitude" />
+  <.input field={f[:lon]} type="text" label="Lon" placeholder="longitude" />
+  <.input
+    field={f[:status]}
+    type="select"
+    label="Status"
+    options={["NEW", "NOT A FIT", "GREAT FIT", "IS A CLIENT"]}
+  />
+  <:actions>
+    <.button>Save Company</.button>
+  </:actions>
+</.simple_form>

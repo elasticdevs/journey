@@ -71,7 +71,7 @@ th {
 
 .top-bar-actions {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto;
   gap: 1ch;
 
   width: 20%;

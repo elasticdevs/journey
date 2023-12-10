@@ -1,6 +1,8 @@
 defmodule Journey.Prospects.Client do
   use Ecto.Schema
   import Ecto.Changeset
+
+  alias Journey.Prospects.Company
   alias Journey.Analytics.Browsing
   alias Journey.Comms.Email
   alias Journey.Common.Types
@@ -11,7 +13,6 @@ defmodule Journey.Prospects.Client do
     field :city, :string
     field :client_uuid, Ecto.UUID
     field :comments, :string
-    field :company, :string
     field :country, :string
     field :email, :string
     field :external_id, :string
@@ -26,6 +27,7 @@ defmodule Journey.Prospects.Client do
     has_many :browsings, Browsing, preload_order: [desc: :last_visited_at]
     has_many :emails, Email, preload_order: [desc: :updated_at]
     has_one :url, URL
+    belongs_to :company, Company
 
     timestamps(type: :utc_datetime)
   end
@@ -36,12 +38,12 @@ defmodule Journey.Prospects.Client do
 
     client
     |> cast(attrs, [
+      :company_id,
       :client_uuid,
       :external_id,
       :name,
       :email,
       :phone,
-      :company,
       :linkedin,
       :job_title,
       :country,

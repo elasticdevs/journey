@@ -1,0 +1,27 @@
+<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>
+
+<div class="page-heading">
+  Listing Activities <a href="/activities/new" class="button">+ Add Activities</a>
+</div>
+
+<.table id="activities" rows={@activities} row_click={&JS.navigate(~p"/activities/#{&1}")}>
+  <:col :let={activity} label="Type"><%= activity.type %></:col>
+  <:col :let={activity} label="Message"><%= activity.message %></:col>
+  <:col :let={activity} label="Details"><%= activity.details %></:col>
+  <:col :let={activity} label="Scheduled @"><%= activity.scheduled_at %></:col>
+  <:col :let={activity} label="Executed @"><%= activity.executed_at %></:col>
+  <:col :let={activity} label="Status"><%= activity.status %></:col>
+  <:action :let={activity}>
+    <div class="sr-only">
+      <.link navigate={~p"/activities/#{activity}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/activities/#{activity}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={activity}>
+    <.link href={~p"/activities/#{activity}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>

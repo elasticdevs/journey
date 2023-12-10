@@ -1,0 +1,14 @@
+<.back navigate={~p"/targets"} class="left">Back to Targets</.back>
+
+<div class="page-heading">
+  Target #<%= @target.id %>
+  <div class="subheading">This is a target record from your database.</div>
+  <a href="/targets/new" class="button">+ Add Target</a>
+</div>
+
+<.list>
+  <:item title="Notes"><%= @target.notes %></:item>
+  <:item title="Status"><%= @target.status %></:item>
+</.list>
+
+<.back navigate={~p"/targets"} class="center">Back to Targets</.back>

@@ -7,8 +7,8 @@ defmodule Journey.Analytics.Browsing do
   schema "browsings" do
     field :browsing_uuid, Ecto.UUID
     field :last_visited_at, :utc_datetime_usec
-    belongs_to :client, Client
     has_many :visits, Visit, preload_order: [desc: :inserted_at]
+    belongs_to :client, Client
 
     timestamps(type: :utc_datetime)
   end

@@ -1,0 +1,10 @@
+<.back navigate={~p"/companies"} class={~s"left"}>Back to companies</.back>
+
+<div class="page-heading">
+  Edit Company #<%= @company.id %>
+  <div class="subheading">Use this form to manage company records in your database.</div>
+</div>
+
+<.company_form changeset={@changeset} action={~p"/companies/#{@company}"} />
+
+<.back navigate={~p"/companies"} class={~s"center"}>Back to companies</.back>
