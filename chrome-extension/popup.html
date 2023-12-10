@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Journey Extension</title>
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+
+<body>
+  <div id="main-container">
+    <div id="header">
+      <span id="journey-text">Journey</span>
+    </div>
+
+    <div id="login-section">
+      <button id="login-btn">Sign in with Google</button>
+    </div>
+
+    <div id="user-section" style="display: none;">
+      <div id="user-info">
+        <div id="user-details">
+          <div id="user-name"></div>
+          <div id="user-email"></div>
+        </div>
+        <div id="user-pic-container">
+          <img id="user-pic" alt="Profile Picture">
+        </div>
+      </div>
+      <button id="logout-btn">Logout</button>
+    </div>
+
+    <div id="add-to-journey-button" style="display: none;">
+      <button id="add-to-journey-btn">Add to Journey</button>
+    </div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+
+</html>

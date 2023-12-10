@@ -1,0 +1,28 @@
+{
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlBgrTpgj/Q+V3uSV3aFoW0h+Pke+e6OPLcuS+YIZlpz/H5OIkuTPOd5aI9vjbd9ESV83BQfufz7I/cmTr7TH2Yvw64Xyo5nQBCUHrNDRvlKwzm1hA9WhV9QNW47o862kQQLEsb8p/QdOiaIjt7hanFa5/5BMNkR0jJo6INbBxfY80H8O6CiSoZ0LIOuyjjhWSb7pVPkhLvhd7yXEIHvBpQty9mnMNicKIUYV3hVqgjbW4m0L/7hC8fW008gxXbOy97VQIVLerKWrsYoCH3JmcwURqbegFZJOLtsytpMi2eYTPV7fJJNsb/7d7s5kAwPF8kFzHdWDAROxGOMp1sM4lwIDAQAB",
+  "manifest_version": 3,
+  "name": "Journey Extension",
+  "version": "2.0",
+  "description": "A Chrome extension for Journey",
+  "permissions": [
+    "identity",
+    "storage",
+    "tabs",
+    "activeTab"
+  ],
+  "icons": {
+    "48": "journey_icon.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "journey_icon.png"
+  },
+  "oauth2": {
+    "client_id": "1099143688320-vg1b2vm463n2qh7omukh1vmkf59fu0o6.apps.googleusercontent.com",
+    "scopes": [
+      "openid",
+      "email",
+      "profile"
+    ]
+  }
+}

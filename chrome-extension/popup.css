@@ -1,0 +1,72 @@
+#main-container {
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+}
+
+#header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#journey-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4285f4;
+}
+
+#login-section,
+#user-section,
+#add-to-journey-button {
+  margin-top: 20px;
+}
+
+#login-btn,
+#logout-btn,
+#add-to-journey-btn {
+  padding: 8px 15px;
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+#user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#user-details {
+  text-align: left;
+}
+
+#user-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#user-email {
+  color: #777;
+}
+
+#user-pic-container {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+#user-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
