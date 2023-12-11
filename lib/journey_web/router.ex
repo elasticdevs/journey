@@ -50,7 +50,8 @@ defmodule JourneyWeb.Router do
 
     get "/clients/bulk", ClientController, :bulk
     post "/clients/sync_fresh_sales", ClientController, :sync_fresh_sales
-    get "/clients/get", ClientController, :get
+    get "/clients/linkedin", ClientController, :linkedin
+    # get "/clients/get", ClientController, :get
     resources "/clients", ClientController
 
     resources "/browsings", BrowsingController

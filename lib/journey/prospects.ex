@@ -4,6 +4,7 @@ defmodule Journey.Prospects do
   """
 
   import Ecto.Query, warn: false
+  require Logger
   alias Journey.Repo
   alias Journey.Prospects.Client
   alias Journey.Analytics.Browsing
@@ -11,6 +12,8 @@ defmodule Journey.Prospects do
 
   alias Journey.Prospects.FreshSales
   alias Journey.URLs
+  alias Journey.ThirdParties.Apollo.API
+  alias Journey.Common.Helpers
 
   @doc """
   Returns the list of clients.
@@ -101,6 +104,22 @@ defmodule Journey.Prospects do
 
   def get_client_by_client_uuid(client_uuid), do: Repo.get_by(Client, client_uuid: client_uuid)
 
+  def find_client_by_linkedin_url(linkedin_url) do
+    case Helpers.get_linkedin_from_linkedin_url(linkedin_url) do
+      nil ->
+        {:error, "Bad LinkedIn URL"}
+
+      linkedin ->
+        case Repo.get_by(Client, linkedin: linkedin) do
+          nil ->
+            {:new, linkedin}
+
+          c ->
+            {:ok, c}
+        end
+    end
+  end
+
   @doc """
   Creates a client.
 
@@ -127,6 +146,20 @@ defmodule Journey.Prospects do
         {:ok, client}
 
       {:error, changeset} ->
+        {:error, changeset}
+    end
+  end
+
+  def create_client_by_linkedin_url(linkedin_url) do
+    {company_params, client_params} = API.get_company_and_client_by_linkedin_url(linkedin_url)
+
+    case find_or_create_company(company_params) do
+      {:ok, c} ->
+        client_params = Map.put(client_params, :company_id, c.id)
+        create_client(client_params)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
         {:error, changeset}
     end
   end
@@ -250,8 +283,8 @@ defmodule Journey.Prospects do
   """
   def get_company!(id), do: Repo.get!(Company, id)
 
-  def find_company(txt) do
-    Repo.get_by(Company, :name, txt) || Repo.get_by(Company, :website, txt)
+  def get_company_by_external_id(external_id) do
+    Repo.get_by(Company, external_id: external_id)
   end
 
   @doc """
@@ -270,6 +303,16 @@ defmodule Journey.Prospects do
     %Company{}
     |> Company.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def find_or_create_company(company_params) do
+    case get_company_by_external_id(company_params[:external_id]) do
+      nil ->
+        create_company(company_params)
+
+      c ->
+        {:ok, c}
+    end
   end
 
   @doc """

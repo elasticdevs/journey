@@ -2,8 +2,6 @@ defmodule JourneyWeb.GoogleAuthController do
   use JourneyWeb, :controller
   plug Ueberauth
 
-  alias Ueberauth.Strategy.Helpers
-
   alias Journey.Accounts
   alias JourneyWeb.UserAuth
 

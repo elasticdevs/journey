@@ -409,9 +409,9 @@ defmodule Journey.Accounts do
     end
   end
 
-  defp validate_pass(%{other: %{password: nil}}) do
-    {:error, "Password required"}
-  end
+  # defp validate_pass(%{other: %{password: nil}}) do
+  #   {:error, "Password required"}
+  # end
 
   defp validate_pass(%{other: %{password: pw, password_confirmation: pw}}) do
     :ok

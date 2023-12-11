@@ -24,6 +24,8 @@ defmodule Journey.Prospects.Company do
     field :status, :string
     field :team_size, :string
     field :website, :string
+    field :source, :string
+    field :external_id, :string
     has_many :clients, Client, preload_order: [:created_at]
 
     timestamps(type: :utc_datetime)
@@ -49,7 +51,9 @@ defmodule Journey.Prospects.Company do
       :city,
       :lat,
       :lon,
-      :status
+      :status,
+      :source,
+      :external_id
     ])
     |> validate_required([
       :name,

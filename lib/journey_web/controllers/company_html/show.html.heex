@@ -5,7 +5,7 @@
   <div class="subheading">This is a company record from your database.</div>
 </div>
 
-<.table id="companies" rows={[@company]} row_click={&JS.navigate(~p"/companies/#{&1}")}>
+<.table id="companies" rows={[@company]}>
   <:col :let={company} label="Company UUID"><%= company.company_uuid %></:col>
   <:col :let={company} label="Name"><%= company.name %></:col>
   <:col :let={company} label="Website"><%= company.website %></:col>

@@ -1,6 +1,7 @@
 defmodule JourneyWeb.ClientController do
   use JourneyWeb, :controller
 
+  require Logger
   alias Journey.Prospects
   alias Journey.Prospects.Client
   alias Journey.Prospects.Bulk
@@ -37,18 +38,52 @@ defmodule JourneyWeb.ClientController do
     render(conn, :bulk, changeset: changeset)
   end
 
-  def get(conn, %{"client_uuid" => client_uuid}) do
-    case Prospects.get_client_by_client_uuid(client_uuid) do
-      nil ->
+  def linkedin(conn, %{"linkedin_url" => linkedin_url}) do
+    case Prospects.find_client_by_linkedin_url(linkedin_url) do
+      {:error, m} ->
+        Logger.error("FIND_CLIENT_BY_LINKEDIN_URL_BAD_LINKEDIN_URL, linkedin_url=#{linkedin_url}")
+
         conn
-        |> put_flash(:info, "Client could not be found.")
+        |> put_flash(:info, m)
         |> redirect(to: ~p"/")
 
-      c ->
+      {:new, _} ->
+        Logger.debug("FIND_CLIENT_BY_LINKEDIN_URL_NEW, linkedin_url=#{linkedin_url}")
+
+        case Prospects.create_client_by_linkedin_url(linkedin_url) do
+          {:ok, client} ->
+            conn
+            |> put_flash(:info, "Client / Company created successfully.")
+            |> redirect(to: ~p"/clients/#{client}")
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            Logger.error(
+              "FIND_CLIENT_BY_LINKEDIN_URL_ERROR, changeset=#{IO.inspect(changeset.errors)}"
+            )
+
+            conn
+            |> put_flash(:info, "Client / Company could not be created.")
+            |> redirect(to: ~p"/clients/new")
+        end
+
+      {:ok, c} ->
         conn
-        |> redirect(to: ~p"/clients/#{c.id}")
+        |> redirect(to: ~p"/clients/#{c}")
     end
   end
+
+  # def get(conn, %{"client_uuid" => client_uuid}) do
+  #   case Prospects.get_client_by_client_uuid(client_uuid) do
+  #     nil ->
+  #       conn
+  #       |> put_flash(:info, "Client could not be found.")
+  #       |> redirect(to: ~p"/")
+
+  #     c ->
+  #       conn
+  #       |> redirect(to: ~p"/clients/#{c.id}")
+  #   end
+  # end
 
   def show(conn, %{"id" => id}) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
