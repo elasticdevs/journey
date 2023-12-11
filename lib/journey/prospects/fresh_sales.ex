@@ -1,6 +1,8 @@
 defmodule Journey.Prospects.FreshSales do
   require Logger
 
+  alias Journey.Common.Helpers
+
   def get_contacts(page \\ 1) do
     url =
       "https://elasticdevs.myfreshworks.com/crm/sales/api/contacts/view/402003475669?page=#{page}"
@@ -39,7 +41,7 @@ defmodule Journey.Prospects.FreshSales do
         country: c["country"],
         company: c["company"],
         job_title: c["job_title"],
-        linkedin: c["linkedin"],
+        linkedin: Helpers.get_linkedin_from_linkedin_id(c["linkedin"]),
         phone: c["mobile_number"]
       }
     end)

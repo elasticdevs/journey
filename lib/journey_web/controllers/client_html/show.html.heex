@@ -54,11 +54,7 @@
       <%= raw(get_display_or_empty_span([client.job_title, client.company.name])) %>
     </:col>
     <:col :let={client} label="LinkedIn">
-      <a
-        :if={get_linked_in_url_from_client(client)}
-        href={get_linked_in_url_from_client(client)}
-        target="_blank"
-      >
+      <a href={client.linkedin} target="_blank">
         <%= raw(get_display_or_empty_span([client.linkedin])) %>
       </a>
     </:col>

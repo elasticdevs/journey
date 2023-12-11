@@ -104,20 +104,8 @@ defmodule Journey.Prospects do
 
   def get_client_by_client_uuid(client_uuid), do: Repo.get_by(Client, client_uuid: client_uuid)
 
-  def find_client_by_linkedin_url(linkedin_url) do
-    case Helpers.get_linkedin_from_linkedin_url(linkedin_url) do
-      nil ->
-        {:error, "Bad LinkedIn URL"}
-
-      linkedin ->
-        case Repo.get_by(Client, linkedin: linkedin) do
-          nil ->
-            {:new, linkedin}
-
-          c ->
-            {:ok, c}
-        end
-    end
+  def find_client_by_linkedin(linkedin) do
+    Repo.get_by(Client, linkedin: linkedin)
   end
 
   @doc """
@@ -150,8 +138,8 @@ defmodule Journey.Prospects do
     end
   end
 
-  def create_client_by_linkedin_url(linkedin_url) do
-    {company_params, client_params} = API.get_company_and_client_by_linkedin_url(linkedin_url)
+  def create_client_by_linkedin(linkedin) do
+    {company_params, client_params} = API.get_company_and_client_by_linkedin(linkedin)
 
     case find_or_create_company(company_params) do
       {:ok, c} ->

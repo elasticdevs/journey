@@ -38,19 +38,12 @@ defmodule JourneyWeb.ClientController do
     render(conn, :bulk, changeset: changeset)
   end
 
-  def linkedin(conn, %{"linkedin_url" => linkedin_url}) do
-    case Prospects.find_client_by_linkedin_url(linkedin_url) do
-      {:error, m} ->
-        Logger.error("FIND_CLIENT_BY_LINKEDIN_URL_BAD_LINKEDIN_URL, linkedin_url=#{linkedin_url}")
+  def linkedin(conn, %{"linkedin" => linkedin}) do
+    case Prospects.find_client_by_linkedin(linkedin) do
+      nil ->
+        Logger.debug("FIND_CLIENT_BY_LINKEDIN_NEW, linkedin=#{linkedin}")
 
-        conn
-        |> put_flash(:info, m)
-        |> redirect(to: ~p"/")
-
-      {:new, _} ->
-        Logger.debug("FIND_CLIENT_BY_LINKEDIN_URL_NEW, linkedin_url=#{linkedin_url}")
-
-        case Prospects.create_client_by_linkedin_url(linkedin_url) do
+        case Prospects.create_client_by_linkedin(linkedin) do
           {:ok, client} ->
             conn
             |> put_flash(:info, "Client / Company created successfully.")
@@ -58,7 +51,7 @@ defmodule JourneyWeb.ClientController do
 
           {:error, %Ecto.Changeset{} = changeset} ->
             Logger.error(
-              "FIND_CLIENT_BY_LINKEDIN_URL_ERROR, changeset=#{IO.inspect(changeset.errors)}"
+              "FIND_CLIENT_BY_LINKEDIN_ERROR, changeset=#{IO.inspect(changeset.errors)}"
             )
 
             conn
@@ -66,7 +59,9 @@ defmodule JourneyWeb.ClientController do
             |> redirect(to: ~p"/clients/new")
         end
 
-      {:ok, c} ->
+      c ->
+        Logger.debug("FIND_CLIENT_BY_LINKEDIN_EXISTS, linkedin=#{linkedin}")
+
         conn
         |> redirect(to: ~p"/clients/#{c}")
     end
