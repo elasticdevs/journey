@@ -59,5 +59,6 @@ defmodule Journey.Prospects.Company do
       :name,
       :website
     ])
+    |> unique_constraint(:website)
   end
 end

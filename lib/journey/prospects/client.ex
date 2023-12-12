@@ -59,8 +59,12 @@ defmodule Journey.Prospects.Client do
       :source,
       :last_visited_at
     ])
-    |> validate_required([:external_id])
+    |> validate_required([:external_id, :email, :linkedin])
     |> unique_constraint(:client_uuid)
+    |> update_change(:email, &String.downcase/1)
+    |> update_change(:linkedin, &String.downcase/1)
+    |> unique_constraint(:email)
+    |> unique_constraint(:linkedin)
   end
 
   def remove_bad_chars(changeset) do

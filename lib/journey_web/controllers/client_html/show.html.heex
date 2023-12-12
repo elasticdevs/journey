@@ -51,7 +51,7 @@
     </:col>
     <:col :let={client} label="Phone"><%= raw(get_display_or_empty_span([client.phone])) %></:col>
     <:col :let={client} label="Job-Title, Company">
-      <%= raw(get_display_or_empty_span([client.job_title, client.company.name])) %>
+      <%= raw(get_display_or_empty_span([client.job_title])) %>
     </:col>
     <:col :let={client} label="LinkedIn">
       <a href={client.linkedin} target="_blank">

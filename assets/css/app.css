@@ -249,6 +249,15 @@ td:first-child {
   color: var(--blue);
 }
 
+.company-name,
+.company-name a,
+.company-uuid,
+.company-uuid a {
+  font-weight: bold;
+  font-size: 0.7rem;
+  color: var(--black);
+}
+
 .client-name,
 .client-name a,
 .client-uuid,

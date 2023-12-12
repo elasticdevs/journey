@@ -93,22 +93,6 @@ defmodule JourneyWeb.HTMLHelpers do
     end
   end
 
-  def get_display_job_title_company_from_client(client) do
-    case({client.job_title, client.company}) do
-      {nil, nil} ->
-        "<span class='empty'>empty</span>"
-
-      {job_title, nil} ->
-        job_title
-
-      {nil, company} ->
-        company
-
-      {job_title, company} ->
-        "#{job_title}, <span class='company'>&lt;#{company}&gt;</span>"
-    end
-  end
-
   def get_website_from_client(client) do
     email = client.email || ""
 

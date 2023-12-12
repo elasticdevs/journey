@@ -13,7 +13,6 @@ defmodule Journey.Prospects do
   alias Journey.Prospects.FreshSales
   alias Journey.URLs
   alias Journey.ThirdParties.Apollo.API
-  alias Journey.Common.Helpers
 
   @doc """
   Returns the list of clients.
