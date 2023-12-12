@@ -75,27 +75,14 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   addToJourneyBtn.addEventListener('click', function () {
-    // Implement the logic to call your backend API with the access token and full URL
-    // Example: You can use the fetch API
-    const currentTabId = chrome.devtools.inspectedWindow.tabId;
-    chrome.tabs.get(currentTabId, function (tab) {
-      const fullUrl = tab.url;
-      const accessToken = 'your_access_token'; // Replace with the actual access token
-
-      fetch('https://your-backend-api.com/add-to-journey', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + accessToken,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url: fullUrl }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Add to Journey response:', data);
-          // Handle the response accordingly
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const currentTab = tabs[0];
+      if (currentTab) {
+        console.log("ADD_TO_JOURNEY_READ_URL, current_url=" + currentTab.url)
+        chrome.tabs.create({
+          url: "https://staging.journey.im/clients/linkedin?linkedin=" + currentTab.url
         })
-        .catch(error => console.error('Error adding to Journey:', error));
+      }
     });
   });
 
@@ -160,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const currentTab = tabs[0];
     if (currentTab) {
-      console.log("CURRENT_URL, current_url=" + currentTab.url)
+      console.log("EXTENSION_OPENED_CHECK_URL, current_url=" + currentTab.url)
       updateAddToJourneyButton(currentTab.id, { status: 'complete' }, currentTab);
     }
   });
