@@ -4,30 +4,59 @@
   Listing Companies <a href="/companies/new" class="button">+ Add Company</a>
 </div>
 
-<.table id="companies" rows={@companies} row_click={&JS.navigate(~p"/companies/#{&1}")}>
-  <:col :let={company} label="Company UUID"><%= company.company_uuid %></:col>
-  <:col :let={company} label="Name"><%= company.name %></:col>
-  <:col :let={company} label="Website"><%= company.website %></:col>
-  <:col :let={company} label="Funding"><%= company.funding %></:col>
-  <:col :let={company} label="Founded Year"><%= company.founded_year %></:col>
-  <:col :let={company} label="Team Size"><%= company.team_size %></:col>
-  <:col :let={company} label="Industries"><%= company.industries %></:col>
-  <:col :let={company} label="Annual Revenue"><%= company.annual_revenue %></:col>
-  <:col :let={company} label="Market Cap"><%= company.market_cap %></:col>
-  <:col :let={company} label="Phone"><%= company.phone %></:col>
-  <:col :let={company} label="LinkedIn"><%= company.linkedin %></:col>
-  <:col :let={company} label="Logo"><%= company.logo %></:col>
-  <:col :let={company} label="Country"><%= company.country %></:col>
-  <:col :let={company} label="State"><%= company.state %></:col>
-  <:col :let={company} label="City"><%= company.city %></:col>
-  <:col :let={company} label="Lat"><%= company.lat %></:col>
-  <:col :let={company} label="Lon"><%= company.lon %></:col>
-  <:col :let={company} label="Status"><%= company.status %></:col>
-  <:action :let={company}>
-    <.link navigate={~p"/companies/#{company}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
-  </:action>
-</.table>
-
+<div class="section">
+  <.table id="companies" rows={@companies} row_click={&JS.navigate(~p"/companies/#{&1}")}>
+    <:col :let={company} label="Company UUID">
+      <a href={get_company_url_from_company(company)}>
+        <%= get_shortened_uuid(company.company_uuid) %>
+      </a>
+    </:col>
+    <:col :let={company} label="Name" class="company-name"><%= company.name %></:col>
+    <:col :let={company} label="Website" class="domain">
+      <b>
+        <%= raw(get_website_from_company(company)) %>
+      </b>
+    </:col>
+    <:col :let={company} label="Funding" class="funding">
+      <%= raw(get_display_or_empty_span([company.funding])) %>
+    </:col>
+    <:col :let={company} label="Founded Year" class="founded">
+      <%= raw(get_display_or_empty_span([company.founded_year])) %>
+    </:col>
+    <%!-- <:col :let={company} label="Team Size">
+    <%= raw(get_display_or_empty_span([company.team_size])) %>
+  </:col>
+  <:col :let={company} label="Industries">
+    <%= raw(get_display_or_empty_span([company.industries])) %>
+  </:col> --%>
+    <:col :let={company} label="Annual Revenue">
+      <%= raw(get_display_or_empty_span([company.annual_revenue])) %>
+    </:col>
+    <%!-- <:col :let={company} label="Market Cap"><%= company.market_cap %></:col> --%>
+    <:col :let={company} label="Phone" class="phone">
+      <%= raw(get_display_or_empty_span([company.phone])) %>
+    </:col>
+    <:col :let={company} label="LinkedIn">
+      <a href={company.linkedin} target="_blank">
+        <%= raw(get_display_or_empty_span([company.linkedin])) %>
+      </a>
+    </:col>
+    <:col :let={company} label="Logo">
+      <span class="logo">
+        <%= raw(get_logo_or_empty_span(company.logo)) %>
+      </span>
+    </:col>
+    <:col :let={company} label="Country-State-City" class="country-state-city">
+      <%= raw(get_display_or_empty_span([company.country, company.state, company.city])) %>
+    </:col>
+    <:col :let={company} label="Lat"><%= company.lat %></:col>
+    <:col :let={company} label="Lon"><%= company.lon %></:col>
+    <%!-- <:col :let={company} label="Status"><%= company.status %></:col> --%>
+    <:action :let={company}>
+      <.link navigate={~p"/companies/#{company}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+    </:action>
+  </.table>
+</div>
 <.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

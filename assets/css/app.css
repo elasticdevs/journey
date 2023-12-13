@@ -1,5 +1,6 @@
 :root {
   --white: #ffffff;
+  --orange: #ff8d14;
   --slightest-red: #ffecec;
   --slight-red: #ecbfbf;
   --light-red: #ff5d5d;
@@ -254,8 +255,8 @@ td:first-child {
 .company-uuid,
 .company-uuid a {
   font-weight: bold;
-  font-size: 0.7rem;
-  color: var(--black);
+  font-size: 1rem;
+  color: var(--orange);
 }
 
 .client-name,
@@ -356,6 +357,7 @@ table {
   color: var(--darker-grey);
 }
 
+.company,
 .client {
   margin: 10px 0;
   font-weight: bold;
@@ -363,14 +365,43 @@ table {
   color: var(--darker-grey);
 }
 
+.company .name,
 .client .name {
   font-size: 1.4rem;
+  color: var(--black);
+}
+
+.funding {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--green);
+}
+
+.founded {
+  font-size: 1.1rem;
+  font-weight: bold;
   color: var(--black);
 }
 
 .email {
   font-size: 0.8rem;
   color: var(--light-blue);
+}
+
+.phone {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--darkest-grey);
+}
+
+.title {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--darkest-grey);
+}
+
+.logo img {
+  width: 40px;
 }
 
 .error {

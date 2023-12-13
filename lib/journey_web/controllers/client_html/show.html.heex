@@ -46,7 +46,7 @@
     </:col>
     <:col :let={client} label="Website">
       <b>
-        <%= raw(get_website_from_client(client)) %>
+        <%= raw(get_domain_from_client(client)) %>
       </b>
     </:col>
     <:col :let={client} label="Phone"><%= raw(get_display_or_empty_span([client.phone])) %></:col>

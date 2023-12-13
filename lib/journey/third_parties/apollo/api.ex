@@ -41,7 +41,7 @@ defmodule Journey.ThirdParties.Apollo.API do
       %{
         external_id: organization["id"],
         name: organization["name"],
-        website: organization["website_url"],
+        website: http_to_https(organization["website_url"]),
         linkedin: organization["linkedin_url"],
         city: organization["city"],
         state: organization["state"],
@@ -72,5 +72,9 @@ defmodule Journey.ThirdParties.Apollo.API do
     phone_numbers = client["phone_numbers"] || []
     phone_number = Enum.at(phone_numbers, 0) || %{}
     phone_number["sanitized_number"] || nil
+  end
+
+  def http_to_https(url) do
+    String.replace(url || "", "http://", "https://")
   end
 end

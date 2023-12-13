@@ -11,6 +11,10 @@ defmodule JourneyWeb.HTMLHelpers do
     Enum.flat_map(browsings, fn b -> b.visits end)
   end
 
+  def get_company_url_from_company(company) do
+    if company, do: "/companies/#{company.id}", else: ""
+  end
+
   def get_client_url_from_client(client) do
     if client, do: "/clients/#{client.id}", else: ""
   end
@@ -93,7 +97,17 @@ defmodule JourneyWeb.HTMLHelpers do
     end
   end
 
-  def get_website_from_client(client) do
+  def get_website_from_company(company) do
+    case company.website do
+      nil ->
+        "<span class='empty'>empty</span>"
+
+      website ->
+        "<a href=\"#{website}\" class=\"domain\" target=\"_blank\">#{website}</a>"
+    end
+  end
+
+  def get_domain_from_client(client) do
     email = client.email || ""
 
     case Enum.at(String.split(email, "@", trim: true), 1) do
@@ -112,6 +126,16 @@ defmodule JourneyWeb.HTMLHelpers do
 
       vs ->
         Enum.join(vs, ", ")
+    end
+  end
+
+  def get_logo_or_empty_span(logo) do
+    case logo do
+      nil ->
+        "<span class='empty'>empty</span>"
+
+      l ->
+        "<img src=\"#{l}\" />"
     end
   end
 
