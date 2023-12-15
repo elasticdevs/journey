@@ -105,7 +105,7 @@ defmodule JourneyWeb.ClientController do
         |> put_flash(:info, "Company and Client resynced successfully.")
         |> redirect(to: ~p"/clients/#{client}")
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{} = _changeset} ->
         conn
         |> put_flash(:info, "Company and Client resynced failed.")
         |> redirect(to: ~p"/clients/#{client}")
