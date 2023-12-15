@@ -265,6 +265,7 @@ td:first-child {
 
 .logo img {
   margin: 0 5px;
+  border-radius: 5px;
   line-height: normal;
   width: 25px;
 }
