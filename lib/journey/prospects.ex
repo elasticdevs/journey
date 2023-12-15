@@ -184,8 +184,8 @@ defmodule Journey.Prospects do
   def resync_company_and_client(client) do
     {company_params, client_params} = API.get_company_and_client_by_linkedin(client.linkedin)
 
-    Logger.debug("RESYNC_COMPANY_PARAMS, company_params=#{company_params}")
-    Logger.debug("RESYNC_CLIENT_PARAMS, client_params=#{client_params}")
+    Logger.debug("RESYNC_COMPANY_PARAMS, company_params=#{Kernel.inspect(company_params)}")
+    Logger.debug("RESYNC_CLIENT_PARAMS, client_params=#{Kernel.inspect(client_params)}")
 
     client_params =
       if company_params do
