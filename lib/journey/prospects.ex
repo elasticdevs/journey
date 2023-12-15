@@ -178,6 +178,20 @@ defmodule Journey.Prospects do
     {:ok, client}
   end
 
+  def update_client_by_linkedin(linkedin) do
+    {company_params, client_params} = API.get_company_and_client_by_linkedin(linkedin)
+
+    case find_or_create_company(company_params) do
+      {:ok, c} ->
+        client_params = Map.put(client_params, :company_id, c.id)
+        create_client(client_params)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
+        {:error, changeset}
+    end
+  end
+
   @doc """
   Deletes a client.
 
@@ -271,6 +285,32 @@ defmodule Journey.Prospects do
 
   """
   def get_company!(id), do: Repo.get!(Company, id)
+
+  def get_company_preloaded_with_clients_browsings_visits(%{in_last_secs: in_last_secs, id: id}) do
+    {browsings_where, visits_where} =
+      case in_last_secs do
+        "all" ->
+          {true, true}
+
+        nil ->
+          {true, true}
+
+        _ ->
+          {
+            dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
+            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+          }
+      end
+
+    browsings_query =
+      from b in Browsing,
+        where: ^browsings_where
+
+    visits_query = from v in Visit, where: ^visits_where
+
+    Repo.get(Company, id)
+    |> Repo.preload(clients: [browsings: {browsings_query, [visits: visits_query]}])
+  end
 
   def get_company_by_external_id(external_id) do
     Repo.get_by(Company, external_id: external_id)

@@ -2,7 +2,7 @@ import Config
 
 # URL Config
 config :journey, Journey.URLs,
-  website_url: "https://staging.elasticdevs.io",
+  website_url: "https://elasticdevs.io",
   shortener_url: "https://sg.jou.im" || "https://sg.eldv.io"
 
 # Configure your database

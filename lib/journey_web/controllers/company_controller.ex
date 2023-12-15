@@ -27,7 +27,14 @@ defmodule JourneyWeb.CompanyController do
   end
 
   def show(conn, %{"id" => id}) do
-    company = Prospects.get_company!(id)
+    in_last_secs = get_in_last_secs_from_cookie(conn)
+
+    company =
+      Prospects.get_company_preloaded_with_clients_browsings_visits(%{
+        in_last_secs: in_last_secs,
+        id: id
+      })
+
     render(conn, :show, company: company)
   end
 

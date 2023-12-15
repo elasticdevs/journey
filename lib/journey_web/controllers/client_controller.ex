@@ -63,6 +63,7 @@ defmodule JourneyWeb.ClientController do
         Logger.debug("FIND_CLIENT_BY_LINKEDIN_EXISTS, linkedin=#{linkedin}")
 
         conn
+        |> put_flash(:info, "Client is already a part of journey.")
         |> redirect(to: ~p"/clients/#{c}")
     end
   end

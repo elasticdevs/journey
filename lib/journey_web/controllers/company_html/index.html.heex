@@ -12,10 +12,12 @@
       </a>
     </:col>
     <:col :let={company} label="Name" class="company-name">
-      <span class="logo">
-        <%= raw(get_logo_or_empty_span(company.logo)) %>
-      </span>
-      <%= company.name %>
+      <a href={"/companies/#{company.id}"}>
+        <span class="logo">
+          <%= raw(get_logo_or_empty_span(company.logo)) %>
+        </span>
+        <%= company.name %>
+      </a>
     </:col>
     <:col :let={company} label="Website" class="domain">
       <b>
