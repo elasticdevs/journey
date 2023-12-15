@@ -142,6 +142,9 @@ defmodule Journey.Prospects do
   def create_client_by_linkedin(linkedin) do
     {company_params, client_params} = API.get_company_and_client_by_linkedin(linkedin)
 
+    Logger.debug("CREATE_CLIENT_COMPANY_PARAMS, company_params=#{Kernel.inspect(company_params)}")
+    Logger.debug("CREATE_CLIENT_PARAMS, client_params=#{Kernel.inspect(client_params)}")
+
     client_params =
       case find_or_create_company(company_params) do
         {:ok, c} ->
@@ -198,7 +201,9 @@ defmodule Journey.Prospects do
                 Map.put(client_params, :company_id, c.id)
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{Kernel.inspect(changeset)}")
+                Logger.error(
+                  "RESYNC_FIND_OR_CREATE_COMPANY_ERROR, errors=#{Kernel.inspect(changeset)}"
+                )
 
                 client_params
             end
