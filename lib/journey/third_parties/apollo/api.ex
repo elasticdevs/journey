@@ -19,17 +19,18 @@ defmodule Journey.ThirdParties.Apollo.API do
              ]
            ) do
         {:ok, %{status_code: 200, body: body}} ->
+          Logger.debug("APOLLO_API_BODY, body=#{body}")
           Jason.decode!(body)["person"]
 
         {:ok, %{status_code: 404}} ->
           # do something with a 404
-          Logger.error("APOLLO_CLIENTS_POST_404, status_code=404")
+          Logger.error("APOLLO_API_CLIENTS_POST_404, status_code=404")
 
           []
 
         {:error, %{reason: reason}} ->
           # do something with an error
-          Logger.error("APOLLO_CLIENTS_POST_ERROR, reason=#{reason}")
+          Logger.error("APOLLO_API_CLIENTS_POST_ERROR, reason=#{reason}")
 
           []
       end

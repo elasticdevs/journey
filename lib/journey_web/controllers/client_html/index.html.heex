@@ -27,9 +27,9 @@
       <%= length(enum_browsings_visits(client.browsings)) %>
     </:col>
     <:col :let={client} label="Company" class="company-name">
-      <a href={"/companies/#{client.company.id}"}>
+      <a href={"/companies/#{if client.company, do: client.company.id, else: nil}"}>
         <span class="logo">
-          <%= raw(get_logo_or_empty_span(client.company.logo)) %>
+          <%= raw(get_logo_or_empty_span(if client.company, do: client.company.logo, else: nil)) %>
         </span>
 
         <%= raw(get_display_or_empty_span([get_company_name_from_client(client)])) %>

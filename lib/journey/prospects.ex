@@ -181,20 +181,51 @@ defmodule Journey.Prospects do
   def resync_company_and_client(client) do
     {company_params, client_params} = API.get_company_and_client_by_linkedin(client.linkedin)
 
-    case update_company(client.company, company_params) do
-      {:ok, co} ->
-        case update_client(client, client_params) do
+    Logger.debug("RESYNC_COMPANY_PARAMS, company_params=#{company_params}")
+    Logger.debug("RESYNC_CLIENT_PARAMS, client_params=#{client_params}")
+
+    case client.company do
+      nil ->
+        case find_or_create_company(company_params) do
           {:ok, c} ->
-            {:ok}
+            client_params = Map.put(client_params, :company_id, c.id)
+
+            case update_client(client, client_params) do
+              {:ok, _} ->
+                {:ok}
+
+              {:error, %Ecto.Changeset{} = changeset} ->
+                Logger.error(
+                  "RESYNC_CLIENT_ERROR_COMPANY_CREATE_CASE, errors=#{IO.inspect(changeset.errors)}"
+                )
+
+                {:error, changeset}
+            end
 
           {:error, %Ecto.Changeset{} = changeset} ->
-            Logger.error("RESYNC_CLIENT_ERROR, errors=#{IO.inspect(changeset.errors)}")
+            Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
             {:error, changeset}
         end
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        Logger.error("RESYNC_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
-        {:error, changeset}
+      co ->
+        case update_company(co, company_params) do
+          {:ok, com} ->
+            case update_client(client, client_params) do
+              {:ok, c} ->
+                {:ok}
+
+              {:error, %Ecto.Changeset{} = changeset} ->
+                Logger.error(
+                  "RESYNC_CLIENT_ERROR_COMPANY_UPDATE_CASE, errors=#{IO.inspect(changeset.errors)}"
+                )
+
+                {:error, changeset}
+            end
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            Logger.error("RESYNC_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
+            {:error, changeset}
+        end
     end
   end
 
@@ -319,7 +350,7 @@ defmodule Journey.Prospects do
   end
 
   def get_company_by_external_id(external_id) do
-    Repo.get_by(Company, external_id: external_id)
+    if external_id, do: Repo.get_by(Company, external_id: external_id), else: nil
   end
 
   @doc """
