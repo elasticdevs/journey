@@ -61,9 +61,9 @@ defmodule Journey.Prospects.Client do
     ])
     |> clean_up()
     |> validate_required([:linkedin])
-    |> unique_constraint(:client_uuid)
-    |> update_change(:email, &String.downcase/1)
     |> update_change(:linkedin, &String.downcase/1)
+    |> update_change(:email, &String.downcase/1)
+    |> unique_constraint(:client_uuid)
     |> unique_constraint(:linkedin)
   end
 
