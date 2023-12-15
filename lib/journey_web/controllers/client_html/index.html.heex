@@ -4,11 +4,6 @@
   <span class="data-point"><span class="data">(<%= length(@clients) %>)</span></span>
   <span class="small">(based on time selected)</span>
   <a href="/clients/new" class="button">+ Add Client</a>
-  <.simple_form for={%{}} action={~p"/clients/sync_fresh_sales"} class="inline">
-    <:actions>
-      <.button>Sync Fresh Sales</.button>
-    </:actions>
-  </.simple_form>
 </div>
 
 <input type="text" id="search" placeholder="Search ..." />
