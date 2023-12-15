@@ -157,9 +157,11 @@ $(function ($) {
 
 $(function () {
   //check all images on the page
-  $('img').each(function () {
-    if (!(this.complete && this.naturalHeight !== 0)) {
-      $(this).invisible()
-    }
-  })
+  setTimeout(() => {
+    $('img').each(function () {
+      if (!(this.complete && this.naturalHeight !== 0)) {
+        $(this).invisible()
+      }
+    })
+  }, 1000)
 })

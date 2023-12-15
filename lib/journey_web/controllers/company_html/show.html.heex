@@ -12,7 +12,12 @@
         <%= get_shortened_uuid(company.company_uuid) %>
       </a>
     </:col>
-    <:col :let={company} label="Name" class="company-name"><%= company.name %></:col>
+    <:col :let={company} label="Name" class="company-name">
+      <span class="logo">
+        <%= raw(get_logo_or_empty_span(company.logo)) %>
+      </span>
+      <%= company.name %>
+    </:col>
     <:col :let={company} label="Website" class="domain">
       <b>
         <%= raw(get_website_from_company(company)) %>
@@ -42,11 +47,7 @@
         <%= raw(get_display_or_empty_span([company.linkedin])) %>
       </a>
     </:col>
-    <:col :let={company} label="Logo">
-      <span class="logo">
-        <%= raw(get_logo_or_empty_span(company.logo)) %>
-      </span>
-    </:col>
+
     <:col :let={company} label="Country-State-City" class="country-state-city">
       <%= raw(get_display_or_empty_span([company.country, company.state, company.city])) %>
     </:col>
