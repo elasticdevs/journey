@@ -59,7 +59,8 @@ defmodule Journey.Prospects.Client do
       :source,
       :last_visited_at
     ])
-    |> validate_required([:external_id, :email, :linkedin])
+    |> clean_up()
+    |> validate_required([:external_id, :linkedin])
     |> unique_constraint(:client_uuid)
     |> update_change(:email, &String.downcase/1)
     |> update_change(:linkedin, &String.downcase/1)
@@ -74,5 +75,10 @@ defmodule Journey.Prospects.Client do
       end),
       %{}
     )
+  end
+
+  def clean_up(changeset) do
+    changeset
+    |> change(linkedin: changeset |> get_change(:linkedin) |> String.trim_trailing("/"))
   end
 end

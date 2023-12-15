@@ -51,7 +51,7 @@ defmodule JourneyWeb.ClientController do
 
           {:error, %Ecto.Changeset{} = changeset} ->
             Logger.error(
-              "FIND_CLIENT_BY_LINKEDIN_ERROR, changeset=#{IO.inspect(changeset.errors)}"
+              "FIND_CLIENT_BY_LINKEDIN_CREATE_ERROR, changeset=#{IO.inspect(changeset.errors)}"
             )
 
             conn

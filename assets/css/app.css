@@ -254,9 +254,19 @@ td:first-child {
 .company-name a,
 .company-uuid,
 .company-uuid a {
+  display: flex;
+  align-items: center;
+  line-height: normal;
+
   font-weight: bold;
   font-size: 1rem;
   color: var(--orange);
+}
+
+.logo img {
+  margin: 0 5px;
+  line-height: normal;
+  width: 25px;
 }
 
 .client-name,
@@ -347,7 +357,6 @@ table {
   font-size: 1rem;
 }
 
-
 #search-results-info {
   margin-top: -15px;
   margin-bottom: 1rem;
@@ -355,6 +364,16 @@ table {
   font-style: italic;
   font-size: 1rem;
   color: var(--darker-grey);
+}
+
+.logo-name-email {
+  display: flex;
+  align-items: center;
+  line-height: normal;
+}
+
+.linkedin img {
+  width: 30px;
 }
 
 .company,
@@ -398,10 +417,6 @@ table {
   font-size: 0.9rem;
   font-style: italic;
   color: var(--darkest-grey);
-}
-
-.logo img {
-  width: 40px;
 }
 
 .error {

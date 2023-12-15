@@ -55,10 +55,16 @@ defmodule Journey.Prospects.Company do
       :source,
       :external_id
     ])
+    |> clean_up()
     |> validate_required([
       :name,
       :website
     ])
     |> unique_constraint(:website)
+  end
+
+  def clean_up(changeset) do
+    changeset
+    |> change(linkedin: changeset |> get_change(:linkedin) |> String.trim_trailing("/"))
   end
 end

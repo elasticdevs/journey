@@ -32,9 +32,14 @@
       <%= length(enum_browsings_visits(client.browsings)) %>
     </:col>
     <:col :let={client} label="Company" class="company-name">
-      <%= raw(get_display_or_empty_span([client.company.name])) %>
+      <%= raw(get_display_or_empty_span([get_company_name_from_client(client)])) %>
     </:col>
-    <:col :let={client} label="Name, Email">
+    <:col :let={client} label="Name, Email" class="logo-name-email">
+      <span class="linkedin">
+        <a href={client.linkedin} target="_blank">
+          <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
+        </a>
+      </span>
       <b>
         <%= raw(get_display_name_email_from_client(client)) %>
       </b>
@@ -49,11 +54,6 @@
     </:col>
     <:col :let={client} label="Job-Title" class="title">
       <%= raw(get_display_or_empty_span([client.job_title])) %>
-    </:col>
-    <:col :let={client} label="LinkedIn">
-      <a href={client.linkedin} target="_blank">
-        <%= raw(get_display_or_empty_span([client.linkedin])) %>
-      </a>
     </:col>
     <:col :let={client} label="Country-State-City" class="country-state-city">
       <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>

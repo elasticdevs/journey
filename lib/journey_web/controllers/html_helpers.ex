@@ -139,6 +139,12 @@ defmodule JourneyWeb.HTMLHelpers do
     end
   end
 
+  def get_company_name_from_client(client) do
+    if client != nil && client.company != nil && client.company.name != nil,
+      do: client.company.name,
+      else: ""
+  end
+
   # URL functions
   def sponsored_link_full_from_client(client) do
     "#{Application.fetch_env!(:journey, Journey.URLs)[:website_url]}/?uuid=#{client.client_uuid}"

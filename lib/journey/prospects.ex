@@ -104,6 +104,8 @@ defmodule Journey.Prospects do
   def get_client_by_client_uuid(client_uuid), do: Repo.get_by(Client, client_uuid: client_uuid)
 
   def find_client_by_linkedin(linkedin) do
+    linkedin = linkedin |> String.trim_trailing("/")
+
     Repo.get_by(Client, linkedin: linkedin)
   end
 
