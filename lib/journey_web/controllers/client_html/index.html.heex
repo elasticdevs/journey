@@ -32,7 +32,13 @@
       <%= length(enum_browsings_visits(client.browsings)) %>
     </:col>
     <:col :let={client} label="Company" class="company-name">
-      <%= raw(get_display_or_empty_span([get_company_name_from_client(client)])) %>
+      <a href={"/companies/#{client.company.id}"}>
+        <span class="logo">
+          <%= raw(get_logo_or_empty_span(client.company.logo)) %>
+        </span>
+
+        <%= raw(get_display_or_empty_span([get_company_name_from_client(client)])) %>
+      </a>
     </:col>
     <:col :let={client} label="Name, Email" class="logo-name-email">
       <span class="linkedin">

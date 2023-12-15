@@ -140,3 +140,26 @@ $(function () {
     $("#msg").addClass("hidden")
   }, 5000)
 })
+
+// jQuery invisible / visible functions
+$(function ($) {
+  $.fn.invisible = function () {
+    return this.each(function () {
+      $(this).css("visibility", "hidden");
+    });
+  };
+  $.fn.visible = function () {
+    return this.each(function () {
+      $(this).css("visibility", "visible");
+    });
+  };
+}(jQuery));
+
+$(function () {
+  //check all images on the page
+  $('img').each(function () {
+    if (!(this.complete && this.naturalHeight !== 0)) {
+      $(this).invisible()
+    }
+  })
+})
