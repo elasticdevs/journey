@@ -51,7 +51,7 @@ defmodule JourneyWeb.ClientController do
 
           {:error, %Ecto.Changeset{} = changeset} ->
             Logger.error(
-              "FIND_CLIENT_BY_LINKEDIN_CREATE_ERROR, changeset=#{IO.inspect(changeset.errors)}"
+              "FIND_CLIENT_BY_LINKEDIN_CREATE_ERROR, changeset=#{Kernel.inspect(changeset)}"
             )
 
             conn
@@ -63,7 +63,7 @@ defmodule JourneyWeb.ClientController do
         Logger.debug("FIND_CLIENT_BY_LINKEDIN_EXISTS, linkedin=#{linkedin}")
 
         conn
-        |> put_flash(:info, "Client is already a part of journey.")
+        |> put_flash(:info, "Client is already a part of Journey.")
         |> redirect(to: ~p"/clients/#{c}")
     end
   end

@@ -60,11 +60,10 @@ defmodule Journey.Prospects.Client do
       :last_visited_at
     ])
     |> clean_up()
-    |> validate_required([:external_id, :linkedin])
+    |> validate_required([:linkedin])
     |> unique_constraint(:client_uuid)
     |> update_change(:email, &String.downcase/1)
     |> update_change(:linkedin, &String.downcase/1)
-    |> unique_constraint(:email)
     |> unique_constraint(:linkedin)
   end
 

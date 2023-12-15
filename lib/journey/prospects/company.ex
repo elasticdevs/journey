@@ -57,10 +57,9 @@ defmodule Journey.Prospects.Company do
     ])
     |> clean_up()
     |> validate_required([
-      :name,
-      :website
+      :linkedin
     ])
-    |> unique_constraint(:website)
+    |> unique_constraint(:linkedin)
   end
 
   def clean_up(changeset) do

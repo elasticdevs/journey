@@ -151,7 +151,7 @@ defmodule JourneyWeb.EmailController do
           "Email sent successfully !!"
 
         {:error, reason} ->
-          Logger.debug("GMAIL_API_MAIL_ERROR, reason=#{reason}")
+          Logger.debug("GMAIL_API_MAIL_ERROR, reason=#{Kernel.inspect(reason)}")
           "Error sending email."
       end
 

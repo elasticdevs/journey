@@ -1,10 +1,5 @@
 import Config
 
-# URL Config
-config :journey, Journey.URLs,
-  website_url: "https://elasticdevs.io",
-  shortener_url: "https://sg.jou.im" || "https://sg.eldv.io"
-
 # Configure your database
 config :journey, Journey.Repo,
   username: "postgres",
@@ -86,5 +81,10 @@ config :phoenix_live_view, :debug_heex_annotations, true
 
 # Disable swoosh api client as it is only required for production adapters.
 # config :swoosh, :api_client, false
+
+# URL Config
+config :journey, Journey.URLs,
+  website_url: "https://elasticdevs.io",
+  shortener_url: "https://sg.jou.im" || "https://sg.eldv.io"
 
 import_config "dev.secret.exs"

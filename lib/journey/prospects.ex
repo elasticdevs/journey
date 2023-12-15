@@ -142,15 +142,18 @@ defmodule Journey.Prospects do
   def create_client_by_linkedin(linkedin) do
     {company_params, client_params} = API.get_company_and_client_by_linkedin(linkedin)
 
-    case find_or_create_company(company_params) do
-      {:ok, c} ->
-        client_params = Map.put(client_params, :company_id, c.id)
-        create_client(client_params)
+    client_params =
+      case find_or_create_company(company_params) do
+        {:ok, c} ->
+          Map.put(client_params, :company_id, c.id)
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
-        {:error, changeset}
-    end
+        {:error, %Ecto.Changeset{} = changeset} ->
+          Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{Kernel.inspect(changeset)}")
+
+          client_params
+      end
+
+    create_client(client_params)
   end
 
   @doc """
@@ -184,48 +187,46 @@ defmodule Journey.Prospects do
     Logger.debug("RESYNC_COMPANY_PARAMS, company_params=#{company_params}")
     Logger.debug("RESYNC_CLIENT_PARAMS, client_params=#{client_params}")
 
-    case client.company do
-      nil ->
-        case find_or_create_company(company_params) do
-          {:ok, c} ->
-            client_params = Map.put(client_params, :company_id, c.id)
-
-            case update_client(client, client_params) do
-              {:ok, _} ->
-                {:ok}
-
-              {:error, %Ecto.Changeset{} = changeset} ->
-                Logger.error(
-                  "RESYNC_CLIENT_ERROR_COMPANY_CREATE_CASE, errors=#{IO.inspect(changeset.errors)}"
-                )
-
-                {:error, changeset}
-            end
-
-          {:error, %Ecto.Changeset{} = changeset} ->
-            Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
-            {:error, changeset}
-        end
-
-      co ->
-        case update_company(co, company_params) do
-          {:ok, com} ->
-            case update_client(client, client_params) do
+    client_params =
+      if company_params do
+        case client.company do
+          nil ->
+            case find_or_create_company(company_params) do
               {:ok, c} ->
-                {:ok}
+                Map.put(client_params, :company_id, c.id)
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                Logger.error(
-                  "RESYNC_CLIENT_ERROR_COMPANY_UPDATE_CASE, errors=#{IO.inspect(changeset.errors)}"
-                )
+                Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{Kernel.inspect(changeset)}")
 
-                {:error, changeset}
+                client_params
             end
 
-          {:error, %Ecto.Changeset{} = changeset} ->
-            Logger.error("RESYNC_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
-            {:error, changeset}
+          co ->
+            case update_company(co, company_params) do
+              {:ok, _} ->
+                company_params
+
+              {:error, %Ecto.Changeset{} = changeset} ->
+                Logger.error("RESYNC_COMPANY_ERROR, errors=#{Kernel.inspect(changeset)}")
+                company_params
+            end
         end
+      else
+        client_params
+      end
+
+    if client_params do
+      case update_client(client, client_params) do
+        {:ok, _} ->
+          {:ok}
+
+        {:error, %Ecto.Changeset{} = changeset} ->
+          Logger.error(
+            "RESYNC_CLIENT_ERROR_COMPANY_UPDATE_CASE, errors=#{Kernel.inspect(changeset)}"
+          )
+
+          {:error, changeset}
+      end
     end
   end
 
