@@ -96,6 +96,22 @@ defmodule JourneyWeb.ClientController do
     end
   end
 
+  def resync(conn, %{"client_id" => client_id}) do
+    client = Prospects.get_client!(client_id)
+
+    case Prospects.resync_company_and_client(client) do
+      {:ok} ->
+        conn
+        |> put_flash(:info, "Company and Client resynced successfully.")
+        |> redirect(to: ~p"/clients/#{client}")
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:info, "Company and Client resynced failed.")
+        |> redirect(to: ~p"/clients/#{client}")
+    end
+  end
+
   def sync_fresh_sales(conn, _) do
     Prospects.sync_fresh_sales()
 

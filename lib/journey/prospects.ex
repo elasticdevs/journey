@@ -68,7 +68,7 @@ defmodule Journey.Prospects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_client!(id), do: Repo.get!(Client, id)
+  def get_client!(id), do: Repo.get!(Client, id) |> Repo.preload(:company)
 
   def get_client(%{in_last_secs: in_last_secs, id: id}) do
     {browsings_where, visits_where} =
@@ -178,16 +178,22 @@ defmodule Journey.Prospects do
     {:ok, client}
   end
 
-  def update_client_by_linkedin(linkedin) do
-    {company_params, client_params} = API.get_company_and_client_by_linkedin(linkedin)
+  def resync_company_and_client(client) do
+    {company_params, client_params} = API.get_company_and_client_by_linkedin(client.linkedin)
 
-    case find_or_create_company(company_params) do
-      {:ok, c} ->
-        client_params = Map.put(client_params, :company_id, c.id)
-        create_client(client_params)
+    case update_company(client.company, company_params) do
+      {:ok, co} ->
+        case update_client(client, client_params) do
+          {:ok, c} ->
+            {:ok}
+
+          {:error, %Ecto.Changeset{} = changeset} ->
+            Logger.error("RESYNC_CLIENT_ERROR, errors=#{IO.inspect(changeset.errors)}")
+            {:error, changeset}
+        end
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
+        Logger.error("RESYNC_COMPANY_ERROR, errors=#{IO.inspect(changeset.errors)}")
         {:error, changeset}
     end
   end

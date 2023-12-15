@@ -52,7 +52,9 @@ defmodule JourneyWeb.Router do
     post "/clients/sync_fresh_sales", ClientController, :sync_fresh_sales
     get "/clients/linkedin", ClientController, :linkedin
     # get "/clients/get", ClientController, :get
-    resources "/clients", ClientController
+    resources "/clients", ClientController do
+      post "/resync", ClientController, :resync
+    end
 
     resources "/browsings", BrowsingController
     resources "/visits", VisitController

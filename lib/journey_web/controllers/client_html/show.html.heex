@@ -2,6 +2,11 @@
 
 <div class="page-heading">
   Client: <b><%= get_client_display_name_from_client(@client) %></b>
+  <.simple_form for={%{}} action={~p"/clients/#{@client.id}/resync"} class="inline">
+    <:actions>
+      <.button><i data-feather="refresh-ccw"></i> Resync</.button>
+    </:actions>
+  </.simple_form>
 </div>
 <div class="page-heading-3">
   Sponsored Link:

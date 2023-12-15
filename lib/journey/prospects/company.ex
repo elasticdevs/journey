@@ -64,7 +64,13 @@ defmodule Journey.Prospects.Company do
   end
 
   def clean_up(changeset) do
-    changeset
-    |> change(linkedin: changeset |> get_change(:linkedin) |> String.trim_trailing("/"))
+    case get_change(changeset, :linkedin) do
+      nil ->
+        changeset
+
+      linkedin ->
+        changeset
+        |> change(linkedin: String.trim_trailing(linkedin, "/"))
+    end
   end
 end
