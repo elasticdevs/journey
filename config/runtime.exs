@@ -25,16 +25,28 @@ end
 # To get SSL working, you will need to add the `https` key
 # to your endpoint configuration:
 #
-config :journey, JourneyWeb.Endpoint,
-  https: [
-    sni_fun: &JourneyWeb.Endpoint.ssloptions/1,
-    port: 443,
-    keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
-    certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem",
-    cipher_suite: :strong
-  ]
+
+if config_env() == :dev do
+  config :journey, JourneyWeb.Endpoint,
+    https: [
+      port: 443,
+      keyfile: "/etc/letsencrypt/live/staging.journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/staging.journey.im/fullchain.pem",
+      sni_fun: &JourneyWeb.Endpoint.ssloptions/1,
+      cipher_suite: :strong
+    ]
+end
 
 if config_env() == :prod do
+  config :journey, JourneyWeb.Endpoint,
+    https: [
+      port: 443,
+      keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem",
+      sni_fun: &JourneyWeb.Endpoint.ssloptions/1,
+      cipher_suite: :strong
+    ]
+
   # database_url =
   #   System.get_env("DATABASE_URL") ||
   #     raise """
