@@ -172,7 +172,7 @@ defmodule Journey.Prospects do
 
   """
   def update_client(%Client{} = c, attrs) do
-    Logger.debug("CLIENT_UPDATE_ATTRS, attrs=#{attrs}")
+    Logger.debug("CLIENT_UPDATE_ATTRS, attrs=#{Kernel.inspect(attrs)}")
 
     client =
       c

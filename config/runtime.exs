@@ -29,8 +29,8 @@ config :journey, JourneyWeb.Endpoint,
   https: [
     sni_fun: &JourneyWeb.Endpoint.ssloptions/1,
     port: 443,
-    # keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
-    # certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem"
+    keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
+    certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem",
     cipher_suite: :strong
   ]
 

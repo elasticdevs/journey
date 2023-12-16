@@ -82,5 +82,9 @@ defmodule JourneyWeb.Endpoint do
   end
 
   # Catch-all clause at the end, which uses the default config
-  def ssloptions(_hostname), do: []
+  def ssloptions(_hostname),
+    do: [
+      keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem"
+    ]
 end
