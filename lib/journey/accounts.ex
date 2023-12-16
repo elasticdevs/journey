@@ -413,13 +413,13 @@ defmodule Journey.Accounts do
   #   {:error, "Password required"}
   # end
 
-  defp validate_pass(%{other: %{password: pw, password_confirmation: pw}}) do
-    :ok
-  end
+  # defp validate_pass(%{other: %{password: pw, password_confirmation: pw}}) do
+  #   :ok
+  # end
 
-  defp validate_pass(%{other: %{password: _}}) do
-    {:error, "Passwords do not match"}
-  end
+  # defp validate_pass(%{other: %{password: _}}) do
+  #   {:error, "Passwords do not match"}
+  # end
 
-  defp validate_pass(_), do: {:error, "Password Required"}
+  # defp validate_pass(_), do: {:error, "Password Required"}
 end

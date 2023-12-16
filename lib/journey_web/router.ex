@@ -28,8 +28,9 @@ defmodule JourneyWeb.Router do
     delete "/logout", GoogleAuthController, :delete
   end
 
-  scope "/", JourneyWeb, host: Application.compile_env!(:journey, Journey.URLs)[:shortener_url] do
+  scope "/", JourneyWeb, host: Application.compile_env(:journey, Journey.URLs)[:shortener_host] do
     # scope "/", JourneyWeb, host: "sg.jou.im" do
+    # scope "/", JourneyWeb, host: "jou.im" do
     # pipe_through :browser
 
     get "/:code", URLController, :url_redirect

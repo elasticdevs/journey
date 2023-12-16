@@ -28,7 +28,8 @@ config :logger, level: :debug
 # URL Config
 config :journey, Journey.URLs,
   website_url: "https://elasticdevs.io",
-  shortener_url: "https://jou.im" || "https://eldv.io"
+  shortener_url: "https://jou.im" || "https://eldv.io",
+  shortener_host: "jou.im" || "eldv.io"
 
 import_config "prod.secret.exs"
 
