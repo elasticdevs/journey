@@ -11,11 +11,11 @@
     "activeTab"
   ],
   "icons": {
-    "48": "journey_icon.png"
+    "48": "journey_icon_prod.png"
   },
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "journey_icon.png"
+    "default_icon": "journey_icon_prod.png"
   },
   "oauth2": {
     "client_id": "1099143688320-vg1b2vm463n2qh7omukh1vmkf59fu0o6.apps.googleusercontent.com",
