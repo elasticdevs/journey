@@ -5,7 +5,7 @@
 </div>
 
 <div class="section">
-  <.table id="companies" rows={@companies} row_click={&JS.navigate(~p"/companies/#{&1}")}>
+  <.table id="companies" rows={@companies}>
     <:col :let={company} label="User" class="user">
       <a href={get_user_url_from_company(company)}>
         <%= raw(if company.user, do: company.user.name, else: "<span class='empty'>empty</span>") %>
@@ -29,6 +29,13 @@
         <%= raw(get_website_from_company(company)) %>
       </b>
     </:col>
+    <:col :let={company} label="LinkedIn">
+      <span class="linkedin">
+        <a href={company.linkedin} target="_blank">
+          <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
+        </a>
+      </span>
+    </:col>
     <:col :let={company} label="Funding" class="funding">
       <%= raw(get_display_or_empty_span([company.funding])) %>
     </:col>
@@ -48,12 +55,6 @@
     <:col :let={company} label="Phone" class="phone">
       <%= raw(get_display_or_empty_span([company.phone])) %>
     </:col>
-    <:col :let={company} label="LinkedIn">
-      <a href={company.linkedin} target="_blank">
-        <%= raw(get_display_or_empty_span([company.linkedin])) %>
-      </a>
-    </:col>
-
     <:col :let={company} label="Country-State-City" class="country-state-city">
       <%= raw(get_display_or_empty_span([company.country, company.state, company.city])) %>
     </:col>

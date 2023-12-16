@@ -18,15 +18,24 @@
       </a>
     </:col>
     <:col :let={company} label="Name" class="company-name">
-      <span class="logo">
-        <%= raw(get_logo_or_empty_span(company.logo)) %>
-      </span>
-      <%= company.name %>
+      <a href={"/companies/#{company.id}"}>
+        <span class="logo">
+          <%= raw(get_logo_or_empty_span(company.logo)) %>
+        </span>
+        <%= company.name %>
+      </a>
     </:col>
     <:col :let={company} label="Website" class="domain">
       <b>
         <%= raw(get_website_from_company(company)) %>
       </b>
+    </:col>
+    <:col :let={company} label="LinkedIn">
+      <span class="linkedin">
+        <a href={company.linkedin} target="_blank">
+          <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
+        </a>
+      </span>
     </:col>
     <:col :let={company} label="Funding" class="funding">
       <%= raw(get_display_or_empty_span([company.funding])) %>
@@ -47,12 +56,6 @@
     <:col :let={company} label="Phone" class="phone">
       <%= raw(get_display_or_empty_span([company.phone])) %>
     </:col>
-    <:col :let={company} label="LinkedIn">
-      <a href={company.linkedin} target="_blank">
-        <%= raw(get_display_or_empty_span([company.linkedin])) %>
-      </a>
-    </:col>
-
     <:col :let={company} label="Country-State-City" class="country-state-city">
       <%= raw(get_display_or_empty_span([company.country, company.state, company.city])) %>
     </:col>
