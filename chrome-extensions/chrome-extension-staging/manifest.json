@@ -1,0 +1,28 @@
+{
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAj38bm+5cWDRFLdHQChoELnEuM8Zlxekw+jji+i02nBZ/tGdH5wfdMs2ALhvDkfmW394XkT8Yaw2qc2M6weyjPfgPNuEmThEdA1P23Uwt13yc2lmJPUT0r0mT9wVpfIUsM0AeyDYMUPQJIOC6O8Jl0MNq9gEj+FPdwb2fV9hpBkPxKcL64BrGztORvZNJVZUqN4clb2fgLs319M1pk8CdniIhFg6+etom+TVNx23OYQ2gJW7GsqgIWzg40OEPlqx1pA+0L4V3yXd2G523WEBNSehWYgVfE2zc1KVHjDJWyBsZDuKPoQEBJiKUOUQDHH/PIpzaLXSynq9VLo/A30mcFwIDAQAB",
+  "manifest_version": 3,
+  "name": "Journey Extension Staging",
+  "version": "2.0",
+  "description": "A Staging Chrome Extension for Journey",
+  "permissions": [
+    "identity",
+    "storage",
+    "tabs",
+    "activeTab"
+  ],
+  "icons": {
+    "48": "journey_icon_staging.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "journey_icon_staging.png"
+  },
+  "oauth2": {
+    "client_id": "1099143688320-1f6k5ath8fsp2laa38i74ttg1eeqkutk.apps.googleusercontent.com",
+    "scopes": [
+      "openid",
+      "email",
+      "profile"
+    ]
+  }
+}
