@@ -6,6 +6,11 @@
 
 <div class="section">
   <.table id="companies" rows={@companies} row_click={&JS.navigate(~p"/companies/#{&1}")}>
+    <:col :let={company} label="User" class="user">
+      <a href={get_user_url_from_company(company)}>
+        <%= raw(if company.user, do: company.user.name, else: "<span class='empty'>empty</span>") %>
+      </a>
+    </:col>
     <:col :let={company} label="Company UUID">
       <a href={get_company_url_from_company(company)}>
         <%= get_shortened_uuid(company.company_uuid) %>

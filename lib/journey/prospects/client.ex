@@ -3,6 +3,7 @@ defmodule Journey.Prospects.Client do
   import Ecto.Changeset
 
   alias Ecto.Changeset
+  alias Journey.Accounts.User
   alias Journey.Prospects.Company
   alias Journey.Analytics.Browsing
   alias Journey.Comms.Email
@@ -32,6 +33,7 @@ defmodule Journey.Prospects.Client do
     has_many :emails, Email, preload_order: [desc: :updated_at]
     has_one :url, URL
     belongs_to :company, Company
+    belongs_to :user, User
 
     timestamps(type: :utc_datetime)
   end
@@ -42,6 +44,7 @@ defmodule Journey.Prospects.Client do
 
     client
     |> cast(attrs, [
+      :user_id,
       :company_id,
       :client_uuid,
       :external_id,

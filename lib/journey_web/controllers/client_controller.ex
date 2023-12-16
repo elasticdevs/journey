@@ -39,11 +39,13 @@ defmodule JourneyWeb.ClientController do
   end
 
   def linkedin(conn, %{"linkedin" => linkedin}) do
+    current_user = conn.assigns.current_user
+
     case Prospects.find_client_by_linkedin(linkedin) do
       nil ->
         Logger.debug("FIND_CLIENT_BY_LINKEDIN_NEW, linkedin=#{linkedin}")
 
-        case Prospects.create_client_by_linkedin(linkedin) do
+        case Prospects.create_client_by_linkedin(current_user, linkedin) do
           {:ok, client} ->
             conn
             |> put_flash(:info, "Client / Company created successfully.")
@@ -98,8 +100,9 @@ defmodule JourneyWeb.ClientController do
 
   def resync(conn, %{"client_id" => client_id}) do
     client = Prospects.get_client!(client_id)
+    current_user = conn.assigns.current_user
 
-    case Prospects.resync_company_and_client(client) do
+    case Prospects.resync_company_and_client(current_user, client) do
       {:ok} ->
         conn
         |> put_flash(:info, "Company and Client resynced successfully.")

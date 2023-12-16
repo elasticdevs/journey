@@ -11,16 +11,24 @@ defmodule JourneyWeb.HTMLHelpers do
     Enum.flat_map(browsings, fn b -> b.visits end)
   end
 
+  def get_user_url_from_company(company) do
+    if company && company.user, do: "/users/#{company.user.id}", else: nil
+  end
+
+  def get_user_url_from_client(client) do
+    if client && client.user, do: "/users/#{client.user.id}", else: nil
+  end
+
   def get_company_url_from_company(company) do
-    if company, do: "/companies/#{company.id}", else: ""
+    if company, do: "/companies/#{company.id}", else: nil
   end
 
   def get_client_url_from_client(client) do
-    if client, do: "/clients/#{client.id}", else: ""
+    if client, do: "/clients/#{client.id}", else: nil
   end
 
   def get_client_url_from_browsing(browsing) do
-    if browsing && browsing.client, do: "/clients/#{browsing.client.id}", else: ""
+    if browsing && browsing.client, do: "/clients/#{browsing.client.id}", else: nil
   end
 
   def get_client_url_from_visit(visit) do
@@ -34,15 +42,15 @@ defmodule JourneyWeb.HTMLHelpers do
   end
 
   def get_browsing_url_from_browsing(browsing) do
-    if browsing, do: "/browsings/#{browsing.id}", else: ""
+    if browsing, do: "/browsings/#{browsing.id}", else: nil
   end
 
   def get_browsing_url_from_visit(visit) do
-    if visit, do: "/browsings/#{visit.browsing_id}", else: ""
+    if visit, do: "/browsings/#{visit.browsing_id}", else: nil
   end
 
   def get_google_maps_link_from_visit(visit) do
-    if visit, do: "https://www.google.com/maps/place/#{visit.lat},#{visit.lon}", else: ""
+    if visit, do: "https://www.google.com/maps/place/#{visit.lat},#{visit.lon}", else: nil
   end
 
   def get_linked_in_url_from_client(client) do
@@ -62,7 +70,9 @@ defmodule JourneyWeb.HTMLHelpers do
 
   # Display functions
   def get_client_display_name_from_client(client) do
-    if client, do: client.name || client.external_id || client.client_uuid || client.id, else: ""
+    if client,
+      do: client.name || client.external_id || client.client_uuid || client.id,
+      else: "<span class='empty'>empty</span>"
   end
 
   def get_client_display_name_from_browsing(browsing) do

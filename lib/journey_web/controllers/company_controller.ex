@@ -15,6 +15,8 @@ defmodule JourneyWeb.CompanyController do
   end
 
   def create(conn, %{"company" => company_params}) do
+    company_params = Map.put(company_params, :user_id, conn.assigns.current_user.id)
+
     case Prospects.create_company(company_params) do
       {:ok, company} ->
         conn

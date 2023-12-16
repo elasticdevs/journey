@@ -2,6 +2,7 @@ defmodule Journey.Prospects.Company do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Journey.Accounts.User
   alias Journey.Prospects.Client
 
   @derive {Jason.Encoder, only: [:company_uuid]}
@@ -27,6 +28,7 @@ defmodule Journey.Prospects.Company do
     field :source, :string
     field :external_id, :string
     has_many :clients, Client, preload_order: [:inserted_at]
+    belongs_to :user, User
 
     timestamps(type: :utc_datetime)
   end
@@ -35,6 +37,7 @@ defmodule Journey.Prospects.Company do
   def changeset(company, attrs) do
     company
     |> cast(attrs, [
+      :user_id,
       :name,
       :website,
       :funding,

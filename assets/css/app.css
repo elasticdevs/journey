@@ -250,6 +250,14 @@ td:first-child {
   color: var(--blue);
 }
 
+.user a {
+  font-size: 1rem;
+  font-weight: bold;
+  font-style: italic;
+
+  color: var(--black);
+}
+
 .company-name,
 .company-name a,
 .company-uuid,

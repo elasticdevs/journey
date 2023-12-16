@@ -50,7 +50,7 @@ defmodule Journey.Prospects do
       from c in Client,
         where: ^clients_where,
         order_by: [desc_nulls_last: :last_visited_at],
-        preload: [:company, :url, browsings: ^{browsings_query, [visits: visits_query]}]
+        preload: [:user, :company, :url, browsings: ^{browsings_query, [visits: visits_query]}]
     )
   end
 
@@ -97,6 +97,7 @@ defmodule Journey.Prospects do
     |> Repo.preload(emails: :template)
     |> Repo.preload(:company)
     |> Repo.preload(:url)
+    |> Repo.preload(:user)
   end
 
   def get_client(%{id: id}), do: Repo.get(Client, id)
@@ -139,8 +140,12 @@ defmodule Journey.Prospects do
     end
   end
 
-  def create_client_by_linkedin(linkedin) do
+  def create_client_by_linkedin(current_user, linkedin) do
     {company_params, client_params} = API.get_company_and_client_by_linkedin(linkedin)
+
+    # populate the current_user
+    company_params = Map.put(company_params, :user_id, current_user.id)
+    client_params = Map.put(client_params, :user_id, current_user.id)
 
     Logger.debug("CREATE_CLIENT_COMPANY_PARAMS, company_params=#{Kernel.inspect(company_params)}")
     Logger.debug("CREATE_CLIENT_PARAMS, client_params=#{Kernel.inspect(client_params)}")
@@ -186,8 +191,12 @@ defmodule Journey.Prospects do
     {:ok, client}
   end
 
-  def resync_company_and_client(client) do
+  def resync_company_and_client(current_user, client) do
     {company_params, client_params} = API.get_company_and_client_by_linkedin(client.linkedin)
+
+    # populate the current_user
+    company_params = Map.put(company_params, :user_id, current_user.id)
+    client_params = Map.put(client_params, :user_id, current_user.id)
 
     Logger.debug("RESYNC_COMPANY_PARAMS, company_params=#{Kernel.inspect(company_params)}")
     Logger.debug("RESYNC_CLIENT_PARAMS, client_params=#{Kernel.inspect(client_params)}")
@@ -312,7 +321,7 @@ defmodule Journey.Prospects do
 
   """
   def list_companies do
-    Repo.all(Company)
+    Repo.all(Company) |> Repo.preload(:user)
   end
 
   @doc """
@@ -355,6 +364,7 @@ defmodule Journey.Prospects do
 
     Repo.get(Company, id)
     |> Repo.preload(clients: [browsings: {browsings_query, [visits: visits_query]}])
+    |> Repo.preload(:user)
   end
 
   def get_company_by_external_id(external_id) do

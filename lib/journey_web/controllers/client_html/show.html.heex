@@ -31,6 +31,11 @@
     <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
       <%= client.last_visited_at %>
     </:col>
+    <:col :let={client} label="User" class="user">
+      <a href={get_user_url_from_client(client)}>
+        <%= raw(if client.user, do: client.user.name, else: "<span class='empty'>empty</span>") %>
+      </a>
+    </:col>
     <:col :let={client} label="Client UUID" class="client-uuid">
       <a href={get_client_url_from_client(client)}>
         <%= get_shortened_uuid(client.client_uuid) %>
