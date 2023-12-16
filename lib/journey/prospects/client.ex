@@ -2,6 +2,7 @@ defmodule Journey.Prospects.Client do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Ecto.Changeset
   alias Journey.Prospects.Company
   alias Journey.Analytics.Browsing
   alias Journey.Comms.Email
@@ -62,7 +63,7 @@ defmodule Journey.Prospects.Client do
     |> clean_up()
     |> validate_required([:linkedin])
     |> update_change(:linkedin, &String.downcase/1)
-    |> update_change(:email, &String.downcase/1)
+    |> update_change_if_not_nil(:email, &String.downcase/1)
     |> unique_constraint(:client_uuid)
     |> unique_constraint(:linkedin)
   end
@@ -84,6 +85,20 @@ defmodule Journey.Prospects.Client do
       linkedin ->
         changeset
         |> change(linkedin: String.trim_trailing(linkedin, "/"))
+    end
+  end
+
+  def update_change_if_not_nil(%Changeset{changes: changes} = changeset, key, function)
+      when is_atom(key) do
+    case Map.fetch(changes, key) do
+      {:ok, nil} ->
+        changeset
+
+      {:ok, value} ->
+        put_change(changeset, key, function.(value))
+
+      :error ->
+        changeset
     end
   end
 end
