@@ -5,6 +5,7 @@ defmodule Journey.Prospects do
 
   import Ecto.Query, warn: false
   require Logger
+  alias Journey.Activities
   alias Journey.Repo
   alias Journey.Prospects.Client
   alias Journey.Analytics.Browsing
@@ -49,7 +50,7 @@ defmodule Journey.Prospects do
     Repo.all(
       from c in Client,
         where: ^clients_where,
-        order_by: [desc_nulls_last: :last_visited_at],
+        order_by: [desc_nulls_last: :last_visited_at, desc_nulls_last: :updated_at],
         preload: [:user, :company, :url, browsings: ^{browsings_query, [visits: visits_query]}]
     )
   end
@@ -95,9 +96,7 @@ defmodule Journey.Prospects do
     Repo.get(Client, id)
     |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
     |> Repo.preload(emails: :template)
-    |> Repo.preload(:company)
-    |> Repo.preload(:url)
-    |> Repo.preload(:user)
+    |> Repo.preload([:company, :url, :user])
   end
 
   def get_client(%{id: id}), do: Repo.get(Client, id)
@@ -153,6 +152,10 @@ defmodule Journey.Prospects do
     client_params =
       case find_or_create_company(company_params) do
         {:ok, c} ->
+          Activities.log_user_company_linkedin_add(current_user, c)
+          Map.put(client_params, :company_id, c.id)
+
+        {:found, c} ->
           Map.put(client_params, :company_id, c.id)
 
         {:error, %Ecto.Changeset{} = changeset} ->
@@ -207,6 +210,10 @@ defmodule Journey.Prospects do
           nil ->
             case find_or_create_company(company_params) do
               {:ok, c} ->
+                Activities.log_user_company_resync_add(current_user, c)
+                Map.put(client_params, :company_id, c.id)
+
+              {:found, c} ->
                 Map.put(client_params, :company_id, c.id)
 
               {:error, %Ecto.Changeset{} = changeset} ->
@@ -395,7 +402,7 @@ defmodule Journey.Prospects do
         create_company(company_params)
 
       c ->
-        {:ok, c}
+        {:found, c}
     end
   end
 

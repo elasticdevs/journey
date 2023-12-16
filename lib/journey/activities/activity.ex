@@ -2,16 +2,20 @@ defmodule Journey.Activities.Activity do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Journey.Prospects.Client
+  alias Journey.Prospects.Company
+  alias Journey.Accounts.User
+
   schema "activities" do
     field :details, :string
-    field :executed_at, :string
+    field :scheduled_at, :utc_datetime_usec
+    field :executed_at, :utc_datetime_usec
     field :message, :string
-    field :scheduled_at, :string
     field :status, :string
     field :type, :string
-    field :user_id, :id
-    field :company_id, :id
-    field :client_id, :id
+    belongs_to :company, Company
+    belongs_to :client, Client
+    belongs_to :user, User
 
     timestamps(type: :utc_datetime)
   end
@@ -19,7 +23,17 @@ defmodule Journey.Activities.Activity do
   @doc false
   def changeset(activity, attrs) do
     activity
-    |> cast(attrs, [:type, :message, :details, :scheduled_at, :executed_at, :status])
-    |> validate_required([:type, :message, :details, :scheduled_at, :executed_at, :status])
+    |> cast(attrs, [
+      :user_id,
+      :company_id,
+      :client_id,
+      :type,
+      :message,
+      :details,
+      :scheduled_at,
+      :executed_at,
+      :status
+    ])
+    |> validate_required([:user_id, :type, :status])
   end
 end

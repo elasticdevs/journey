@@ -11,6 +11,18 @@ defmodule JourneyWeb.HTMLHelpers do
     Enum.flat_map(browsings, fn b -> b.visits end)
   end
 
+  def get_user_url_from_activity(activity) do
+    if activity && activity.user, do: "/users/#{activity.user.id}", else: nil
+  end
+
+  def get_company_url_from_activity(activity) do
+    if activity && activity.company, do: "/companies/#{activity.company.id}", else: nil
+  end
+
+  def get_client_url_from_activity(activity) do
+    if activity && activity.client, do: "/clients/#{activity.client.id}", else: nil
+  end
+
   def get_user_url_from_company(company) do
     if company && company.user, do: "/users/#{company.user.id}", else: nil
   end
@@ -71,7 +83,8 @@ defmodule JourneyWeb.HTMLHelpers do
   # Display functions
   def get_client_display_name_from_client(client) do
     if client,
-      do: client.name || client.external_id || client.client_uuid || client.id,
+      do:
+        client.name || client.external_id || get_shortened_uuid(client.client_uuid) || client.id,
       else: "<span class='empty'>empty</span>"
   end
 
@@ -91,7 +104,7 @@ defmodule JourneyWeb.HTMLHelpers do
       else: "<span class='empty'>empty</span>"
   end
 
-  def get_display_name_email_from_client(client) do
+  def get_client_display_name_email_from_client(client) do
     case({client.name, client.email}) do
       {nil, nil} ->
         "<span class='empty'>empty</span>"
@@ -149,10 +162,16 @@ defmodule JourneyWeb.HTMLHelpers do
     end
   end
 
-  def get_company_name_from_client(client) do
-    if client != nil && client.company != nil && client.company.name != nil,
+  def get_company_display_name_from_company(company) do
+    if company && company.name,
+      do: company.name,
+      else: nil
+  end
+
+  def get_company_display_name_from_client(client) do
+    if client && client.company && client.company.name,
       do: client.company.name,
-      else: ""
+      else: nil
   end
 
   # URL functions

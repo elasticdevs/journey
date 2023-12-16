@@ -2,6 +2,7 @@ defmodule JourneyWeb.GoogleAuthController do
   use JourneyWeb, :controller
   plug Ueberauth
 
+  alias Journey.Activities
   alias Journey.Accounts
   alias JourneyWeb.UserAuth
 
@@ -12,6 +13,9 @@ defmodule JourneyWeb.GoogleAuthController do
   # end
 
   def delete(conn, _params) do
+    current_user = conn.assigns.current_user
+    Activities.log_user_logout(current_user)
+
     conn
     |> put_flash(:info, "You have been logged out!")
     |> clear_session()
@@ -39,6 +43,7 @@ defmodule JourneyWeb.GoogleAuthController do
 
     case Accounts.find_or_create_user(user_params) do
       {:ok, user} ->
+        Activities.log_user_login(user)
         UserAuth.log_in_user(conn, user)
 
       {:error, reason} ->

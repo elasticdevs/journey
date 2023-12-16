@@ -1,6 +1,7 @@
 defmodule JourneyWeb.UserSessionController do
   use JourneyWeb, :controller
 
+  alias Journey.Activities
   alias Journey.Accounts
   alias JourneyWeb.UserAuth
 
@@ -35,6 +36,9 @@ defmodule JourneyWeb.UserSessionController do
   end
 
   def delete(conn, _params) do
+    current_user = conn.assigns.current_user
+    Activities.log_user_logout(current_user)
+
     conn
     |> put_flash(:info, "Logged out successfully.")
     |> UserAuth.log_out_user()

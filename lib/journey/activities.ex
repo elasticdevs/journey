@@ -18,7 +18,8 @@ defmodule Journey.Activities do
 
   """
   def list_activities do
-    Repo.all(Activity)
+    Repo.all(from a in Activity, order_by: [desc_nulls_last: a.executed_at])
+    |> Repo.preload([:user, :company, :client])
   end
 
   @doc """
@@ -100,5 +101,99 @@ defmodule Journey.Activities do
   """
   def change_activity(%Activity{} = activity, attrs \\ %{}) do
     Activity.changeset(activity, attrs)
+  end
+
+  def log_user_login(user) do
+    activity_params = %{
+      user_id: user.id,
+      type: "LOGIN",
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    create_activity(activity_params)
+  end
+
+  def log_user_logout(user) do
+    activity_params = %{
+      user_id: user.id,
+      type: "LOGOUT",
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    create_activity(activity_params)
+  end
+
+  def log_user_company_manual_add(user, company) do
+    activity_params = %{
+      user_id: user.id,
+      type: "COMPANY_MANUAL_ADD",
+      company_id: company.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    create_activity(activity_params)
+  end
+
+  def log_user_client_manual_add(user, client) do
+    activity_params = %{
+      user_id: user.id,
+      type: "CLIENT_MANUAL_ADD",
+      client_id: client.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    create_activity(activity_params)
+  end
+
+  def log_user_company_linkedin_add(user, company) do
+    activity_params = %{
+      user_id: user.id,
+      type: "COMPANY_LINKEDIN_ADD",
+      company_id: company.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    create_activity(activity_params)
+  end
+
+  def log_user_client_linkedin_add(user, client) do
+    activity_params = %{
+      user_id: user.id,
+      type: "CLIENT_LINKEDIN_ADD",
+      client_id: client.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    create_activity(activity_params)
+  end
+
+  def log_user_company_resync_add(user, company) do
+    activity_params = %{
+      user_id: user.id,
+      type: "COMPANY_RESYNC_ADD",
+      company_id: company.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    create_activity(activity_params)
+  end
+
+  def log_user_email_sent(user, client) do
+    activity_params = %{
+      user_id: user.id,
+      type: "EMAIL_SENT",
+      client_id: client.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    create_activity(activity_params)
   end
 end

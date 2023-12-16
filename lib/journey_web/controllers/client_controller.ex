@@ -2,6 +2,7 @@ defmodule JourneyWeb.ClientController do
   use JourneyWeb, :controller
 
   require Logger
+  alias Journey.Activities
   alias Journey.Prospects
   alias Journey.Prospects.Client
   alias Journey.Prospects.Bulk
@@ -19,8 +20,12 @@ defmodule JourneyWeb.ClientController do
   end
 
   def create(conn, %{"client" => client_params}) do
+    current_user = conn.assigns.current_user
+
     case Prospects.create_client(client_params) do
       {:ok, client} ->
+        Activities.log_user_client_manual_add(current_user, client)
+
         conn
         |> put_flash(:info, "Client created successfully.")
         |> redirect(to: ~p"/clients/#{client}")
@@ -47,6 +52,8 @@ defmodule JourneyWeb.ClientController do
 
         case Prospects.create_client_by_linkedin(current_user, linkedin) do
           {:ok, client} ->
+            Activities.log_user_client_linkedin_add(current_user, client)
+
             conn
             |> put_flash(:info, "Client / Company created successfully.")
             |> redirect(to: ~p"/clients/#{client}")

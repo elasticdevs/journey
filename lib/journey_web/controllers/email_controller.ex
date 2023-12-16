@@ -2,6 +2,7 @@ defmodule JourneyWeb.EmailController do
   use JourneyWeb, :controller
   require Logger
 
+  alias Journey.Activities
   alias Journey.Prospects
   alias Journey.Comms
   alias Journey.Comms.Email
@@ -141,12 +142,13 @@ defmodule JourneyWeb.EmailController do
 
   def send(conn, %{"id" => id}) do
     email = Comms.get_email!(id)
-    user = conn |> get_session(:user)
+    current_user = conn.assigns.current_user
 
     message =
-      case Gmail.send(email) |> GmailAPIMailer.deliver(access_token: user.token) do
+      case Gmail.send(email) |> GmailAPIMailer.deliver(access_token: current_user.token) do
         {:ok, result} ->
           email |> Comms.update_email(%{status: "SENT"})
+          Activities.log_user_email_sent(current_user, email.client)
           Logger.debug("GMAIL_API_MAIL_SENT_SUCCESSFULLY, result=#{result.labels}")
           "Email sent successfully !!"
 
