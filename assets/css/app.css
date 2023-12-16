@@ -373,6 +373,12 @@ table {
   line-height: normal;
 }
 
+a.linkedin {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--darker-grey);
+}
+
 .linkedin img {
   width: 30px;
 }

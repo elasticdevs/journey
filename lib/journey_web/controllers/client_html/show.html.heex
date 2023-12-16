@@ -5,6 +5,7 @@
   <.simple_form for={%{}} action={~p"/clients/#{@client.id}/resync"} class="inline">
     <:actions>
       <.button><i data-feather="refresh-ccw"></i> Resync</.button>
+      <a href={@client.linkedin} class="linkedin" target="_blank"><%= @client.linkedin %></a>
     </:actions>
   </.simple_form>
 </div>
