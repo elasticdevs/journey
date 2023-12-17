@@ -477,6 +477,12 @@ button.logo {
   border-color: var(--light-green);
 }
 
+.never {
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--darker-grey);
+}
+
 .empty {
   font-weight: 500;
   font-style: italic;
@@ -498,4 +504,8 @@ button.logo {
   padding: 2px 5px;
   background: var(--bright-red);
   color: var(--black);
+}
+
+.input {
+  line-height: normal;
 }

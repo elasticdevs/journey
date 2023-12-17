@@ -2,12 +2,49 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:type]} type="text" label="Type" />
-  <.input field={f[:message]} type="text" label="Message" />
-  <.input field={f[:details]} type="text" label="Details" />
-  <.input field={f[:scheduled_at]} type="text" label="Scheduled @" />
-  <.input field={f[:executed_at]} type="text" label="Executed @" />
-  <.input field={f[:status]} type="text" label="Status" />
+  <div class="input">
+    <.input
+      field={f[:type]}
+      type="select"
+      label="Type"
+      options={[
+        :LOGIN,
+        :LOGOUT,
+        :COMPANY_MANUAL_ADD,
+        :CLIENT_MANUAL_ADD,
+        :COMPANY_LINKEDIN_ADD,
+        :CLIENT_LINKEDIN_ADD,
+        :COMPANY_RESYNC_ADD,
+        :EMAIL_SENT
+      ]}
+    />
+  </div>
+
+  <.input
+    field={f[:message]}
+    type="text"
+    label="Message"
+    placeholder="you can mention in short what you wanted to convey to the client"
+  />
+  <.input
+    field={f[:details]}
+    type="textarea"
+    label="Details"
+    placeholder="here you can paste the entire text you sent to the client"
+  />
+  <.input
+    field={f[:scheduled_at]}
+    type="text"
+    label="Scheduled AT"
+    placeholder="time around when this task has to be scheduled at"
+  />
+  <.input
+    field={f[:executed_at]}
+    type="text"
+    label="Executed AT"
+    placeholder="time when it was actually executed at"
+  />
+  <.input field={f[:status]} type="text" label="Status" placeholder="status of the task" />
   <:actions>
     <.button>Save Activity</.button>
   </:actions>

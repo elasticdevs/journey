@@ -53,7 +53,8 @@ $(function () {
 
 let convert_dates = function () {
   $(".utc_to_local").html(function (index, utc_date) {
-    return moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS') + "<div class='time-ago'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").fromNow() + "</div>";
+    utc_date = utc_date.trim()
+    return utc_date == "" ? "<span class='never'>never</span>" : moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS') + "<div class='time-ago'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").fromNow() + "</div>";
   });
 };
 $(document).ready(convert_dates);
