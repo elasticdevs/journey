@@ -185,11 +185,11 @@ defmodule Journey.Activities do
     create_activity(activity_params)
   end
 
-  def log_user_email_sent(user, client) do
+  def log_user_email_sent(user, email) do
     activity_params = %{
       user_id: user.id,
       type: "EMAIL_SENT",
-      client_id: client.id,
+      client_id: email.client.id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
     }
