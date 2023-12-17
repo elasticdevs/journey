@@ -1,46 +1,41 @@
-let gdpr_accepted = Cookies.get("gdpr_accepted");
-if (gdpr_accepted != "true") {
-  const notice = new SimpleGDPR({
-    link: "./privacy",
-    callback: () => {
-      notice.close();
-      Cookies.set("gdpr_accepted", "true", { expires: 10000 });
-      logVisitToJourney();
-    },
-  });
-}
+let url = location.href;
+let click_event_listener_added = false;
 
-startLogging();
-function startLogging() {
-  logVisitToJourney();
+function journey() {
+  let gdpr_accepted = Cookies.get("gdpr_accepted")
+  Cookies.set("gdpr_accepted", "true", { expires: 10000 })
 
-  let url = location.href;
-  document.body.addEventListener(
-    "click",
-    () => {
-      setTimeout(function () {
-        if (url !== location.href) {
-          url = location.href;
-          logVisitToJourney();
-        }
-      }, 3000);
-    },
-    true
-  );
+  logVisitToJourney()
+
+  if (!click_event_listener_added) {
+    document.body.addEventListener(
+      "click",
+      () => {
+        setTimeout(function () {
+          if (url !== location.href) {
+            url = location.href
+            logVisitToJourney()
+          }
+        }, 3000)
+      },
+      true
+    )
+    click_event_listener_added = true;
+  }
 }
 
 function logVisitToJourney() {
-  let url = new URL(document.location);
-  let params = new URLSearchParams(url.search);
-  let gdpr_accepted = "true" || Cookies.get("gdpr_accepted");
-  let client_uuid = Cookies.get("client_uuid") || params.get("uuid");
-  let browsing_uuid = Cookies.get("browsing_uuid");
+  let url = new URL(document.location)
+  let params = new URLSearchParams(url.search)
+  let gdpr_accepted = Cookies.get("gdpr_accepted")
+  let client_uuid = Cookies.get("client_uuid") || params.get("uuid")
+  let browsing_uuid = Cookies.get("browsing_uuid")
 
-  let utm_campaign = params.get("utm_campaign");
-  let utm_source = params.get("utm_source");
-  let utm_medium = params.get("utm_medium");
-  let utm_term = params.get("utm_term");
-  let utm_content = params.get("utm_content");
+  let utm_campaign = params.get("utm_campaign")
+  let utm_source = params.get("utm_source")
+  let utm_medium = params.get("utm_medium")
+  let utm_term = params.get("utm_term")
+  let utm_content = params.get("utm_content")
 
   fetch("https://elasticdevs.io/analytics/visits", {
     method: "POST",
@@ -64,12 +59,12 @@ function logVisitToJourney() {
   })
     .then((response) => {
       if (response.ok) {
-        return response.json();
+        return response.json()
       }
     })
     .then((response_json) => {
       Cookies.set("browsing_uuid", response_json.browsing_uuid, {
         expires: 10000,
-      });
-    });
+      })
+    })
 }
