@@ -3,8 +3,13 @@
   Listing Calls
 </div>
 
+<input type="text" id="search" placeholder="Search ..." />
+<div id="search-results-info">
+  Showing <span id="search-count"><%= length(@calls) %></span> / <%= length(@calls) %>
+</div>
+
 <div class="section">
-  <.table id="calls" rows={@calls} row_click={&JS.navigate(~p"/calls/#{&1}")}>
+  <.table id="table" rows={@calls} row_click={&JS.navigate(~p"/calls/#{&1}")}>
     <:col :let={call} label="Activity UUID" class="activity-uuid">
       <%= get_shortened_uuid(if call.activity, do: call.activity.activity_uuid, else: nil) %>
     </:col>

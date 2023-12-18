@@ -5,8 +5,13 @@
   <span class="small">(based on time selected)</span>
 </div>
 
+<input type="text" id="search" placeholder="Search ..." />
+<div id="search-results-info">
+  Showing <span id="search-count"><%= length(@visits) %></span> / <%= length(@visits) %>
+</div>
+
 <div class="section">
-  <.table id="visits" rows={@visits}>
+  <.table id="table" rows={@visits}>
     <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
     <:col :let={visit} label="Client" class="client-name">
       <a href={get_client_url_from_visit(visit)}>

@@ -8,12 +8,11 @@
 
 <input type="text" id="search" placeholder="Search ..." />
 <div id="search-results-info">
-  Showing <span id="search-count"><%= length(@clients) %></span>
-  / <span id=""><%= length(@clients) %></span>
+  Showing <span id="search-count"><%= length(@clients) %></span> / <%= length(@clients) %>
 </div>
 
 <div class="section">
-  <.table id="clients" rows={@clients}>
+  <.table id="table" rows={@clients}>
     <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
       <%= client.last_visited_at %>
     </:col>

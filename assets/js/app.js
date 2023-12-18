@@ -116,7 +116,7 @@ $(function () {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("search");
     filter = input.value.toLowerCase();
-    table = document.getElementById("clients");
+    table = document.getElementById("table");
     tr = table.getElementsByTagName("tr");
 
     // Loop through all table rows, and hide those who don't match the search query

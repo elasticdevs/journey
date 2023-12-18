@@ -4,8 +4,13 @@
   Listing Companies <a href="/companies/new" class="button">+ Add Company</a>
 </div>
 
+<input type="text" id="search" placeholder="Search ..." />
+<div id="search-results-info">
+  Showing <span id="search-count"><%= length(@companies) %></span> / <%= length(@companies) %>
+</div>
+
 <div class="section">
-  <.table id="companies" rows={@companies}>
+  <.table id="table" rows={@companies}>
     <:col :let={company} label="User" class="user">
       <a href={get_user_url_from_company(company)}>
         <%= raw(if company.user, do: company.user.name, else: "<span class='empty'>empty</span>") %>

@@ -3,8 +3,13 @@
   Listing LMs
 </div>
 
+<input type="text" id="search" placeholder="Search ..." />
+<div id="search-results-info">
+  Showing <span id="search-count"><%= length(@lms) %></span> / <%= length(@lms) %>
+</div>
+
 <div class="section">
-  <.table id="lms" rows={@lms} row_click={&JS.navigate(~p"/lms/#{&1}")}>
+  <.table id="table" rows={@lms} row_click={&JS.navigate(~p"/lms/#{&1}")}>
     <:col :let={lm} label="Activity UUID" class="activity-uuid">
       <%= get_shortened_uuid(if lm.activity, do: lm.activity.activity_uuid, else: nil) %>
     </:col>

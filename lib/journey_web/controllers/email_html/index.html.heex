@@ -9,8 +9,13 @@
   </.simple_form>
 </div>
 
+<input type="text" id="search" placeholder="Search ..." />
+<div id="search-results-info">
+  Showing <span id="search-count"><%= length(@emails) %></span> / <%= length(@emails) %>
+</div>
+
 <div class="section">
-  <.table id="emails" rows={@emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+  <.table id="table" rows={@emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
     <:col :let={email} label="Activity UUID" class="activity-uuid">
       <%= get_shortened_uuid(if email.activity, do: email.activity.activity_uuid, else: nil) %>
     </:col>

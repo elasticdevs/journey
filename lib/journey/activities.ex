@@ -18,9 +18,24 @@ defmodule Journey.Activities do
       [%Activity{}, ...]
 
   """
-  def list_activities do
-    Repo.all(from a in Activity, order_by: [desc_nulls_last: a.executed_at])
-    |> Repo.preload([:user, :company, :client])
+  def list_activities(%{in_last_secs: in_last_secs}) do
+    activities_where =
+      case in_last_secs do
+        "all" ->
+          true
+
+        nil ->
+          true
+
+        _ ->
+          dynamic([a], ago(^in_last_secs, "second") < a.inserted_at)
+      end
+
+    Activity
+    |> where(^activities_where)
+    |> order_by(desc_nulls_last: :executed_at)
+    |> preload([:user, :company, :client])
+    |> Repo.all()
   end
 
   @doc """
@@ -37,7 +52,7 @@ defmodule Journey.Activities do
       ** (Ecto.NoResultsError)
 
   """
-  def get_activity!(id), do: Repo.get!(Activity, id)
+  def get_activity!(id), do: Repo.get!(Activity, id) |> Repo.preload([:user, :company, :client])
 
   @doc """
   Creates a activity.
