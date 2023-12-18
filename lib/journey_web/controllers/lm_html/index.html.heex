@@ -1,0 +1,22 @@
+<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
+<div class="page-heading">
+  Listing LMs
+</div>
+
+<div class="section">
+  <.table id="lms" rows={@lms} row_click={&JS.navigate(~p"/lms/#{&1}")}>
+    <:col :let={lm} label="Activity UUID" class="activity-uuid">
+      <%= get_shortened_uuid(if lm.activity, do: lm.activity.activity_uuid, else: nil) %>
+    </:col>
+    <:col :let={lm} label="LM UUID" class="lm-uuid"><%= get_shortened_uuid(lm.lm_uuid) %></:col>
+    <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
+    <:col :let={lm} label="Status"><%= lm.status %></:col>
+    <:action :let={lm}>
+      <.link navigate={~p"/lms/#{lm}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+    </:action>
+  </.table>
+</div>
+
+<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

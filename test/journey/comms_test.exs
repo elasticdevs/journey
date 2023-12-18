@@ -118,4 +118,116 @@ defmodule Journey.CommsTest do
       assert %Ecto.Changeset{} = Comms.change_email(email)
     end
   end
+
+  describe "calls" do
+    alias Journey.Comms.Call
+
+    import Journey.CommsFixtures
+
+    @invalid_attrs %{call_uuid: nil, status: nil}
+
+    test "list_calls/0 returns all calls" do
+      call = call_fixture()
+      assert Comms.list_calls() == [call]
+    end
+
+    test "get_call!/1 returns the call with given id" do
+      call = call_fixture()
+      assert Comms.get_call!(call.id) == call
+    end
+
+    test "create_call/1 with valid data creates a call" do
+      valid_attrs = %{call_uuid: "some call_uuid", status: "some status"}
+
+      assert {:ok, %Call{} = call} = Comms.create_call(valid_attrs)
+      assert call.call_uuid == "some call_uuid"
+      assert call.status == "some status"
+    end
+
+    test "create_call/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Comms.create_call(@invalid_attrs)
+    end
+
+    test "update_call/2 with valid data updates the call" do
+      call = call_fixture()
+      update_attrs = %{call_uuid: "some updated call_uuid", status: "some updated status"}
+
+      assert {:ok, %Call{} = call} = Comms.update_call(call, update_attrs)
+      assert call.call_uuid == "some updated call_uuid"
+      assert call.status == "some updated status"
+    end
+
+    test "update_call/2 with invalid data returns error changeset" do
+      call = call_fixture()
+      assert {:error, %Ecto.Changeset{}} = Comms.update_call(call, @invalid_attrs)
+      assert call == Comms.get_call!(call.id)
+    end
+
+    test "delete_call/1 deletes the call" do
+      call = call_fixture()
+      assert {:ok, %Call{}} = Comms.delete_call(call)
+      assert_raise Ecto.NoResultsError, fn -> Comms.get_call!(call.id) end
+    end
+
+    test "change_call/1 returns a call changeset" do
+      call = call_fixture()
+      assert %Ecto.Changeset{} = Comms.change_call(call)
+    end
+  end
+
+  describe "lms" do
+    alias Journey.Comms.LM
+
+    import Journey.CommsFixtures
+
+    @invalid_attrs %{lm_uuid: nil, status: nil}
+
+    test "list_lms/0 returns all lms" do
+      lm = lm_fixture()
+      assert Comms.list_lms() == [lm]
+    end
+
+    test "get_lm!/1 returns the lm with given id" do
+      lm = lm_fixture()
+      assert Comms.get_lm!(lm.id) == lm
+    end
+
+    test "create_lm/1 with valid data creates a lm" do
+      valid_attrs = %{lm_uuid: "some lm_uuid", status: "some status"}
+
+      assert {:ok, %LM{} = lm} = Comms.create_lm(valid_attrs)
+      assert lm.lm_uuid == "some lm_uuid"
+      assert lm.status == "some status"
+    end
+
+    test "create_lm/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Comms.create_lm(@invalid_attrs)
+    end
+
+    test "update_lm/2 with valid data updates the lm" do
+      lm = lm_fixture()
+      update_attrs = %{lm_uuid: "some updated lm_uuid", status: "some updated status"}
+
+      assert {:ok, %LM{} = lm} = Comms.update_lm(lm, update_attrs)
+      assert lm.lm_uuid == "some updated lm_uuid"
+      assert lm.status == "some updated status"
+    end
+
+    test "update_lm/2 with invalid data returns error changeset" do
+      lm = lm_fixture()
+      assert {:error, %Ecto.Changeset{}} = Comms.update_lm(lm, @invalid_attrs)
+      assert lm == Comms.get_lm!(lm.id)
+    end
+
+    test "delete_lm/1 deletes the lm" do
+      lm = lm_fixture()
+      assert {:ok, %LM{}} = Comms.delete_lm(lm)
+      assert_raise Ecto.NoResultsError, fn -> Comms.get_lm!(lm.id) end
+    end
+
+    test "change_lm/1 returns a lm changeset" do
+      lm = lm_fixture()
+      assert %Ecto.Changeset{} = Comms.change_lm(lm)
+    end
+  end
 end

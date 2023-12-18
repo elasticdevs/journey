@@ -1,4 +1,5 @@
 defmodule JourneyWeb.Router do
+  alias JourneyWeb.TargetController
   use JourneyWeb, :router
 
   import JourneyWeb.UserAuth
@@ -63,9 +64,11 @@ defmodule JourneyWeb.Router do
 
     post "/emails/send_test_email", EmailController, :send_test_email
     post "/emails/:id/send", EmailController, :send
+    resources "/calls", CallController
+    resources "/lms", LMController
     resources "/emails", EmailController
+
     resources "/urls", URLController
-    resources "/targets", TargetController
     resources "/activities", ActivityController
   end
 

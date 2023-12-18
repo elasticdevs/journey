@@ -4,8 +4,9 @@ defmodule Journey.Activities do
   """
 
   import Ecto.Query, warn: false
-  alias Journey.Repo
+  require Logger
 
+  alias Journey.Repo
   alias Journey.Activities.Activity
 
   @doc """
@@ -185,15 +186,45 @@ defmodule Journey.Activities do
     create_activity(activity_params)
   end
 
-  def log_user_email_sent(user, email) do
+  def log_user_client_call(user, call) do
     activity_params = %{
       user_id: user.id,
-      type: "EMAIL_SENT",
-      client_id: email.client.id,
+      type: "CALLED",
+      client_id: call.client_id,
+      call_id: call.id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
     }
 
+    Logger.debug("LOG_USER_CLIENT_CALL, activity_params=#{inspect(activity_params)}")
+    create_activity(activity_params)
+  end
+
+  def log_user_client_lm(user, lm) do
+    activity_params = %{
+      user_id: user.id,
+      type: "LMED",
+      client_id: lm.client_id,
+      lm_id: lm.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    Logger.debug("LOG_USER_LMED, activity_params=#{inspect(activity_params)}")
+    create_activity(activity_params)
+  end
+
+  def log_user_email_sent(user, email) do
+    activity_params = %{
+      user_id: user.id,
+      type: "EMAILED",
+      client_id: email.client.id,
+      email_id: email.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    }
+
+    Logger.debug("LOG_USER_EMAILED, activity_params=#{inspect(activity_params)}")
     create_activity(activity_params)
   end
 end

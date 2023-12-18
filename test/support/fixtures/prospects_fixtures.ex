@@ -68,19 +68,4 @@ defmodule Journey.ProspectsFixtures do
 
     company
   end
-
-  @doc """
-  Generate a target.
-  """
-  def target_fixture(attrs \\ %{}) do
-    {:ok, target} =
-      attrs
-      |> Enum.into(%{
-        notes: "some notes",
-        status: "some status"
-      })
-      |> Journey.Prospects.create_target()
-
-    target
-  end
 end

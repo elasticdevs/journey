@@ -51,7 +51,15 @@ defmodule Journey.Prospects do
       from c in Client,
         where: ^clients_where,
         order_by: [desc_nulls_last: :last_visited_at, desc_nulls_last: :updated_at],
-        preload: [:user, :company, :url, browsings: ^{browsings_query, [visits: visits_query]}]
+        preload: [
+          :user,
+          :company,
+          :url,
+          :calls,
+          :lms,
+          :emails,
+          browsings: ^{browsings_query, [visits: visits_query]}
+        ]
     )
   end
 
@@ -95,6 +103,8 @@ defmodule Journey.Prospects do
 
     Repo.get(Client, id)
     |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
+    |> Repo.preload(calls: :template)
+    |> Repo.preload(lms: :template)
     |> Repo.preload(emails: :template)
     |> Repo.preload([:company, :url, :user])
   end
@@ -146,8 +156,8 @@ defmodule Journey.Prospects do
     company_params = Map.put(company_params, :user_id, current_user.id)
     client_params = Map.put(client_params, :user_id, current_user.id)
 
-    Logger.debug("CREATE_CLIENT_COMPANY_PARAMS, company_params=#{Kernel.inspect(company_params)}")
-    Logger.debug("CREATE_CLIENT_PARAMS, client_params=#{Kernel.inspect(client_params)}")
+    Logger.debug("CREATE_CLIENT_COMPANY_PARAMS, company_params=#{inspect(company_params)}")
+    Logger.debug("CREATE_CLIENT_PARAMS, client_params=#{inspect(client_params)}")
 
     client_params =
       case find_or_create_company(company_params) do
@@ -159,7 +169,7 @@ defmodule Journey.Prospects do
           Map.put(client_params, :company_id, c.id)
 
         {:error, %Ecto.Changeset{} = changeset} ->
-          Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{Kernel.inspect(changeset)}")
+          Logger.error("FIND_OR_CREATE_COMPANY_ERROR, errors=#{inspect(changeset)}")
 
           client_params
       end
@@ -180,7 +190,7 @@ defmodule Journey.Prospects do
 
   """
   def update_client(%Client{} = c, attrs) do
-    Logger.debug("CLIENT_UPDATE_ATTRS, attrs=#{Kernel.inspect(attrs)}")
+    Logger.debug("CLIENT_UPDATE_ATTRS, attrs=#{inspect(attrs)}")
 
     client =
       c
@@ -201,8 +211,8 @@ defmodule Journey.Prospects do
     company_params = Map.put(company_params, :user_id, current_user.id)
     client_params = Map.put(client_params, :user_id, current_user.id)
 
-    Logger.debug("RESYNC_COMPANY_PARAMS, company_params=#{Kernel.inspect(company_params)}")
-    Logger.debug("RESYNC_CLIENT_PARAMS, client_params=#{Kernel.inspect(client_params)}")
+    Logger.debug("RESYNC_COMPANY_PARAMS, company_params=#{inspect(company_params)}")
+    Logger.debug("RESYNC_CLIENT_PARAMS, client_params=#{inspect(client_params)}")
 
     client_params =
       if company_params do
@@ -217,9 +227,7 @@ defmodule Journey.Prospects do
                 Map.put(client_params, :company_id, co.id)
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                Logger.error(
-                  "RESYNC_FIND_OR_CREATE_COMPANY_ERROR, errors=#{Kernel.inspect(changeset)}"
-                )
+                Logger.error("RESYNC_FIND_OR_CREATE_COMPANY_ERROR, errors=#{inspect(changeset)}")
 
                 client_params
             end
@@ -230,7 +238,7 @@ defmodule Journey.Prospects do
                 company_params
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                Logger.error("RESYNC_COMPANY_ERROR, errors=#{Kernel.inspect(changeset)}")
+                Logger.error("RESYNC_COMPANY_ERROR, errors=#{inspect(changeset)}")
                 company_params
             end
         end
@@ -244,9 +252,7 @@ defmodule Journey.Prospects do
           {:ok}
 
         {:error, %Ecto.Changeset{} = changeset} ->
-          Logger.error(
-            "RESYNC_CLIENT_ERROR_COMPANY_UPDATE_CASE, errors=#{Kernel.inspect(changeset)}"
-          )
+          Logger.error("RESYNC_CLIENT_ERROR_COMPANY_UPDATE_CASE, errors=#{inspect(changeset)}")
 
           {:error, changeset}
       end
@@ -451,101 +457,5 @@ defmodule Journey.Prospects do
   """
   def change_company(%Company{} = company, attrs \\ %{}) do
     Company.changeset(company, attrs)
-  end
-
-  alias Journey.Prospects.Target
-
-  @doc """
-  Returns the list of targets.
-
-  ## Examples
-
-      iex> list_targets()
-      [%Target{}, ...]
-
-  """
-  def list_targets do
-    Repo.all(Target)
-  end
-
-  @doc """
-  Gets a single target.
-
-  Raises `Ecto.NoResultsError` if the Target does not exist.
-
-  ## Examples
-
-      iex> get_target!(123)
-      %Target{}
-
-      iex> get_target!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_target!(id), do: Repo.get!(Target, id)
-
-  @doc """
-  Creates a target.
-
-  ## Examples
-
-      iex> create_target(%{field: value})
-      {:ok, %Target{}}
-
-      iex> create_target(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_target(attrs \\ %{}) do
-    %Target{}
-    |> Target.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a target.
-
-  ## Examples
-
-      iex> update_target(target, %{field: new_value})
-      {:ok, %Target{}}
-
-      iex> update_target(target, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_target(%Target{} = target, attrs) do
-    target
-    |> Target.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a target.
-
-  ## Examples
-
-      iex> delete_target(target)
-      {:ok, %Target{}}
-
-      iex> delete_target(target)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_target(%Target{} = target) do
-    Repo.delete(target)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking target changes.
-
-  ## Examples
-
-      iex> change_target(target)
-      %Ecto.Changeset{data: %Target{}}
-
-  """
-  def change_target(%Target{} = target, attrs \\ %{}) do
-    Target.changeset(target, attrs)
   end
 end

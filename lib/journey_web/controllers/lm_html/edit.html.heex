@@ -1,0 +1,15 @@
+<.back navigate={~p"/lms"} class="back">Back to LMs</.back>
+
+<div class="page-heading">
+  Edit LM #<%= @lm.id %>
+  <div class="subheading">Use this form to manage lm records in your database.</div>
+</div>
+
+<.lm_form changeset={@changeset} 
+  action={~p"/lms/#{@lm}"} 
+  templates_options={@templates_options} 
+  templates_map={@templates_map} 
+  client={@client} 
+/>
+
+<.back navigate={~p"/lms"} class="back center">Back to LMs</.back>

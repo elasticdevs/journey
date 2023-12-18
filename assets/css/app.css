@@ -6,6 +6,7 @@
   --light-red: #ff5d5d;
   --bright-red: #ffb2b2;
   --red: #C72B2B;
+  --dark-red: #ee3372;
   --lightest-green: #7EEF7E;
   --light-green: #4EBF4E;
   --green: #1E7F1E;
@@ -23,6 +24,10 @@
   --darker-grey: #777777;
   --darkest-grey: #333333;
   --black: #000000;
+
+  --call: #6B0504;
+  --lm: #0D3B66;
+  --email: #295135;
 
 
   --hover: var(--merely-blue);
@@ -67,13 +72,13 @@ th {
 
 .top-bar {
   display: grid;
-  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-columns: 1fr 3fr 1fr;
   font-size: 48px;
 }
 
 .top-bar-actions {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto;
   gap: 1ch;
 
   width: 20%;
@@ -133,7 +138,6 @@ button,
   margin-bottom: 1.125rem;
   margin-right: 0.45rem;
   border-radius: 3.6px;
-  border: 1px dashed var(--white);
   padding: 0.4078125rem 1.4625rem;
   text-align: center;
 }
@@ -315,6 +319,15 @@ td:first-child {
 }
 
 .visit-uuid {
+  font-weight: bold;
+  font-size: 0.7rem;
+  color: var(--blue);
+}
+
+.call-uuid,
+.lm-uuid,
+.email-uuid,
+.activity-uuid {
   font-weight: bold;
   font-size: 0.7rem;
   color: var(--blue);
@@ -508,15 +521,33 @@ button.logo {
   background: var(--lighter-grey);
 }
 
-#sponsored_url,
+.sponsored_url,
 .shortened {
   margin: 0 5px;
   border-radius: 5px;
   padding: 2px 5px;
-  background: var(--bright-red);
-  color: var(--black);
+  background: var(--dark-red);
+  color: var(--white);
 }
 
 .input {
   line-height: normal;
+}
+
+.button.call {
+  background-color: var(--call);
+  color: var(--white);
+  font-size: 0.8rem;
+}
+
+.button.lm {
+  background-color: var(--lm);
+  color: var(--white);
+  font-size: 0.8rem;
+}
+
+.button.email {
+  background-color: var(--email);
+  color: var(--white);
+  font-size: 0.8rem;
 }

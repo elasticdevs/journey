@@ -59,9 +59,7 @@ defmodule JourneyWeb.ClientController do
             |> redirect(to: ~p"/clients/#{client}")
 
           {:error, %Ecto.Changeset{} = changeset} ->
-            Logger.error(
-              "FIND_CLIENT_BY_LINKEDIN_CREATE_ERROR, changeset=#{Kernel.inspect(changeset)}"
-            )
+            Logger.error("FIND_CLIENT_BY_LINKEDIN_CREATE_ERROR, changeset=#{inspect(changeset)}")
 
             conn
             |> put_flash(:info, "Client / Company could not be created.")

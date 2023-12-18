@@ -21,6 +21,11 @@ defmodule Journey.Comms do
     Repo.all(Template)
   end
 
+  def list_templates(comm_type) do
+    from(t in Template, where: t.comm_type == ^comm_type)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single template.
 
@@ -102,6 +107,204 @@ defmodule Journey.Comms do
     Template.changeset(template, attrs)
   end
 
+  alias Journey.Comms.Call
+
+  @doc """
+  Returns the list of calls.
+
+  ## Examples
+
+      iex> list_calls()
+      [%Call{}, ...]
+
+  """
+  def list_calls do
+    Call
+    |> order_by(desc_nulls_last: :updated_at)
+    |> preload([:template, :client, :activity])
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a single call.
+
+  Raises `Ecto.NoResultsError` if the Call does not exist.
+
+  ## Examples
+
+      iex> get_call!(123)
+      %Call{}
+
+      iex> get_call!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_call!(id), do: Repo.get!(Call, id) |> Repo.preload([:template, :client, :activity])
+
+  @doc """
+  Creates a call.
+
+  ## Examples
+
+      iex> create_call(%{field: value})
+      {:ok, %Call{}}
+
+      iex> create_call(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_call(attrs \\ %{}) do
+    %Call{}
+    |> Call.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a call.
+
+  ## Examples
+
+      iex> update_call(call, %{field: new_value})
+      {:ok, %Call{}}
+
+      iex> update_call(call, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_call(%Call{} = call, attrs) do
+    call
+    |> Call.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a call.
+
+  ## Examples
+
+      iex> delete_call(call)
+      {:ok, %Call{}}
+
+      iex> delete_call(call)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_call(%Call{} = call) do
+    Repo.delete(call)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking call changes.
+
+  ## Examples
+
+      iex> change_call(call)
+      %Ecto.Changeset{data: %Call{}}
+
+  """
+  def change_call(%Call{} = call, attrs \\ %{}) do
+    Call.changeset(call, attrs)
+  end
+
+  alias Journey.Comms.LM
+
+  @doc """
+  Returns the list of lms.
+
+  ## Examples
+
+      iex> list_lms()
+      [%LM{}, ...]
+
+  """
+  def list_lms do
+    LM
+    |> order_by(desc_nulls_last: :updated_at)
+    |> preload([:template, :client, :activity])
+    |> Repo.all()
+  end
+
+  @doc """
+  Gets a single lm.
+
+  Raises `Ecto.NoResultsError` if the Lm does not exist.
+
+  ## Examples
+
+      iex> get_lm!(123)
+      %LM{}
+
+      iex> get_lm!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_lm!(id), do: Repo.get!(LM, id) |> Repo.preload([:template, :client, :activity])
+
+  @doc """
+  Creates a lm.
+
+  ## Examples
+
+      iex> create_lm(%{field: value})
+      {:ok, %LM{}}
+
+      iex> create_lm(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_lm(attrs \\ %{}) do
+    %LM{}
+    |> LM.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a lm.
+
+  ## Examples
+
+      iex> update_lm(lm, %{field: new_value})
+      {:ok, %LM{}}
+
+      iex> update_lm(lm, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_lm(%LM{} = lm, attrs) do
+    lm
+    |> LM.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a lm.
+
+  ## Examples
+
+      iex> delete_lm(lm)
+      {:ok, %LM{}}
+
+      iex> delete_lm(lm)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_lm(%LM{} = lm) do
+    Repo.delete(lm)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking lm changes.
+
+  ## Examples
+
+      iex> change_lm(lm)
+      %Ecto.Changeset{data: %LM{}}
+
+  """
+  def change_lm(%LM{} = lm, attrs \\ %{}) do
+    LM.changeset(lm, attrs)
+  end
+
   alias Journey.Comms.Email
 
   @doc """
@@ -114,7 +317,10 @@ defmodule Journey.Comms do
 
   """
   def list_emails do
-    Repo.all(Email) |> Repo.preload([:template, :client])
+    Email
+    |> order_by(desc_nulls_last: :updated_at)
+    |> preload([:template, :client, :activity])
+    |> Repo.all()
   end
 
   @doc """
@@ -131,7 +337,7 @@ defmodule Journey.Comms do
       ** (Ecto.NoResultsError)
 
   """
-  def get_email!(id), do: Repo.get!(Email, id) |> Repo.preload(:client)
+  def get_email!(id), do: Repo.get!(Email, id) |> Repo.preload([:template, :client, :activity])
 
   @doc """
   Creates a email.
@@ -198,14 +404,14 @@ defmodule Journey.Comms do
     Email.changeset(email, attrs)
   end
 
-  def templates_options do
-    Enum.reduce(list_templates(), Keyword.new(), fn t, ts ->
+  def templates_options(comm_type) do
+    Enum.reduce(list_templates(comm_type), Keyword.new(), fn t, ts ->
       Keyword.put_new(ts, String.to_atom(t.name), t.id)
     end)
   end
 
-  def templates_map do
-    Enum.reduce(list_templates(), %{}, fn template, map ->
+  def templates_map(comm_type) do
+    Enum.reduce(list_templates(comm_type), %{}, fn template, map ->
       Map.put_new(map, template.id, Ecto.embedded_dump(template, :json))
     end)
   end

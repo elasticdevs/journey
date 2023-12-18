@@ -35,4 +35,34 @@ defmodule Journey.CommsFixtures do
 
     email
   end
+
+  @doc """
+  Generate a call.
+  """
+  def call_fixture(attrs \\ %{}) do
+    {:ok, call} =
+      attrs
+      |> Enum.into(%{
+        call_uuid: "some call_uuid",
+        status: "some status"
+      })
+      |> Journey.Comms.create_call()
+
+    call
+  end
+
+  @doc """
+  Generate a lm.
+  """
+  def lm_fixture(attrs \\ %{}) do
+    {:ok, lm} =
+      attrs
+      |> Enum.into(%{
+        lm_uuid: "some lm_uuid",
+        status: "some status"
+      })
+      |> Journey.Comms.create_lm()
+
+    lm
+  end
 end

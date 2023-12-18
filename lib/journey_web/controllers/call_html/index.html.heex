@@ -1,0 +1,25 @@
+<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
+<div class="page-heading">
+  Listing Calls
+</div>
+
+<div class="section">
+  <.table id="calls" rows={@calls} row_click={&JS.navigate(~p"/calls/#{&1}")}>
+    <:col :let={call} label="Activity UUID" class="activity-uuid">
+      <%= get_shortened_uuid(if call.activity, do: call.activity.activity_uuid, else: nil) %>
+    </:col>
+    <:col :let={call} label="Call UUID" class="call-uuid">
+      <%= get_shortened_uuid(call.call_uuid) %>
+    </:col>
+    <:col :let={call} label="Client" class="client-name"><%= call.client.name %></:col>
+    <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
+    <:col :let={call} label="Status"><%= call.status %></:col>
+    <:action :let={call}>
+      <.link navigate={~p"/calls/#{call}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+    </:action>
+  </.table>
+</div>
+
+<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

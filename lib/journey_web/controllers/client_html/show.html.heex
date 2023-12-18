@@ -12,7 +12,7 @@
 <div class="page-heading-3">
   Sponsored Link:
   <span class="link">
-    <b id="sponsored_url">
+    <b class="sponsored_url">
       <%= raw(
         sponsored_link_shortened_from_client(@client) || sponsored_link_full_from_client(@client)
       ) %>
@@ -99,8 +99,58 @@
 
 <div class="section">
   <div class="page-heading-2">
+    Calls (<%= length(@client.calls) %>)
+    <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="button call">
+      New Call
+    </a>
+  </div>
+  <.table id="calls" rows={@client.calls} row_click={&JS.navigate(~p"/calls/#{&1}")}>
+    <:col :let={call} label="Call UUID"><%= call.call_uuid %></:col>
+    <:col :let={call} label="Template">
+      <%= (call.template && call.template.name) || "" %>
+    </:col>
+    <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
+    <:col :let={call} label="Status"><%= call.status %></:col>
+    <:action :let={call}>
+      <.link navigate={~p"/calls/#{call}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+    </:action>
+  </.table>
+</div>
+
+<br /><br />
+
+<div class="section">
+  <div class="page-heading-2">
+    LinkedIn Messages (<%= length(@client.lms) %>)
+    <a href={~p"/lms/new?client_uuid=#{@client.client_uuid}"} class="button lm">
+      New LinkedIn Message
+    </a>
+  </div>
+  <.table id="lms" rows={@client.lms} row_click={&JS.navigate(~p"/lms/#{&1}")}>
+    <:col :let={lm} label="LinkedIn Message UUID"><%= lm.lm_uuid %></:col>
+    <:col :let={lm} label="Template">
+      <%= (lm.template && lm.template.name) || "" %>
+    </:col>
+    <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
+    <:col :let={lm} label="Status"><%= lm.status %></:col>
+    <:action :let={lm}>
+      <.link navigate={~p"/lms/#{lm}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+    </:action>
+  </.table>
+</div>
+
+<br /><br />
+
+<div class="section">
+  <div class="page-heading-2">
     Emails (<%= length(@client.emails) %>)
-    <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="button">+ Send Email</a>
+    <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="button email">
+      New Email
+    </a>
   </div>
   <.table id="emails" rows={@client.emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
     <:col :let={email} label="Email UUID"><%= email.email_uuid %></:col>

@@ -1,0 +1,13 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:client_id]} type="hidden" value={@client.id} />
+  <.input field={f[:status]} type="hidden" />
+  <.input field={f[:client_id]} type="text" label="Client" value={@client.name} placeholder="this will set automatically and will not be editable" disabled />
+  <.input field={f[:call_uuid]} type="text" label="Call UUID" placeholder="this will be auto populated" disabled />
+  <.input field={f[:message]} type="textarea" label="Message" placeholder="write the call transcript here" />
+  <:actions>
+    <.button>Save Call</.button>
+  </:actions>
+</.simple_form>

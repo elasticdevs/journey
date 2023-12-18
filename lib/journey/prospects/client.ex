@@ -6,6 +6,8 @@ defmodule Journey.Prospects.Client do
   alias Journey.Accounts.User
   alias Journey.Prospects.Company
   alias Journey.Analytics.Browsing
+  alias Journey.Comms.Call
+  alias Journey.Comms.LM
   alias Journey.Comms.Email
   alias Journey.Common.Types
   alias Journey.URLs.URL
@@ -30,6 +32,8 @@ defmodule Journey.Prospects.Client do
     field :last_visited_at, :utc_datetime_usec
     field :organization_id, :string, virtual: true
     has_many :browsings, Browsing, preload_order: [desc: :last_visited_at]
+    has_many :calls, Call, preload_order: [desc: :updated_at]
+    has_many :lms, LM, preload_order: [desc: :updated_at]
     has_many :emails, Email, preload_order: [desc: :updated_at]
     has_one :url, URL
     belongs_to :company, Company

@@ -6,22 +6,32 @@
   <a href={~p"/emails/#{@email}/edit"} class="button">Edit</a>
 </div>
 
-<.table id="emails" rows={[@email]} row_click={&JS.navigate(~p"/emails/#{&1}")}>
-  <:col :let={email} label="Email UUID"><%= email.email_uuid %></:col>
-  <:col :let={email} label="Subject"><%= email.subject %></:col>
-  <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
-  <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
-  <:col :let={email} label="Status"><%= email.status %></:col>
-  <:action :let={email}>
-    <.link navigate={~p"/emails/#{email}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
-    <.simple_form for={%{}} action={~p"/emails/#{email.id}/send"} class="inline">
-      <:actions>
-        <.button class="logo"><i class="action" data-feather="send"></i></.button>
-      </:actions>
-    </.simple_form>
-  </:action>
-</.table>
+<div class="section">
+  <.table id="emails" rows={[@email]} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+    <:col :let={email} label="Activity UUID" class="activity-uuid">
+      <%= get_shortened_uuid(if email.activity, do: email.activity.activity_uuid, else: nil) %>
+    </:col>
+    <:col :let={email} label="Email UUID" class="email-uuid">
+      <%= get_shortened_uuid(email.email_uuid) %>
+    </:col>
+    <:col :let={email} label="Client" class="client-name">
+      <%= get_client_display_name_from_client(email.client) %>
+    </:col>
+    <:col :let={email} label="Subject"><%= email.subject %></:col>
+    <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
+    <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
+    <:col :let={email} label="Status"><%= email.status %></:col>
+    <:action :let={email}>
+      <.link navigate={~p"/emails/#{email}/edit"}>
+        <i class="action" data-feather="edit-2"></i>
+      </.link>
+      <.simple_form for={%{}} action={~p"/emails/#{email.id}/send"} class="inline">
+        <:actions>
+          <.button class="logo"><i class="action" data-feather="send"></i></.button>
+        </:actions>
+      </.simple_form>
+    </:action>
+  </.table>
+</div>
 
 <.back navigate={~p"/emails"} class="back">Back to Emails</.back>

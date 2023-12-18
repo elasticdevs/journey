@@ -28,8 +28,8 @@ defmodule JourneyWeb.EmailController do
         render(conn, :new,
           changeset: changeset,
           client: c,
-          templates_options: Comms.templates_options(),
-          templates_map: Comms.templates_map()
+          templates_options: Comms.templates_options("EMAIL"),
+          templates_map: Comms.templates_map("EMAIL")
         )
     end
   end
@@ -42,18 +42,18 @@ defmodule JourneyWeb.EmailController do
         |> redirect(to: ~p"/emails/#{email}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        case Prospects.get_client(changeset.changes.client_id) do
+        case Prospects.get_client!(changeset.changes.client_id) do
           nil ->
             conn
-            |> put_flash(:info, "Could not find client with the given Client UUID.")
+            |> put_flash(:info, "Could not find client with the given Client ID.")
             |> redirect(to: ~p"/")
 
           c ->
             render(conn, :new,
               changeset: changeset,
               client: c,
-              templates_options: Comms.templates_options(),
-              templates_map: Comms.templates_map()
+              templates_options: Comms.templates_options("EMAIL"),
+              templates_map: Comms.templates_map("EMAIL")
             )
         end
     end
@@ -67,10 +67,10 @@ defmodule JourneyWeb.EmailController do
   def edit(conn, %{"id" => id}) do
     email = Comms.get_email!(id)
 
-    case Prospects.get_client(%{id: email.client_id}) do
+    case Prospects.get_client!(%{id: email.client_id}) do
       nil ->
         conn
-        |> put_flash(:info, "Could not find client with the given Client UUID.")
+        |> put_flash(:info, "Could not find client with the given Client ID.")
         |> redirect(to: ~p"/")
 
       c ->
@@ -80,8 +80,8 @@ defmodule JourneyWeb.EmailController do
           email: email,
           changeset: changeset,
           client: c,
-          templates_options: Comms.templates_options(),
-          templates_map: Comms.templates_map()
+          templates_options: Comms.templates_options("EMAIL"),
+          templates_map: Comms.templates_map("EMAIL")
         )
     end
   end
@@ -96,10 +96,10 @@ defmodule JourneyWeb.EmailController do
         |> redirect(to: ~p"/emails/#{email}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        case Prospects.get_client(%{id: email.client_id}) do
+        case Prospects.get_client!(%{id: email.client_id}) do
           nil ->
             conn
-            |> put_flash(:info, "Could not find client with the given Client UUID.")
+            |> put_flash(:info, "Could not find client with the given Client ID.")
             |> redirect(to: ~p"/")
 
           c ->
@@ -107,8 +107,8 @@ defmodule JourneyWeb.EmailController do
               email: email,
               changeset: changeset,
               client: c,
-              templates_options: Comms.templates_options(),
-              templates_map: Comms.templates_map()
+              templates_options: Comms.templates_options("EMAIL"),
+              templates_map: Comms.templates_map("EMAIL")
             )
         end
     end
@@ -153,7 +153,7 @@ defmodule JourneyWeb.EmailController do
           "Email sent successfully !!"
 
         {:error, reason} ->
-          Logger.debug("GMAIL_API_MAIL_ERROR, reason=#{Kernel.inspect(reason)}")
+          Logger.debug("GMAIL_API_MAIL_ERROR, reason=#{inspect(reason)}")
           "Error sending email."
       end
 
