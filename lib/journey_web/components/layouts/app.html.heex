@@ -41,6 +41,23 @@
       <div class="action"><a href="/users">Users</a></div>
     </div>
   </div>
+
+  <div class="right">
+    <%= if @current_user do %>
+      <div class="google-user">
+        <img src={@current_user.picture} class="picture" /> <%= @current_user.email %>
+        <.link href={~p"/users/log_out"} method="delete" class="logout">
+          Logout
+        </.link>
+      </div>
+    <% else %>
+      <div>
+        <.link href={~p"/auth/google"} class="google-login">
+          Login via Google
+        </.link>
+      </div>
+    <% end %>
+  </div>
 </div>
 <div id="msg">
   <.flash_group flash={@flash} />

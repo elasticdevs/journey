@@ -72,7 +72,7 @@ th {
 
 .top-bar {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 2fr 5fr 1fr;
   font-size: 48px;
 }
 
@@ -228,8 +228,16 @@ form div:has(button) {
   text-align: center;
 }
 
+.left {
+  text-align: left;
+}
+
 .center {
   text-align: center;
+}
+
+.right {
+  text-align: right;
 }
 
 svg {
@@ -550,4 +558,36 @@ button.logo {
   background-color: var(--email);
   color: var(--white);
   font-size: 0.8rem;
+}
+
+.google-user {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  vertical-align: bottom;
+  text-align: right;
+  color: var(--darkest-grey);
+}
+
+.google-login,
+.logout {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  vertical-align: bottom;
+  text-align: right;
+  background-color: var(--red);
+  color: var(--lighter-grey);
+}
+
+.google-login:hover,
+.logout:hover {
+  font-weight: bold;
+  color: var(--white);
+}
+
+.picture {
+  border-radius: 50px;
 }

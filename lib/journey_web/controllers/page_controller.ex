@@ -4,7 +4,7 @@ defmodule JourneyWeb.PageController do
   use JourneyWeb, :controller
 
   def landing(conn, _) do
-    case get_session(conn, :current_user) do
+    case conn.assigns.current_user do
       nil ->
         conn |> render(:landing)
 
@@ -14,9 +14,6 @@ defmodule JourneyWeb.PageController do
   end
 
   def home(conn, _params) do
-    # The home page is often custom made,
-    # so skip the default app layout.
-
     in_last_secs = get_in_last_secs_from_cookie(conn)
 
     clients = Prospects.list_clients(%{in_last_secs: in_last_secs})
