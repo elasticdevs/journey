@@ -1,5 +1,4 @@
 defmodule JourneyWeb.Router do
-  alias JourneyWeb.TargetController
   use JourneyWeb, :router
 
   import JourneyWeb.UserAuth
