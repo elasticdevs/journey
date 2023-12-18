@@ -209,12 +209,12 @@ defmodule Journey.Prospects do
         case client.company do
           nil ->
             case find_or_create_company(company_params) do
-              {:ok, c} ->
-                Activities.log_user_company_resync_add(current_user, c)
-                Map.put(client_params, :company_id, c.id)
+              {:ok, co} ->
+                Activities.log_user_company_resync_add(current_user, co)
+                Map.put(client_params, :company_id, co.id)
 
-              {:found, c} ->
-                Map.put(client_params, :company_id, c.id)
+              {:found, co} ->
+                Map.put(client_params, :company_id, co.id)
 
               {:error, %Ecto.Changeset{} = changeset} ->
                 Logger.error(
