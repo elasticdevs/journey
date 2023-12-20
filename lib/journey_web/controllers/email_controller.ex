@@ -67,7 +67,7 @@ defmodule JourneyWeb.EmailController do
   def edit(conn, %{"id" => id}) do
     email = Comms.get_email!(id)
 
-    case Prospects.get_client!(%{id: email.client_id}) do
+    case Prospects.get_client!(email.client_id) do
       nil ->
         conn
         |> put_flash(:info, "Could not find client with the given Client ID.")
@@ -96,7 +96,7 @@ defmodule JourneyWeb.EmailController do
         |> redirect(to: ~p"/emails/#{email}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        case Prospects.get_client!(%{id: email.client_id}) do
+        case Prospects.get_client!(email.client_id) do
           nil ->
             conn
             |> put_flash(:info, "Could not find client with the given Client ID.")
@@ -148,7 +148,7 @@ defmodule JourneyWeb.EmailController do
       case Gmail.send(email) |> GmailAPIMailer.deliver(access_token: current_user.token) do
         {:ok, result} ->
           email |> Comms.update_email(%{status: "SENT"})
-          Activities.log_user_email_sent(current_user, email)
+          Activities.log_email!(current_user, email)
           Logger.debug("GMAIL_API_MAIL_SENT_SUCCESSFULLY, result=#{result.labels}")
           "Email sent successfully !!"
 

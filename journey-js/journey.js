@@ -28,8 +28,9 @@ function logVisitToJourney() {
   let url = new URL(document.location)
   let params = new URLSearchParams(url.search)
   let gdpr_accepted = Cookies.get("gdpr_accepted")
-  let client_uuid = Cookies.get("client_uuid") || params.get("uuid")
+  let activity_uuid = params.get("auuid")
   let browsing_uuid = Cookies.get("browsing_uuid")
+  let client_uuid = Cookies.get("client_uuid") || params.get("uuid")
 
   let utm_campaign = params.get("utm_campaign")
   let utm_source = params.get("utm_source")
@@ -45,8 +46,9 @@ function logVisitToJourney() {
     body: JSON.stringify({
       visit: {
         gdpr_accepted: gdpr_accepted,
-        client_uuid: client_uuid,
+        activity_uuid: activity_uuid,
         browsing_uuid: browsing_uuid,
+        client_uuid: client_uuid,
         page: window.location.pathname,
         hash: window.location.hash,
         utm_campaign: utm_campaign,

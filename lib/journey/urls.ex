@@ -56,6 +56,12 @@ defmodule Journey.URLs do
     |> Repo.insert()
   end
 
+  def create_url!(attrs \\ %{}) do
+    %URL{}
+    |> URL.create_changeset(attrs)
+    |> Repo.insert!()
+  end
+
   @doc """
   Updates a url.
 

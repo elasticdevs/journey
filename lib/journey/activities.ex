@@ -52,7 +52,7 @@ defmodule Journey.Activities do
       ** (Ecto.NoResultsError)
 
   """
-  def get_activity!(id), do: Repo.get!(Activity, id) |> Repo.preload([:user, :company, :client])
+  def get_activity!(id), do: Repo.get!(Activity, id) |> Repo.preload([:user, :company, :client, :url])
 
   @doc """
   Creates a activity.
@@ -72,6 +72,12 @@ defmodule Journey.Activities do
     |> Repo.insert()
   end
 
+  def create_activity!(attrs \\ %{}) do
+    %Activity{}
+    |> Activity.changeset(attrs)
+    |> Repo.insert!()
+  end
+
   @doc """
   Updates a activity.
 
@@ -88,6 +94,12 @@ defmodule Journey.Activities do
     activity
     |> Activity.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_activity!(%Activity{} = activity, attrs) do
+    activity
+    |> Activity.changeset(attrs)
+    |> Repo.update!()
   end
 
   @doc """
@@ -119,7 +131,15 @@ defmodule Journey.Activities do
     Activity.changeset(activity, attrs)
   end
 
-  def log_user_login(user) do
+  def sponsored_link_full_from_activity(activity) do
+    "#{Application.fetch_env!(:journey, Journey.URLs)[:website_url]}/?auuid=#{activity.activity_uuid}"
+  end
+
+  def sponsored_link_shortened_from_activity(activity) do
+    "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{activity.url.code}"
+  end
+
+  def log_user_login!(user) do
     activity_params = %{
       user_id: user.id,
       type: "LOGIN",
@@ -127,10 +147,10 @@ defmodule Journey.Activities do
       status: "DONE"
     }
 
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_logout(user) do
+  def log_user_logout!(user) do
     activity_params = %{
       user_id: user.id,
       type: "LOGOUT",
@@ -138,10 +158,10 @@ defmodule Journey.Activities do
       status: "DONE"
     }
 
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_company_manual_add(user, company) do
+  def log_manual_company_add!(user, company) do
     activity_params = %{
       user_id: user.id,
       type: "COMPANY_MANUAL_ADD",
@@ -150,10 +170,10 @@ defmodule Journey.Activities do
       status: "DONE"
     }
 
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_client_manual_add(user, client) do
+  def log_manual_client_add!(user, client) do
     activity_params = %{
       user_id: user.id,
       type: "CLIENT_MANUAL_ADD",
@@ -162,10 +182,10 @@ defmodule Journey.Activities do
       status: "DONE"
     }
 
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_company_linkedin_add(user, company) do
+  def log_linkedin_company_add!(user, company) do
     activity_params = %{
       user_id: user.id,
       type: "COMPANY_LINKEDIN_ADD",
@@ -174,10 +194,10 @@ defmodule Journey.Activities do
       status: "DONE"
     }
 
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_client_linkedin_add(user, client) do
+  def log_linkedin_client_add!(user, client) do
     activity_params = %{
       user_id: user.id,
       type: "CLIENT_LINKEDIN_ADD",
@@ -186,10 +206,10 @@ defmodule Journey.Activities do
       status: "DONE"
     }
 
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_company_resync_add(user, company) do
+  def log_resync_company_add!(user, company) do
     activity_params = %{
       user_id: user.id,
       type: "COMPANY_RESYNC_ADD",
@@ -198,10 +218,10 @@ defmodule Journey.Activities do
       status: "DONE"
     }
 
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_client_call(user, call) do
+  def log_call!(user, call) do
     activity_params = %{
       user_id: user.id,
       type: "CALLED",
@@ -212,34 +232,33 @@ defmodule Journey.Activities do
     }
 
     Logger.debug("LOG_USER_CLIENT_CALL, activity_params=#{inspect(activity_params)}")
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_client_lm(user, lm) do
+  def log_lm!(user, client_id) do
     activity_params = %{
       user_id: user.id,
       type: "LMED",
-      client_id: lm.client_id,
-      lm_id: lm.id,
+      client_id: client_id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
     }
 
     Logger.debug("LOG_USER_LMED, activity_params=#{inspect(activity_params)}")
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 
-  def log_user_email_sent(user, email) do
+  def log_email!(user, client_id) do
     activity_params = %{
       user_id: user.id,
       type: "EMAILED",
-      client_id: email.client.id,
-      email_id: email.id,
+      client_id: client_id,
+      # email_id: email.id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
     }
 
     Logger.debug("LOG_USER_EMAILED, activity_params=#{inspect(activity_params)}")
-    create_activity(activity_params)
+    create_activity!(activity_params)
   end
 end

@@ -1,26 +1,46 @@
-<div id="app">
-  <.simple_form :let={f} for={@changeset} action={@action}>
-    <.error :if={@changeset.action}>
-      Oops, something went wrong! Please check the errors below.
-    </.error>
-    <.input field={f[:client_id]} type="hidden" value={@client.id} />
-    <.input field={f[:status]} type="hidden" />
-    <.input
-      id="options"
-      field={f[:template_id]}
-      type="select"
-      label="Template"
-      options={@templates_options}
-      prompt="Choose a template (optional)"
-      onchange="handleTemplateChange()"
-    />
-    <.input field={f[:subject]} type="text" label="Subject" placeholder="subject of the email" />
-    <.input field={f[:body]} type="textarea" label="Body" placeholder="body of the email" />
-    <.input field={f[:read_tracking]} type="checkbox" label="Read Tracking" />
-    <:actions>
-      <.button>Save Email</.button>
-    </:actions>
-  </.simple_form>
+<div class="rich-form">
+  <div id="app">
+    <.simple_form :let={f} for={@changeset} action={@action}>
+      <.error :if={@changeset.action}>
+        Oops, something went wrong! Please check the errors below.
+      </.error>
+      <.input field={f[:client_id]} type="hidden" value={@client.id} />
+      <.input field={f[:status]} type="hidden" />
+      <.input
+        id="options"
+        field={f[:template_id]}
+        type="select"
+        label="Template"
+        options={@templates_options}
+        prompt="Choose a template (optional)"
+        onchange="handleTemplateChange()"
+      />
+      <.input
+        class="focus"
+        field={f[:subject]}
+        type="textarea"
+        label="Subject"
+        placeholder="subject of the email"
+      />
+      <.input
+        class="focus"
+        field={f[:body]}
+        type="textarea"
+        label="Body"
+        placeholder="body of the email"
+        rows="10"
+      />
+      <.input field={f[:read_tracking]} type="checkbox" label="Read Tracking" />
+      <:actions>
+        <.button>Save Email</.button>
+      </:actions>
+    </.simple_form>
+  </div>
+  <div class="buttons">
+    <div><a id="client-name" class="button">$client-name</a></div>
+    <div><a id="client-company-name" class="button">$client-company-name</a></div>
+    <div><a id="client-sponsored-url" class="button">$client-sponsored-url</a></div>
+  </div>
 </div>
 
 <script type="text/javascript">

@@ -1,9 +1,12 @@
 defmodule JourneyWeb.LMController do
   use JourneyWeb, :controller
 
+  require Logger
+
   alias Journey.Prospects
   alias Journey.Comms
   alias Journey.Comms.LM
+  alias Journey.URLs
   alias Journey.Activities
 
   def index(conn, _params) do
@@ -32,10 +35,24 @@ defmodule JourneyWeb.LMController do
 
   def create(conn, %{"lm" => lm_params}) do
     current_user = conn.assigns.current_user
+    client_id = lm_params["client_id"]
+
+    activity = Activities.log_lm!(current_user, client_id)
+    activity = Activities.get_activity!(activity.id)
+
+    url =
+      URLs.create_url!(%{
+        client_id: client_id,
+        url: Activities.sponsored_link_full_from_activity(activity)
+      })
+
+    Activities.update_activity!(activity, %{url_id: url.id})
+
+    lm_params = Map.put(lm_params, "activity_id", activity.id)
 
     case Comms.create_lm(lm_params) do
       {:ok, lm} ->
-        Activities.log_user_client_lm(current_user, lm)
+        Activities.update_activity!(activity, %{lm_id: lm.id})
 
         conn
         |> put_flash(:info, "LM created successfully.")
@@ -67,7 +84,7 @@ defmodule JourneyWeb.LMController do
   def edit(conn, %{"id" => id}) do
     lm = Comms.get_lm!(id)
 
-    case Prospects.get_client!(%{id: lm.client_id}) do
+    case Prospects.get_client!(lm.client_id) do
       nil ->
         conn
         |> put_flash(:info, "Could not find client with the given Client ID.")
@@ -96,7 +113,7 @@ defmodule JourneyWeb.LMController do
         |> redirect(to: ~p"/lms/#{lm}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        case Prospects.get_client!(%{id: lm.client_id}) do
+        case Prospects.get_client!(lm.client_id) do
           nil ->
             conn
             |> put_flash(:info, "Could not find client with the given Client ID.")
@@ -121,5 +138,18 @@ defmodule JourneyWeb.LMController do
     conn
     |> put_flash(:info, "Lm deleted successfully.")
     |> redirect(to: ~p"/lms")
+  end
+
+  def mark_as_sent(conn, %{"id" => id}) do
+    lm = Comms.get_lm!(id)
+    # current_user = conn.assigns.current_user
+
+    lm |> Comms.update_lm(%{status: "SENT"})
+    # TODO: Activities.log_lm!(current_user, lm)
+    Logger.debug("CLIENT_LM_SENT_SUCCESSFULLY")
+
+    conn
+    |> put_flash(:info, "LinkedIn Message marked as sent successfully!")
+    |> redirect(to: ~p"/lms/#{lm.client_id}")
   end
 end

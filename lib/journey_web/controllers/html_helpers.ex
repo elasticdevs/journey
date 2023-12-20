@@ -23,6 +23,18 @@ defmodule JourneyWeb.HTMLHelpers do
     if activity && activity.client, do: "/clients/#{activity.client.id}", else: nil
   end
 
+  def get_call_url_from_activity(activity) do
+    if activity && activity.call, do: "/calls/#{activity.call.id}", else: nil
+  end
+
+  def get_lm_url_from_activity(activity) do
+    if activity && activity.lm, do: "/lms/#{activity.lm.id}", else: nil
+  end
+
+  def get_email_url_from_activity(activity) do
+    if activity && activity.email, do: "/emails/#{activity.email.id}", else: nil
+  end
+
   def get_user_url_from_company(company) do
     if company && company.user, do: "/users/#{company.user.id}", else: nil
   end
@@ -67,6 +79,18 @@ defmodule JourneyWeb.HTMLHelpers do
 
   def get_linked_in_url_from_client(client) do
     if client && client.linkedin, do: "https://linkedin.com/in/#{client.linkedin}", else: nil
+  end
+
+  def get_call_url_from_call(call) do
+    if call, do: "/calls/#{call.id}", else: nil
+  end
+
+  def get_lm_url_from_lm(lm) do
+    if lm, do: "/lms/#{lm.id}", else: nil
+  end
+
+  def get_email_url_from_email(email) do
+    if email, do: "/emails/#{email.id}", else: nil
   end
 
   def get_shortened_uuid(uuid \\ "") do

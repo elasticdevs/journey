@@ -24,7 +24,7 @@ defmodule JourneyWeb.ClientController do
 
     case Prospects.create_client(client_params) do
       {:ok, client} ->
-        Activities.log_user_client_manual_add(current_user, client)
+        Activities.log_manual_client_add!(current_user, client)
 
         conn
         |> put_flash(:info, "Client created successfully.")
@@ -52,7 +52,7 @@ defmodule JourneyWeb.ClientController do
 
         case Prospects.create_client_by_linkedin(current_user, linkedin) do
           {:ok, client} ->
-            Activities.log_user_client_linkedin_add(current_user, client)
+            Activities.log_linkedin_client_add!(current_user, client)
 
             conn
             |> put_flash(:info, "Client / Company created successfully.")

@@ -2,6 +2,7 @@ defmodule Journey.Activities.Activity do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Journey.URLs.URL
   alias Journey.Comms.Call
   alias Journey.Comms.LM
   alias Journey.Comms.Email
@@ -12,11 +13,14 @@ defmodule Journey.Activities.Activity do
   schema "activities" do
     field :activity_uuid, Ecto.UUID
     field :details, :string
+    field :last_visited_at, :utc_datetime_usec
     field :scheduled_at, :utc_datetime_usec
     field :executed_at, :utc_datetime_usec
     field :message, :string
     field :status, :string
     field :type, :string
+
+    belongs_to :url, URL
     belongs_to :call, Call
     belongs_to :lm, LM
     belongs_to :email, Email
@@ -34,12 +38,14 @@ defmodule Journey.Activities.Activity do
       :user_id,
       :company_id,
       :client_id,
-      :email_id,
-      :lm_id,
       :call_id,
+      :lm_id,
+      :email_id,
+      :url_id,
       :type,
       :message,
       :details,
+      :last_visited_at,
       :scheduled_at,
       :executed_at,
       :status

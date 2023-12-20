@@ -1,16 +1,18 @@
 defmodule Journey.Analytics.Visit do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Journey.Prospects.Client
+  alias Journey.Activities.Activity
   alias Journey.Analytics.Browsing
+  alias Journey.Prospects.Client
 
   @primary_key false
   schema "visits" do
     field :gdpr, :boolean
     field :campaign, :string
     field :city, :string
-    field :client_uuid, Ecto.UUID
+    field :activity_uuid, Ecto.UUID
     field :browsing_uuid, Ecto.UUID
+    field :client_uuid, Ecto.UUID
     field :country, :string
     field :device, :string
     field :info, :map
@@ -25,14 +27,16 @@ defmodule Journey.Analytics.Visit do
     field :tags, :string
     field :time, :naive_datetime_usec
     field :ua, :string
-    belongs_to :client, Client
-    belongs_to :browsing, Browsing
     field :utm_campaign, :string
     field :utm_source, :string
     field :utm_medium, :string
     field :utm_term, :string
     field :utm_content, :string
     field :params, :map
+
+    belongs_to :activity, Activity
+    belongs_to :browsing, Browsing
+    belongs_to :client, Client
 
     timestamps(type: :utc_datetime)
   end
@@ -47,6 +51,8 @@ defmodule Journey.Analytics.Visit do
       :client_uuid,
       :browsing_id,
       :browsing_uuid,
+      :activity_id,
+      :activity_uuid,
       :ipaddress,
       :country,
       :state,

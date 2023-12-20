@@ -61,10 +61,13 @@ defmodule JourneyWeb.Router do
     resources "/visits", VisitController
     resources "/templates", TemplateController
 
+    resources "/calls", CallController
+
+    post "/lms/:id/mark_as_sent", LMController, :mark_as_sent
+    resources "/lms", LMController
+
     post "/emails/send_test_email", EmailController, :send_test_email
     post "/emails/:id/send", EmailController, :send
-    resources "/calls", CallController
-    resources "/lms", LMController
     resources "/emails", EmailController
 
     resources "/urls", URLController

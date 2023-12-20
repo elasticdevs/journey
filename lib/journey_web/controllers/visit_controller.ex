@@ -8,6 +8,7 @@ defmodule JourneyWeb.VisitController do
   alias Journey.Analytics
   alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
+  alias Journey.Activities
 
   def index(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
@@ -76,6 +77,16 @@ defmodule JourneyWeb.VisitController do
           Map.put(visit_params, "gdpr", false)
         end
 
+      # clean activity_uuid
+      visit_params =
+        case UUID.info(visit_params["activity_uuid"]) do
+          {:ok, _} ->
+            visit_params
+
+          {:error, _} ->
+            Map.put(visit_params, "activity_uuid", nil)
+        end
+
       # clean browsing_uuid
       visit_params =
         case UUID.info(visit_params["browsing_uuid"]) do
@@ -96,6 +107,17 @@ defmodule JourneyWeb.VisitController do
             Map.put(visit_params, "client_uuid", nil)
         end
 
+      # grab activity
+      activity =
+        try do
+          Repo.get_by(Activity, activity_uuid: visit_params["activity_uuid"])
+          |> Repo.preload(:client)
+        rescue
+          _ -> nil
+        catch
+          _ -> nil
+        end
+
       # grab browsing
       browsing =
         try do
@@ -105,6 +127,18 @@ defmodule JourneyWeb.VisitController do
           _ -> nil
         catch
           _ -> nil
+        end
+
+      # if activity exists
+      visit_params =
+        case activity do
+          nil ->
+            visit_params
+
+          b ->
+            Map.merge(visit_params, %{
+              "activity_id" => b.id
+            })
         end
 
       # if browsing exists
@@ -122,7 +156,7 @@ defmodule JourneyWeb.VisitController do
       # grab client, we trust browsing's client over whats coming in params
       client =
         try do
-          (browsing && browsing.client) ||
+          (browsing && browsing.client) || (activity && activity.client) ||
             Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
         rescue
           _ -> nil
@@ -141,6 +175,9 @@ defmodule JourneyWeb.VisitController do
               "client_id" => c.id
             })
         end
+
+      # Set status
+      visit_params = Map.put(visit_params, "status", "ACTIVE")
 
       # CASE1: gdpr=false, we just record an
       # anonymous visit on the website
@@ -162,118 +199,188 @@ defmodule JourneyWeb.VisitController do
       # this means that a known client has clicked
       # the sponsored link
 
-      {visit_params, browsing} =
-        case {gdpr_accepted, client, browsing} do
+      last_visited_at = DateTime.now!("Etc/UTC")
+
+      visit =
+        case {gdpr_accepted, client, browsing, activity} do
           # CASE1
-          {nil, _, _} ->
-            Logger.debug("CASE1: country=#{visit_params["country"]}")
-            {visit_params, browsing}
+          {nil, _, _, _} ->
+            Logger.debug("CASE1, country=#{visit_params["country"]}")
+            visit_params = Map.put(visit_params, "last_visited_at", last_visited_at)
+            Analytics.create_visit!(visit_params)
 
           # CASE1.1
-          {"false", _, _} ->
-            Logger.debug("CASE1.1_REPEATED: country=#{visit_params["country"]}")
-            {visit_params, browsing}
+          {"false", _, _, _} ->
+            Logger.debug("CASE1.1_REPEATED, gdpr=false, country=#{visit_params["country"]}")
+            visit_params = Map.put(visit_params, "last_visited_at", last_visited_at)
+            Analytics.create_visit!(visit_params)
 
           # CASE2
-          {"true", nil, nil} ->
-            {:ok, b} = Analytics.create_browsing(%{})
-            b = Repo.get(Browsing, b.id)
-            Logger.debug("CASE2_BOTH_MISSING: created a browsing, b.id=#{b.id}")
+          {"true", nil, nil, nil} ->
+            Logger.debug("CASE2_ABC_MISSING, gdpr=true")
+            browsing = Analytics.create_browsing!(%{"last_visited_at" => last_visited_at})
 
-            {Map.merge(visit_params, %{
-               "browsing_uuid" => b.browsing_uuid,
-               "browsing_id" => b.id
-             }), b}
-
-          # CASE3
-          {"true", client, nil} ->
-            {:ok, b} =
-              Analytics.create_browsing(%{
-                "client_id" => client.id
+            visit_params =
+              Map.merge(visit_params, %{
+                "browsing_id" => browsing.id,
+                "last_visited_at" => last_visited_at
               })
 
-            b = Repo.get(Browsing, b.id)
-            Logger.debug("CASE3_CLIENT_EXISTS: created a browsing, b.id=#{b.id}")
+            Analytics.create_visit!(visit_params)
 
-            {Map.merge(visit_params, %{
-               "browsing_uuid" => b.browsing_uuid,
-               "client_id" => client.id,
-               "browsing_id" => b.id
-             }), b}
+          # CASE3
+          {"true", client, nil, nil} ->
+            Logger.debug("CASE3_ONLY_CLIENT_EXISTS, gdpr=true, client.id=#{client.id}")
+
+            browsing =
+              Analytics.create_browsing!(%{
+                "client_id" => client.id,
+                "last_visited_at" => last_visited_at
+              })
+
+            visit_params =
+              Map.merge(visit_params, %{
+                "browsing_id" => browsing.id,
+                "client_id" => client.id,
+                "last_visited_at" => last_visited_at
+              })
+
+            Analytics.create_visit!(visit_params)
 
           # CASE4
-          {"true", nil, browsing} ->
-            Logger.debug("CASE4_BROWSING_EXISTS: browsing.id=#{browsing.id}")
+          {"true", nil, browsing, nil} ->
+            Logger.debug("CASE4_ONLY_BROWSING_EXISTS, browsing.id=#{browsing.id}")
 
-            {Map.merge(visit_params, %{
-               "browsing_id" => browsing.id
-             }), browsing}
+            Analytics.update_browsing!(browsing, %{"last_visited_at" => last_visited_at})
+
+            visit_params =
+              Map.merge(visit_params, %{
+                "browsing_id" => browsing.id,
+                "last_visited_at" => last_visited_at
+              })
+
+            Analytics.create_visit!(visit_params)
+
+          # CASE4.1
+          {"true", nil, nil, activity} ->
+            Logger.debug("CASE4.1_ONLY_ACTIVITY_EXISTS: activity.id=#{activity.id}")
+            Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
+
+            browsing =
+              Analytics.create_browsing!(%{
+                "client_id" => activity.client.id,
+                "last_visited_at" => last_visited_at
+              })
+
+            Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
+
+            visit_params =
+              Map.merge(visit_params, %{
+                "activity_id" => activity.id,
+                "browsing_id" => browsing.id,
+                "client_id" => activity.client.id,
+                "last_visited_at" => last_visited_at
+              })
+
+            Analytics.create_visit!(visit_params)
 
           # CASE5
-          {"true", client, browsing} ->
-            Logger.debug("CASE5_BOTH_EXISTS: client.id=#{client.id}, browsing.id=#{browsing.id}")
+          {"true", client, browsing, nil} ->
+            Logger.debug("CASE5_BC_EXISTS: client.id=#{client.id}, browsing.id=#{browsing.id}")
 
-            {Map.merge(visit_params, %{
-               "client_id" => client.id,
-               "browsing_id" => browsing.id
-             }), browsing}
+            Analytics.update_browsing!(browsing, %{
+              "client_id" => client.id,
+              "last_visited_at" => last_visited_at
+            })
+
+            Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
+
+            visit_params =
+              Map.merge(visit_params, %{
+                "client_id" => client.id,
+                "browsing_id" => browsing.id
+              })
+
+            Analytics.create_visit!(visit_params)
+
+          # CASE6
+          {"true", client, nil, activity} ->
+            Logger.debug("CASE6_CA_EXISTS: client.id=#{client.id}, activity.id=#{activity.id}")
+            Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
+
+            browsing =
+              Analytics.create_browsing!(%{
+                "client_id" => activity.client.id,
+                "last_visited_at" => last_visited_at
+              })
+
+            Prospects.update_client!(client, %{"last_visited_at" => last_visited_at})
+
+            visit_params =
+              Map.merge(visit_params, %{
+                "client_id" => client.id,
+                "browsing_id" => browsing.id
+              })
+
+            Analytics.create_visit!(visit_params)
+
+          # CASE7
+          {"true", nil, browsing, activity} ->
+            Logger.debug(
+              "CASE7_BA_EXISTS: browsing.id=#{browsing.id}, activity.id=#{activity.id}"
+            )
+
+            Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
+
+            Analytics.update_browsing!(browsing, %{
+              "client_id" => activity.client.id,
+              "last_visited_at" => last_visited_at
+            })
+
+            Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
+
+            visit_params =
+              Map.merge(visit_params, %{
+                "activity_id" => activity.id,
+                "browsing_id" => browsing.id,
+                "client_id" => client.id,
+                "last_visited_at" => last_visited_at
+              })
+
+            Analytics.create_visit!(visit_params)
+
+          # CASE8
+          {"true", client, browsing, activity} ->
+            Logger.debug("CASE8_ABC_EXISTS: client.id=#{client.id}, browsing.id=#{browsing.id}")
+            Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
+
+            Analytics.update_browsing!(browsing, %{
+              "client_id" => client.id,
+              "last_visited_at" => last_visited_at
+            })
+
+            Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
+
+            visit_params =
+              Map.merge(visit_params, %{
+                "activity_id" => activity.id,
+                "browsing_id" => browsing.id,
+                "client_id" => client.id,
+                "last_visited_at" => last_visited_at
+              })
+
+            Analytics.create_visit!(visit_params)
         end
 
-      # Set status
-      visit_params = Map.put(visit_params, "status", "ACTIVE")
-
-      case Analytics.create_visit(visit_params) do
-        {:ok, v} ->
-          # Update browsing
-          client =
-            if browsing do
-              attrs =
-                if client && !browsing.client_id do
-                  %{
-                    client_id: client.id,
-                    last_visited_at: v.inserted_at
-                  }
-                else
-                  %{
-                    last_visited_at: v.inserted_at
-                  }
-                end
-
-              case Analytics.update_browsing(browsing, attrs) do
-                {:ok, b} ->
-                  Analytics.get_browsing!(b.id).client
-
-                {:error, _} ->
-                  client
-              end
-            else
-              client
-            end
-
-          # Update client
-          if client do
-            Prospects.update_client(client, %{
-              last_visited_at: v.inserted_at
-            })
-          end
-
-          if headers["content-type"] == "application/json" do
-            json(conn, %{
-              status: "success",
-              browsing_uuid: if(browsing, do: browsing.browsing_uuid, else: nil)
-            })
-          else
-            conn
-            |> put_flash(:info, "Visit created successfully.")
-            |> redirect(to: ~p"/visits")
-          end
-
-        {:error, %Ecto.Changeset{} = changeset} ->
-          if headers["content-type"] == "application/json" do
-            json(conn, %{status: "error"})
-          else
-            render(conn, :new, changeset: changeset)
-          end
+      if headers["content-type"] == "application/json" do
+        json(conn, %{
+          status: "success",
+          browsing_uuid: if(visit.browsing, do: visit.browsing.browsing_uuid, else: nil)
+        })
+      else
+        conn
+        |> put_flash(:info, "Visit created successfully.")
+        |> redirect(to: ~p"/visits")
       end
     end
   end

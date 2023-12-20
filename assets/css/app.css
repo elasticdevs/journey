@@ -33,6 +33,15 @@
   --hover: var(--merely-blue);
 }
 
+* {
+  box-sizing: content-box;
+}
+
+html,
+body {
+  width: 98%;
+}
+
 pre {
   margin-bottom: 0;
   white-space: pre-wrap;
@@ -225,7 +234,7 @@ form input {
 }
 
 form div:has(button) {
-  text-align: center;
+  text-align: right;
 }
 
 .left {
@@ -575,7 +584,7 @@ button.logo {
   display: inline-block;
   padding: 5px 10px;
   border-radius: 10px;
-  font-size: 1.3rem;
+  font-size: 1rem;
   vertical-align: bottom;
   text-align: right;
   background-color: var(--red);
@@ -590,4 +599,21 @@ button.logo {
 
 .picture {
   border-radius: 50px;
+}
+
+.rich-form {
+  display: grid;
+  grid-template-columns: 4fr 2fr;
+}
+
+.buttons {
+  margin: 30% 0 0 5%;
+}
+
+.buttons a {
+  display: inline-block;
+}
+
+textarea.focus {
+  height: auto;
 }

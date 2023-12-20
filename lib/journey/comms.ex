@@ -357,6 +357,12 @@ defmodule Journey.Comms do
     |> Repo.insert()
   end
 
+  def create_email!(attrs \\ %{}) do
+    %Email{}
+    |> Email.changeset(attrs)
+    |> Repo.insert!()
+  end
+
   @doc """
   Updates a email.
 
@@ -373,6 +379,12 @@ defmodule Journey.Comms do
     email
     |> Email.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_email!(%Email{} = email, attrs) do
+    email
+    |> Email.changeset(attrs)
+    |> Repo.update!()
   end
 
   @doc """

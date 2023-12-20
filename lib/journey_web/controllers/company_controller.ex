@@ -3,6 +3,7 @@ defmodule JourneyWeb.CompanyController do
 
   alias Journey.Prospects
   alias Journey.Prospects.Company
+  alias Journey.Activities
 
   def index(conn, _params) do
     companies = Prospects.list_companies()
@@ -15,10 +16,13 @@ defmodule JourneyWeb.CompanyController do
   end
 
   def create(conn, %{"company" => company_params}) do
-    company_params = Map.put(company_params, :user_id, conn.assigns.current_user.id)
+    current_user = conn.assigns.current_user
+    company_params = Map.put(company_params, :user_id, current_user.id)
 
     case Prospects.create_company(company_params) do
       {:ok, company} ->
+        Activities.log_manual_company_add!(current_user, company)
+
         conn
         |> put_flash(:info, "Company created successfully.")
         |> redirect(to: ~p"/companies/#{company}")

@@ -109,6 +109,15 @@ defmodule Journey.Analytics do
     |> Repo.insert()
   end
 
+  def create_browsing!(attrs \\ %{}) do
+    b =
+      %Browsing{}
+      |> Browsing.changeset(attrs)
+      |> Repo.insert!()
+
+    get_browsing!(b.id)
+  end
+
   @doc """
   Updates a browsing.
 
@@ -125,6 +134,12 @@ defmodule Journey.Analytics do
     browsing
     |> Browsing.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_browsing!(%Browsing{} = browsing, attrs) do
+    browsing
+    |> Browsing.changeset(attrs)
+    |> Repo.update!()
   end
 
   @doc """
@@ -207,7 +222,7 @@ defmodule Journey.Analytics do
       ** (Ecto.NoResultsError)
 
   """
-  def get_visit!(id), do: Repo.get!(Visit, id) |> Repo.preload([browsing: :client])
+  def get_visit!(id), do: Repo.get!(Visit, id) |> Repo.preload(browsing: :client)
 
   @doc """
   Creates a visit.
@@ -225,6 +240,15 @@ defmodule Journey.Analytics do
     %Visit{}
     |> Visit.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_visit!(attrs \\ %{}) do
+    v =
+      %Visit{}
+      |> Visit.changeset(attrs)
+      |> Repo.insert!()
+
+    get_visit!(v.id)
   end
 
   @doc """

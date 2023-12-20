@@ -30,7 +30,6 @@ defmodule Journey.Prospects.Client do
     field :comments, :string
     field :source, :string
     field :last_visited_at, :utc_datetime_usec
-    field :organization_id, :string, virtual: true
     has_many :browsings, Browsing, preload_order: [desc: :last_visited_at]
     has_many :calls, Call, preload_order: [desc: :updated_at]
     has_many :lms, LM, preload_order: [desc: :updated_at]

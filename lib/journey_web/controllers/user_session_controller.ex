@@ -37,7 +37,7 @@ defmodule JourneyWeb.UserSessionController do
 
   def delete(conn, _params) do
     current_user = conn.assigns.current_user
-    Activities.log_user_logout(current_user)
+    Activities.log_user_logout!(current_user)
 
     conn
     |> put_flash(:info, "Logged out successfully.")

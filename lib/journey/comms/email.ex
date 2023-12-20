@@ -12,6 +12,8 @@ defmodule Journey.Comms.Email do
     field :body, :string
     field :read_tracking, :boolean, default: false
     field :status, :string
+    field :activity_id, :integer, virtual: true
+
     belongs_to :template, Template
     belongs_to :client, Client
     has_one :activity, Activity
@@ -25,12 +27,35 @@ defmodule Journey.Comms.Email do
     |> cast(attrs, [
       :client_id,
       :template_id,
-      :email_uuid,
       :subject,
       :body,
       :read_tracking,
       :status
     ])
     |> validate_required([:subject, :body, :read_tracking, :client_id, :status])
+    |> process_vars
+  end
+
+  def process_vars(changeset) do
+    client_id = get_field(changeset, :client_id)
+
+    changeset =
+      case get_change(changeset, :subject) do
+        nil ->
+          changeset
+
+        subject ->
+          changeset
+          |> change(subject: Template.process_vars(client_id, subject))
+      end
+
+    case get_change(changeset, :body) do
+      nil ->
+        changeset
+
+      body ->
+        changeset
+        |> change(body: Template.process_vars(client_id, body))
+    end
   end
 end

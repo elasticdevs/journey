@@ -1,13 +1,44 @@
-<.simple_form :let={f} for={@changeset} action={@action}>
-  <.error :if={@changeset.action}>
-    Oops, something went wrong! Please check the errors below.
-  </.error>
-  <.input field={f[:client_id]} type="hidden" value={@client.id} />
-  <.input field={f[:status]} type="hidden" />
-  <.input field={f[:client_id]} type="text" label="Client" value={@client.name} placeholder="this will set automatically and will not be editable" disabled />
-  <.input field={f[:lm_uuid]} type="text" label="LinkedIn Message UUID" placeholder="this will be auto populated" disabled />
-  <.input field={f[:message]} type="textarea" label="Message" placeholder="write the LinkedIn Message here" />
-  <:actions>
-    <.button>Save LinkedIn Message</.button>
-  </:actions>
-</.simple_form>
+<div class="rich-form">
+  <div>
+    <.simple_form :let={f} for={@changeset} action={@action}>
+      <.error :if={@changeset.action}>
+        Oops, something went wrong! Please check the errors below.
+      </.error>
+      <.input field={f[:client_id]} type="hidden" value={@client.id} />
+      <.input field={f[:status]} type="hidden" />
+      <.input
+        field={f[:client_id]}
+        type="text"
+        label="Client"
+        value={@client.name}
+        placeholder="this will set automatically and will not be editable"
+        disabled
+      />
+      <.input
+        field={f[:lm_uuid]}
+        type="text"
+        label="LinkedIn Message UUID"
+        placeholder="this will be auto populated"
+        disabled
+      />
+      <.input
+        class="focus"
+        id="txt"
+        field={f[:message]}
+        type="textarea"
+        label="Message"
+        placeholder="write the LinkedIn Message here"
+        rows="10"
+      />
+
+      <:actions>
+        <.button>Save LinkedIn Message</.button>
+      </:actions>
+    </.simple_form>
+  </div>
+  <div class="buttons">
+    <div><a id="client-name" class="button">$client-name</a></div>
+    <div><a id="client-company-name" class="button">$client-company-name</a></div>
+    <div><a id="client-sponsored-url" class="button">$client-sponsored-url</a></div>
+  </div>
+</div>

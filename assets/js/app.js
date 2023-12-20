@@ -166,3 +166,39 @@ $(function () {
     })
   }, 1000)
 })
+
+$(function () {
+  var last_focused = null;
+
+  $("textarea.focus").focus(function () {
+    last_focused = $(this)
+  })
+
+  function insertAtCaret(text) {
+    last = last_focused[0]
+    if (last) {
+      var scrollPos = last.scrollTop;
+      var caretPos = last.selectionStart;
+
+      var front = (last.value).substring(0, caretPos);
+      var back = (last.value).substring(last.selectionEnd, last.value.length);
+      last.value = front + text + back;
+      caretPos = caretPos + text.length;
+      last.selectionStart = caretPos;
+      last.selectionEnd = caretPos;
+      last.focus();
+      last.scrollTop = scrollPos;
+    }
+  }
+
+  $("#client-name").click(function () {
+    insertAtCaret('$client-name')
+  })
+  $("#client-company-name").click(function () {
+    insertAtCaret('$client-company-name')
+  })
+  $("#client-sponsored-url").click(function () {
+    insertAtCaret('$client-sponsored-url')
+  })
+})
+

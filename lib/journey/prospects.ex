@@ -162,7 +162,7 @@ defmodule Journey.Prospects do
     client_params =
       case find_or_create_company(company_params) do
         {:ok, c} ->
-          Activities.log_user_company_linkedin_add(current_user, c)
+          Activities.log_linkedin_company_add!(current_user, c)
           Map.put(client_params, :company_id, c.id)
 
         {:found, c} ->
@@ -189,7 +189,19 @@ defmodule Journey.Prospects do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_client(%Client{} = c, attrs) do
+  def update_client(%Client{} = client, attrs) do
+    client
+    |> Client.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_client!(%Client{} = client, attrs) do
+    client
+    |> Client.changeset(attrs)
+    |> Repo.update!()
+  end
+
+  def update_client_create_url(%Client{} = c, attrs) do
     Logger.debug("CLIENT_UPDATE_ATTRS, attrs=#{inspect(attrs)}")
 
     client =
@@ -220,7 +232,7 @@ defmodule Journey.Prospects do
           nil ->
             case find_or_create_company(company_params) do
               {:ok, co} ->
-                Activities.log_user_company_resync_add(current_user, co)
+                Activities.log_resync_company_add!(current_user, co)
                 Map.put(client_params, :company_id, co.id)
 
               {:found, co} ->
@@ -319,7 +331,7 @@ defmodule Journey.Prospects do
   end
 
   def sponsored_link_shortened_from_client(client) do
-    "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.code}"
+    "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{client.url.code}"
   end
 
   alias Journey.Prospects.Company
@@ -428,6 +440,12 @@ defmodule Journey.Prospects do
     company
     |> Company.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_company!(%Company{} = company, attrs) do
+    company
+    |> Company.changeset(attrs)
+    |> Repo.update!()
   end
 
   @doc """

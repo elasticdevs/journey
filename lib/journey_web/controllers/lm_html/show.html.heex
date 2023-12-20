@@ -17,6 +17,11 @@
       <.link navigate={~p"/lms/#{lm}/edit"}>
         <i class="action" data-feather="edit-2"></i>
       </.link>
+      <.simple_form for={%{}} action={~p"/lms/#{lm.id}/mark_as_sent"} class="inline">
+        <:actions>
+          <.button class="logo"><i class="action" data-feather="send"></i></.button>
+        </:actions>
+      </.simple_form>
     </:action>
   </.table>
 </div>

@@ -32,14 +32,15 @@ defmodule JourneyWeb.CallController do
 
   def create(conn, %{"call" => call_params}) do
     current_user = conn.assigns.current_user
+    client_id = call_params["client_id"]
 
     case Comms.create_call(call_params) do
       {:ok, call} ->
-        Activities.log_user_client_call(current_user, call)
+        Activities.log_call!(current_user, call)
 
         conn
         |> put_flash(:info, "Call created successfully.")
-        |> redirect(to: ~p"/calls/#{call}")
+        |> redirect(to: ~p"/clients/#{client_id}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(changeset.changes.client_id) do

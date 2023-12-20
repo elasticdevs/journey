@@ -20,7 +20,7 @@ defmodule Journey.Comms.Call do
   @doc false
   def changeset(call, attrs) do
     call
-    |> cast(attrs, [:call_uuid, :template_id, :message, :client_id, :status])
+    |> cast(attrs, [:template_id, :message, :client_id, :status])
     |> validate_required([:status])
   end
 end

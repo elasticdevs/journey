@@ -7,11 +7,11 @@
 
 <.table id="browsings" rows={[@browsing]}>
   <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">
-    <%= browsing.browsing_uuid %>
+    <%= get_shortened_uuid(browsing.browsing_uuid) %>
   </:col>
   <:col :let={browsing} label="Client" class="client-name">
     <a href={get_client_url_from_client(browsing.client)}>
-      <%= get_client_display_name_from_client(browsing.client) %>
+      <%= raw(get_client_display_name_from_client(browsing.client)) %>
     </a>
   </:col>
   <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
@@ -24,17 +24,17 @@
   <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
   <:col label="Client" class="client-name">
     <a href={get_client_url_from_browsing(@browsing)}>
-      <%= get_client_display_name_from_browsing(@browsing) %>
+      <%= raw(get_client_display_name_from_browsing(@browsing)) %>
     </a>
   </:col>
   <:col :let={visit} label="Client UUID" class="client-uuid">
     <a href={get_client_url_from_browsing(@browsing)}>
-      <%= visit.client_uuid %>
+      <%= get_shortened_uuid(visit.client_uuid) %>
     </a>
   </:col>
   <:col :let={visit} label="Browsing UUID" class="browsing-uuid">
     <a href={get_browsing_url_from_visit(visit)}>
-      <%= visit.browsing_uuid %>
+      <%= get_shortened_uuid(visit.browsing_uuid) %>
     </a>
   </:col>
   <:col :let={visit} label="IP Address" class="ip-address"><%= visit.ipaddress %></:col>
