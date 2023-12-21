@@ -35,8 +35,25 @@ defmodule JourneyWeb.EmailController do
   end
 
   def create(conn, %{"email" => email_params}) do
+    current_user = conn.assigns.current_user
+    client_id = email_params["client_id"]
+
+    activity = Activities.log_email!(current_user, client_id)
+    activity = Activities.get_activity!(activity.id)
+
+    url =
+      URLs.create_url!(%{
+        client_id: client_id,
+        url: Activities.sponsored_link_full_from_activity(activity)
+      })
+
+    Activities.update_activity!(activity, %{url_id: url.id})
+    email_params = Map.put(email_params, "activity_id", activity.id)
+
     case Comms.create_email(email_params) do
       {:ok, email} ->
+        Activities.update_activity!(activity, %{email_id: email.id})
+
         conn
         |> put_flash(:info, "Email created successfully.")
         |> redirect(to: ~p"/emails/#{email}")

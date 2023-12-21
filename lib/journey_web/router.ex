@@ -47,6 +47,7 @@ defmodule JourneyWeb.Router do
 
     get "/home", PageController, :home
 
+    resources "/users", UserController
     resources "/companies", CompanyController
 
     get "/clients/bulk", ClientController, :bulk

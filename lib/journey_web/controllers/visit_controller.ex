@@ -137,6 +137,17 @@ defmodule JourneyWeb.VisitController do
           _ -> nil
         end
 
+      # grab client, we trust browsing's client over whats coming in params
+      client =
+        try do
+          (browsing && browsing.client) || (activity && activity.client) ||
+            Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
+        rescue
+          _ -> nil
+        catch
+          _ -> nil
+        end
+
       # if activity exists
       visit_params =
         case activity do
@@ -159,17 +170,6 @@ defmodule JourneyWeb.VisitController do
             Map.merge(visit_params, %{
               "browsing_id" => b.id
             })
-        end
-
-      # grab client, we trust browsing's client over whats coming in params
-      client =
-        try do
-          (browsing && browsing.client) || (activity && activity.client) ||
-            Repo.get_by(Client, client_uuid: visit_params["client_uuid"])
-        rescue
-          _ -> nil
-        catch
-          _ -> nil
         end
 
       # if client exists
@@ -207,19 +207,21 @@ defmodule JourneyWeb.VisitController do
       # this means that a known client has clicked
       # the sponsored link
 
-      visit =
+      browsing =
         case {gdpr_accepted, client, browsing, activity} do
           # CASE1
           {nil, _, _, _} ->
             Logger.debug("CASE1, country=#{visit_params["country"]}")
             visit_params = Map.put(visit_params, "last_visited_at", last_visited_at)
             Analytics.create_visit!(visit_params)
+            nil
 
           # CASE1.1
           {"false", _, _, _} ->
             Logger.debug("CASE1.1_REPEATED, gdpr=false, country=#{visit_params["country"]}")
             visit_params = Map.put(visit_params, "last_visited_at", last_visited_at)
             Analytics.create_visit!(visit_params)
+            nil
 
           # CASE2
           {"true", nil, nil, nil} ->
@@ -233,6 +235,7 @@ defmodule JourneyWeb.VisitController do
               })
 
             Analytics.create_visit!(visit_params)
+            browsing
 
           # CASE3
           {"true", client, nil, nil} ->
@@ -244,6 +247,8 @@ defmodule JourneyWeb.VisitController do
                 "last_visited_at" => last_visited_at
               })
 
+            Prospects.update_client!(client, %{"last_visited_at" => last_visited_at})
+
             visit_params =
               Map.merge(visit_params, %{
                 "browsing_id" => browsing.id,
@@ -252,12 +257,14 @@ defmodule JourneyWeb.VisitController do
               })
 
             Analytics.create_visit!(visit_params)
+            browsing
 
           # CASE4
           {"true", nil, browsing, nil} ->
             Logger.debug("CASE4_ONLY_BROWSING_EXISTS, browsing.id=#{browsing.id}")
 
-            Analytics.update_browsing!(browsing, %{"last_visited_at" => last_visited_at})
+            browsing =
+              Analytics.update_browsing!(browsing, %{"last_visited_at" => last_visited_at})
 
             visit_params =
               Map.merge(visit_params, %{
@@ -266,6 +273,7 @@ defmodule JourneyWeb.VisitController do
               })
 
             Analytics.create_visit!(visit_params)
+            browsing
 
           # CASE4.1
           {"true", nil, nil, activity} ->
@@ -289,25 +297,29 @@ defmodule JourneyWeb.VisitController do
               })
 
             Analytics.create_visit!(visit_params)
+            browsing
 
           # CASE5
           {"true", client, browsing, nil} ->
             Logger.debug("CASE5_BC_EXISTS: client.id=#{client.id}, browsing.id=#{browsing.id}")
 
-            Analytics.update_browsing!(browsing, %{
-              "client_id" => client.id,
-              "last_visited_at" => last_visited_at
-            })
+            browsing =
+              Analytics.update_browsing!(browsing, %{
+                "client_id" => client.id,
+                "last_visited_at" => last_visited_at
+              })
 
             Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
 
             visit_params =
               Map.merge(visit_params, %{
                 "client_id" => client.id,
-                "browsing_id" => browsing.id
+                "browsing_id" => browsing.id,
+                "last_visited_at" => last_visited_at
               })
 
             Analytics.create_visit!(visit_params)
+            browsing
 
           # CASE6
           {"true", client, nil, activity} ->
@@ -316,7 +328,7 @@ defmodule JourneyWeb.VisitController do
 
             browsing =
               Analytics.create_browsing!(%{
-                "client_id" => activity.client.id,
+                "client_id" => client.id,
                 "last_visited_at" => last_visited_at
               })
 
@@ -324,11 +336,14 @@ defmodule JourneyWeb.VisitController do
 
             visit_params =
               Map.merge(visit_params, %{
+                "activity_id" => activity.id,
+                "browsing_id" => browsing.id,
                 "client_id" => client.id,
-                "browsing_id" => browsing.id
+                "last_visited_at" => last_visited_at
               })
 
             Analytics.create_visit!(visit_params)
+            browsing
 
           # CASE7
           {"true", nil, browsing, activity} ->
@@ -338,10 +353,11 @@ defmodule JourneyWeb.VisitController do
 
             Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
 
-            Analytics.update_browsing!(browsing, %{
-              "client_id" => activity.client.id,
-              "last_visited_at" => last_visited_at
-            })
+            browsing =
+              Analytics.update_browsing!(browsing, %{
+                "client_id" => activity.client.id,
+                "last_visited_at" => last_visited_at
+              })
 
             Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
 
@@ -354,16 +370,18 @@ defmodule JourneyWeb.VisitController do
               })
 
             Analytics.create_visit!(visit_params)
+            browsing
 
           # CASE8
           {"true", client, browsing, activity} ->
             Logger.debug("CASE8_ABC_EXISTS: client.id=#{client.id}, browsing.id=#{browsing.id}")
             Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
 
-            Analytics.update_browsing!(browsing, %{
-              "client_id" => client.id,
-              "last_visited_at" => last_visited_at
-            })
+            browsing =
+              Analytics.update_browsing!(browsing, %{
+                "client_id" => client.id,
+                "last_visited_at" => last_visited_at
+              })
 
             Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
 
@@ -376,12 +394,15 @@ defmodule JourneyWeb.VisitController do
               })
 
             Analytics.create_visit!(visit_params)
+            browsing
         end
+
+      browsing = if browsing, do: Analytics.get_browsing!(browsing.id), else: nil
 
       if headers["content-type"] == "application/json" do
         json(conn, %{
           status: "success",
-          browsing_uuid: if(visit.browsing, do: visit.browsing.browsing_uuid, else: nil)
+          browsing_uuid: if(browsing, do: browsing.browsing_uuid, else: nil)
         })
       else
         conn

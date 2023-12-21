@@ -38,6 +38,7 @@ defmodule Journey.Comms.Email do
 
   def process_vars(changeset) do
     client_id = get_field(changeset, :client_id)
+    activity_id = get_field(changeset, :activity_id)
 
     changeset =
       case get_change(changeset, :subject) do
@@ -55,7 +56,7 @@ defmodule Journey.Comms.Email do
 
       body ->
         changeset
-        |> change(body: Template.process_vars(client_id, body))
+        |> change(body: Template.process_vars(client_id, activity_id, body))
     end
   end
 end

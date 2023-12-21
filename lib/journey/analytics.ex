@@ -243,12 +243,9 @@ defmodule Journey.Analytics do
   end
 
   def create_visit!(attrs \\ %{}) do
-    v =
-      %Visit{}
-      |> Visit.changeset(attrs)
-      |> Repo.insert!()
-
-    get_visit!(v.id)
+    %Visit{}
+    |> Visit.changeset(attrs)
+    |> Repo.insert!()
   end
 
   @doc """

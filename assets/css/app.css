@@ -601,6 +601,10 @@ button.logo {
   border-radius: 50px;
 }
 
+.picture.small {
+  max-width: 50px;
+}
+
 .rich-form {
   display: grid;
   grid-template-columns: 4fr 2fr;
@@ -616,4 +620,19 @@ button.logo {
 
 textarea.focus {
   height: auto;
+}
+
+.user-name-email {
+  display: flex;
+  align-items: center;
+}
+.user-name-email .user-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--dark-green);
+}
+.user-name-email .email {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--black);
 }

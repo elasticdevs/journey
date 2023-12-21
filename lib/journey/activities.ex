@@ -35,6 +35,7 @@ defmodule Journey.Activities do
     |> where(^activities_where)
     |> order_by(desc_nulls_last: :executed_at)
     |> preload([:user, :company, :client])
+    |> preload([:call, :lm, :email])
     |> Repo.all()
   end
 
@@ -52,7 +53,8 @@ defmodule Journey.Activities do
       ** (Ecto.NoResultsError)
 
   """
-  def get_activity!(id), do: Repo.get!(Activity, id) |> Repo.preload([:user, :company, :client, :url])
+  def get_activity!(id),
+    do: Repo.get!(Activity, id) |> Repo.preload([:user, :company, :client, :url])
 
   @doc """
   Creates a activity.
