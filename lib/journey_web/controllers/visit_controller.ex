@@ -29,6 +29,9 @@ defmodule JourneyWeb.VisitController do
     # grab headers
     headers = Enum.into(conn.req_headers, %{})
 
+    # set last_visited_at
+    last_visited_at = DateTime.now!("Etc/UTC")
+
     # grab UA, and skip if the UA contains the word "bot"
     ua = headers["user-agent"]
     visit_params = Map.put(visit_params, "ua", ua)
@@ -121,8 +124,13 @@ defmodule JourneyWeb.VisitController do
       # grab browsing
       browsing =
         try do
-          Repo.get_by(Browsing, browsing_uuid: visit_params["browsing_uuid"])
-          |> Repo.preload(:client)
+          visit_params["browsing_uuid"] &&
+            (Repo.get_by(Browsing, browsing_uuid: visit_params["browsing_uuid"])
+             |> Repo.preload(:client) ||
+               Analytics.create_browsing!(%{
+                 "browsing_uuid" => visit_params["browsing_uuid"],
+                 "last_visited_at" => last_visited_at
+               }))
         rescue
           _ -> nil
         catch
@@ -198,8 +206,6 @@ defmodule JourneyWeb.VisitController do
       # CASE5: gdpr=true, when both client_uuid and browsing_uuid come
       # this means that a known client has clicked
       # the sponsored link
-
-      last_visited_at = DateTime.now!("Etc/UTC")
 
       visit =
         case {gdpr_accepted, client, browsing, activity} do

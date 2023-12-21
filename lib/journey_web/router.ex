@@ -98,7 +98,7 @@ defmodule JourneyWeb.Router do
     end
   end
 
-  ## Authentication routes
+  # Authentication routes
 
   scope "/", JourneyWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]

@@ -94,8 +94,9 @@ defmodule JourneyWeb.HTMLHelpers do
   end
 
   def get_shortened_uuid(uuid \\ "") do
-    uuid = uuid || ""
-    Enum.at(String.split(uuid, "-"), 0)
+    # uuid = uuid || ""
+    # Enum.at(String.split(uuid, "-"), 0)
+    uuid
   end
 
   def get_freshsales_link_from_client(client) do
