@@ -5,6 +5,9 @@
   <div class="subheading">Use this form to manage company records in your database.</div>
 </div>
 
-<.company_form changeset={@changeset} action={~p"/companies/#{@company}"} />
+<.company_form changeset={@changeset} 
+  action={~p"/companies/#{@company}"} 
+  users_options={@users_options}
+/>
 
 <.back navigate={~p"/companies"} class={~s"center"}>Back to companies</.back>

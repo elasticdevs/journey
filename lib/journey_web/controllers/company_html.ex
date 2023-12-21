@@ -8,6 +8,7 @@ defmodule JourneyWeb.CompanyHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :users_options, :map, required: true
 
   def company_form(assigns)
 end

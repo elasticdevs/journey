@@ -1,6 +1,7 @@
 defmodule JourneyWeb.CompanyController do
   use JourneyWeb, :controller
 
+  alias Journey.Accounts
   alias Journey.Prospects
   alias Journey.Prospects.Company
   alias Journey.Activities
@@ -47,7 +48,8 @@ defmodule JourneyWeb.CompanyController do
   def edit(conn, %{"id" => id}) do
     company = Prospects.get_company!(id)
     changeset = Prospects.change_company(company)
-    render(conn, :edit, company: company, changeset: changeset)
+    users_options = Accounts.users_options()
+    render(conn, :edit, company: company, changeset: changeset, users_options: users_options)
   end
 
   def update(conn, %{"id" => id, "company" => company_params}) do
@@ -60,7 +62,8 @@ defmodule JourneyWeb.CompanyController do
         |> redirect(to: ~p"/companies/#{company}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, company: company, changeset: changeset)
+        users_options = Accounts.users_options()
+        render(conn, :edit, company: company, changeset: changeset, users_options: users_options)
     end
   end
 

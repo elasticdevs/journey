@@ -14,6 +14,10 @@ defmodule Journey.Accounts do
 
   ## Database getters
 
+  def list_users do
+    Repo.all(User)
+  end
+
   @doc """
   Gets a user by email.
 
@@ -422,4 +426,10 @@ defmodule Journey.Accounts do
   # end
 
   # defp validate_pass(_), do: {:error, "Password Required"}
+
+  def users_options() do
+    Enum.reduce(list_users(), Keyword.new(), fn u, users_options ->
+      Keyword.put_new(users_options, String.to_atom(u.name), u.id)
+    end)
+  end
 end

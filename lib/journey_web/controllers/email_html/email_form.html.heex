@@ -44,15 +44,15 @@
 </div>
 
 <script type="text/javascript">
-  let template = <%= raw Jason.encode!(@templates_map) %>
+  let templates = <%= raw Jason.encode!(@templates_map) %>
 
   function handleTemplateChange() {
     let select = document.getElementById("options")
 
     let selected_id = select.options[select.selectedIndex].value
     let email_subject = document.getElementById("email_subject")
-    email_subject.value = template[selected_id].subject
+    email_subject.value = templates[selected_id].subject
     let email_body = document.getElementById("email_body")
-    email_body.value = template[selected_id].body
+    email_body.value = templates[selected_id].body
   }
 </script>
