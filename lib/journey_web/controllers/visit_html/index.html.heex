@@ -48,19 +48,9 @@
     <:col :let={visit} label="Page-Hash" class="page-hash">
       <%= visit.page %><%= visit.hash %>
     </:col>
-    <:col :let={visit} label="Session">
-      <%= raw(get_display_or_empty_span([visit.session])) %>
-    </:col>
-    <:col :let={visit} label="Campaign">
-      <%= raw(get_display_or_empty_span([visit.campaign])) %>
-    </:col>
-    <:col :let={visit} label="Source"><%= raw(get_display_or_empty_span([visit.source])) %></:col>
     <:col :let={visit} label="UA" class="ua">
       <%= raw(get_display_or_empty_span([visit.ua])) %>
     </:col>
-    <:col :let={visit} label="Device"><%= raw(get_display_or_empty_span([visit.device])) %></:col>
-    <:col :let={visit} label="Tags"><%= raw(get_display_or_empty_span([visit.tags])) %></:col>
-    <:col :let={visit} label="Info"><%= raw(get_display_or_empty_span([visit.info])) %></:col>
     <:col :let={visit} label="UTM Campaign">
       <%= raw(get_display_or_empty_span([visit.utm_campaign])) %>
     </:col>
