@@ -122,7 +122,7 @@
         ) %>
       </a>
     </:col>
-    <:col :let={activity} label="Client" class="user">
+    <:col :let={_activity} label="Client" class="user">
       <a href={get_client_url_from_client(@client)}>
         <%= raw(
           if @client,

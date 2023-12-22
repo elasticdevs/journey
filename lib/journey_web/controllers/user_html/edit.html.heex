@@ -1,8 +1,9 @@
-<.header>
+<.back navigate={~p"/users"} class="back">Back to Users</.back>
+<div class="page-heading">
   Edit User <%= @user.id %>
-  <:subtitle>Use this form to manage user records in your database.</:subtitle>
-</.header>
+  <div class="subheading">Use this form to manage user records in your database.</div>
+</div>
 
 <.user_form changeset={@changeset} action={~p"/users/#{@user}"} />
 
-<.back navigate={~p"/users"}>Back to users</.back>
+<.back navigate={~p"/users"} class="back center">Back to Users</.back>

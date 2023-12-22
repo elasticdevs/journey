@@ -16,7 +16,7 @@ defmodule JourneyWeb.UserController do
     |> redirect(to: ~p"/users")
   end
 
-  def create(conn, %{"user" => user_params}) do
+  def create(conn, %{"user" => _user_params}) do
     # case Accounts.create_user(user_params) do
     #   {:ok, user} ->
     #     conn
@@ -36,7 +36,7 @@ defmodule JourneyWeb.UserController do
     render(conn, :show, user: user)
   end
 
-  def edit(conn, %{"id" => id}) do
+  def edit(conn, %{"id" => _id}) do
     # user = Accounts.get_user!(id)
     # changeset = Accounts.change_user(user)
     # render(conn, :edit, user: user, changeset: changeset)
@@ -45,7 +45,7 @@ defmodule JourneyWeb.UserController do
     |> redirect(to: ~p"/users")
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
+  def update(conn, %{"id" => _id, "user" => _user_params}) do
     # user = Accounts.get_user!(id)
 
     # case Accounts.update_user(user, user_params) do

@@ -1,14 +1,9 @@
-<.header>
+<.back navigate={~p"/users"} class="back">Back to Users</.back>
+
+<div class="page-heading">
   User <%= @user.id %>
-  <:subtitle>This is a user record from your database.</:subtitle>
-  <:actions>
-    <.link href={~p"/users/#{@user}/edit"}>
-      <.button>Edit user</.button>
-    </.link>
-  </:actions>
-</.header>
+  <div class="subheading">This is a user record from your database.</div>
+  <a href={"/users/#{@user}/edit"} class="button">Edit User</a>
+</div>
 
-<.list>
-</.list>
-
-<.back navigate={~p"/users"}>Back to users</.back>
+<.back navigate={~p"/users"} class="back center">Back to Users</.back>
