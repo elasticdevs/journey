@@ -68,7 +68,7 @@ defmodule JourneyWeb.CallController do
   def edit(conn, %{"id" => id}) do
     call = Comms.get_call!(id)
 
-    case Prospects.get_client!(%{id: call.client_id}) do
+    case Prospects.get_client!(call.client_id) do
       nil ->
         conn
         |> put_flash(:info, "Could not find client with the given Client ID.")
@@ -97,7 +97,7 @@ defmodule JourneyWeb.CallController do
         |> redirect(to: ~p"/calls/#{call}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        case Prospects.get_client!(%{id: call.client_id}) do
+        case Prospects.get_client!(call.client_id) do
           nil ->
             conn
             |> put_flash(:info, "Could not find client with the given Client ID.")
