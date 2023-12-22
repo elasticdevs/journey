@@ -433,7 +433,7 @@ defmodule Journey.Accounts do
 
   def users_options() do
     Enum.reduce(list_users(), Keyword.new(), fn u, users_options ->
-      Keyword.put_new(users_options, String.to_atom(u.name), u.id)
+      Keyword.put_new(users_options, String.to_atom(u.name || u.email), u.id)
     end)
   end
 end
