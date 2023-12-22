@@ -6,8 +6,11 @@
 </div>
 
 <div class="section">
-  <.table id="table" rows={[@activity]} row_click={&JS.navigate(~p"/activities/#{&1}")}>
+  <.table id="table" rows={[@activity]}>
     <:col :let={activity} label="Type" class="type"><%= activity.type %></:col>
+    <:col :let={activity} label="Last Visited At" class="last-visited-at utc_to_local">
+      <%= activity.last_visited_at %>
+    </:col>
     <:col :let={activity} label="User" class="user">
       <a href={get_user_url_from_activity(activity)}>
         <%= raw(
@@ -29,6 +32,33 @@
         <%= raw(
           if activity.client,
             do: get_client_display_name_from_client(activity.client),
+            else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="Call" class="call-uuid">
+      <a href={get_call_url_from_activity(activity)}>
+        <%= raw(
+          if activity.call,
+            do: get_shortened_uuid(activity.call.call_uuid),
+            else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="LM" class="lm-uuid">
+      <a href={get_lm_url_from_activity(activity)}>
+        <%= raw(
+          if activity.lm,
+            do: get_shortened_uuid(activity.lm.lm_uuid),
+            else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="Email" class="email-uuid">
+      <a href={get_email_url_from_activity(activity)}>
+        <%= raw(
+          if activity.email,
+            do: get_shortened_uuid(activity.email.email_uuid),
             else: "<span class='empty'>empty</span>"
         ) %>
       </a>

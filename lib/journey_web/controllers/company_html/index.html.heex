@@ -13,7 +13,11 @@
   <.table id="table" rows={@companies}>
     <:col :let={company} label="User" class="user">
       <a href={get_user_url_from_company(company)}>
-        <%= raw(if company.user, do: company.user.name, else: "<span class='empty'>empty</span>") %>
+        <%= raw(
+          if company.user,
+            do: get_user_display_name_email_from_user(company.user),
+            else: "<span class='empty'>empty</span>"
+        ) %>
       </a>
     </:col>
     <:col :let={company} label="Company UUID" class="company-uuid">

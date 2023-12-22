@@ -6,6 +6,7 @@
 
 <div class="section">
   <.table id="templates" rows={@templates} row_click={&JS.navigate(~p"/templates/#{&1}")}>
+    <:col :let={template} label="Type"><%= template.type %></:col>
     <:col :let={template} label="Name"><%= template.name %></:col>
     <:col :let={template} label="Subject"><%= template.subject %></:col>
     <:col :let={template} label="Body"><pre><%= template.body %></pre></:col>
