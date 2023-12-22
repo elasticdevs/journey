@@ -276,6 +276,12 @@ defmodule Journey.Comms do
     |> Repo.update()
   end
 
+  def update_lm!(%LM{} = lm, attrs) do
+    lm
+    |> LM.changeset(attrs)
+    |> Repo.update!()
+  end
+
   @doc """
   Deletes a lm.
 

@@ -23,7 +23,7 @@ defmodule Journey.Comms.LM do
   def changeset(lm, attrs) do
     lm
     |> cast(attrs, [:template_id, :message, :client_id, :activity_id, :status])
-    |> validate_required([:activity_id, :status])
+    |> validate_required([:status])
     |> process_vars
   end
 

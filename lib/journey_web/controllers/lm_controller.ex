@@ -22,7 +22,7 @@ defmodule JourneyWeb.LMController do
         |> redirect(to: ~p"/")
 
       c ->
-        changeset = Comms.change_lm(%LM{client_id: c.id, status: "SENT"})
+        changeset = Comms.change_lm(%LM{client_id: c.id, status: "DRAFT"})
 
         render(conn, :new,
           changeset: changeset,
@@ -106,6 +106,8 @@ defmodule JourneyWeb.LMController do
   def update(conn, %{"id" => id, "lm" => lm_params}) do
     lm = Comms.get_lm!(id)
 
+    lm_params = Map.put(lm_params, "activity_id", lm.activity.id)
+
     case Comms.update_lm(lm, lm_params) do
       {:ok, lm} ->
         conn
@@ -144,7 +146,7 @@ defmodule JourneyWeb.LMController do
     lm = Comms.get_lm!(id)
     # current_user = conn.assigns.current_user
 
-    lm |> Comms.update_lm(%{status: "SENT"})
+    lm |> Comms.update_lm!(%{"status" => "SENT"})
     # TODO: Activities.log_lm!(current_user, lm)
     Logger.debug("CLIENT_LM_SENT_SUCCESSFULLY")
 

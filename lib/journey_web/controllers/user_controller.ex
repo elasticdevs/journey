@@ -64,11 +64,11 @@ defmodule JourneyWeb.UserController do
   end
 
   def delete(conn, %{"id" => id}) do
-    # user = Accounts.get_user!(id)
-    # {:ok, _user} = Accounts.delete_user(user)
+    user = Accounts.get_user!(id)
+    {:ok, _user} = Accounts.delete_user(user)
 
     conn
-    |> put_flash(:info, "Functionality not available.")
+    |> put_flash(:info, "Logged out successfully.")
     |> redirect(to: ~p"/users")
   end
 end

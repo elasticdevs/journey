@@ -25,9 +25,10 @@
   --darkest-grey: #333333;
   --black: #000000;
 
-  --call: #6B0504;
+  --call: #9a2c2a;
   --lm: #0D3B66;
   --email: #295135;
+  --last-visited-at: #ff007b;
 
 
   --hover: var(--merely-blue);
@@ -341,15 +342,6 @@ td:first-child {
   color: var(--blue);
 }
 
-.call-uuid,
-.lm-uuid,
-.email-uuid,
-.activity-uuid {
-  font-weight: bold;
-  font-size: 0.7rem;
-  color: var(--blue);
-}
-
 .gdpr {
   font-weight: bold;
   font-size: 0.7rem;
@@ -626,13 +618,53 @@ textarea.focus {
   display: flex;
   align-items: center;
 }
+
 .user-name-email .user-name {
   font-weight: 700;
   font-size: 1rem;
   color: var(--dark-green);
 }
+
 .user-name-email .email {
   font-weight: 700;
   font-size: 0.8rem;
   color: var(--black);
+}
+
+.call-uuid,
+.call-uuid a {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--black);
+}
+
+.lm-uuid,
+.lm-uuid a {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--black);
+}
+
+.email-uuid,
+.email-uuid a {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--black);
+}
+
+.activity-uuid,
+.activity-uuid a {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--black);
+}
+
+.origin {
+  font-weight: 700;
+  font-size: 0.6rem;
+  color: var(--dark-grey);
+}
+
+.last-visited-at .time-ago {
+  color: var(--last-visited-at);
 }

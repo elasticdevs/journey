@@ -2,6 +2,7 @@ defmodule JourneyWeb.EmailController do
   use JourneyWeb, :controller
   require Logger
 
+  alias Journey.URLs
   alias Journey.Activities
   alias Journey.Prospects
   alias Journey.Comms
@@ -105,6 +106,8 @@ defmodule JourneyWeb.EmailController do
 
   def update(conn, %{"id" => id, "email" => email_params}) do
     email = Comms.get_email!(id)
+
+    email_params = Map.put(email_params, "activity_id", email.activity.id)
 
     case Comms.update_email(email, email_params) do
       {:ok, email} ->

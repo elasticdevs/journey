@@ -27,6 +27,7 @@ defmodule Journey.Comms.Email do
     |> cast(attrs, [
       :client_id,
       :template_id,
+      :activity_id,
       :subject,
       :body,
       :read_tracking,
@@ -47,7 +48,7 @@ defmodule Journey.Comms.Email do
 
         subject ->
           changeset
-          |> change(subject: Template.process_vars(client_id, subject))
+          |> change(subject: Template.process_vars(client_id, activity_id, subject))
       end
 
     case get_change(changeset, :body) do

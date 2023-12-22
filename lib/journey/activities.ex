@@ -54,7 +54,9 @@ defmodule Journey.Activities do
 
   """
   def get_activity!(id),
-    do: Repo.get!(Activity, id) |> Repo.preload([:user, :company, :client, :url])
+    do:
+      Repo.get!(Activity, id)
+      |> Repo.preload([:user, :company, :client, :url, :call, :lm, :email])
 
   @doc """
   Creates a activity.
@@ -144,7 +146,7 @@ defmodule Journey.Activities do
   def log_user_login!(user) do
     activity_params = %{
       user_id: user.id,
-      type: "LOGIN",
+      type: "LOGGED_IN",
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
     }
@@ -155,7 +157,7 @@ defmodule Journey.Activities do
   def log_user_logout!(user) do
     activity_params = %{
       user_id: user.id,
-      type: "LOGOUT",
+      type: "LOGGED_OUT",
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
     }
@@ -166,7 +168,7 @@ defmodule Journey.Activities do
   def log_manual_company_add!(user, company) do
     activity_params = %{
       user_id: user.id,
-      type: "COMPANY_MANUAL_ADD",
+      type: "COMPANY_MANUAL_ADDED",
       company_id: company.id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
@@ -178,7 +180,7 @@ defmodule Journey.Activities do
   def log_manual_client_add!(user, client) do
     activity_params = %{
       user_id: user.id,
-      type: "CLIENT_MANUAL_ADD",
+      type: "CLIENT_MANUAL_ADDED",
       client_id: client.id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
@@ -190,7 +192,7 @@ defmodule Journey.Activities do
   def log_linkedin_company_add!(user, company) do
     activity_params = %{
       user_id: user.id,
-      type: "COMPANY_LINKEDIN_ADD",
+      type: "COMPANY_LINKEDIN_ADDED",
       company_id: company.id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
@@ -202,7 +204,7 @@ defmodule Journey.Activities do
   def log_linkedin_client_add!(user, client) do
     activity_params = %{
       user_id: user.id,
-      type: "CLIENT_LINKEDIN_ADD",
+      type: "CLIENT_LINKEDIN_ADDED",
       client_id: client.id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"
@@ -214,7 +216,7 @@ defmodule Journey.Activities do
   def log_resync_company_add!(user, company) do
     activity_params = %{
       user_id: user.id,
-      type: "COMPANY_RESYNC_ADD",
+      type: "COMPANY_RESYNC_ADDED",
       company_id: company.id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DONE"

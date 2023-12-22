@@ -9,6 +9,7 @@ defmodule JourneyWeb.VisitController do
   alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
   alias Journey.Activities
+  alias Journey.Activities.Activity
 
   def index(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
@@ -31,6 +32,10 @@ defmodule JourneyWeb.VisitController do
 
     # set last_visited_at
     last_visited_at = DateTime.now!("Etc/UTC")
+
+    # grab origin
+    visit_params =
+      Map.put(visit_params, "origin", Enum.at(Plug.Conn.get_req_header(conn, "origin"), 0))
 
     # grab UA, and skip if the UA contains the word "bot"
     ua = headers["user-agent"]
@@ -113,7 +118,7 @@ defmodule JourneyWeb.VisitController do
       # grab activity
       activity =
         try do
-          Repo.get_by(Activity, activity_uuid: visit_params["activity_uuid"])
+          Repo.get_by!(Activity, activity_uuid: visit_params["activity_uuid"])
           |> Repo.preload(:client)
         rescue
           _ -> nil
@@ -275,7 +280,8 @@ defmodule JourneyWeb.VisitController do
             Analytics.create_visit!(visit_params)
             browsing
 
-          # CASE4.1
+          # CASE4.1, most likely this wont happen ever since if activity
+          # exists, client would have been grabbed from it anyways
           {"true", nil, nil, activity} ->
             Logger.debug("CASE4.1_ONLY_ACTIVITY_EXISTS: activity.id=#{activity.id}")
             Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
@@ -309,7 +315,7 @@ defmodule JourneyWeb.VisitController do
                 "last_visited_at" => last_visited_at
               })
 
-            Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
+            Prospects.update_client!(client, %{"last_visited_at" => last_visited_at})
 
             visit_params =
               Map.merge(visit_params, %{
@@ -383,7 +389,7 @@ defmodule JourneyWeb.VisitController do
                 "last_visited_at" => last_visited_at
               })
 
-            Prospects.update_client!(activity.client, %{"last_visited_at" => last_visited_at})
+            Prospects.update_client!(client, %{"last_visited_at" => last_visited_at})
 
             visit_params =
               Map.merge(visit_params, %{

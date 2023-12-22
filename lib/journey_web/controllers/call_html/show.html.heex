@@ -5,7 +5,7 @@
 </div>
 
 <div class="section">
-  <.table id="calls" rows={[@call]} row_click={&JS.navigate(~p"/calls/#{&1}")}>
+  <.table id="calls" rows={[@call]}>
     <:col :let={call} label="Activity UUID" class="activity-uuid">
       <%= get_shortened_uuid(if call.activity, do: call.activity.activity_uuid, else: nil) %>
     </:col>

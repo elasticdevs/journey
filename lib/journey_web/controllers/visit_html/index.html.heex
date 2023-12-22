@@ -13,6 +13,7 @@
 <div class="section">
   <.table id="table" rows={@visits}>
     <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
+    <:col :let={visit} label="Host" class="origin"><%= visit.origin %></:col>
     <:col :let={visit} label="Client" class="client-name">
       <a href={get_client_url_from_visit(visit)}>
         <%= raw(get_client_display_name_from_visit(visit)) %>
