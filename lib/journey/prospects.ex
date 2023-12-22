@@ -103,6 +103,7 @@ defmodule Journey.Prospects do
 
     Repo.get(Client, id)
     |> Repo.preload(browsings: {browsings_query, [visits: visits_query]})
+    |> Repo.preload(activities: [:user, :company, :call, :lm, :email])
     |> Repo.preload(calls: :template)
     |> Repo.preload(lms: :template)
     |> Repo.preload(emails: :template)

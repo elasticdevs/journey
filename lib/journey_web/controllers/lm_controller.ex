@@ -144,10 +144,9 @@ defmodule JourneyWeb.LMController do
 
   def mark_as_sent(conn, %{"id" => id}) do
     lm = Comms.get_lm!(id)
-    # current_user = conn.assigns.current_user
 
     lm |> Comms.update_lm!(%{"status" => "SENT"})
-    # TODO: Activities.log_lm!(current_user, lm)
+    Activities.update_activity!(lm.activity, %{status: "DONE"})
     Logger.debug("CLIENT_LM_SENT_SUCCESSFULLY")
 
     conn

@@ -99,6 +99,80 @@
 
 <div class="section">
   <div class="page-heading-2">
+    Activities (<%= length(@client.activities) %>)
+  </div>
+  <.table id="table" rows={@client.activities} row_click={&JS.navigate(~p"/activities/#{&1}")}>
+    <:col :let={activity} label="Type" class="type"><%= activity.type %></:col>
+    <:col :let={activity} label="Last Visited At" class="last-visited-at utc_to_local">
+      <%= activity.last_visited_at %>
+    </:col>
+    <:col :let={activity} label="User" class="user">
+      <a href={get_user_url_from_activity(activity)}>
+        <%= raw(
+          if activity.user, do: activity.user.name, else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="Company" class="user">
+      <a href={get_company_url_from_activity(activity)}>
+        <%= raw(
+          if activity.company,
+            do: get_company_display_name_from_company(activity.company),
+            else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="Client" class="user">
+      <a href={get_client_url_from_client(@client)}>
+        <%= raw(
+          if @client,
+            do: get_client_display_name_from_client(@client),
+            else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="Call" class="call-uuid">
+      <a href={get_call_url_from_activity(activity)}>
+        <%= raw(
+          if activity.call,
+            do: get_shortened_uuid(activity.call.call_uuid),
+            else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="LM" class="lm-uuid">
+      <a href={get_lm_url_from_activity(activity)}>
+        <%= raw(
+          if activity.lm,
+            do: get_shortened_uuid(activity.lm.lm_uuid),
+            else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="Email" class="email-uuid">
+      <a href={get_email_url_from_activity(activity)}>
+        <%= raw(
+          if activity.email,
+            do: get_shortened_uuid(activity.email.email_uuid),
+            else: "<span class='empty'>empty</span>"
+        ) %>
+      </a>
+    </:col>
+    <:col :let={activity} label="Message"><%= activity.message %></:col>
+    <:col :let={activity} label="Details"><%= activity.details %></:col>
+    <:col :let={activity} label="Scheduled @" class="utc_to_local">
+      <%= activity.scheduled_at %>
+    </:col>
+    <:col :let={activity} label="Executed @" class="utc_to_local">
+      <%= activity.executed_at %>
+    </:col>
+    <:col :let={activity} label="Status"><%= activity.status %></:col>
+  </.table>
+</div>
+
+<br /><br />
+<div class="section">
+  <div class="page-heading-2">
     Calls (<%= length(@client.calls) %>)
     <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="button call">
       New Call

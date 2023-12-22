@@ -13,7 +13,8 @@ defmodule JourneyWeb.CompanyController do
 
   def new(conn, _params) do
     changeset = Prospects.change_company(%Company{})
-    render(conn, :new, changeset: changeset)
+    users_options = Accounts.users_options()
+    render(conn, :new, changeset: changeset, users_options: users_options)
   end
 
   def create(conn, %{"company" => company_params}) do

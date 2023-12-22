@@ -2,7 +2,6 @@ defmodule JourneyWeb.UserController do
   use JourneyWeb, :controller
 
   alias Journey.Accounts
-  alias Journey.Accounts.User
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -65,6 +64,10 @@ defmodule JourneyWeb.UserController do
 
   def delete(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
+
+    user_token = get_session(conn, :user_token)
+    user_token && Accounts.delete_user_session_token(user_token)
+
     {:ok, _user} = Accounts.delete_user(user)
 
     conn

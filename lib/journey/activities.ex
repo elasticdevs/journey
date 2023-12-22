@@ -245,7 +245,7 @@ defmodule Journey.Activities do
       type: "LMED",
       client_id: client_id,
       executed_at: DateTime.now!("Etc/UTC"),
-      status: "DONE"
+      status: "DRAFT"
     }
 
     Logger.debug("LOG_USER_LMED, activity_params=#{inspect(activity_params)}")
@@ -259,7 +259,7 @@ defmodule Journey.Activities do
       client_id: client_id,
       # email_id: email.id,
       executed_at: DateTime.now!("Etc/UTC"),
-      status: "DONE"
+      status: "DRAFT"
     }
 
     Logger.debug("LOG_USER_EMAILED, activity_params=#{inspect(activity_params)}")

@@ -427,6 +427,10 @@ defmodule Journey.Accounts do
 
   # defp validate_pass(_), do: {:error, "Password Required"}
 
+  def delete_user(%User{} = user) do
+    Repo.delete(user)
+  end
+
   def users_options() do
     Enum.reduce(list_users(), Keyword.new(), fn u, users_options ->
       Keyword.put_new(users_options, String.to_atom(u.name), u.id)
