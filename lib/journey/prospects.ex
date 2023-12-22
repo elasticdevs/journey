@@ -248,11 +248,11 @@ defmodule Journey.Prospects do
           co ->
             case update_company(co, company_params) do
               {:ok, _} ->
-                company_params
+                client_params
 
               {:error, %Ecto.Changeset{} = changeset} ->
                 Logger.error("RESYNC_COMPANY_ERROR, errors=#{inspect(changeset)}")
-                company_params
+                client_params
             end
         end
       else

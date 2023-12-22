@@ -5,6 +5,8 @@ defmodule Journey.ThirdParties.Apollo.API do
     source = Application.fetch_env!(:journey, Journey.ThirdParties.Apollo.API)[:source]
     url = Application.fetch_env!(:journey, Journey.ThirdParties.Apollo.API)[:clients_url]
 
+    Logger.debug("APOLLO_API_CALL_START, linkedin=#{linkedin}")
+
     body = %{
       api_key: Application.fetch_env!(:journey, Journey.ThirdParties.Apollo.API)[:api_key],
       linkedin_url: linkedin
