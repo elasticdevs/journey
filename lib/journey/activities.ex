@@ -242,7 +242,7 @@ defmodule Journey.Activities do
   def log_lm!(user, client_id) do
     activity_params = %{
       user_id: user.id,
-      type: "LMED",
+      type: "LM_DRAFTED",
       client_id: client_id,
       executed_at: DateTime.now!("Etc/UTC"),
       status: "DRAFT"
@@ -255,7 +255,7 @@ defmodule Journey.Activities do
   def log_email!(user, client_id) do
     activity_params = %{
       user_id: user.id,
-      type: "EMAILED",
+      type: "EMAIL_DRAFTED",
       client_id: client_id,
       # email_id: email.id,
       executed_at: DateTime.now!("Etc/UTC"),

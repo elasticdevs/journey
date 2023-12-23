@@ -146,7 +146,7 @@ defmodule JourneyWeb.LMController do
     lm = Comms.get_lm!(id)
 
     lm |> Comms.update_lm!(%{"status" => "SENT"})
-    Activities.update_activity!(lm.activity, %{status: "DONE"})
+    Activities.update_activity!(lm.activity, %{type: "LM_SENT", status: "DONE"})
     Logger.debug("CLIENT_LM_SENT_SUCCESSFULLY")
 
     conn
