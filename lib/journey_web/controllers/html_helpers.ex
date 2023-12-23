@@ -160,7 +160,7 @@ defmodule JourneyWeb.HTMLHelpers do
       {nil, email} ->
         "<span class='email'>&lt;#{email}&gt;</span>"
 
-      {name, email} ->
+      {name, _email} ->
         "<span class='user-name'>#{name}</span>"
     end
   end
