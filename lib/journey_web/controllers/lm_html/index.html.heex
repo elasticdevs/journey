@@ -10,10 +10,11 @@
 
 <div class="section">
   <.table id="table" rows={@lms} row_click={&JS.navigate(~p"/lms/#{&1}")}>
-    <:col :let={lm} label="Activity UUID" class="activity-uuid">
-      <%= get_shortened_uuid(if lm.activity, do: lm.activity.activity_uuid, else: nil) %>
+    <:col :let={lm} label="Activity Type" class="type">
+      <a href={get_activity_url_from_activity(lm.activity)}>
+        <%= lm.activity.type %>
+      </a>
     </:col>
-    <:col :let={lm} label="LM UUID" class="lm-uuid"><%= get_shortened_uuid(lm.lm_uuid) %></:col>
     <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
     <:col :let={lm} label="Status"><%= lm.status %></:col>
     <:action :let={lm}>

@@ -3,12 +3,12 @@
 </div>
 
 <div class="section">
-<.table id="users" rows={@users} row_click={&JS.navigate(~p"/users/#{&1}")}>
-  <:col :let={user} label="Picture">
-    <img src={user.picture} class="picture small" />
-  </:col>
-  <:col :let={user} label="Name, Email" class="user-name-email">
-    <%= raw(get_user_display_name_email_from_user(user)) %>
-  </:col>
-</.table>
+  <.table id="users" rows={@users} row_click={&JS.navigate(~p"/users/#{&1}")}>
+    <:col :let={user} label="Picture">
+      <img src={user.picture} class="picture small" />
+    </:col>
+    <:col :let={user} label="Name, Email" class="user-name-email">
+      <%= raw(get_user_display_name_or_email_from_user(user)) %>
+    </:col>
+  </.table>
 </div>

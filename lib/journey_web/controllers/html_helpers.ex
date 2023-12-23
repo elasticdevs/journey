@@ -35,6 +35,10 @@ defmodule JourneyWeb.HTMLHelpers do
     if activity && activity.email, do: "/emails/#{activity.email.id}", else: nil
   end
 
+  def get_activity_url_from_activity(activity) do
+    if activity, do: "/activities/#{activity.id}", else: nil
+  end
+
   def get_user_url_from_company(company) do
     if company && company.user, do: "/users/#{company.user.id}", else: nil
   end
@@ -94,9 +98,9 @@ defmodule JourneyWeb.HTMLHelpers do
   end
 
   def get_shortened_uuid(uuid \\ "") do
-    # uuid = uuid || ""
-    # Enum.at(String.split(uuid, "-"), 0)
-    uuid
+    uuid = uuid || ""
+    Enum.at(String.split(uuid, "-"), 0)
+    # uuid
   end
 
   def get_freshsales_link_from_client(client) do
@@ -145,7 +149,7 @@ defmodule JourneyWeb.HTMLHelpers do
     end
   end
 
-  def get_user_display_name_email_from_user(user) do
+  def get_user_display_name_or_email_from_user(user) do
     case({user.name, user.email}) do
       {nil, nil} ->
         "<span class='empty'>empty</span>"
@@ -157,7 +161,7 @@ defmodule JourneyWeb.HTMLHelpers do
         "<span class='email'>&lt;#{email}&gt;</span>"
 
       {name, email} ->
-        "<span class='user-name'>#{name}</span> <span class='email'>&lt;#{email}&gt;</span>"
+        "<span class='user-name'>#{name}</span>"
     end
   end
 

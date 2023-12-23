@@ -40,29 +40,29 @@
         ) %>
       </a>
     </:col>
-    <:col :let={activity} label="Call" class="call-uuid">
+    <:col :let={activity} label="Call" class="type">
       <a href={get_call_url_from_activity(activity)}>
         <%= raw(
           if activity.call,
-            do: get_shortened_uuid(activity.call.call_uuid),
+            do: activity.call.status,
             else: "<span class='empty'>empty</span>"
         ) %>
       </a>
     </:col>
-    <:col :let={activity} label="LM" class="lm-uuid">
+    <:col :let={activity} label="LM" class="type">
       <a href={get_lm_url_from_activity(activity)}>
         <%= raw(
           if activity.lm,
-            do: get_shortened_uuid(activity.lm.lm_uuid),
+            do: activity.lm.status,
             else: "<span class='empty'>empty</span>"
         ) %>
       </a>
     </:col>
-    <:col :let={activity} label="Email" class="email-uuid">
+    <:col :let={activity} label="Email" class="type">
       <a href={get_email_url_from_activity(activity)}>
         <%= raw(
           if activity.email,
-            do: get_shortened_uuid(activity.email.email_uuid),
+            do: activity.email.status,
             else: "<span class='empty'>empty</span>"
         ) %>
       </a>

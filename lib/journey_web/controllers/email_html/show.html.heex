@@ -6,15 +6,19 @@
 </div>
 
 <div class="section">
-  <.table id="emails" rows={[@email]}>
-    <:col :let={email} label="Activity UUID" class="activity-uuid">
-      <%= get_shortened_uuid(if email.activity, do: email.activity.activity_uuid, else: nil) %>
+  <.table id="table" rows={[@email]} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+    <:col :let={email} label="Activity Type" class="type">
+      <a href={get_activity_url_from_activity(email.activity)}>
+        <%= email.activity.type %>
+      </a>
     </:col>
     <:col :let={email} label="Email UUID" class="email-uuid">
       <%= get_shortened_uuid(email.email_uuid) %>
     </:col>
     <:col :let={email} label="Client" class="client-name">
-      <%= get_client_display_name_from_client(email.client) %>
+      <a href={get_client_url_from_client(email.client)}>
+        <%= get_client_display_name_from_client(email.client) %>
+      </a>
     </:col>
     <:col :let={email} label="Subject"><%= email.subject %></:col>
     <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
@@ -24,11 +28,6 @@
       <.link navigate={~p"/emails/#{email}/edit"}>
         <i class="action" data-feather="edit-2"></i>
       </.link>
-      <.simple_form for={%{}} action={~p"/emails/#{email.id}/send"} class="inline">
-        <:actions>
-          <.button class="logo"><i class="action" data-feather="send"></i></.button>
-        </:actions>
-      </.simple_form>
     </:action>
   </.table>
 </div>

@@ -16,14 +16,15 @@
 
 <div class="section">
   <.table id="table" rows={@emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
-    <:col :let={email} label="Activity UUID" class="activity-uuid">
-      <%= get_shortened_uuid(if email.activity, do: email.activity.activity_uuid, else: nil) %>
-    </:col>
-    <:col :let={email} label="Email UUID" class="email-uuid">
-      <%= get_shortened_uuid(email.email_uuid) %>
+    <:col :let={email} label="Activity Type" class="type">
+      <a href={get_activity_url_from_activity(email.activity)}>
+        <%= email.activity.type %>
+      </a>
     </:col>
     <:col :let={email} label="Client" class="client-name">
-      <%= get_client_display_name_from_client(email.client) %>
+      <a href={get_client_url_from_client(email.client)}>
+        <%= get_client_display_name_from_client(email.client) %>
+      </a>
     </:col>
     <:col :let={email} label="Subject"><%= email.subject %></:col>
     <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
