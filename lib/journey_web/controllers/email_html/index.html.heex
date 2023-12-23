@@ -18,7 +18,7 @@
   <.table id="table" rows={@emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
     <:col :let={email} label="Activity Type" class="type">
       <a href={get_activity_url_from_activity(email.activity)}>
-        <%= email.activity.type %>
+        <%= if email && email.activity, do: email.activity.type, else: nil %>
       </a>
     </:col>
     <:col :let={email} label="Client" class="client-name">
