@@ -9,24 +9,7 @@
 </div>
 
 <div class="section">
-  <.table id="table" rows={@calls} row_click={&JS.navigate(~p"/calls/#{&1}")}>
-    <:col :let={call} label="Activity Type" class="type">
-      <a href={get_activity_url_from_activity(call.activity)}>
-        <%= call.activity.type %>
-      </a>
-    </:col>
-    <%!-- <:col :let={call} label="Call UUID" class="call-uuid">
-      <%= get_shortened_uuid(call.call_uuid) %>
-    </:col> --%>
-    <:col :let={call} label="Client" class="client-name"><%= call.client.name %></:col>
-    <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
-    <:col :let={call} label="Status"><%= call.status %></:col>
-    <:action :let={call}>
-      <.link navigate={~p"/calls/#{call}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-    </:action>
-  </.table>
+  <.calls_table calls={@calls} />
 </div>
 
 <.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

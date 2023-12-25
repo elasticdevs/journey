@@ -1,0 +1,56 @@
+<.table id="table" rows={@visits}>
+  <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
+  <:col :let={visit} label="Host" class="origin"><%= visit.origin %></:col>
+  <:col :let={visit} label="Client" class="client-name">
+    <a href={get_client_url_from_visit(visit)}>
+      <%= raw(get_client_display_name_from_visit(visit)) %>
+    </a>
+  </:col>
+  <%!-- <:col :let={visit} label="Client UUID" class="client-uuid">
+      <a href={get_client_url_from_visit(visit)}>
+        <%= get_shortened_uuid(visit.client_uuid) %>
+      </a>
+    </:col> --%>
+  <:col :let={visit} label="Browsing UUID" class="browsing-uuid">
+    <a href={get_browsing_url_from_visit(visit)}>
+      <%= get_shortened_uuid(visit.browsing_uuid) %>
+    </a>
+  </:col>
+  <%!-- <:col :let={visit} label="GDPR" class="gdpr">
+      <div class={"gdpr-#{visit.gdpr}"}>
+        <%= visit.gdpr %>
+      </div>
+    </:col> --%>
+  <:col :let={visit} label="IP Address" class="ip-address">
+    <%= raw(get_display_or_empty_span([visit.ipaddress])) %>
+  </:col>
+  <:col :let={visit} label="Country-State-City" class="country-state-city">
+    <%= raw(get_display_or_empty_span([visit.country, visit.state, visit.city])) %>
+  </:col>
+  <:col :let={visit} label="Lat, Lon" class="lat-lon">
+    <a href={get_google_maps_link_from_visit(visit)} target="_blank">
+      <%= raw(get_display_or_empty_span([visit.lat, visit.lon])) %>
+    </a>
+  </:col>
+  <:col :let={visit} label="Page-Hash" class="page-hash">
+    <%= visit.page %><%= visit.hash %>
+  </:col>
+  <:col :let={visit} label="UA" class="ua">
+    <%= raw(get_display_or_empty_span([visit.ua])) %>
+  </:col>
+  <:col :let={visit} label="UTM Campaign">
+    <%= raw(get_display_or_empty_span([visit.utm_campaign])) %>
+  </:col>
+  <:col :let={visit} label="UTM Source">
+    <%= raw(get_display_or_empty_span([visit.utm_source])) %>
+  </:col>
+  <:col :let={visit} label="UTM Medium">
+    <%= raw(get_display_or_empty_span([visit.utm_medium])) %>
+  </:col>
+  <:col :let={visit} label="UTM Term">
+    <%= raw(get_display_or_empty_span([visit.utm_term])) %>
+  </:col>
+  <:col :let={visit} label="UTM Content">
+    <%= raw(get_display_or_empty_span([visit.utm_content])) %>
+  </:col>
+</.table>

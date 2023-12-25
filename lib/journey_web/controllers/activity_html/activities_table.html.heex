@@ -1,0 +1,65 @@
+<.table id="table" rows={@activities} row_click={&JS.navigate(~p"/activities/#{&1}")}>
+  <:col :let={activity} label="Type" class="type"><%= activity.type %></:col>
+  <:col :let={activity} label="Last Visited At" class="last-visited-at utc_to_local">
+    <%= activity.last_visited_at %>
+  </:col>
+  <:col :let={activity} label="User" class="user">
+    <a href={get_user_url_from_activity(activity)}>
+      <%= raw(if activity.user, do: activity.user.name, else: "<span class='empty'>empty</span>") %>
+    </a>
+  </:col>
+  <:col :let={activity} label="Company" class="user">
+    <a href={get_company_url_from_activity(activity)}>
+      <%= raw(
+        if activity.company,
+          do: get_company_display_name_from_company(activity.company),
+          else: "<span class='empty'>empty</span>"
+      ) %>
+    </a>
+  </:col>
+  <:col :let={activity} label="Client" class="user">
+    <a href={get_client_url_from_client(activity.client)}>
+      <%= raw(
+        if activity.client,
+          do: get_client_display_name_from_client(activity.client),
+          else: "<span class='empty'>empty</span>"
+      ) %>
+    </a>
+  </:col>
+  <:col :let={activity} label="Call" class="type">
+    <a href={get_call_url_from_activity(activity)}>
+      <%= raw(
+        if activity.call,
+          do: activity.call.status,
+          else: "<span class='empty'>empty</span>"
+      ) %>
+    </a>
+  </:col>
+  <:col :let={activity} label="LM" class="type">
+    <a href={get_lm_url_from_activity(activity)}>
+      <%= raw(
+        if activity.lm,
+          do: activity.lm.status,
+          else: "<span class='empty'>empty</span>"
+      ) %>
+    </a>
+  </:col>
+  <:col :let={activity} label="Email" class="type">
+    <a href={get_email_url_from_activity(activity)}>
+      <%= raw(
+        if activity.email,
+          do: activity.email.status,
+          else: "<span class='empty'>empty</span>"
+      ) %>
+    </a>
+  </:col>
+  <:col :let={activity} label="Message"><%= activity.message %></:col>
+  <:col :let={activity} label="Details"><%= activity.details %></:col>
+  <:col :let={activity} label="Scheduled @" class="utc_to_local">
+    <%= activity.scheduled_at %>
+  </:col>
+  <:col :let={activity} label="Executed @" class="utc_to_local">
+    <%= activity.executed_at %>
+  </:col>
+  <:col :let={activity} label="Status"><%= activity.status %></:col>
+</.table>

@@ -1,6 +1,8 @@
 defmodule JourneyWeb.BrowsingHTML do
   use JourneyWeb, :html
 
+  alias Journey.Analytics.Browsing
+
   embed_templates "browsing_html/*"
 
   @doc """
@@ -10,4 +12,8 @@ defmodule JourneyWeb.BrowsingHTML do
   attr :action, :string, required: true
 
   def browsing_form(assigns)
+
+  attr :browsings, :list, required: true
+
+  def browsings_table(assigns)
 end

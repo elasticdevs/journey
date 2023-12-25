@@ -1,0 +1,64 @@
+<.table id="table" rows={@clients}>
+  <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
+    <%= client.last_visited_at %>
+  </:col>
+  <:col :let={client} label="User" class="user">
+    <a href={get_user_url_from_client(client)}>
+      <%= raw(if client.user, do: client.user.name, else: "<span class='empty'>empty</span>") %>
+    </a>
+  </:col>
+  <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
+  <:col :let={client} label="Visits">
+    <%= length(enum_browsings_visits(client.browsings)) %>
+  </:col>
+  <:col :let={client} label="Company" class="company-name">
+    <a href={"/companies/#{if client.company, do: client.company.id, else: nil}"}>
+      <span class="logo">
+        <%= raw(get_logo_or_empty_span(if client.company, do: client.company.logo, else: nil)) %>
+      </span>
+
+      <%= raw(get_display_or_empty_span([get_company_display_name_from_client(client)])) %>
+    </a>
+  </:col>
+  <%!-- <:col :let={client} label="Client UUID" class="client-uuid">
+      <a href={get_client_url_from_client(client)}>
+        <%= get_shortened_uuid(client.client_uuid) %>
+      </a>
+    </:col> --%>
+  <:col :let={client} label="Name, Email" class="logo-name-email">
+    <b>
+      <a href={get_client_url_from_client(client)}>
+        <%= raw(get_client_display_name_email_from_client(client)) %>
+      </a>
+    </b>
+  </:col>
+  <:col :let={client} label="LinkedIn">
+    <span class="linkedin">
+      <a href={client.linkedin} target="_blank">
+        <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
+      </a>
+    </span>
+  </:col>
+  <:col :let={client} label="Website">
+    <b>
+      <%= raw(get_domain_from_client(client)) %>
+    </b>
+  </:col>
+  <:col :let={client} label="Phone" class="phone">
+    <%= raw(get_display_or_empty_span([client.phone])) %>
+  </:col>
+  <:col :let={client} label="Job-Title" class="title">
+    <%= raw(get_display_or_empty_span([client.job_title])) %>
+  </:col>
+  <:col :let={client} label="Country-State-City" class="country-state-city">
+    <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>
+  </:col>
+
+  <:action :let={client}>
+    <.link navigate={~p"/clients/#{client}/edit"}>
+      <i class="action" data-feather="edit-2"></i>
+    </.link>
+    <i copy-value={sponsored_link_shortened_from_client(client)} class="copy" data-feather="copy">
+    </i>
+  </:action>
+</.table>

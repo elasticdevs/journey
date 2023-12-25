@@ -13,4 +13,8 @@ defmodule JourneyWeb.CallHTML do
   attr :client, :any, required: true
 
   def call_form(assigns)
+
+  attr :calls, :list, required: true
+
+  def calls_table(assigns)
 end

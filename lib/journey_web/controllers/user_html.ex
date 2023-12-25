@@ -10,4 +10,8 @@ defmodule JourneyWeb.UserHTML do
   attr :action, :string, required: true
 
   def user_form(assigns)
+
+  attr :users, :list, required: true
+
+  def users_table(assigns)
 end

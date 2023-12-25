@@ -5,60 +5,15 @@
   <div class="subheading">This is a browsing record from your database.</div>
 </div>
 
-<.table id="browsings" rows={[@browsing]}>
-  <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">
-    <%= get_shortened_uuid(browsing.browsing_uuid) %>
-  </:col>
-  <:col :let={browsing} label="Client" class="client-name">
-    <a href={get_client_url_from_client(browsing.client)}>
-      <%= raw(get_client_display_name_from_client(browsing.client)) %>
-    </a>
-  </:col>
-  <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
-</.table>
+<div class="section">
+  <.browsings_table browsings={[@browsing]} />
+</div>
 
 <br /><br />
 
 <div class="page-heading-2">Visits (<%= length(@browsing.visits) %>)</div>
-<.table id="visits" rows={@browsing.visits}>
-  <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
-  <:col label="Client" class="client-name">
-    <a href={get_client_url_from_browsing(@browsing)}>
-      <%= raw(get_client_display_name_from_browsing(@browsing)) %>
-    </a>
-  </:col>
-  <:col :let={visit} label="Client UUID" class="client-uuid">
-    <a href={get_client_url_from_browsing(@browsing)}>
-      <%= get_shortened_uuid(visit.client_uuid) %>
-    </a>
-  </:col>
-  <:col :let={visit} label="Browsing UUID" class="browsing-uuid">
-    <a href={get_browsing_url_from_visit(visit)}>
-      <%= get_shortened_uuid(visit.browsing_uuid) %>
-    </a>
-  </:col>
-  <:col :let={visit} label="IP Address" class="ip-address"><%= visit.ipaddress %></:col>
-  <:col :let={visit} label="Country-State-City" class="country-state-city">
-    <%= visit.country %>, <%= visit.state %>, <%= visit.city %>
-  </:col>
-  <:col :let={visit} label="Lat, Lon" class="lat-lon">
-    <a href={get_google_maps_link_from_visit(visit)} target="_blank">
-      <%= visit.lat %>, <%= visit.lon %>
-    </a>
-  </:col>
-  <:col :let={visit} label="Page-Hash" class="page-hash"><%= visit.page %><%= visit.hash %></:col>
-  <:col :let={visit} label="Session"><%= visit.session %></:col>
-  <:col :let={visit} label="Campaign"><%= visit.campaign %></:col>
-  <:col :let={visit} label="Source"><%= visit.source %></:col>
-  <:col :let={visit} label="UA" class="ua"><%= visit.ua %></:col>
-  <:col :let={visit} label="Device"><%= visit.device %></:col>
-  <:col :let={visit} label="Tags"><%= visit.tags %></:col>
-  <:col :let={visit} label="Info"><%= visit.info %></:col>
-  <:col :let={visit} label="UTM Campaign"><%= visit.utm_campaign %></:col>
-  <:col :let={visit} label="UTM Source"><%= visit.utm_source %></:col>
-  <:col :let={visit} label="UTM Medium"><%= visit.utm_medium %></:col>
-  <:col :let={visit} label="UTM Term"><%= visit.utm_term %></:col>
-  <:col :let={visit} label="UTM Content"><%= visit.utm_content %></:col>
-</.table>
+<div class="section">
+  <.browsings_table browsings={[@browsing]} />
+</div>
 
 <.back navigate={~p"/browsings"} class={~s"center"}>Back to Browsings</.back>

@@ -1,0 +1,31 @@
+<.table id="table" rows={@emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+  <:col :let={email} label="Activity Type" class="type">
+    <a href={get_activity_url_from_activity(email.activity)}>
+      <%= if email && email.activity, do: email.activity.type, else: nil %>
+    </a>
+  </:col>
+  <:col :let={email} label="Client" class="client-name">
+    <a href={"#{get_client_url_from_client(email.client)}/#emails"}>
+      <%= get_client_display_name_from_client(email.client) %>
+    </a>
+  </:col>
+  <:col :let={email} label="Subject"><%= email.subject %></:col>
+  <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
+  <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
+  <:col :let={email} label="Status"><%= email.status %></:col>
+  <:action :let={email}>
+    <.link :if={email.status != "SENT"} navigate={~p"/emails/#{email}/edit"}>
+      <i class="action" data-feather="edit-2"></i>
+    </.link>
+    <.simple_form
+      :if={email.status != "SENT"}
+      for={%{}}
+      action={~p"/emails/#{email.id}/send"}
+      class="inline"
+    >
+      <:actions>
+        <.button class="logo"><i class="action" data-feather="send"></i></.button>
+      </:actions>
+    </.simple_form>
+  </:action>
+</.table>

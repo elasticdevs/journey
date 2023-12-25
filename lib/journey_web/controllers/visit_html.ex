@@ -10,4 +10,8 @@ defmodule JourneyWeb.VisitHTML do
   attr :action, :string, required: true
 
   def visit_form(assigns)
+
+  attr :visits, :list, required: true
+
+  def visits_table(assigns)
 end

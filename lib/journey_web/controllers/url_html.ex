@@ -10,4 +10,8 @@ defmodule JourneyWeb.URLHTML do
   attr :action, :string, required: true
 
   def url_form(assigns)
+
+  attr :urls, :list, required: true
+
+  def urls_table(assigns)
 end

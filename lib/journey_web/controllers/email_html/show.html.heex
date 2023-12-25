@@ -6,30 +6,7 @@
 </div>
 
 <div class="section">
-  <.table id="table" rows={[@email]} row_click={&JS.navigate(~p"/emails/#{&1}")}>
-    <:col :let={email} label="Activity Type" class="type">
-      <a href={get_activity_url_from_activity(email.activity)}>
-        <%= email.activity.type %>
-      </a>
-    </:col>
-    <:col :let={email} label="Email UUID" class="email-uuid">
-      <%= get_shortened_uuid(email.email_uuid) %>
-    </:col>
-    <:col :let={email} label="Client" class="client-name">
-      <a href={get_client_url_from_client(email.client)}>
-        <%= get_client_display_name_from_client(email.client) %>
-      </a>
-    </:col>
-    <:col :let={email} label="Subject"><%= email.subject %></:col>
-    <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
-    <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
-    <:col :let={email} label="Status"><%= email.status %></:col>
-    <:action :let={email}>
-      <.link navigate={~p"/emails/#{email}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-    </:action>
-  </.table>
+  <.emails_table emails={[@email]} />
 </div>
 
 <.back navigate={~p"/emails"} class="back center">Back to Emails</.back>

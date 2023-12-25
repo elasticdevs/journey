@@ -13,4 +13,8 @@ defmodule JourneyWeb.EmailHTML do
   attr :client, :any, required: true
 
   def email_form(assigns)
+
+  attr :emails, :list, required: true
+
+  def emails_table(assigns)
 end

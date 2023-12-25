@@ -56,7 +56,7 @@ defmodule JourneyWeb.LMController do
 
         conn
         |> put_flash(:info, "LM created successfully.")
-        |> redirect(to: ~p"/lms/#{lm}")
+        |> redirect(to: ~p"/clients/#{client_id}/#lms")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(changeset.changes.client_id) do
@@ -112,7 +112,7 @@ defmodule JourneyWeb.LMController do
       {:ok, lm} ->
         conn
         |> put_flash(:info, "LM updated successfully.")
-        |> redirect(to: ~p"/lms/#{lm}")
+        |> redirect(to: ~p"/clients/#{lm.client.id}/#lms")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(lm.client_id) do

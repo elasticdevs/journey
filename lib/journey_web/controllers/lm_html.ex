@@ -13,4 +13,8 @@ defmodule JourneyWeb.LMHTML do
   attr :client, :any, required: true
 
   def lm_form(assigns)
+
+  attr :lms, :list, required: true
+
+  def lms_table(assigns)
 end

@@ -6,137 +6,14 @@
 </div>
 
 <div class="section">
-  <.table id="table" rows={[@company]}>
-    <:col :let={company} label="User" class="user">
-      <a href={get_user_url_from_company(company)}>
-        <%= raw(
-          if company.user,
-            do: get_user_display_name_or_email_from_user(company.user),
-            else: "<span class='empty'>empty</span>"
-        ) %>
-      </a>
-    </:col>
-    <:col :let={company} label="Company UUID" class="company-uuid">
-      <a href={get_company_url_from_company(company)}>
-        <%= get_shortened_uuid(company.company_uuid) %>
-      </a>
-    </:col>
-    <:col :let={company} label="Name" class="company-name">
-      <a href={"/companies/#{company.id}"}>
-        <span class="logo">
-          <%= raw(get_logo_or_empty_span(company.logo)) %>
-        </span>
-        <%= company.name %>
-      </a>
-    </:col>
-    <:col :let={company} label="Website" class="domain">
-      <b>
-        <%= raw(get_website_from_company(company)) %>
-      </b>
-    </:col>
-    <:col :let={company} label="LinkedIn">
-      <span class="linkedin">
-        <a href={company.linkedin} target="_blank">
-          <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
-        </a>
-      </span>
-    </:col>
-    <:col :let={company} label="Funding" class="funding">
-      <%= raw(get_display_or_empty_span([company.funding])) %>
-    </:col>
-    <:col :let={company} label="Founded Year" class="founded">
-      <%= raw(get_display_or_empty_span([company.founded_year])) %>
-    </:col>
-    <%!-- <:col :let={company} label="Team Size">
-    <%= raw(get_display_or_empty_span([company.team_size])) %>
-  </:col>
-  <:col :let={company} label="Industries">
-    <%= raw(get_display_or_empty_span([company.industries])) %>
-  </:col> --%>
-    <:col :let={company} label="Annual Revenue">
-      <%= raw(get_display_or_empty_span([company.annual_revenue])) %>
-    </:col>
-    <%!-- <:col :let={company} label="Market Cap"><%= company.market_cap %></:col> --%>
-    <:col :let={company} label="Phone" class="phone">
-      <%= raw(get_display_or_empty_span([company.phone])) %>
-    </:col>
-    <:col :let={company} label="Country-State-City" class="country-state-city">
-      <%= raw(get_display_or_empty_span([company.country, company.state, company.city])) %>
-    </:col>
-    <:col :let={company} label="Lat"><%= company.lat %></:col>
-    <:col :let={company} label="Lon"><%= company.lon %></:col>
-    <%!-- <:col :let={company} label="Status"><%= company.status %></:col> --%>
-    <:action :let={company}>
-      <.link navigate={~p"/companies/#{company}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-    </:action>
-  </.table>
+  <.companies_table companies={[@company]} />
 </div>
 
 <br /><br />
 
 <div class="section">
   <div class="page-heading-2">Clients (<%= length(@company.clients) %>)</div>
-  <.table id="clients" rows={@company.clients}>
-    <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
-      <%= client.last_visited_at %>
-    </:col>
-    <:col :let={client} label="Client UUID" class="client-uuid">
-      <a href={get_client_url_from_client(client)}>
-        <%= get_shortened_uuid(client.client_uuid) %>
-      </a>
-    </:col>
-    <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
-    <:col :let={client} label="Visits">
-      <%= length(enum_browsings_visits(client.browsings)) %>
-    </:col>
-    <:col label="Company" class="company-name">
-      <a href={"/companies/#{@company.id}"}>
-        <span class="logo">
-          <%= raw(get_logo_or_empty_span(@company.logo)) %>
-        </span>
-
-        <%= raw(get_display_or_empty_span([@company.name])) %>
-      </a>
-    </:col>
-    <:col :let={client} label="Name, Email" class="logo-name-email">
-      <span class="linkedin">
-        <a href={client.linkedin} target="_blank">
-          <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
-        </a>
-      </span>
-      <b>
-        <%= raw(get_client_display_name_email_from_client(client)) %>
-      </b>
-    </:col>
-    <:col :let={client} label="Website">
-      <b>
-        <%= raw(get_domain_from_client(client)) %>
-      </b>
-    </:col>
-    <:col :let={client} label="Phone" class="phone">
-      <%= raw(get_display_or_empty_span([client.phone])) %>
-    </:col>
-    <:col :let={client} label="Job-Title" class="title">
-      <%= raw(get_display_or_empty_span([client.job_title])) %>
-    </:col>
-    <:col :let={client} label="Country-State-City" class="country-state-city">
-      <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>
-    </:col>
-
-    <:action :let={client}>
-      <.link navigate={~p"/clients/#{client}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-      <i
-        copy-value={"https://elasticdevs.io/?uuid=#{client.client_uuid}"}
-        class="copy"
-        data-feather="copy"
-      >
-      </i>
-    </:action>
-  </.table>
+  <.clients_table clients={@company.clients} />
 </div>
 
 <.back navigate={~p"/companies"} class={~s"center"}>Back to Companies</.back>

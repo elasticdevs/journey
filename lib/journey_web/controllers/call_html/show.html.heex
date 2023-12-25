@@ -5,22 +5,9 @@
 </div>
 
 <div class="section">
-  <.table id="calls" rows={[@call]}>
-    <:col :let={call} label="Activity UUID" class="activity-uuid">
-      <%= get_shortened_uuid(if call.activity, do: call.activity.activity_uuid, else: nil) %>
-    </:col>
-    <:col :let={call} label="Call UUID" class="call-uuid">
-      <%= get_shortened_uuid(call.call_uuid) %>
-    </:col>
-    <:col :let={call} label="Client" class="client-name"><%= call.client.name %></:col>
-    <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
-    <:col :let={call} label="Status"><%= call.status %></:col>
-    <:action :let={call}>
-      <.link navigate={~p"/calls/#{call}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-    </:action>
-  </.table>
+  <div class="section">
+    <.calls_table calls={[@call]} />
+  </div>
 </div>
 
 <.back navigate={~p"/calls"} class="back center">Back to Calls</.back>

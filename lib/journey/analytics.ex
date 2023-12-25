@@ -10,18 +10,6 @@ defmodule Journey.Analytics do
   alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
 
-  # def count_browsings_by_country_city(%{in_last_secs: in_last_secs}) do
-  #   in_last_secs = in_last_secs || 315_360_000
-
-  #   Repo.all(
-  #     from b in Browsing,
-  #       select: {v.country, v.city, count(b.id, :distinct)},
-  #       join: v in assoc(b, :visits),
-  #       where: ago(^in_last_secs, "second") < b.inserted_at,
-  #       group_by: [v.country, v.city]
-  #   )
-  # end
-
   @doc """
   Returns the list of browsings.
 

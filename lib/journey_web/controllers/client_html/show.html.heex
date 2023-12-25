@@ -27,72 +27,7 @@
 <br /><br />
 
 <div class="section">
-  <.table id="clients" rows={[@client]}>
-    <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
-      <%= client.last_visited_at %>
-    </:col>
-    <:col :let={client} label="User" class="user">
-      <a href={get_user_url_from_client(client)}>
-        <%= raw(if client.user, do: client.user.name, else: "<span class='empty'>empty</span>") %>
-      </a>
-    </:col>
-    <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
-    <:col :let={client} label="Visits">
-      <%= length(enum_browsings_visits(client.browsings)) %>
-    </:col>
-    <:col :let={client} label="Company" class="company-name">
-      <a href={"/companies/#{if client.company, do: client.company.id, else: nil}"}>
-        <span class="logo">
-          <%= raw(get_logo_or_empty_span(if client.company, do: client.company.logo, else: nil)) %>
-        </span>
-
-        <%= raw(get_display_or_empty_span([get_company_display_name_from_client(client)])) %>
-      </a>
-    </:col>
-    <:col :let={client} label="Client UUID" class="client-uuid">
-      <a href={get_client_url_from_client(client)}>
-        <%= get_shortened_uuid(client.client_uuid) %>
-      </a>
-    </:col>
-    <:col :let={client} label="Name, Email" class="logo-name-email">
-      <b>
-        <%= raw(get_client_display_name_email_from_client(client)) %>
-      </b>
-    </:col>
-    <:col :let={client} label="LinkedIn">
-      <span class="linkedin">
-        <a href={client.linkedin} target="_blank">
-          <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
-        </a>
-      </span>
-    </:col>
-    <:col :let={client} label="Website">
-      <b>
-        <%= raw(get_domain_from_client(client)) %>
-      </b>
-    </:col>
-    <:col :let={client} label="Phone" class="phone">
-      <%= raw(get_display_or_empty_span([client.phone])) %>
-    </:col>
-    <:col :let={client} label="Job-Title" class="title">
-      <%= raw(get_display_or_empty_span([client.job_title])) %>
-    </:col>
-    <:col :let={client} label="Country-State-City" class="country-state-city">
-      <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>
-    </:col>
-
-    <:action :let={client}>
-      <.link navigate={~p"/clients/#{client}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-      <i
-        copy-value={"https://elasticdevs.io/?uuid=#{client.client_uuid}"}
-        class="copy"
-        data-feather="copy"
-      >
-      </i>
-    </:action>
-  </.table>
+  <.clients_table clients={[@client]} />
 </div>
 
 <br /><br />
@@ -101,77 +36,13 @@
   <div class="page-heading-2">
     Activities (<%= length(@client.activities) %>)
   </div>
-  <.table id="table" rows={@client.activities} row_click={&JS.navigate(~p"/activities/#{&1}")}>
-    <:col :let={activity} label="Type" class="type"><%= activity.type %></:col>
-    <:col :let={activity} label="Last Visited At" class="last-visited-at utc_to_local">
-      <%= activity.last_visited_at %>
-    </:col>
-    <:col :let={activity} label="User" class="user">
-      <a href={get_user_url_from_activity(activity)}>
-        <%= raw(
-          if activity.user, do: activity.user.name, else: "<span class='empty'>empty</span>"
-        ) %>
-      </a>
-    </:col>
-    <:col :let={activity} label="Company" class="user">
-      <a href={get_company_url_from_activity(activity)}>
-        <%= raw(
-          if activity.company,
-            do: get_company_display_name_from_company(activity.company),
-            else: "<span class='empty'>empty</span>"
-        ) %>
-      </a>
-    </:col>
-    <:col :let={_activity} label="Client" class="user">
-      <a href={get_client_url_from_client(@client)}>
-        <%= raw(
-          if @client,
-            do: get_client_display_name_from_client(@client),
-            else: "<span class='empty'>empty</span>"
-        ) %>
-      </a>
-    </:col>
-    <:col :let={activity} label="Call" class="call-uuid">
-      <a href={get_call_url_from_activity(activity)}>
-        <%= raw(
-          if activity.call,
-            do: get_shortened_uuid(activity.call.call_uuid),
-            else: "<span class='empty'>empty</span>"
-        ) %>
-      </a>
-    </:col>
-    <:col :let={activity} label="LM" class="lm-uuid">
-      <a href={get_lm_url_from_activity(activity)}>
-        <%= raw(
-          if activity.lm,
-            do: get_shortened_uuid(activity.lm.lm_uuid),
-            else: "<span class='empty'>empty</span>"
-        ) %>
-      </a>
-    </:col>
-    <:col :let={activity} label="Email" class="email-uuid">
-      <a href={get_email_url_from_activity(activity)}>
-        <%= raw(
-          if activity.email,
-            do: get_shortened_uuid(activity.email.email_uuid),
-            else: "<span class='empty'>empty</span>"
-        ) %>
-      </a>
-    </:col>
-    <:col :let={activity} label="Message"><%= activity.message %></:col>
-    <:col :let={activity} label="Details"><%= activity.details %></:col>
-    <:col :let={activity} label="Scheduled @" class="utc_to_local">
-      <%= activity.scheduled_at %>
-    </:col>
-    <:col :let={activity} label="Executed @" class="utc_to_local">
-      <%= activity.executed_at %>
-    </:col>
-    <:col :let={activity} label="Status"><%= activity.status %></:col>
-  </.table>
+
+  <.activities_table activities={@client.activities} client={@client} />
 </div>
 
 <br /><br />
-<div class="section">
+
+<div id="calls" class="section">
   <div class="page-heading-2">
     Calls (<%= length(@client.calls) %>)
     <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="button call">
@@ -190,7 +61,7 @@
     <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
     <:col :let={call} label="Status"><%= call.status %></:col>
     <:action :let={call}>
-      <.link navigate={~p"/calls/#{call}/edit"}>
+      <.link :if={call.status != "CALLED"} navigate={~p"/calls/#{call}/edit"}>
         <i class="action" data-feather="edit-2"></i>
       </.link>
     </:action>
@@ -199,7 +70,7 @@
 
 <br /><br />
 
-<div class="section">
+<div id="lms" class="section">
   <div class="page-heading-2">
     LinkedIn Messages (<%= length(@client.lms) %>)
     <a href={~p"/lms/new?client_uuid=#{@client.client_uuid}"} class="button lm">
@@ -218,39 +89,61 @@
     <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
     <:col :let={lm} label="Status"><%= lm.status %></:col>
     <:action :let={lm}>
-      <.link navigate={~p"/lms/#{lm}/edit"}>
+      <.link :if={lm.status != "SENT"} navigate={~p"/lms/#{lm}/edit"}>
         <i class="action" data-feather="edit-2"></i>
       </.link>
+      <.simple_form
+        :if={lm.status != "SENT"}
+        for={%{}}
+        action={~p"/lms/#{lm.id}/mark_as_sent"}
+        class="inline"
+      >
+        <:actions>
+          <.button class="logo"><i class="action" data-feather="send"></i></.button>
+        </:actions>
+      </.simple_form>
     </:action>
   </.table>
 </div>
 
 <br /><br />
 
-<div class="section">
+<div id="emails" class="section">
   <div class="page-heading-2">
     Emails (<%= length(@client.emails) %>)
     <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="button email">
       New Email
     </a>
   </div>
-  <.table id="emails" rows={@client.emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
-    <:col :let={email} label="Email UUID" class="email-uuid">
-      <a href={get_email_url_from_email(email)}>
-        <%= get_shortened_uuid(email.email_uuid) %>
+  <.table id="table" rows={@client.emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
+    <:col :let={email} label="Activity Type" class="type">
+      <a href={get_activity_url_from_activity(email.activity)}>
+        <%= if email && email.activity, do: email.activity.type, else: nil %>
       </a>
     </:col>
-    <:col :let={email} label="Template">
-      <%= (email.template && email.template.name) || "" %>
+    <:col label="Client" class="client-name">
+      <a href={"#{get_client_url_from_client(@client)}/#emails"}>
+        <%= get_client_display_name_from_client(@client) %>
+      </a>
     </:col>
     <:col :let={email} label="Subject"><%= email.subject %></:col>
     <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
     <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
     <:col :let={email} label="Status"><%= email.status %></:col>
     <:action :let={email}>
-      <.link navigate={~p"/emails/#{email}/edit"}>
+      <.link :if={email.status != "SENT"} navigate={~p"/emails/#{email}/edit"}>
         <i class="action" data-feather="edit-2"></i>
       </.link>
+      <.simple_form
+        :if={email.status != "SENT"}
+        for={%{}}
+        action={~p"/emails/#{email.id}/send"}
+        class="inline"
+      >
+        <:actions>
+          <.button class="logo"><i class="action" data-feather="send"></i></.button>
+        </:actions>
+      </.simple_form>
     </:action>
   </.table>
 </div>
@@ -259,15 +152,7 @@
 
 <div class="section">
   <div class="page-heading-2">Browsings (<%= length(@client.browsings) %>)</div>
-  <.table id="browsings" rows={@client.browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
-    <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">
-      <a href={get_browsing_url_from_browsing(browsing)}>
-        <%= get_shortened_uuid(browsing.browsing_uuid) %>
-      </a>
-    </:col>
-    <:col label="Client"><%= get_client_display_name_from_client(@client) %></:col>
-    <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
-  </.table>
+  <.browsings_table browsings={@client.browsings} client={@client} />
 </div>
 
 <br /><br />

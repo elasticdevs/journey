@@ -57,7 +57,7 @@ defmodule JourneyWeb.EmailController do
 
         conn
         |> put_flash(:info, "Email created successfully.")
-        |> redirect(to: ~p"/emails/#{email}")
+        |> redirect(to: ~p"/clients/#{client_id}/#emails")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(changeset.changes.client_id) do
@@ -113,7 +113,7 @@ defmodule JourneyWeb.EmailController do
       {:ok, email} ->
         conn
         |> put_flash(:info, "Email updated successfully.")
-        |> redirect(to: ~p"/emails/#{email}")
+        |> redirect(to: ~p"/clients/#{email.client.id}/#emails")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(email.client_id) do
@@ -179,6 +179,7 @@ defmodule JourneyWeb.EmailController do
 
     conn
     |> put_flash(:info, message)
-    |> redirect(to: ~p"/emails/#{email}")
+    |> redirect(to: ~p"/clients/#{email.client.id}/#emails
+    ")
   end
 end

@@ -10,4 +10,8 @@ defmodule JourneyWeb.TemplateHTML do
   attr :action, :string, required: true
 
   def template_form(assigns)
+
+  attr :templates, :list, required: true
+
+  def templates_table(assigns)
 end
