@@ -78,19 +78,21 @@ defmodule JourneyWeb.ClientController do
   def show(conn, %{"id" => id}) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
 
-    client = Prospects.get_client(%{in_last_secs: in_last_secs, id: id})
+    client =
+      Prospects.get_client_one!(conn.assigns.current_user, %{in_last_secs: in_last_secs, id: id})
 
     render(conn, :show, client: client)
   end
 
   def edit(conn, %{"id" => id}) do
-    client = Prospects.get_client!(id)
+    client = Prospects.get_client_one!(conn.assigns.current_user, %{id: id})
+
     changeset = Prospects.change_client(client)
     render(conn, :edit, client: client, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "client" => client_params}) do
-    client = Prospects.get_client!(id)
+    client = Prospects.get_client_one!(conn.assigns.current_user, %{id: id})
 
     case Prospects.update_client(client, client_params) do
       {:ok, client} ->
@@ -104,7 +106,11 @@ defmodule JourneyWeb.ClientController do
   end
 
   def resync(conn, %{"client_id" => client_id}) do
-    client = Prospects.get_client!(client_id)
+    client =
+      Prospects.get_client_one!(conn.assigns.current_user, %{
+        id: client_id
+      })
+
     current_user = conn.assigns.current_user
 
     case Prospects.resync_company_and_client(current_user, client) do
@@ -129,7 +135,8 @@ defmodule JourneyWeb.ClientController do
   end
 
   def delete(conn, %{"id" => id}) do
-    client = Prospects.get_client!(id)
+    client = Prospects.get_client_one!(conn.assigns.current_user, %{id: id})
+
     {:ok, _client} = Prospects.delete_client(client)
 
     conn

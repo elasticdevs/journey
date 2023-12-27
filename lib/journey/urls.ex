@@ -31,7 +31,8 @@ defmodule Journey.URLs do
           u.id ==
             c.user_id,
         where:
-          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level)
+          ^current_user.level == 0 or is_nil(u) or
+            (not is_nil(u.level) and u.level >= ^current_user.level)
     )
   end
 
@@ -50,6 +51,25 @@ defmodule Journey.URLs do
 
   """
   def get_url!(id), do: Repo.get!(URL, id)
+
+  def get_url_one!(current_user, id),
+    do:
+      Repo.one!(
+        from url in URL,
+          join: c in Client,
+          on:
+            c.id ==
+              url.client_id,
+          join: u in User,
+          on:
+            u.id ==
+              c.user_id,
+          where:
+            (^current_user.level == 0 or is_nil(u) or
+               (not is_nil(u.level) and u.level >= ^current_user.level)) and
+              url.id == ^id
+      )
+
   def get_url_by_code!(code), do: Repo.get_by!(URL, code: code)
 
   @doc """

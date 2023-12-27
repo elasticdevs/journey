@@ -3,6 +3,7 @@ defmodule JourneyWeb.ClientHTML do
 
   embed_templates "client_html/*"
   embed_templates "browsing_html/*"
+  embed_templates "visit_html/*"
   embed_templates "activity_html/*"
 
   @doc """

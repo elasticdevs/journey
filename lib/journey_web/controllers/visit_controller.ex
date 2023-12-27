@@ -419,18 +419,18 @@ defmodule JourneyWeb.VisitController do
   end
 
   def show(conn, %{"id" => id}) do
-    visit = Analytics.get_visit!(id)
+    visit = Analytics.get_visit_one!(conn.assigns.current_user, id)
     render(conn, :show, visit: visit)
   end
 
   def edit(conn, %{"id" => id}) do
-    visit = Analytics.get_visit!(id)
+    visit = Analytics.get_visit_one!(conn.assigns.current_user, id)
     changeset = Analytics.change_visit(visit)
     render(conn, :edit, visit: visit, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "visit" => visit_params}) do
-    visit = Analytics.get_visit!(id)
+    visit = Analytics.get_visit_one!(conn.assigns.current_user, id)
 
     case Analytics.update_visit(visit, visit_params) do
       {:ok, visit} ->
@@ -444,7 +444,7 @@ defmodule JourneyWeb.VisitController do
   end
 
   def delete(conn, %{"id" => id}) do
-    visit = Analytics.get_visit!(id)
+    visit = Analytics.get_visit_one!(conn.assigns.current_user, id)
     {:ok, _visit} = Analytics.delete_visit(visit)
 
     conn

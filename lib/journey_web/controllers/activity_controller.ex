@@ -31,18 +31,18 @@ defmodule JourneyWeb.ActivityController do
   end
 
   def show(conn, %{"id" => id}) do
-    activity = Activities.get_activity!(id)
+    activity = Activities.get_activity_one!(conn.assigns.current_user, id)
     render(conn, :show, activity: activity)
   end
 
   def edit(conn, %{"id" => id}) do
-    activity = Activities.get_activity!(id)
+    activity = Activities.get_activity_one!(conn.assigns.current_user, id)
     changeset = Activities.change_activity(activity)
     render(conn, :edit, activity: activity, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "activity" => activity_params}) do
-    activity = Activities.get_activity!(id)
+    activity = Activities.get_activity_one!(conn.assigns.current_user, id)
 
     case Activities.update_activity(activity, activity_params) do
       {:ok, activity} ->
@@ -56,7 +56,7 @@ defmodule JourneyWeb.ActivityController do
   end
 
   def delete(conn, %{"id" => id}) do
-    activity = Activities.get_activity!(id)
+    activity = Activities.get_activity_one!(conn.assigns.current_user, id)
     {:ok, _activity} = Activities.delete_activity(activity)
 
     conn

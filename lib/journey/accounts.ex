@@ -16,7 +16,9 @@ defmodule Journey.Accounts do
 
   def list_users(current_user) do
     from(u in User,
-      where: ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+      where:
+        ^current_user.level == 0 or is_nil(u) or
+          (not is_nil(u.level) and u.level >= ^current_user.level),
       order_by: u.level
     )
     |> Repo.all()
@@ -70,10 +72,10 @@ defmodule Journey.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(current_user, id), do: Repo.get!(User, id)
+  def get_user!(_current_user, id), do: Repo.get!(User, id)
 
-  def get_one_user(current_user, id),
-    do: Repo.one(from u in User, where: u.id == ^id and u.level >= ^current_user.level)
+  def get_user_one!(current_user, id),
+    do: Repo.one!(from u in User, where: u.id == ^id and u.level >= ^current_user.level)
 
   ## User registration
 

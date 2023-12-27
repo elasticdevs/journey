@@ -4,6 +4,7 @@ defmodule JourneyWeb.BrowsingHTML do
   alias Journey.Analytics.Browsing
 
   embed_templates "browsing_html/*"
+  embed_templates "visit_html/*"
 
   @doc """
   Renders a browsing form.

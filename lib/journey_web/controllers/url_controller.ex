@@ -27,18 +27,18 @@ defmodule JourneyWeb.URLController do
   end
 
   def show(conn, %{"id" => id}) do
-    url = URLs.get_url!(id)
+    url = URLs.get_url_one!(conn.assigns.current_user, id)
     render(conn, :show, url: url)
   end
 
   def edit(conn, %{"id" => id}) do
-    url = URLs.get_url!(id)
+    url = URLs.get_url_one!(conn.assigns.current_user, id)
     changeset = URLs.change_url(url)
     render(conn, :edit, url: url, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "url" => url_params}) do
-    url = URLs.get_url!(id)
+    url = URLs.get_url_one!(conn.assigns.current_user, id)
 
     case URLs.update_url(url, url_params) do
       {:ok, url} ->
@@ -52,7 +52,7 @@ defmodule JourneyWeb.URLController do
   end
 
   def delete(conn, %{"id" => id}) do
-    url = URLs.get_url!(id)
+    url = URLs.get_url_one!(conn.assigns.current_user, id)
     {:ok, _url} = URLs.delete_url(url)
 
     conn

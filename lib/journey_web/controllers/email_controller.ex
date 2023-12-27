@@ -78,12 +78,12 @@ defmodule JourneyWeb.EmailController do
   end
 
   def show(conn, %{"id" => id}) do
-    email = Comms.get_email!(id)
+    email = Comms.get_email_one!(conn.assigns.current_user, id)
     render(conn, :show, email: email)
   end
 
   def edit(conn, %{"id" => id}) do
-    email = Comms.get_email!(id)
+    email = Comms.get_email_one!(conn.assigns.current_user, id)
 
     case Prospects.get_client!(email.client_id) do
       nil ->
@@ -105,7 +105,7 @@ defmodule JourneyWeb.EmailController do
   end
 
   def update(conn, %{"id" => id, "email" => email_params}) do
-    email = Comms.get_email!(id)
+    email = Comms.get_email_one!(conn.assigns.current_user, id)
 
     email_params = Map.put(email_params, "activity_id", email.activity.id)
 
@@ -135,7 +135,7 @@ defmodule JourneyWeb.EmailController do
   end
 
   def delete(conn, %{"id" => id}) do
-    email = Comms.get_email!(id)
+    email = Comms.get_email_one!(conn.assigns.current_user, id)
     {:ok, _email} = Comms.delete_email(email)
 
     conn
@@ -161,7 +161,7 @@ defmodule JourneyWeb.EmailController do
   end
 
   def send(conn, %{"id" => id}) do
-    email = Comms.get_email!(id)
+    email = Comms.get_email_one!(conn.assigns.current_user, id)
     current_user = conn.assigns.current_user
 
     message =

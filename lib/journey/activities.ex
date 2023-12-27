@@ -38,7 +38,7 @@ defmodule Journey.Activities do
         join: u in User,
         on: u.id == a.user_id,
         where:
-          ^current_user.level == 0 or
+          ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :executed_at],
         preload: [:user, :company, :client, :call, :lm, :email]
@@ -63,6 +63,21 @@ defmodule Journey.Activities do
     do:
       Repo.get!(Activity, id)
       |> Repo.preload([:user, :company, :client, :url, :call, :lm, :email])
+
+  def get_activity_one!(current_user, id),
+    do:
+      Repo.one!(
+        from activity in Activity,
+          join: u in User,
+          on:
+            u.id ==
+              activity.user_id,
+          where:
+            (^current_user.level == 0 or is_nil(u) or
+               (not is_nil(u.level) and u.level >= ^current_user.level)) and
+              activity.id == ^id,
+          preload: [:user, :company, :client, :call, :lm, :email]
+      )
 
   @doc """
   Creates a activity.

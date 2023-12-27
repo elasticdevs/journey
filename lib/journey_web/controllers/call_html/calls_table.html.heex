@@ -14,7 +14,10 @@
     </:col> --%>
   <:col :let={call} label="Client" class="client-name"><%= call.client.name %></:col>
   <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
-  <:col :let={call} label="Status"><%= call.status %></:col>
+  <:col :let={call} label="Status">
+    <span class={call.status}><%= call.status %></span>
+  </:col>
+
   <:action :let={call}>
     <.link navigate={~p"/calls/#{call}/edit"}>
       <i class="action" data-feather="edit-2"></i>

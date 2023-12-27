@@ -1,5 +1,5 @@
 <.table id="table" rows={@activities} row_click={&JS.navigate(~p"/activities/#{&1}")}>
-  <:col :let={activity} label="Type" class="type"><%= activity.type %></:col>
+  <:col :let={activity} label="Activity Type" class="activity-type"><%= activity.type %></:col>
   <:col :let={activity} label="Last Visited At" class="last-visited-at utc_to_local">
     <%= activity.last_visited_at %>
   </:col>
@@ -61,5 +61,7 @@
   <:col :let={activity} label="Executed @" class="utc_to_local">
     <%= activity.executed_at %>
   </:col>
-  <:col :let={activity} label="Status"><%= activity.status %></:col>
+  <:col :let={activity} label="Status">
+    <span class={activity.status}><%= activity.status %></span>
+  </:col>
 </.table>

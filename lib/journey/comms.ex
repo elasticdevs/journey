@@ -132,7 +132,8 @@ defmodule Journey.Comms do
           u.id ==
             c.user_id,
         where:
-          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+          ^current_user.level == 0 or is_nil(u) or
+            (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
         preload: [:template, :activity, [client: :user]]
     )
@@ -153,6 +154,25 @@ defmodule Journey.Comms do
 
   """
   def get_call!(id), do: Repo.get!(Call, id) |> Repo.preload([:template, :client, :activity])
+
+  def get_call_one!(current_user, id),
+    do:
+      Repo.one!(
+        from call in Call,
+          join: c in Client,
+          on:
+            c.id ==
+              call.client_id,
+          join: u in User,
+          on:
+            u.id ==
+              c.user_id,
+          where:
+            (^current_user.level == 0 or is_nil(u) or
+               (not is_nil(u.level) and u.level >= ^current_user.level)) and
+              call.id == ^id,
+          preload: [:template, [client: :user], :activity]
+      )
 
   @doc """
   Creates a call.
@@ -242,7 +262,8 @@ defmodule Journey.Comms do
           u.id ==
             c.user_id,
         where:
-          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+          ^current_user.level == 0 or is_nil(u) or
+            (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
         preload: [:template, :activity, [client: :user]]
     )
@@ -263,6 +284,25 @@ defmodule Journey.Comms do
 
   """
   def get_lm!(id), do: Repo.get!(LM, id) |> Repo.preload([:template, :client, :activity])
+
+  def get_lm_one!(current_user, id),
+    do:
+      Repo.one!(
+        from lm in LM,
+          join: c in Client,
+          on:
+            c.id ==
+              lm.client_id,
+          join: u in User,
+          on:
+            u.id ==
+              c.user_id,
+          where:
+            (^current_user.level == 0 or is_nil(u) or
+               (not is_nil(u.level) and u.level >= ^current_user.level)) and
+              lm.id == ^id,
+          preload: [:template, [client: :user], :activity]
+      )
 
   @doc """
   Creates a lm.
@@ -358,7 +398,8 @@ defmodule Journey.Comms do
           u.id ==
             c.user_id,
         where:
-          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+          ^current_user.level == 0 or is_nil(u) or
+            (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
         preload: [:template, :activity, [client: :user]]
     )
@@ -379,6 +420,25 @@ defmodule Journey.Comms do
 
   """
   def get_email!(id), do: Repo.get!(Email, id) |> Repo.preload([:template, :client, :activity])
+
+  def get_email_one!(current_user, id),
+    do:
+      Repo.one!(
+        from email in Email,
+          join: c in Client,
+          on:
+            c.id ==
+              email.client_id,
+          join: u in User,
+          on:
+            u.id ==
+              c.user_id,
+          where:
+            (^current_user.level == 0 or is_nil(u) or
+               (not is_nil(u.level) and u.level >= ^current_user.level)) and
+              email.id == ^id,
+          preload: [:template, [client: :user], :activity]
+      )
 
   @doc """
   Creates a email.

@@ -10,7 +10,9 @@
     </a>
   </:col>
   <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
-  <:col :let={lm} label="Status"><%= lm.status %></:col>
+  <:col :let={lm} label="Status">
+    <span class={lm.status}><%= lm.status %></span>
+  </:col>
   <:action :let={lm}>
     <.link navigate={~p"/lms/#{lm}/edit"}>
       <i class="action" data-feather="edit-2"></i>

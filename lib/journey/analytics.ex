@@ -47,7 +47,8 @@ defmodule Journey.Analytics do
         left_join: u in User,
         on: u.id == c.user_id,
         where:
-          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level) or
+          ^current_user.level == 0 or is_nil(u) or
+            (not is_nil(u.level) and u.level >= ^current_user.level) or
             is_nil(c),
         order_by: [desc_nulls_last: b.last_visited_at],
         preload: [:client, visits: ^visits_query]
@@ -69,6 +70,35 @@ defmodule Journey.Analytics do
 
   """
   def get_browsing!(id), do: Repo.get!(Browsing, id) |> Repo.preload([:client, :visits])
+
+  def get_browsing_one!(current_user, %{in_last_secs: in_last_secs, id: id}) do
+    visits_where =
+      case in_last_secs do
+        "all" ->
+          true
+
+        nil ->
+          true
+
+        _ ->
+          dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+      end
+
+    visits_query = from v in Visit, where: ^visits_where
+
+    Repo.one!(
+      from b in Browsing,
+        left_join: c in Client,
+        on: c.id == b.client_id,
+        left_join: u in User,
+        on: u.id == c.user_id,
+        where:
+          (^current_user.level == 0 or is_nil(u) or
+             (not is_nil(u.level) and u.level >= ^current_user.level)) and
+            b.id == ^id,
+        preload: [[client: :user], visits: ^visits_query]
+    )
+  end
 
   def get_browsing(%{in_last_secs: in_last_secs, id: id}) do
     visits_where =
@@ -205,7 +235,8 @@ defmodule Journey.Analytics do
         left_join: u in User,
         on: u.id == c.user_id,
         where:
-          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level) or
+          ^current_user.level == 0 or is_nil(u) or
+            (not is_nil(u.level) and u.level >= ^current_user.level) or
             is_nil(c),
         order_by: [desc_nulls_last: v.inserted_at],
         preload: [browsing: :client]
@@ -227,6 +258,21 @@ defmodule Journey.Analytics do
 
   """
   def get_visit!(id), do: Repo.get!(Visit, id) |> Repo.preload(browsing: :client)
+
+  def get_visit_one!(current_user, id),
+    do:
+      Repo.one!(
+        from v in Visit,
+          left_join: c in Client,
+          on: c.id == v.client_id,
+          left_join: u in User,
+          on: u.id == c.user_id,
+          where:
+            (^current_user.level == 0 or is_nil(u) or
+               (not is_nil(u.level) and u.level >= ^current_user.level)) and
+              v.id == ^id,
+          preload: [browsing: :client]
+      )
 
   @doc """
   Creates a visit.

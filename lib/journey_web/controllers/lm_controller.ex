@@ -77,12 +77,12 @@ defmodule JourneyWeb.LMController do
   end
 
   def show(conn, %{"id" => id}) do
-    lm = Comms.get_lm!(id)
+    lm = Comms.get_lm_one!(conn.assigns.current_user, id)
     render(conn, :show, lm: lm)
   end
 
   def edit(conn, %{"id" => id}) do
-    lm = Comms.get_lm!(id)
+    lm = Comms.get_lm_one!(conn.assigns.current_user, id)
 
     case Prospects.get_client!(lm.client_id) do
       nil ->
@@ -104,7 +104,7 @@ defmodule JourneyWeb.LMController do
   end
 
   def update(conn, %{"id" => id, "lm" => lm_params}) do
-    lm = Comms.get_lm!(id)
+    lm = Comms.get_lm_one!(conn.assigns.current_user, id)
 
     lm_params = Map.put(lm_params, "activity_id", lm.activity.id)
 
@@ -134,7 +134,7 @@ defmodule JourneyWeb.LMController do
   end
 
   def delete(conn, %{"id" => id}) do
-    lm = Comms.get_lm!(id)
+    lm = Comms.get_lm_one!(conn.assigns.current_user, id)
     {:ok, _lm} = Comms.delete_lm(lm)
 
     conn
@@ -143,7 +143,7 @@ defmodule JourneyWeb.LMController do
   end
 
   def mark_as_sent(conn, %{"id" => id}) do
-    lm = Comms.get_lm!(id)
+    lm = Comms.get_lm_one!(conn.assigns.current_user, id)
 
     lm |> Comms.update_lm!(%{"status" => "SENT"})
     Activities.update_activity!(lm.activity, %{type: "LM_SENT", status: "DONE"})

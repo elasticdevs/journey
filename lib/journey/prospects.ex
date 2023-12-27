@@ -54,7 +54,8 @@ defmodule Journey.Prospects do
         join: u in User,
         on: u.id == c.user_id,
         where:
-          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+          ^current_user.level == 0 or is_nil(u) or
+            (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :last_visited_at, desc_nulls_last: :updated_at],
         preload: [
           :user,
@@ -83,6 +84,57 @@ defmodule Journey.Prospects do
 
   """
   def get_client!(id), do: Repo.get!(Client, id) |> Repo.preload(:company)
+
+  def get_client_one!(current_user, %{in_last_secs: in_last_secs, id: id}) do
+    {browsings_where, visits_where} =
+      case in_last_secs do
+        "all" ->
+          {true, true}
+
+        nil ->
+          {true, true}
+
+        _ ->
+          {
+            dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
+            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+          }
+      end
+
+    browsings_query =
+      from b in Browsing,
+        where: ^browsings_where
+
+    visits_query = from v in Visit, where: ^visits_where
+
+    Repo.one!(
+      from c in Client,
+        left_join: u in User,
+        on: u.id == c.user_id,
+        where:
+          (^current_user.level == 0 or is_nil(u) or
+             (not is_nil(u.level) and u.level >= ^current_user.level)) and c.id == ^id,
+        order_by: [desc_nulls_last: :last_visited_at, desc_nulls_last: :updated_at],
+        preload: [
+          :user,
+          :company,
+          :url,
+          [browsings: ^{browsings_query, [:client, visits: visits_query]}],
+          [activities: [:user, :company, :client, :call, :lm, :email]],
+          [calls: [:template, :activity]],
+          [lms: [:template, :activity]],
+          [emails: [:template, :activity]]
+        ]
+    )
+
+    # Repo.get(Client, id)
+    # |> Repo.preload(browsings: {browsings_query, [:client, visits: visits_query]})
+    # |> Repo.preload(activities: [:user, :company, :client, :call, :lm, :email])
+    # |> Repo.preload(calls: [:template, :activity])
+    # |> Repo.preload(lms: [:template, :activity])
+    # |> Repo.preload(emails: [:template, :activity])
+    # |> Repo.preload([:company, :url, :user])
+  end
 
   def get_client(%{in_last_secs: in_last_secs, id: id}) do
     {browsings_where, visits_where} =

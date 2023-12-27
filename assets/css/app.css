@@ -7,6 +7,7 @@
   --bright-red: #ffb2b2;
   --red: #C72B2B;
   --dark-red: #ee3372;
+  --yellow: #fff200;
   --lightest-green: #7EEF7E;
   --light-green: #4EBF4E;
   --green: #1E7F1E;
@@ -271,13 +272,6 @@ td:first-child {
   font-weight: bold;
   font-size: 1rem;
   color: var(--blue);
-}
-
-.type {
-  font-size: 1rem;
-  font-weight: bold;
-
-  color: var(--dark-green);
 }
 
 .user a {
@@ -671,4 +665,32 @@ textarea.focus {
 
 .red {
   color: var(--red);
+}
+
+.activity-type {
+  padding: 2px 5px;
+  border-radius: 5px;
+
+  font-size: 0.8rem;
+  font-weight: bold;
+  background-color: var(--darker-grey);
+  color: var(--white);
+}
+
+.DRAFT {
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: var(--darker-grey);
+  color: var(--yellow);
+}
+
+.DONE,
+.CALLED,
+.SENT {
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: var(--dark-green);
+  color: var(--white);
 }

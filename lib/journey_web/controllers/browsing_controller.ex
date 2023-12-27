@@ -31,18 +31,20 @@ defmodule JourneyWeb.BrowsingController do
   def show(conn, %{"id" => id}) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
 
-    browsing = Analytics.get_browsing(%{in_last_secs: in_last_secs, id: id})
+    browsing =
+      Analytics.get_browsing_one!(conn.assigns.current_user, %{in_last_secs: in_last_secs, id: id})
+
     render(conn, :show, browsing: browsing)
   end
 
   def edit(conn, %{"id" => id}) do
-    browsing = Analytics.get_browsing!(id)
+    browsing = Analytics.get_browsing_one!(conn.assigns.current_user, %{id: id})
     changeset = Analytics.change_browsing(browsing)
     render(conn, :edit, browsing: browsing, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "browsing" => browsing_params}) do
-    browsing = Analytics.get_browsing!(id)
+    browsing = Analytics.get_browsing_one!(conn.assigns.current_user, %{id: id})
 
     case Analytics.update_browsing(browsing, browsing_params) do
       {:ok, browsing} ->
@@ -56,7 +58,7 @@ defmodule JourneyWeb.BrowsingController do
   end
 
   def delete(conn, %{"id" => id}) do
-    browsing = Analytics.get_browsing!(id)
+    browsing = Analytics.get_browsing_one!(conn.assigns.current_user, %{id: id})
     {:ok, _browsing} = Analytics.delete_browsing(browsing)
 
     conn

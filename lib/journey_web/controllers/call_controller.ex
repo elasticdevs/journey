@@ -61,12 +61,12 @@ defmodule JourneyWeb.CallController do
   end
 
   def show(conn, %{"id" => id}) do
-    call = Comms.get_call!(id)
+    call = Comms.get_call_one!(conn.assigns.current_user, id)
     render(conn, :show, call: call)
   end
 
   def edit(conn, %{"id" => id}) do
-    call = Comms.get_call!(id)
+    call = Comms.get_call_one!(conn.assigns.current_user, id)
 
     case Prospects.get_client!(call.client_id) do
       nil ->
@@ -88,7 +88,7 @@ defmodule JourneyWeb.CallController do
   end
 
   def update(conn, %{"id" => id, "call" => call_params}) do
-    call = Comms.get_call!(id)
+    call = Comms.get_call_one!(conn.assigns.current_user, id)
 
     case Comms.update_call(call, call_params) do
       {:ok, call} ->
@@ -116,7 +116,7 @@ defmodule JourneyWeb.CallController do
   end
 
   def delete(conn, %{"id" => id}) do
-    call = Comms.get_call!(id)
+    call = Comms.get_call_one!(conn.assigns.current_user, id)
     {:ok, _call} = Comms.delete_call(call)
 
     conn
