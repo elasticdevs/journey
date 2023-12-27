@@ -668,3 +668,7 @@ textarea.focus {
 .last-visited-at .time-ago {
   color: var(--last-visited-at);
 }
+
+.red {
+  color: var(--red);
+}

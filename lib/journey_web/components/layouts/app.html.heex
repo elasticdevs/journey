@@ -45,7 +45,8 @@
   <div class="right">
     <%= if @current_user do %>
       <div class="google-user">
-        <img src={@current_user.picture} class="picture" /> <%= @current_user.email %>
+        <img src={@current_user.picture} class="picture" /> <%= @current_user.email %> (<span class="red"><%= @current_user.level ||
+          -1 %></span>)
         <.link href={~p"/auth/logout"} method="delete" class="logout">
           Logout
         </.link>

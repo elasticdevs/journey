@@ -32,48 +32,83 @@ defmodule JourneyWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Accounts.get_user!(id)
-    render(conn, :show, user: user)
+    case Accounts.get_one_user(conn.assigns.current_user, id) do
+      nil ->
+        conn
+        |> put_flash(:error, "Unauthorised access.")
+        |> redirect(to: ~p"/users")
+
+      user ->
+        render(conn, :show, user: user)
+    end
   end
 
   def edit(conn, %{"id" => id}) do
-    user = Accounts.get_user!(id)
-    changeset = Accounts.change_user_level(user)
-    render(conn, :edit, user: user, changeset: changeset)
+    case Accounts.get_one_user(conn.assigns.current_user, id) do
+      nil ->
+        conn
+        |> put_flash(:error, "Unauthorised access.")
+        |> redirect(to: ~p"/users")
+
+      user ->
+        changeset = Accounts.change_user_level(user)
+        render(conn, :edit, user: user, changeset: changeset)
+    end
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     case conn.assigns.current_user.level do
       0 ->
-        user = Accounts.get_user!(id)
-
-        case Accounts.update_user(user, user_params) do
-          {:ok, user} ->
+        case Accounts.get_one_user(conn.assigns.current_user, id) do
+          nil ->
             conn
-            |> put_flash(:info, "User updated successfully.")
-            |> redirect(to: ~p"/users/#{user}")
+            |> put_flash(:error, "User not found.")
+            |> redirect(to: ~p"/users")
 
-          {:error, %Ecto.Changeset{} = changeset} ->
-            render(conn, :edit, user: user, changeset: changeset)
+          user ->
+            case Accounts.update_user(user, user_params) do
+              {:ok, user} ->
+                conn
+                |> put_flash(:info, "User updated successfully.")
+                |> redirect(to: ~p"/users/#{user}")
+
+              {:error, %Ecto.Changeset{} = changeset} ->
+                render(conn, :edit, user: user, changeset: changeset)
+            end
         end
 
       _ ->
         conn
-        |> put_flash(:error, "Unauthorised access!!")
+        |> put_flash(:error, "Unauthorised access.")
         |> redirect(to: ~p"/users")
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    user = Accounts.get_user!(id)
+    case conn.assigns.current_user.level do
+      0 ->
+        case Accounts.get_one_user(conn.assigns.current_user, id) do
+          nil ->
+            conn
+            |> put_flash(:error, "User not found.")
+            |> redirect(to: ~p"/users")
 
-    user_token = get_session(conn, :user_token)
-    user_token && Accounts.delete_user_session_token(user_token)
+          user ->
+            user = Accounts.get_user!(id)
+            user_token = get_session(conn, :user_token)
+            user_token && Accounts.delete_user_session_token(user_token)
 
-    {:ok, _user} = Accounts.delete_user(user)
+            {:ok, _user} = Accounts.delete_user(user)
 
-    conn
-    |> put_flash(:info, "Logged out successfully.")
-    |> redirect(to: ~p"/users")
+            conn
+            |> put_flash(:info, "Logged out successfully.")
+            |> redirect(to: ~p"/users")
+        end
+
+      _ ->
+        conn
+        |> put_flash(:error, "Unauthorised access.")
+        |> redirect(to: ~p"/users")
+    end
   end
 end

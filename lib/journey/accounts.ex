@@ -70,7 +70,10 @@ defmodule Journey.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(current_user, id), do: Repo.get!(User, id)
+
+  def get_one_user(current_user, id),
+    do: Repo.one(from u in User, where: u.id == ^id and u.level >= ^current_user.level)
 
   ## User registration
 
