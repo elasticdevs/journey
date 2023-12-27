@@ -96,7 +96,7 @@ defmodule Journey.Analytics do
           (^current_user.level == 0 or is_nil(u) or
              (not is_nil(u.level) and u.level >= ^current_user.level)) and
             b.id == ^id,
-        preload: [[client: :user], visits: ^visits_query]
+        preload: [[client: :user], visits: ^{visits_query, [[browsing: :client], :client]}]
     )
   end
 

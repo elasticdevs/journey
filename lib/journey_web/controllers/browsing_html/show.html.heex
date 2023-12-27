@@ -13,7 +13,7 @@
 
 <div class="page-heading-2">Visits (<%= length(@browsing.visits) %>)</div>
 <div class="section">
-  <.visits_table visits={[@browsing.visits]} />
+  <.visits_table visits={@browsing.visits} />
 </div>
 
 <.back navigate={~p"/browsings"} class={~s"center"}>Back to Browsings</.back>
