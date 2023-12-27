@@ -3,7 +3,7 @@
     <img src={user.picture} class="picture small" />
   </:col>
   <:col :let={user} label="Name, Email" class="user-name-email">
-    <%= raw(get_user_display_name_or_email_from_user(user)) %>
+    <%= raw(get_user_display_name_and_email_from_user(user)) %>
   </:col>
   <:col :let={user} label="Level" class="level">
     <%= user.level %>

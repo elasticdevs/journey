@@ -169,6 +169,22 @@ defmodule JourneyWeb.HTMLHelpers do
     end
   end
 
+  def get_user_display_name_and_email_from_user(user) do
+    case({user.name, user.email}) do
+      {nil, nil} ->
+        "<span class='empty'>empty</span>"
+
+      {name, nil} ->
+        "<span class='user-name'>#{name}</span>"
+
+      {nil, email} ->
+        "<span class='email'>&lt;#{email}&gt;</span>"
+
+      {name, email} ->
+        "<span class='user-name'>#{name}</span> <span class='email'>&lt;#{email}&gt;</span>"
+    end
+  end
+
   def get_website_from_company(company) do
     case company.website do
       nil ->
