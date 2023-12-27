@@ -43,7 +43,7 @@ defmodule Journey.Accounts.User do
   """
   def level_changeset(user, attrs) do
     user
-    |> cast(attrs, [:level])
+    |> cast(attrs, [:level, :name])
   end
 
   def registration_changeset(user, attrs, opts \\ []) do
