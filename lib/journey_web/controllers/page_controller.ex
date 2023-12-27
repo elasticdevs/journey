@@ -16,9 +16,9 @@ defmodule JourneyWeb.PageController do
   def home(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
 
-    clients = Prospects.list_clients(%{in_last_secs: in_last_secs})
-    browsings = Analytics.list_browsings(%{in_last_secs: in_last_secs})
-    visits = Analytics.list_visits(%{in_last_secs: in_last_secs})
+    clients = Prospects.list_clients(conn.assigns.current_user, %{in_last_secs: in_last_secs})
+    browsings = Analytics.list_browsings(conn.assigns.current_user, %{in_last_secs: in_last_secs})
+    visits = Analytics.list_visits(conn.assigns.current_user, %{in_last_secs: in_last_secs})
 
     conn
     |> render(:home,

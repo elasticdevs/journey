@@ -41,13 +41,14 @@ defmodule Journey.Analytics do
 
     Repo.all(
       from b in Browsing,
+        where: ^browsings_where,
         left_join: c in Client,
         on: c.id == b.client_id,
         left_join: u in User,
         on: u.id == c.user_id,
         where:
-          (^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level) or
-             is_nil(c)) and ^browsings_where,
+          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level) or
+            is_nil(c),
         order_by: [desc_nulls_last: b.last_visited_at],
         preload: [:client, visits: ^visits_query]
     )
@@ -198,14 +199,14 @@ defmodule Journey.Analytics do
 
     Repo.all(
       from v in Visit,
+        where: ^visits_where,
         left_join: c in Client,
         on: c.id == v.client_id,
         left_join: u in User,
         on: u.id == c.user_id,
         where:
-          (^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level) or
-             is_nil(c)) and
-            ^visits_where,
+          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level) or
+            is_nil(c),
         order_by: [desc_nulls_last: v.inserted_at],
         preload: [browsing: :client]
     )

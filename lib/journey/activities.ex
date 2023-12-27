@@ -34,12 +34,12 @@ defmodule Journey.Activities do
 
     Repo.all(
       from a in Activity,
+        where: ^activities_where,
         join: u in User,
         on: u.id == a.user_id,
         where:
           ^current_user.level == 0 or
-            (not is_nil(u.level) and u.level >= ^current_user.level and
-               ^activities_where),
+            (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :executed_at],
         preload: [:user, :company, :client, :call, :lm, :email]
     )

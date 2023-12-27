@@ -50,11 +50,11 @@ defmodule Journey.Prospects do
 
     Repo.all(
       from c in Client,
+        where: ^clients_where,
         join: u in User,
         on: u.id == c.user_id,
         where:
-          (^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level)) and
-            ^clients_where,
+          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :last_visited_at, desc_nulls_last: :updated_at],
         preload: [
           :user,
