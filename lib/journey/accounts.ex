@@ -14,8 +14,12 @@ defmodule Journey.Accounts do
 
   ## Database getters
 
-  def list_users do
-    Repo.all(User)
+  def list_users(current_user) do
+    from(u in User,
+      where: ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+      order_by: u.level
+    )
+    |> Repo.all()
   end
 
   @doc """
@@ -431,8 +435,18 @@ defmodule Journey.Accounts do
     Repo.delete(user)
   end
 
-  def users_options() do
-    Enum.reduce(list_users(), Keyword.new(), fn u, users_options ->
+  def change_user_level(%User{} = user, attrs \\ %{}) do
+    User.level_changeset(user, attrs)
+  end
+
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.level_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def users_options(current_user) do
+    Enum.reduce(list_users(current_user), Keyword.new(), fn u, users_options ->
       Keyword.put_new(users_options, String.to_atom(u.name || u.email), u.id)
     end)
   end

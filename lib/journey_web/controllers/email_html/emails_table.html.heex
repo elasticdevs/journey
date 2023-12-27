@@ -4,6 +4,11 @@
       <%= if email && email.activity, do: email.activity.type, else: nil %>
     </a>
   </:col>
+  <:col :let={email} label="User" class="user-name">
+    <a href={get_user_url_from_user(email.client.user)}>
+      <%= raw(get_user_display_name_or_email_from_user(email.client.user)) %>
+    </a>
+  </:col>
   <:col :let={email} label="Client" class="client-name">
     <a href={"#{get_client_url_from_client(email.client)}/#emails"}>
       <%= get_client_display_name_from_client(email.client) %>

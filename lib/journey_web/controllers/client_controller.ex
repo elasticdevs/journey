@@ -10,7 +10,7 @@ defmodule JourneyWeb.ClientController do
   def index(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
 
-    clients = Prospects.list_clients(%{in_last_secs: in_last_secs})
+    clients = Prospects.list_clients(conn.assigns.current_user, %{in_last_secs: in_last_secs})
     render(conn, :index, clients: clients)
   end
 

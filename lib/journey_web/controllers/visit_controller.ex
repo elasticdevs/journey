@@ -14,7 +14,7 @@ defmodule JourneyWeb.VisitController do
   def index(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
 
-    visits = Analytics.list_visits(%{in_last_secs: in_last_secs})
+    visits = Analytics.list_visits(conn.assigns.current_user, %{in_last_secs: in_last_secs})
     render(conn, :index, visits: visits)
   end
 

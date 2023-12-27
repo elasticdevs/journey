@@ -5,6 +5,8 @@ defmodule Journey.Analytics do
 
   import Ecto.Query, warn: false
 
+  alias Journey.Accounts.User
+  alias Journey.Prospects.Client
   alias Journey.Repo
 
   alias Journey.Analytics.Browsing
@@ -19,7 +21,7 @@ defmodule Journey.Analytics do
       [%Browsing{}, ...]
 
   """
-  def list_browsings(%{in_last_secs: in_last_secs}) do
+  def list_browsings(current_user, %{in_last_secs: in_last_secs}) do
     {browsings_where, visits_where} =
       case in_last_secs do
         "all" ->
@@ -39,7 +41,13 @@ defmodule Journey.Analytics do
 
     Repo.all(
       from b in Browsing,
-        where: ^browsings_where,
+        left_join: c in Client,
+        on: c.id == b.client_id,
+        left_join: u in User,
+        on: u.id == c.user_id,
+        where:
+          (^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level) or
+             is_nil(c)) and ^browsings_where,
         order_by: [desc_nulls_last: b.last_visited_at],
         preload: [:client, visits: ^visits_query]
     )
@@ -175,7 +183,7 @@ defmodule Journey.Analytics do
 
   """
 
-  def list_visits(%{in_last_secs: in_last_secs}) do
+  def list_visits(current_user, %{in_last_secs: in_last_secs}) do
     visits_where =
       case in_last_secs do
         "all" ->
@@ -190,7 +198,14 @@ defmodule Journey.Analytics do
 
     Repo.all(
       from v in Visit,
-        where: ^visits_where,
+        left_join: c in Client,
+        on: c.id == v.client_id,
+        left_join: u in User,
+        on: u.id == c.user_id,
+        where:
+          (^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level) or
+             is_nil(c)) and
+            ^visits_where,
         order_by: [desc_nulls_last: v.inserted_at],
         preload: [browsing: :client]
     )

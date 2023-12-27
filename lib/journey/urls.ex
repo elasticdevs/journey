@@ -4,6 +4,8 @@ defmodule Journey.URLs do
   """
 
   import Ecto.Query, warn: false
+  alias Journey.Accounts.User
+  alias Journey.Prospects.Client
   alias Journey.Repo
 
   alias Journey.URLs.URL
@@ -17,8 +19,20 @@ defmodule Journey.URLs do
       [%URL{}, ...]
 
   """
-  def list_urls do
-    Repo.all(URL)
+  def list_urls(current_user) do
+    Repo.all(
+      from url in URL,
+        join: c in Client,
+        on:
+          c.id ==
+            url.client_id,
+        join: u in User,
+        on:
+          u.id ==
+            c.user_id,
+        where:
+          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level)
+    )
   end
 
   @doc """

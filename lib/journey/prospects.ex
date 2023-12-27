@@ -5,6 +5,7 @@ defmodule Journey.Prospects do
 
   import Ecto.Query, warn: false
   require Logger
+  alias Journey.Accounts.User
   alias Journey.Activities
   alias Journey.Repo
   alias Journey.Prospects.Client
@@ -24,7 +25,7 @@ defmodule Journey.Prospects do
       [%Client{}, ...]
 
   """
-  def list_clients(%{in_last_secs: in_last_secs}) do
+  def list_clients(current_user, %{in_last_secs: in_last_secs}) do
     {clients_where, browsings_where, visits_where} =
       case in_last_secs do
         "all" ->
@@ -49,7 +50,11 @@ defmodule Journey.Prospects do
 
     Repo.all(
       from c in Client,
-        where: ^clients_where,
+        join: u in User,
+        on: u.id == c.user_id,
+        where:
+          (^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level)) and
+            ^clients_where,
         order_by: [desc_nulls_last: :last_visited_at, desc_nulls_last: :updated_at],
         preload: [
           :user,

@@ -4,7 +4,7 @@ defmodule JourneyWeb.UserController do
   alias Journey.Accounts
 
   def index(conn, _params) do
-    users = Accounts.list_users()
+    users = Accounts.list_users(conn.assigns.current_user)
     render(conn, :index, users: users)
   end
 
@@ -36,30 +36,32 @@ defmodule JourneyWeb.UserController do
     render(conn, :show, user: user)
   end
 
-  def edit(conn, %{"id" => _id}) do
-    # user = Accounts.get_user!(id)
-    # changeset = Accounts.change_user(user)
-    # render(conn, :edit, user: user, changeset: changeset)
-    conn
-    |> put_flash(:info, "Functionality not available.")
-    |> redirect(to: ~p"/users")
+  def edit(conn, %{"id" => id}) do
+    user = Accounts.get_user!(id)
+    changeset = Accounts.change_user_level(user)
+    render(conn, :edit, user: user, changeset: changeset)
   end
 
-  def update(conn, %{"id" => _id, "user" => _user_params}) do
-    # user = Accounts.get_user!(id)
+  def update(conn, %{"id" => id, "user" => user_params}) do
+    case conn.assigns.current_user.level do
+      0 ->
+        user = Accounts.get_user!(id)
 
-    # case Accounts.update_user(user, user_params) do
-    #   {:ok, user} ->
-    #     conn
-    #     |> put_flash(:info, "User updated successfully.")
-    #     |> redirect(to: ~p"/users/#{user}")
+        case Accounts.update_user(user, user_params) do
+          {:ok, user} ->
+            conn
+            |> put_flash(:info, "User updated successfully.")
+            |> redirect(to: ~p"/users/#{user}")
 
-    #   {:error, %Ecto.Changeset{} = changeset} ->
-    #     render(conn, :edit, user: user, changeset: changeset)
-    # end
-    conn
-    |> put_flash(:info, "Functionality not available.")
-    |> redirect(to: ~p"/users")
+          {:error, %Ecto.Changeset{} = changeset} ->
+            render(conn, :edit, user: user, changeset: changeset)
+        end
+
+      _ ->
+        conn
+        |> put_flash(:error, "Unauthorised access!!")
+        |> redirect(to: ~p"/users")
+    end
   end
 
   def delete(conn, %{"id" => id}) do

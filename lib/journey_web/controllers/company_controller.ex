@@ -13,7 +13,7 @@ defmodule JourneyWeb.CompanyController do
 
   def new(conn, _params) do
     changeset = Prospects.change_company(%Company{})
-    users_options = Accounts.users_options()
+    users_options = Accounts.users_options(conn.assigns.current_user)
     render(conn, :new, changeset: changeset, users_options: users_options)
   end
 
@@ -49,7 +49,7 @@ defmodule JourneyWeb.CompanyController do
   def edit(conn, %{"id" => id}) do
     company = Prospects.get_company!(id)
     changeset = Prospects.change_company(company)
-    users_options = Accounts.users_options()
+    users_options = Accounts.users_options(conn.assigns.current_user)
     render(conn, :edit, company: company, changeset: changeset, users_options: users_options)
   end
 
@@ -63,7 +63,7 @@ defmodule JourneyWeb.CompanyController do
         |> redirect(to: ~p"/companies/#{company}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        users_options = Accounts.users_options()
+        users_options = Accounts.users_options(conn.assigns.current_user)
         render(conn, :edit, company: company, changeset: changeset, users_options: users_options)
     end
   end

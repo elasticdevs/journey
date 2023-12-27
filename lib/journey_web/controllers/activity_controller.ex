@@ -7,7 +7,9 @@ defmodule JourneyWeb.ActivityController do
   def index(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
 
-    activities = Activities.list_activities(%{in_last_secs: in_last_secs})
+    activities =
+      Activities.list_activities(conn.assigns.current_user, %{in_last_secs: in_last_secs})
+
     render(conn, :index, activities: activities)
   end
 

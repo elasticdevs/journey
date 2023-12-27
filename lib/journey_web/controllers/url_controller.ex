@@ -5,7 +5,7 @@ defmodule JourneyWeb.URLController do
   alias Journey.URLs.URL
 
   def index(conn, _params) do
-    urls = URLs.list_urls()
+    urls = URLs.list_urls(conn.assigns.current_user)
     render(conn, :index, urls: urls)
   end
 

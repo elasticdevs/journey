@@ -7,7 +7,7 @@ defmodule JourneyWeb.CallController do
   alias Journey.Activities
 
   def index(conn, _params) do
-    calls = Comms.list_calls()
+    calls = Comms.list_calls(conn.assigns.current_user)
     render(conn, :index, calls: calls)
   end
 

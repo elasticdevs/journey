@@ -4,6 +4,8 @@ defmodule Journey.Comms do
   """
 
   import Ecto.Query, warn: false
+  alias Journey.Accounts.User
+  alias Journey.Prospects.Client
   alias Journey.Repo
 
   alias Journey.Comms.Template
@@ -118,11 +120,22 @@ defmodule Journey.Comms do
       [%Call{}, ...]
 
   """
-  def list_calls do
-    Call
-    |> order_by(desc_nulls_last: :updated_at)
-    |> preload([:template, :client, :activity])
-    |> Repo.all()
+  def list_calls(current_user) do
+    Repo.all(
+      from call in Call,
+        join: c in Client,
+        on:
+          c.id ==
+            call.client_id,
+        join: u in User,
+        on:
+          u.id ==
+            c.user_id,
+        where:
+          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+        order_by: [desc_nulls_last: :updated_at],
+        preload: [:template, :activity, [client: :user]]
+    )
   end
 
   @doc """
@@ -217,11 +230,22 @@ defmodule Journey.Comms do
       [%LM{}, ...]
 
   """
-  def list_lms do
-    LM
-    |> order_by(desc_nulls_last: :updated_at)
-    |> preload([:template, :client, :activity])
-    |> Repo.all()
+  def list_lms(current_user) do
+    Repo.all(
+      from lm in LM,
+        join: c in Client,
+        on:
+          c.id ==
+            lm.client_id,
+        join: u in User,
+        on:
+          u.id ==
+            c.user_id,
+        where:
+          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+        order_by: [desc_nulls_last: :updated_at],
+        preload: [:template, :activity, [client: :user]]
+    )
   end
 
   @doc """
@@ -322,11 +346,22 @@ defmodule Journey.Comms do
       [%Email{}, ...]
 
   """
-  def list_emails do
-    Email
-    |> order_by(desc_nulls_last: :updated_at)
-    |> preload([:template, :client, :activity])
-    |> Repo.all()
+  def list_emails(current_user) do
+    Repo.all(
+      from e in Email,
+        join: c in Client,
+        on:
+          c.id ==
+            e.client_id,
+        join: u in User,
+        on:
+          u.id ==
+            c.user_id,
+        where:
+          ^current_user.level == 0 or (not is_nil(u.level) and u.level >= ^current_user.level),
+        order_by: [desc_nulls_last: :updated_at],
+        preload: [:template, :activity, [client: :user]]
+    )
   end
 
   @doc """

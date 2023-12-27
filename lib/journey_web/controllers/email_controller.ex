@@ -12,7 +12,7 @@ defmodule JourneyWeb.EmailController do
   alias Journey.GmailAPIMailer
 
   def index(conn, _params) do
-    emails = Comms.list_emails()
+    emails = Comms.list_emails(conn.assigns.current_user)
     render(conn, :index, emails: emails)
   end
 

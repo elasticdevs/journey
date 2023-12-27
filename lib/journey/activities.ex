@@ -7,6 +7,7 @@ defmodule Journey.Activities do
   require Logger
 
   alias Journey.Repo
+  alias Journey.Accounts.User
   alias Journey.Activities.Activity
 
   @doc """
@@ -18,7 +19,7 @@ defmodule Journey.Activities do
       [%Activity{}, ...]
 
   """
-  def list_activities(%{in_last_secs: in_last_secs}) do
+  def list_activities(current_user, %{in_last_secs: in_last_secs}) do
     activities_where =
       case in_last_secs do
         "all" ->
@@ -31,12 +32,17 @@ defmodule Journey.Activities do
           dynamic([a], ago(^in_last_secs, "second") < a.inserted_at)
       end
 
-    Activity
-    |> where(^activities_where)
-    |> order_by(desc_nulls_last: :executed_at)
-    |> preload([:user, :company, :client])
-    |> preload([:call, :lm, :email])
-    |> Repo.all()
+    Repo.all(
+      from a in Activity,
+        join: u in User,
+        on: u.id == a.user_id,
+        where:
+          ^current_user.level == 0 or
+            (not is_nil(u.level) and u.level >= ^current_user.level and
+               ^activities_where),
+        order_by: [desc_nulls_last: :executed_at],
+        preload: [:user, :company, :client, :call, :lm, :email]
+    )
   end
 
   @doc """

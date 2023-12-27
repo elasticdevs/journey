@@ -11,6 +11,10 @@ defmodule JourneyWeb.HTMLHelpers do
     Enum.flat_map(browsings, fn b -> b.visits end)
   end
 
+  def get_user_url_from_user(user) do
+    if user, do: "/users/#{user.id}", else: nil
+  end
+
   def get_user_url_from_activity(activity) do
     if activity && activity.user, do: "/users/#{activity.user.id}", else: nil
   end

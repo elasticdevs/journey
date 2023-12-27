@@ -10,7 +10,7 @@ defmodule JourneyWeb.LMController do
   alias Journey.Activities
 
   def index(conn, _params) do
-    lms = Comms.list_lms()
+    lms = Comms.list_lms(conn.assigns.current_user)
     render(conn, :index, lms: lms)
   end
 

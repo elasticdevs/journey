@@ -3,6 +3,7 @@ defmodule Journey.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
+    field :level, :integer
     field :sub, :string
     field :email, :string
     field :name, :string
@@ -40,6 +41,11 @@ defmodule Journey.Accounts.User do
       submitting the form), this option can be set to `false`.
       Defaults to `true`.
   """
+  def level_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:level])
+  end
+
   def registration_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:sub, :email, :name, :picture, :locale, :hd, :token, :password])
