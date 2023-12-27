@@ -51,7 +51,7 @@ defmodule Journey.Prospects do
     Repo.all(
       from c in Client,
         where: ^clients_where,
-        join: u in User,
+        left_join: u in User,
         on: u.id == c.user_id,
         where:
           ^current_user.level == 0 or is_nil(u) or
