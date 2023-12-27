@@ -126,14 +126,10 @@ defmodule Journey.Prospects do
           [emails: [:template, :activity]]
         ]
     )
+  end
 
-    # Repo.get(Client, id)
-    # |> Repo.preload(browsings: {browsings_query, [:client, visits: visits_query]})
-    # |> Repo.preload(activities: [:user, :company, :client, :call, :lm, :email])
-    # |> Repo.preload(calls: [:template, :activity])
-    # |> Repo.preload(lms: [:template, :activity])
-    # |> Repo.preload(emails: [:template, :activity])
-    # |> Repo.preload([:company, :url, :user])
+  def get_client_one!(current_user, %{id: id}) do
+    get_client_one!(current_user, %{in_last_secs: nil, id: id})
   end
 
   def get_client(%{in_last_secs: in_last_secs, id: id}) do

@@ -100,6 +100,10 @@ defmodule Journey.Analytics do
     )
   end
 
+  def get_browsing_one!(current_user, %{id: id}) do
+    get_browsing_one!(current_user, %{in_last_secs: nil, id: id})
+  end
+
   def get_browsing(%{in_last_secs: in_last_secs, id: id}) do
     visits_where =
       case in_last_secs do
