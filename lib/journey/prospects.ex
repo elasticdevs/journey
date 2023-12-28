@@ -445,7 +445,13 @@ defmodule Journey.Prospects do
 
     Repo.get(Company, id)
     |> Repo.preload(
-      clients: [:user, :company, :url, browsings: {browsings_query, [visits: visits_query]}]
+      clients: [
+        :user,
+        :company,
+        :url,
+        :visits,
+        browsings: {browsings_query, [visits: visits_query]}
+      ]
     )
     |> Repo.preload(:user)
   end
