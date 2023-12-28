@@ -4,7 +4,7 @@
       <%= call.activity.type %>
     </a>
   </:col>
-  <:col :let={call} label="User" class="user-name">
+  <:col :let={call} label="User" class="user">
     <a href={get_user_url_from_user(call.client.user)}>
       <%= raw(get_user_display_name_or_email_from_user(call.client.user)) %>
     </a>
