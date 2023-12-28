@@ -32,6 +32,7 @@ defmodule JourneyWeb.ActivityController do
 
   def show(conn, %{"id" => id}) do
     activity = Activities.get_activity_one!(conn.assigns.current_user, id)
+
     render(conn, :show, activity: activity)
   end
 

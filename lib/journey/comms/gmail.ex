@@ -26,6 +26,6 @@ defmodule Journey.Comms.Gmail do
     |> to({email.client.name, email.client.email})
     |> from({"Shailesh Narayan", "shailesh@elasticdevs.io"})
     |> subject(email.subject)
-    |> text_body(email.body)
+    |> html_body(email.body)
   end
 end

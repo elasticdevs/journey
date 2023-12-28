@@ -24,7 +24,8 @@ defmodule JourneyWeb.EmailController do
         |> redirect(to: ~p"/")
 
       c ->
-        changeset = Comms.change_email(%Email{client_id: c.id, status: "DRAFT"})
+        changeset =
+          Comms.change_email(%Email{client_id: c.id, read_tracking: true, status: "DRAFT"})
 
         render(conn, :new,
           changeset: changeset,
@@ -49,6 +50,14 @@ defmodule JourneyWeb.EmailController do
       })
 
     Activities.update_activity!(activity, %{url_id: url.id})
+
+    email_params =
+      Map.put(
+        email_params,
+        "body",
+        "#{email_params["body"]}<br><br>IMG<img src='#{URLs.sponsored_img_url_shortened_from_url(url)}' style='display:none' />"
+      )
+
     email_params = Map.put(email_params, "activity_id", activity.id)
 
     case Comms.create_email(email_params) do

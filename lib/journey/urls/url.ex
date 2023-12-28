@@ -2,6 +2,7 @@ defmodule Journey.URLs.URL do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Journey.Activities.Activity
   alias Journey.Prospects.Client
 
   schema "urls" do
@@ -12,6 +13,7 @@ defmodule Journey.URLs.URL do
     field :status, :string
     field :url, :string
     belongs_to :client, Client
+    has_one :activity, Activity
 
     timestamps(type: :utc_datetime)
   end

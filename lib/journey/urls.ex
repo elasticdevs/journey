@@ -70,7 +70,7 @@ defmodule Journey.URLs do
               url.id == ^id
       )
 
-  def get_url_by_code!(code), do: Repo.get_by!(URL, code: code)
+  def get_url_by_code!(code), do: Repo.get_by!(URL, code: code) |> Repo.preload(:activity)
 
   @doc """
   Creates a url.
@@ -141,5 +141,9 @@ defmodule Journey.URLs do
   """
   def change_url(%URL{} = url, attrs \\ %{}) do
     URL.update_changeset(url, attrs)
+  end
+
+  def sponsored_img_url_shortened_from_url(url) do
+    "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/api/img/#{url.code}"
   end
 end

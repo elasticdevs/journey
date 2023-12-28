@@ -117,6 +117,7 @@ defmodule JourneyWeb.Router do
   scope "/api", JourneyWeb do
     pipe_through :api
 
+    get "/img/:code", VisitController, :img
     post "/visits", VisitController, :create
   end
 

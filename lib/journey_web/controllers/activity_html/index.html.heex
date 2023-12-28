@@ -1,7 +1,8 @@
 <.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
 
 <div class="page-heading">
-  Listing Activities <a href="/activities/new" class="button">+ Add Activities</a>
+  Listing Activities
+  <span class="data-point"><span class="data">(<%= length(@activities) %>)</span></span>
 </div>
 
 <input type="text" id="search" placeholder="Search ..." />

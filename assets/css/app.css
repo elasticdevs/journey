@@ -694,3 +694,16 @@ textarea.focus {
   background-color: var(--dark-green);
   color: var(--white);
 }
+
+.WEB {
+  font-weight: bold;
+  color: var(--black);
+}
+
+.EMAIL {
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: var(--dark-green);
+  color: var(--white);
+}

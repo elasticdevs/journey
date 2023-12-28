@@ -7,6 +7,7 @@ defmodule Journey.Analytics.Visit do
 
   @primary_key false
   schema "visits" do
+    field :type, :string
     field :origin, :string
     field :gdpr, :boolean
     field :campaign, :string
@@ -46,6 +47,7 @@ defmodule Journey.Analytics.Visit do
   def changeset(visit, attrs) do
     visit
     |> cast(attrs, [
+      :type,
       :time,
       :origin,
       :gdpr,

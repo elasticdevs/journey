@@ -2,6 +2,7 @@ defmodule JourneyWeb.VisitController do
   use JourneyWeb, :controller
   require Logger
 
+  alias Journey.URLs
   alias Journey.Repo
   alias Journey.Prospects
   alias Journey.Prospects.Client
@@ -23,7 +24,144 @@ defmodule JourneyWeb.VisitController do
     render(conn, :new, changeset: changeset)
   end
 
+  def img(conn, %{"code" => code}) do
+    try do
+      url = URLs.get_url_by_code!(code)
+      auuid = url.activity.activity_uuid
+
+      # set last_visited_at
+      last_visited_at = DateTime.now!("Etc/UTC")
+      time_diff = DateTime.diff(DateTime.now!("Etc/UTC"), url.activity.inserted_at)
+
+      if(time_diff >= 30) do
+        # build empty visit_params first thing
+        visit_params = %{}
+
+        # add type
+        visit_params = Map.put(visit_params, "type", "EMAIL")
+
+        # grab headers
+        headers = Enum.into(conn.req_headers, %{})
+
+        # grab origin
+        visit_params =
+          Map.put(visit_params, "origin", Enum.at(Plug.Conn.get_req_header(conn, "origin"), 0))
+
+        # grab UA, and skip if the UA contains the word "bot"
+        ua = headers["user-agent"]
+        visit_params = Map.put(visit_params, "ua", ua)
+
+        # grab IP address and geolocation data
+        remote_ip = conn.remote_ip |> :inet_parse.ntoa() |> to_string()
+
+        visit_params =
+          case GeoIP.lookup(remote_ip) do
+            {:ok, geoip} ->
+              Map.merge(visit_params, %{
+                "country" => geoip.country_code,
+                "state" => geoip.region_name,
+                "city" => geoip.city_name,
+                "lat" => :erlang.float_to_binary(geoip.latitude, decimals: 2),
+                "lon" => :erlang.float_to_binary(geoip.longitude, decimals: 2)
+              })
+
+            _ ->
+              visit_params
+          end
+
+        visit_params = Map.put(visit_params, "ipaddress", remote_ip)
+
+        # clean activity_uuid
+        {auuid, visit_params} =
+          case UUID.info(auuid) do
+            {:ok, _} ->
+              {auuid, Map.put(visit_params, "activity_uuid", auuid)}
+
+            {:error, _} ->
+              Map.put(visit_params, "activity_uuid", nil)
+          end
+
+        # grab activity
+        activity =
+          try do
+            Repo.get_by!(Activity, activity_uuid: auuid)
+            |> Repo.preload(:client)
+          rescue
+            _ -> nil
+          catch
+            _ -> nil
+          end
+
+        # grab client
+        client =
+          try do
+            activity && activity.client
+          rescue
+            _ -> nil
+          catch
+            _ -> nil
+          end
+
+        # if activity exists
+        visit_params =
+          case activity do
+            nil ->
+              visit_params
+
+            a ->
+              Map.merge(visit_params, %{
+                "activity_id" => a.id
+              })
+          end
+
+        # if client exists
+        visit_params =
+          case client do
+            nil ->
+              visit_params
+
+            c ->
+              Map.merge(visit_params, %{
+                "client_id" => c.id
+              })
+          end
+
+        # Set status
+        visit_params = Map.put(visit_params, "status", "ACTIVE")
+
+        Logger.debug("CASE0_IMG_LOADED: auuid=#{auuid}, activity.id=#{activity.id}")
+        Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
+
+        Prospects.update_client!(client, %{"last_visited_at" => last_visited_at})
+
+        visit_params =
+          Map.merge(visit_params, %{
+            "activity_id" => activity.id,
+            "client_id" => activity.client.id,
+            "last_visited_at" => last_visited_at
+          })
+
+        Analytics.create_visit!(visit_params)
+      else
+        Logger.debug("CASE0_IMG_LOADED_AUTOMATIC_IGNORED: code=#{code}, time_diff=#{time_diff}}")
+      end
+    catch
+      _ ->
+        Logger.debug("CASE0_IMG_LOADED_LOG_FAILED: code=#{code}}")
+    end
+
+    gif_data =
+      <<71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0,
+        0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 1, 68, 0, 59>>
+
+    conn = put_resp_content_type(conn, "image/gif")
+    send_resp(conn, 200, gif_data)
+  end
+
   def create(conn, %{"visit" => visit_params}) do
+    # add type
+    visit_params = Map.put(visit_params, "type", "WEB")
+
     # grab params first thing
     visit_params = Map.put(visit_params, "params", visit_params)
 
@@ -159,9 +297,9 @@ defmodule JourneyWeb.VisitController do
           nil ->
             visit_params
 
-          b ->
+          a ->
             Map.merge(visit_params, %{
-              "activity_id" => b.id
+              "activity_id" => a.id
             })
         end
 

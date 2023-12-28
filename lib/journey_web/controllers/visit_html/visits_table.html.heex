@@ -1,9 +1,14 @@
 <.table id="table" rows={@visits}>
   <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
-  <:col :let={visit} label="Host" class="origin"><%= visit.origin %></:col>
+  <:col :let={visit} label="Origin" class="origin"><%= visit.origin %></:col>
+  <:col :let={visit} label="Type" class="type">
+    <span class={visit.type}>
+      <%= raw(get_display_or_empty_span([visit.type])) %>
+    </span>
+  </:col>
   <:col :let={visit} label="Client" class="client-name">
-    <a href={get_client_url_from_visit(visit)}>
-      <%= raw(get_client_display_name_from_visit(visit)) %>
+    <a href={get_client_url_from_client(visit.client)}>
+      <%= raw(get_client_display_name_from_client(visit.client)) %>
     </a>
   </:col>
   <%!-- <:col :let={visit} label="Client UUID" class="client-uuid">
