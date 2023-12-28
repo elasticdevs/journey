@@ -151,6 +151,6 @@ defmodule JourneyWeb.LMController do
 
     conn
     |> put_flash(:info, "LinkedIn Message marked as sent successfully!")
-    |> redirect(to: ~p"/lms/#{lm.client_id}")
+    |> redirect(to: ~p"/clients/#{lm.client_id}/#lms")
   end
 end

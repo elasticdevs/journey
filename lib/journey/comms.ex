@@ -265,7 +265,7 @@ defmodule Journey.Comms do
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
-        preload: [:template, :activity, [client: :user]]
+        preload: [:template, [activity: :visit], [client: :user]]
     )
   end
 
@@ -301,7 +301,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               lm.id == ^id,
-          preload: [:template, [client: :user], :activity]
+          preload: [:template, [client: :user], [activity: :visit]]
       )
 
   @doc """
@@ -401,7 +401,7 @@ defmodule Journey.Comms do
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
-        preload: [:template, :activity, [client: :user]]
+        preload: [:template, [activity: :visit], [client: :user]]
     )
   end
 
@@ -437,7 +437,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               email.id == ^id,
-          preload: [:template, [client: :user], :activity]
+          preload: [:template, [client: :user], [activity: :visit]]
       )
 
   @doc """

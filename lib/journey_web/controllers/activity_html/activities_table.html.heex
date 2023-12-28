@@ -1,7 +1,18 @@
 <.table id="table" rows={@activities} row_click={&JS.navigate(~p"/activities/#{&1}")}>
-  <:col :let={activity} label="Activity Type" class="activity-type"><%= activity.type %></:col>
-  <:col :let={activity} label="Last Visited At" class="last-visited-at utc_to_local">
-    <%= activity.last_visited_at %>
+  <:col :let={activity} label="Activity Type" class="activity-type">
+    <a href={get_call_lm_email_url_from_activity(activity)}>
+      <%= activity.type %>
+    </a>
+  </:col>
+  <:col :let={activity} label="Last Visited At" class="last-visited-at">
+    <div :if={activity.visit} class="type">
+      <span class={activity.visit.type}>
+        <%= raw(get_display_or_empty_span([activity.visit.type])) %>
+      </span>
+    </div>
+    <div class="utc_to_local">
+      <%= activity.last_visited_at %>
+    </div>
   </:col>
   <:col :let={activity} label="User" class="user">
     <a href={get_user_url_from_activity(activity)}>

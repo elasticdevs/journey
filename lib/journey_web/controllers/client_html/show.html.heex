@@ -49,23 +49,7 @@
       New Call
     </a>
   </div>
-  <.table id="calls" rows={@client.calls} row_click={&JS.navigate(~p"/calls/#{&1}")}>
-    <:col :let={call} label="Call UUID" class="call-uuid">
-      <a href={get_call_url_from_call(call)}>
-        <%= get_shortened_uuid(call.call_uuid) %>
-      </a>
-    </:col>
-    <:col :let={call} label="Template">
-      <%= (call.template && call.template.name) || "" %>
-    </:col>
-    <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
-    <:col :let={call} label="Status"><%= call.status %></:col>
-    <:action :let={call}>
-      <.link :if={call.status != "CALLED"} navigate={~p"/calls/#{call}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-    </:action>
-  </.table>
+  <.calls_table calls={@client.calls} />
 </div>
 
 <br /><br />
@@ -77,33 +61,7 @@
       New LinkedIn Message
     </a>
   </div>
-  <.table id="lms" rows={@client.lms} row_click={&JS.navigate(~p"/lms/#{&1}")}>
-    <:col :let={lm} label="LinkedIn Message UUID" class="lm-uuid">
-      <a href={get_lm_url_from_lm(lm)}>
-        <%= get_shortened_uuid(lm.lm_uuid) %>
-      </a>
-    </:col>
-    <:col :let={lm} label="Template">
-      <%= (lm.template && lm.template.name) || "" %>
-    </:col>
-    <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
-    <:col :let={lm} label="Status"><%= lm.status %></:col>
-    <:action :let={lm}>
-      <.link :if={lm.status != "SENT"} navigate={~p"/lms/#{lm}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-      <.simple_form
-        :if={lm.status != "SENT"}
-        for={%{}}
-        action={~p"/lms/#{lm.id}/mark_as_sent"}
-        class="inline"
-      >
-        <:actions>
-          <.button class="logo"><i class="action" data-feather="send"></i></.button>
-        </:actions>
-      </.simple_form>
-    </:action>
-  </.table>
+  <.lms_table lms={@client.lms} />
 </div>
 
 <br /><br />
@@ -115,37 +73,7 @@
       New Email
     </a>
   </div>
-  <.table id="table" rows={@client.emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
-    <:col :let={email} label="Activity Type" class="type">
-      <a href={get_activity_url_from_activity(email.activity)}>
-        <%= if email && email.activity, do: email.activity.type, else: nil %>
-      </a>
-    </:col>
-    <:col label="Client" class="client-name">
-      <a href={"#{get_client_url_from_client(@client)}/#emails"}>
-        <%= get_client_display_name_from_client(@client) %>
-      </a>
-    </:col>
-    <:col :let={email} label="Subject"><%= email.subject %></:col>
-    <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
-    <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
-    <:col :let={email} label="Status"><%= email.status %></:col>
-    <:action :let={email}>
-      <.link :if={email.status != "SENT"} navigate={~p"/emails/#{email}/edit"}>
-        <i class="action" data-feather="edit-2"></i>
-      </.link>
-      <.simple_form
-        :if={email.status != "SENT"}
-        for={%{}}
-        action={~p"/emails/#{email.id}/send"}
-        class="inline"
-      >
-        <:actions>
-          <.button class="logo"><i class="action" data-feather="send"></i></.button>
-        </:actions>
-      </.simple_form>
-    </:action>
-  </.table>
+  <.emails_table emails={@client.emails} />
 </div>
 
 <br /><br />

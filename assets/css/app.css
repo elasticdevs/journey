@@ -667,7 +667,8 @@ textarea.focus {
   color: var(--red);
 }
 
-.activity-type {
+.activity-type,
+.activity-type a {
   padding: 2px 5px;
   border-radius: 5px;
 
@@ -696,8 +697,11 @@ textarea.focus {
 }
 
 .WEB {
+  padding: 2px 5px;
+  border-radius: 5px;
   font-weight: bold;
-  color: var(--black);
+  background-color: var(--darkest-grey);
+  color: var(--grey);
 }
 
 .EMAIL {
@@ -706,4 +710,18 @@ textarea.focus {
   font-weight: bold;
   background-color: var(--dark-green);
   color: var(--white);
+}
+
+a.edit svg,
+button.send {
+  margin: 0;
+  padding: 0;
+  color: var(--darker-grey);
+  background-color: initial;
+
+  &:hover {
+    border: initial;
+    background-color: initial;
+    color: var(--red);
+  }
 }

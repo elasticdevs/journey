@@ -61,6 +61,7 @@ defmodule Journey.Prospects do
           :user,
           :company,
           :url,
+          :visits,
           :calls,
           :lms,
           :emails,
@@ -119,11 +120,12 @@ defmodule Journey.Prospects do
           :user,
           :company,
           :url,
+          :visits,
           [browsings: ^{browsings_query, [:client, visits: visits_query]}],
-          [activities: [:user, :company, :client, :call, :lm, :email]],
-          [calls: [:template, :activity]],
-          [lms: [:template, :activity]],
-          [emails: [:template, :activity]]
+          [activities: [:user, :company, :client, :call, :lm, :email, :visit]],
+          [calls: [[client: :user], :template, [activity: :call]]],
+          [lms: [[client: :user], :template, [activity: :visit]]],
+          [emails: [[client: :user], :template, [activity: :visit]]]
         ]
     )
   end

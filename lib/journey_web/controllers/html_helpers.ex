@@ -39,6 +39,28 @@ defmodule JourneyWeb.HTMLHelpers do
     if activity && activity.email, do: "/emails/#{activity.email.id}", else: nil
   end
 
+  def get_call_lm_email_url_from_activity(activity) do
+    case activity.type do
+      "CALLED" ->
+        get_call_url_from_call(activity.call)
+
+      "LM_DRAFTED" ->
+        get_lm_url_from_lm(activity.lm)
+
+      "LM_SENT" ->
+        get_lm_url_from_lm(activity.lm)
+
+      "EMAIL_DRAFTED" ->
+        get_email_url_from_email(activity.email)
+
+      "EMAILED" ->
+        get_email_url_from_email(activity.email)
+
+      _ ->
+        nil
+    end
+  end
+
   def get_activity_url_from_activity(activity) do
     if activity, do: "/activities/#{activity.id}", else: nil
   end

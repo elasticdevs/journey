@@ -1,6 +1,13 @@
 <.table id="table" rows={@clients}>
-  <:col :let={client} label="Last Visited ⬇" class="utc_to_local">
-    <%= client.last_visited_at %>
+  <:col :let={client} label="Last Visited ⬇">
+    <div :if={length(client.visits) > 0} class="type">
+      <span class={Enum.at(client.visits, 0).type}>
+        <%= raw(get_display_or_empty_span([Enum.at(client.visits, 0).type])) %>
+      </span>
+    </div>
+    <div :if={length(client.visits) > 0} class="utc_to_local">
+      <%= Enum.at(client.visits, 0).time %>
+    </div>
   </:col>
   <:col :let={client} label="User" class="user">
     <a href={get_user_url_from_client(client)}>

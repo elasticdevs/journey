@@ -2,6 +2,7 @@ defmodule Journey.Prospects.Client do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Journey.Analytics.Visit
   alias Journey.Activities.Activity
   alias Ecto.Changeset
   alias Journey.Accounts.User
@@ -31,6 +32,7 @@ defmodule Journey.Prospects.Client do
     field :comments, :string
     field :source, :string
     field :last_visited_at, :utc_datetime_usec
+    has_many :visits, Visit, preload_order: [desc: :last_visited_at]
     has_many :browsings, Browsing, preload_order: [desc: :last_visited_at]
     has_many :activities, Activity, preload_order: [desc: :inserted_at]
     has_many :calls, Call, preload_order: [desc: :inserted_at]

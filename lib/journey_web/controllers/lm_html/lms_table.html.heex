@@ -1,9 +1,21 @@
 <.table id="table" rows={@lms} row_click={&JS.navigate(~p"/lms/#{&1}")}>
-  <:col :let={lm} label="Activity Type" class="type">
+  <:col :let={lm} label="Activity Type" class="activity-type">
     <a href={get_activity_url_from_activity(lm.activity)}>
       <%= lm.activity.type %>
     </a>
   </:col>
+
+  <:col :let={lm} label="Last Visited At" class="last-visited-at">
+    <div :if={lm.activity && lm.activity.visit} class="type">
+      <span class={lm.activity.visit.type}>
+        <%= raw(get_display_or_empty_span([lm.activity.visit.type])) %>
+      </span>
+    </div>
+    <div class="utc_to_local">
+      <%= lm.activity.last_visited_at %>
+    </div>
+  </:col>
+
   <:col :let={lm} label="User" class="user-name">
     <a href={get_user_url_from_user(lm.client.user)}>
       <%= raw(get_user_display_name_or_email_from_user(lm.client.user)) %>
@@ -14,8 +26,19 @@
     <span class={lm.status}><%= lm.status %></span>
   </:col>
   <:action :let={lm}>
-    <.link navigate={~p"/lms/#{lm}/edit"}>
+    <.link :if={lm.status != "SENT"} class="edit" navigate={~p"/lms/#{lm}/edit"}>
       <i class="action" data-feather="edit-2"></i>
     </.link>
+    <.simple_form
+      :if={lm.status != "SENT"}
+      for={%{}}
+      action={~p"/lms/#{lm.id}/mark_as_sent"}
+      formtarget="_blank"
+      class="inline"
+    >
+      <:actions>
+        <.button class="send"><i class="action" data-feather="send"></i></.button>
+      </:actions>
+    </.simple_form>
   </:action>
 </.table>

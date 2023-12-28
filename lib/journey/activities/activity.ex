@@ -2,6 +2,7 @@ defmodule Journey.Activities.Activity do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Journey.Analytics.Visit
   alias Journey.URLs.URL
   alias Journey.Comms.Call
   alias Journey.Comms.LM
@@ -19,6 +20,8 @@ defmodule Journey.Activities.Activity do
     field :message, :string
     field :status, :string
     field :type, :string
+
+    has_one :visit, Visit
 
     belongs_to :url, URL
     belongs_to :call, Call

@@ -6,6 +6,9 @@ defmodule JourneyWeb.CompanyHTML do
   embed_templates "browsing_html/*"
   embed_templates "visit_html/*"
   embed_templates "activity_html/*"
+  embed_templates "call_html/*"
+  embed_templates "lm_html/*"
+  embed_templates "email_html/*"
 
   @doc """
   Renders a company form.

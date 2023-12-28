@@ -1,5 +1,5 @@
 <.table id="table" rows={@calls} row_click={&JS.navigate(~p"/calls/#{&1}")}>
-  <:col :let={call} label="Activity Type" class="type">
+  <:col :let={call} label="Activity Type" class="activity-type">
     <a href={get_activity_url_from_activity(call.activity)}>
       <%= call.activity.type %>
     </a>
@@ -19,7 +19,7 @@
   </:col>
 
   <:action :let={call}>
-    <.link navigate={~p"/calls/#{call}/edit"}>
+    <.link class="edit" navigate={~p"/calls/#{call}/edit"}>
       <i class="action" data-feather="edit-2"></i>
     </.link>
   </:action>
