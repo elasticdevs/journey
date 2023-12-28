@@ -38,30 +38,26 @@
     </a>
   </:col>
   <:col :let={activity} label="Call" class="type">
-    <a href={get_call_url_from_activity(activity)}>
-      <%= raw(
-        if activity.call,
-          do: activity.call.status,
-          else: "<span class='empty'>empty</span>"
-      ) %>
+    <a
+      :if={activity.call}
+      href={get_call_url_from_activity(activity)}
+      class={activity.call.status}
+    >
+      <%= activity.call.status %>
     </a>
   </:col>
   <:col :let={activity} label="LM" class="type">
-    <a href={get_lm_url_from_activity(activity)}>
-      <%= raw(
-        if activity.lm,
-          do: activity.lm.status,
-          else: "<span class='empty'>empty</span>"
-      ) %>
+    <a :if={activity.lm} href={get_lm_url_from_activity(activity)} class={activity.lm.status}>
+      <%= activity.lm.status %>
     </a>
   </:col>
   <:col :let={activity} label="Email" class="type">
-    <a href={get_email_url_from_activity(activity)}>
-      <%= raw(
-        if activity.email,
-          do: activity.email.status,
-          else: "<span class='empty'>empty</span>"
-      ) %>
+    <a
+      :if={activity.email}
+      href={get_email_url_from_activity(activity)}
+      class={activity.email.status}
+    >
+      <%= activity.email.status %>
     </a>
   </:col>
   <:col :let={activity} label="Message"><%= activity.message %></:col>
