@@ -24,8 +24,8 @@ config :journey, JourneyWeb.Endpoint,
     port: 443,
     protocol_options: [idle_timeout: 300_000],
     cipher_suite: :strong,
-    keyfile: "/etc/letsencrypt/live/staging.journey.im/privkey.pem",
-    certfile: "/etc/letsencrypt/live/staging.journey.im/fullchain.pem"
+    keyfile: "/etc/letsencrypt/live/staging.elasticdevs.journey.im/privkey.pem",
+    certfile: "/etc/letsencrypt/live/staging.elasticdevs.journey.im/fullchain.pem"
   ],
   check_origin: false,
   code_reloader: true,

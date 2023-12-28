@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (currentTab) {
         console.log("ADD_TO_JOURNEY_READ_URL, current_url=" + currentTab.url)
         chrome.tabs.create({
-          url: "https://journey.im/clients/linkedin?linkedin=" + currentTab.url
+          url: "https://elasticdevs.journey.im/clients/linkedin?linkedin=" + currentTab.url
         })
       }
     });

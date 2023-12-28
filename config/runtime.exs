@@ -30,8 +30,8 @@ if config_env() == :dev do
   config :journey, JourneyWeb.Endpoint,
     https: [
       port: 443,
-      keyfile: "/etc/letsencrypt/live/staging.journey.im/privkey.pem",
-      certfile: "/etc/letsencrypt/live/staging.journey.im/fullchain.pem",
+      keyfile: "/etc/letsencrypt/live/staging.elasticdevs.journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/staging.elasticdevs.journey.im/fullchain.pem",
       sni_fun: &JourneyWeb.Endpoint.ssloptions/1,
       cipher_suite: :strong
     ]
@@ -41,8 +41,8 @@ if config_env() == :prod do
   config :journey, JourneyWeb.Endpoint,
     https: [
       port: 443,
-      keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
-      certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem",
+      keyfile: "/etc/letsencrypt/live/elasticdevs.journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/elasticdevs.journey.im/fullchain.pem",
       sni_fun: &JourneyWeb.Endpoint.ssloptions/1,
       cipher_suite: :strong
     ]

@@ -53,17 +53,17 @@ defmodule JourneyWeb.Endpoint do
   plug JourneyWeb.Router
 
   # Note the use of character lists instead of Elixir strings!
-  def ssloptions('staging.journey.im') do
+  def ssloptions('staging.elasticdevs.journey.im') do
     [
-      keyfile: "/etc/letsencrypt/live/staging.journey.im/privkey.pem",
-      certfile: "/etc/letsencrypt/live/staging.journey.im/fullchain.pem"
+      keyfile: "/etc/letsencrypt/live/staging.elasticdevs.journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/staging.elasticdevs.journey.im/fullchain.pem"
     ]
   end
 
-  def ssloptions('journey.im') do
+  def ssloptions('elasticdevs.journey.im') do
     [
-      keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
-      certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem"
+      keyfile: "/etc/letsencrypt/live/elasticdevs.journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/elasticdevs.journey.im/fullchain.pem"
     ]
   end
 
@@ -84,7 +84,7 @@ defmodule JourneyWeb.Endpoint do
   # Catch-all clause at the end, which uses the default config
   def ssloptions(_hostname),
     do: [
-      keyfile: "/etc/letsencrypt/live/journey.im/privkey.pem",
-      certfile: "/etc/letsencrypt/live/journey.im/fullchain.pem"
+      keyfile: "/etc/letsencrypt/live/elasticdevs.journey.im/privkey.pem",
+      certfile: "/etc/letsencrypt/live/elasticdevs.journey.im/fullchain.pem"
     ]
 end
