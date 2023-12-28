@@ -79,7 +79,7 @@ if config_env() == :prod do
     System.get_env("SECRET_KEY_BASE") ||
       "dJU9KQh72ij/56ci0Tkn/Zn83XS6oWruKZwuJTApkm8qZuOC2M8V+Q7uXwHMQfIu"
 
-  host = System.get_env("PHX_HOST") || "journey.im"
+  host = System.get_env("PHX_HOST") || "elasticdevs.journey.im"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :journey, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
