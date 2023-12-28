@@ -44,10 +44,21 @@
   <:col :let={visit} label="Page-Hash" class="page-hash">
     <%= visit.page %><%= visit.hash %>
   </:col>
-  <:col :let={visit} label="UA" class="ua">
+  <%!-- <:col :let={visit} label="UA" class="ua">
     <%= raw(get_display_or_empty_span([visit.ua])) %>
+  </:col> --%>
+  <:col :let={visit} label="UTM Terms">
+    <%= raw(
+      get_display_or_empty_span([
+        visit.utm_campaign,
+        visit.utm_source,
+        visit.utm_medium,
+        visit.utm_term,
+        visit.utm_content
+      ])
+    ) %>
   </:col>
-  <:col :let={visit} label="UTM Campaign">
+  <%!-- <:col :let={visit} label="UTM Campaign">
     <%= raw(get_display_or_empty_span([visit.utm_campaign])) %>
   </:col>
   <:col :let={visit} label="UTM Source">
@@ -61,5 +72,5 @@
   </:col>
   <:col :let={visit} label="UTM Content">
     <%= raw(get_display_or_empty_span([visit.utm_content])) %>
-  </:col>
+  </:col> --%>
 </.table>

@@ -129,7 +129,10 @@ defmodule JourneyWeb.VisitController do
         # Set status
         visit_params = Map.put(visit_params, "status", "ACTIVE")
 
-        Logger.debug("CASE0_IMG_LOADED: auuid=#{auuid}, activity.id=#{activity.id}")
+        Logger.debug(
+          "CASE0_IMG_LOADED: auuid=#{auuid}, activity.id=#{activity.id}, time_diff=#{time_diff}"
+        )
+
         Activities.update_activity!(activity, %{"last_visited_at" => last_visited_at})
 
         Prospects.update_client!(client, %{"last_visited_at" => last_visited_at})
