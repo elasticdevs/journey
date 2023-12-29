@@ -59,10 +59,6 @@ pre {
   font-size: x-small;
 }
 
-a {
-  color: var(--light-blue);
-}
-
 a:hover {
   text-decoration: none;
 }
@@ -681,6 +677,10 @@ textarea.focus {
   font-weight: bold;
   background-color: var(--darker-grey);
   color: var(--yellow);
+
+  & a {
+    color: var(--yellow);
+  }
 }
 
 .DONE,
@@ -691,6 +691,10 @@ textarea.focus {
   font-weight: bold;
   background-color: var(--dark-green);
   color: var(--white);
+
+  & a {
+    color: var(--white);
+  }
 }
 
 .WEB {

@@ -425,11 +425,11 @@ defmodule Journey.Comms do
     do:
       Repo.one!(
         from email in Email,
-          join: c in Client,
+          left_join: c in Client,
           on:
             c.id ==
               email.client_id,
-          join: u in User,
+          left_join: u in User,
           on:
             u.id ==
               c.user_id,
