@@ -31,9 +31,9 @@ defmodule JourneyWeb.VisitController do
 
       # set last_visited_at
       last_visited_at = DateTime.now!("Etc/UTC")
-      time_diff = DateTime.diff(DateTime.now!("Etc/UTC"), url.activity.inserted_at)
+      time_diff = DateTime.diff(DateTime.now!("Etc/UTC"), url.activity.updated_at)
 
-      if(time_diff >= 90) do
+      if(time_diff >= 45) do
         # build empty visit_params first thing
         visit_params = %{}
 
