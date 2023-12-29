@@ -16,7 +16,6 @@
 //
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
-import "../css/tacit.min.css"
 import "../css/app.css"
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.

@@ -1,3 +1,46 @@
+<div class="w3-bar w3-light-grey">
+  <a href="#" class="w3-bar-item w3-button j-logo">Journey</a>
+  <div class="w3-dropdown-hover">
+    <button class="w3-button">Dropdown</button>
+    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+      <a href="#" class="w3-bar-item w3-button">Link 1</a>
+      <a href="#" class="w3-bar-item w3-button">Link 2</a>
+      <a href="#" class="w3-bar-item w3-button">Link 3</a>
+    </div>
+  </div>
+  <div class="w3-right">
+    <div class="w3-dropdown-hover">
+      <select name="in-last-days" id="in_last_secs" class="w3-select">
+        <option value="all">List All</option>
+        <option value="600">In last 10 mins</option>
+        <option value="1800">In last 30 mins</option>
+        <option value="3600">In last 1 hour</option>
+        <option value="10800">In last 3 hours</option>
+        <option value="21600">In last 6 hours</option>
+        <option value="43200">In last 12 hours</option>
+        <option value="86400">In last 1 day</option>
+        <option value="172800">In last 2 days</option>
+        <option value="259200">In last 3 days</option>
+        <option value="432000">In last 5 days</option>
+        <option value="604800">In last 1 week</option>
+        <option value="2592000">In last 1 month</option>
+        <option value="7776000">In last 3 months</option>
+        <option value="15552000">In last 6 months</option>
+        <option value="31536000">In last 1 year</option>
+      </select>
+    </div>
+    <div class="w3-dropdown-hover">
+      <button class="w3-button bold">
+        <span class="red"><%= @current_user.level || -1 %></span>/<%= @current_user.email %>
+        <img src={@current_user.picture} class="google-picture" />
+      </button>
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#" class="w3-bar-item w3-button">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="top-bar no-margin">
   <div>
     <div>
@@ -30,7 +73,6 @@
     <div class="top-bar-actions">
       <div class="action"><a href="/companies">Companies</a></div>
       <div class="action"><a href="/clients">Clients</a></div>
-      <div class="action"><a href="/browsings">Browsings</a></div>
       <div class="action"><a href="/visits">Visits</a></div>
       <div class="action"><a href="/activities">Activities</a></div>
       <div class="action"><a href="/templates">Templates</a></div>
@@ -45,8 +87,11 @@
   <div class="right">
     <%= if @current_user do %>
       <div class="google-user">
-        <img src={@current_user.picture} class="picture" /> <%= @current_user.email %> (<span class="red"><%= @current_user.level ||
-          -1 %></span>)
+        <img src={@current_user.picture} class="picture" />
+        <div>
+          <%= @current_user.email %> (<span class="red"><%= @current_user.level || -1 %></span>)
+        </div>
+
         <.link href={~p"/auth/logout"} method="delete" class="logout">
           Logout
         </.link>
