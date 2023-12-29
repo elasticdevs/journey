@@ -6,9 +6,11 @@
   </:col>
   <:col :let={activity} label="Last Visited At" class="last-visited-at">
     <div :if={activity.visit} class="type">
-      <span class={activity.visit.type}>
-        <%= raw(get_display_or_empty_span([activity.visit.type])) %>
-      </span>
+      <a href={get_call_lm_email_url_from_activity(activity)}>
+        <span class={activity.visit.type}>
+          <%= raw(get_display_or_empty_span([activity.visit.type])) %>
+        </span>
+      </a>
     </div>
     <div class="utc_to_local">
       <%= activity.last_visited_at %>
@@ -20,21 +22,17 @@
     </a>
   </:col>
   <:col :let={activity} label="Company" class="user">
-    <a href={get_company_url_from_activity(activity)}>
-      <%= raw(
-        if activity.company,
-          do: get_company_display_name_from_company(activity.company),
-          else: "<span class='empty'>empty</span>"
-      ) %>
+    <a :if={activity.company} href={get_company_url_from_activity(activity)}>
+      <%= raw(get_company_display_name_from_company(activity.company)) %>
     </a>
   </:col>
-  <:col :let={activity} label="Client" class="user">
-    <a href={get_client_url_from_client(activity.client)}>
-      <%= raw(
-        if activity.client,
-          do: get_client_display_name_from_client(activity.client),
-          else: "<span class='empty'>empty</span>"
-      ) %>
+  <:col :let={activity} label="Client" class="logo-name-email">
+    <a
+      :if={activity.client}
+      href={get_client_url_from_client(activity.client)}
+      class="client-name"
+    >
+      <%= raw(get_client_display_name_from_client(activity.client)) %>
     </a>
   </:col>
   <:col :let={activity} label="Call" class="type">

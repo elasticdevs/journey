@@ -696,6 +696,10 @@ textarea.focus {
   font-weight: bold;
   background-color: var(--darker-grey);
   color: var(--yellow);
+
+  & a {
+    color: var(--yellow);
+  }
 }
 
 .DONE,
@@ -706,6 +710,10 @@ textarea.focus {
   font-weight: bold;
   background-color: var(--dark-green);
   color: var(--white);
+
+  & a {
+    color: var(--white);
+  }
 }
 
 .WEB {

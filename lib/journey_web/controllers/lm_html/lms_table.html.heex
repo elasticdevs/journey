@@ -7,9 +7,11 @@
 
   <:col :let={lm} label="Last Visited At" class="last-visited-at">
     <div :if={lm.activity && lm.activity.visit} class="type">
-      <span class={lm.activity.visit.type}>
-        <%= raw(get_display_or_empty_span([lm.activity.visit.type])) %>
-      </span>
+      <a href={get_activity_url_from_activity(lm.activity)}>
+        <span class={lm.activity.visit.type}>
+          <%= raw(get_display_or_empty_span([lm.activity.visit.type])) %>
+        </span>
+      </a>
     </div>
     <div class="utc_to_local">
       <%= lm.activity.last_visited_at %>

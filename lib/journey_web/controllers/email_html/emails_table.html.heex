@@ -6,9 +6,11 @@
   </:col>
   <:col :let={email} label="Last Visited At" class="last-visited-at">
     <div :if={email.activity && email.activity.visit} class="type">
-      <span class={email.activity.visit.type}>
-        <%= raw(get_display_or_empty_span([email.activity.visit.type])) %>
-      </span>
+      <a :if={email.activity} href={get_activity_url_from_activity(email.activity)}>
+        <span class={email.activity.visit.type}>
+          <%= raw(get_display_or_empty_span([email.activity.visit.type])) %>
+        </span>
+      </a>
     </div>
     <div :if={email.activity} class="utc_to_local">
       <%= email.activity.last_visited_at %>
@@ -27,7 +29,13 @@
   <:col :let={email} label="Subject"><%= email.subject %></:col>
   <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
   <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
-  <:col :let={email} label="Status"><%= email.status %></:col>
+  <:col :let={email} label="Status">
+    <span class={email.status}>
+      <a href={get_email_url_from_email(email)}>
+        <%= email.status %>
+      </a>
+    </span>
+  </:col>
   <:action :let={email}>
     <.link :if={email.status != "SENT"} class="edit" navigate={~p"/emails/#{email}/edit"}>
       <i class="action" data-feather="edit-2"></i>
