@@ -1,45 +1,66 @@
-<div class="container">
-  <div class="container-left">
-    <a href="/clients" class="type-container">
-      <div class="main-link">
-        Clients <span class="small">(based on time selected)</span>
-      </div>
-      <div class="data-point">
-        # of clients: <span class="data"><%= length(@clients) %></span>
-      </div>
-      <div class="data-point">
-        # of clients with browsings:
-        <span class="data"><%= length(filter_clients_with_browsings(@clients)) %></span>
+<div class="w3-row-padding" style="margin:0 -16px">
+  <div class="w3-quarter">
+    <a href="/companies">
+      <div class="w3-card w3-hover-shadow w3-margin">
+        <header class="w3-container w3-pale-red">
+          <h3>
+            Companies <span class="w3-badge w3-pink w3-padding"><%= length(@companies) %></span>
+          </h3>
+        </header>
       </div>
     </a>
-    <a href="/browsings" class="type-container">
-      <div class="main-link">
-        Browsings <span class="small">(based on time selected)</span>
+
+    <div class="w3-card w3-hover-shadow w3-margin">
+      <header class="w3-container w3-sand">
+        <h3>
+          Clients <span class="w3-badge w3-brown w3-padding"><%= length(@clients_all) %></span>
+        </h3>
+      </header>
+
+      <div class="w3-container">
+        <h5><%= @in_last_secs_string %>:</h5>
+        <p>
+          # of clients with visits:
+          <span class="w3-badge w3-brown w3-padding"><%= length(@clients) %></span>
+        </p>
       </div>
-      <div class="data-point">
-        # of browsings: <span class="data"><%= length(@browsings) %></span>
-      </div>
-      <div class="data-point">
-        # of browsing visits:
-        <span class="data"><%= length(enum_browsings_visits(@browsings)) %></span>
-      </div>
-    </a>
-    <a href="/visits" class="type-container">
-      <div class="main-link">
-        Visits <span class="small">(based on time selected)</span>
-      </div>
-      <div class="data-point"># of visits: <span class="data"><%= length(@visits) %></span></div>
-      <div class="data-point">
-        # of browsing visits:
-        <span class="data"><%= length(enum_browsings_visits(@browsings)) %></span>
-      </div>
-      <div class="data-point">
-        # of anonymous visits:
-        <span class="data">
-          <%= length(@visits) - length(enum_browsings_visits(@browsings)) %>
-        </span>
-      </div>
-    </a>
+    </div>
   </div>
-  <div class="container-right"></div>
+
+  <div class="w3-quarter">
+    <div class="w3-card w3-hover-shadow w3-margin">
+      <header class="w3-container w3-pale-blue">
+        <h3>
+          Visits <span class="w3-badge w3-indigo w3-padding"><%= length(@visits_all) %></span>
+        </h3>
+      </header>
+
+      <div class="w3-container">
+        <p>
+          # of visits: <span class="w3-badge w3-indigo w3-padding"><%= length(@visits) %></span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="w3-quarter">
+    <div class="w3-card w3-hover-shadow w3-margin">
+      <header class="w3-container w3-light-gray">
+        <h3>
+          Activities
+          <span class="w3-badge w3-dark-gray w3-padding">
+            <%= length(@activities_all) %>
+          </span>
+        </h3>
+      </header>
+
+      <div class="w3-container">
+        <p>
+          # of activities:
+          <span class="w3-badge w3-dark-gray w3-padding">
+            <%= length(@activities) %>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
