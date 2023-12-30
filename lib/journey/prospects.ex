@@ -5,13 +5,13 @@ defmodule Journey.Prospects do
 
   import Ecto.Query, warn: false
   require Logger
+
   alias Journey.Accounts.User
   alias Journey.Activities
   alias Journey.Repo
   alias Journey.Prospects.Client
   alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
-
   alias Journey.Prospects.FreshSales
   alias Journey.URLs
   alias Journey.ThirdParties.Apollo.API
@@ -420,6 +420,17 @@ defmodule Journey.Prospects do
 
   """
   def get_company!(id), do: Repo.get!(Company, id)
+
+  def get_company_one!(current_user, id),
+    do:
+      Repo.one!(
+        from c in Company,
+          left_join: u in User,
+          on: u.id == c.user_id,
+          where:
+            (^current_user.level == 0 or is_nil(u) or
+               (not is_nil(u.level) and u.level >= ^current_user.level)) and c.id == ^id
+      )
 
   def get_company_preloaded_with_clients_browsings_visits(%{in_last_secs: in_last_secs, id: id}) do
     {browsings_where, visits_where} =

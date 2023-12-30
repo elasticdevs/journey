@@ -437,7 +437,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               email.id == ^id,
-          preload: [:template, [client: :user], [activity: :visit]]
+          preload: [:template, [client: :user], [activity: [:url, :visit]]]
       )
 
   @doc """

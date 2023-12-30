@@ -51,13 +51,6 @@ defmodule JourneyWeb.EmailController do
 
     Activities.update_activity!(activity, %{url_id: url.id})
 
-    email_params =
-      Map.put(
-        email_params,
-        "body",
-        "#{email_params["body"]}<br><br>IMG<img src='#{URLs.sponsored_img_url_shortened_from_url(url)}' style='display:none' />"
-      )
-
     email_params = Map.put(email_params, "activity_id", activity.id)
 
     case Comms.create_email(email_params) do
@@ -172,6 +165,15 @@ defmodule JourneyWeb.EmailController do
   def send(conn, %{"id" => id}) do
     email = Comms.get_email_one!(conn.assigns.current_user, id)
     current_user = conn.assigns.current_user
+
+    email = Email.process_vars(email)
+
+    email =
+      Map.put(
+        email,
+        :body,
+        "<pre>#{email.body}</pre><img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />"
+      )
 
     message =
       case Gmail.send(email) |> GmailAPIMailer.deliver(access_token: current_user.token) do

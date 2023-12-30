@@ -48,14 +48,14 @@ defmodule JourneyWeb.CompanyController do
   end
 
   def edit(conn, %{"id" => id}) do
-    company = Prospects.get_company!(id)
+    company = Prospects.get_company_one!(conn.assigns.current_user, id)
     changeset = Prospects.change_company(company)
     users_options = Accounts.users_options(conn.assigns.current_user)
     render(conn, :edit, company: company, changeset: changeset, users_options: users_options)
   end
 
   def update(conn, %{"id" => id, "company" => company_params}) do
-    company = Prospects.get_company!(id)
+    company = Prospects.get_company_one!(conn.assigns.current_user, id)
 
     case Prospects.update_company(company, company_params) do
       {:ok, company} ->
@@ -70,7 +70,7 @@ defmodule JourneyWeb.CompanyController do
   end
 
   def delete(conn, %{"id" => id}) do
-    company = Prospects.get_company!(id)
+    company = Prospects.get_company_one!(conn.assigns.current_user, id)
     {:ok, _company} = Prospects.delete_company(company)
 
     conn
