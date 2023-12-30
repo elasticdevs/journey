@@ -2,6 +2,7 @@ defmodule JourneyWeb.ClientController do
   use JourneyWeb, :controller
 
   require Logger
+  alias Journey.Accounts
   alias Journey.Activities
   alias Journey.Prospects
   alias Journey.Prospects.Client
@@ -16,7 +17,8 @@ defmodule JourneyWeb.ClientController do
 
   def new(conn, _params) do
     changeset = Prospects.change_client(%Client{})
-    render(conn, :new, changeset: changeset)
+    users_options = Accounts.users_options(conn.assigns.current_user)
+    render(conn, :new, changeset: changeset, users_options: users_options)
   end
 
   def create(conn, %{"client" => client_params}) do
@@ -31,7 +33,8 @@ defmodule JourneyWeb.ClientController do
         |> redirect(to: ~p"/clients/#{client}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        users_options = Accounts.users_options(conn.assigns.current_user)
+        render(conn, :new, changeset: changeset, users_options: users_options)
     end
   end
 
@@ -86,9 +89,10 @@ defmodule JourneyWeb.ClientController do
 
   def edit(conn, %{"id" => id}) do
     client = Prospects.get_client_one!(conn.assigns.current_user, %{id: id})
+    users_options = Accounts.users_options(conn.assigns.current_user)
 
     changeset = Prospects.change_client(client)
-    render(conn, :edit, client: client, changeset: changeset)
+    render(conn, :edit, client: client, changeset: changeset, users_options: users_options)
   end
 
   def update(conn, %{"id" => id, "client" => client_params}) do
@@ -101,7 +105,8 @@ defmodule JourneyWeb.ClientController do
         |> redirect(to: ~p"/clients/#{client}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, client: client, changeset: changeset)
+        users_options = Accounts.users_options(conn.assigns.current_user)
+        render(conn, :edit, client: client, changeset: changeset, users_options: users_options)
     end
   end
 

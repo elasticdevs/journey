@@ -30,7 +30,8 @@ defmodule JourneyWeb.CompanyController do
         |> redirect(to: ~p"/companies/#{company}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        users_options = Accounts.users_options(conn.assigns.current_user)
+        render(conn, :new, changeset: changeset, users_options: users_options)
     end
   end
 
