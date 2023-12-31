@@ -34,30 +34,11 @@ defmodule Journey.Comms.Email do
       :status
     ])
     |> validate_required([:subject, :body, :read_tracking, :client_id, :status])
-    |> process_vars
   end
 
-  def process_vars(changeset) do
-    client_id = get_field(changeset, :client_id)
-    activity_id = get_field(changeset, :activity_id)
-
-    changeset =
-      case get_change(changeset, :subject) do
-        nil ->
-          changeset
-
-        subject ->
-          changeset
-          |> change(subject: Template.process_vars(client_id, activity_id, subject))
-      end
-
-    case get_change(changeset, :body) do
-      nil ->
-        changeset
-
-      body ->
-        changeset
-        |> change(body: Template.process_vars(client_id, activity_id, body))
-    end
+  def process_vars(email) do
+    email
+    |> Map.put(:subject, Template.process_vars(email.client_id, email.activity.id, email.subject))
+    |> Map.put(:body, Template.process_vars(email.client_id, email.activity.id, email.body))
   end
 end

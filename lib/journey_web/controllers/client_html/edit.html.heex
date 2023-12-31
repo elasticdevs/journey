@@ -5,6 +5,10 @@
   <div class="subheading">Use this form to manage client records in your database.</div>
 </div>
 
-<.client_form changeset={@changeset} action={~p"/clients/#{@client}"} />
+<.client_form
+  changeset={@changeset}
+  action={~p"/clients/#{@client}"}
+  users_options={@users_options}
+/>
 
 <.back navigate={~p"/clients"} class="center">Back to Clients</.back>

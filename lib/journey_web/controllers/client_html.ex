@@ -14,6 +14,7 @@ defmodule JourneyWeb.ClientHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :users_options, :map, required: true
 
   def client_form(assigns)
 

@@ -120,10 +120,12 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!chrome.runtime.lastError && token) {
         showUserSection();
         fetchUserInfo(token);
-        if (changeInfo.status === 'complete' && tab.url.includes('linkedin.com/in/')) {
-          addToJourneyButton.style.display = 'block';
-        } else {
-          addToJourneyButton.style.display = 'none';
+        if (changeInfo.status === 'complete') {
+          if (tab.url.includes('linkedin.com/in/')) {
+            addToJourneyButton.style.display = 'block';
+          } else {
+            addToJourneyButton.style.display = 'none';
+          }
         }
       } else {
         showLoginSection();
