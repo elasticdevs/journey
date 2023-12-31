@@ -1,13 +1,6 @@
-<.back navigate={~p"/calls"} class="back">Back to Calls</.back>
-<div class="page-heading">
-  Call #<%= @call.id %>
-  <div class="subheading">This is a call record from your database.</div>
+<div class="w3-container">
+  <h2>Call</h2>
 </div>
-
-<div class="section">
-  <div class="section">
-    <.calls_table calls={[@call]} />
-  </div>
+<div class="w3-container">
+  <.calls_table calls={[@call]} />
 </div>
-
-<.back navigate={~p"/calls"} class="back center">Back to Calls</.back>

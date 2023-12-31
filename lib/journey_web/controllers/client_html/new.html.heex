@@ -1,9 +1,7 @@
-<.back navigate={~p"/clients"} class={~s"left"}>Back to Clients</.back>
-<div class="page-heading center">
-  New Client
-  <div class="subheading">Use this form to manage client records in your database.</div>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>New Client</h2>
+  </div>
+
+  <.client_form changeset={@changeset} action={~p"/clients"} users_options={@users_options} />
 </div>
-
-<.client_form changeset={@changeset} action={~p"/clients"} users_options={@users_options} />
-
-<.back navigate={~p"/clients"} class={~s"center"}>Back to Clients</.back>

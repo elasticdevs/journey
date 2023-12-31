@@ -2,7 +2,30 @@
 @import "https://www.w3schools.com/w3css/4/w3.css";
 @import "../css/w3.css";
 
+
 .j-logo {
   font-family: Lilita One;
   font-size: 40px;
+}
+
+.logo {
+  width: 40px;
+  height: auto;
+}
+
+pre {
+  white-space: pre-wrap;
+  /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+}
+
+label {
+  font-weight: bold;
 }

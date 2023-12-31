@@ -4,12 +4,22 @@ w3-pointer {
 
 html,
 body {
+  width: 100%;
   height: 100%;
 }
 
 a,
 a * {
   text-decoration: none;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.w3-no-box-shadow {
+  box-shadow: none;
 }
 
 .w3-bold {
@@ -19,4 +29,14 @@ a * {
 .w3-button img {
   max-width: 30px;
   border-radius: 50%;
+}
+
+.w3-button:hover {
+  color: #000 !important;
+  background-color: #f1f1f1 !important
+}
+
+button:hover,
+a:hover {
+  cursor: pointer;
 }

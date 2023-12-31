@@ -1,71 +1,64 @@
-<.table id="table" rows={@clients}>
+<.table id="table" rows={@clients} class="w3-table-all w3-hoverable">
   <:col :let={client} label="Last Visited ⬇">
-    <div :if={length(client.visits) > 0} class="type">
-      <span class={Enum.at(client.visits, 0).type}>
-        <%= raw(get_display_or_empty_span([Enum.at(client.visits, 0).type])) %>
-      </span>
+    <div :if={length(client.visits) > 0}>
+      <%= raw(get_display_or_empty_span([Enum.at(client.visits, 0).type])) %>
     </div>
     <div :if={length(client.visits) > 0} class="utc_to_local">
       <%= Enum.at(client.visits, 0).time %>
     </div>
   </:col>
-  <:col :let={client} label="User" class="user">
+  <:col :let={client} label="User">
     <a href={get_user_url_from_client(client)}>
       <%= raw(if client.user, do: client.user.name, else: "<span class='empty'>empty</span>") %>
+    </a>
+  </:col>
+  <:col :let={client} label="Company">
+    <a :if={client.company} href={get_company_url_from_company(client.company)}>
+      <.company_logo_name company={client.company} />
     </a>
   </:col>
   <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
   <:col :let={client} label="Visits">
     <%= length(enum_browsings_visits(client.browsings)) %>
   </:col>
-  <:col :let={client} label="Company" class="company-name">
-    <a href={"/companies/#{if client.company, do: client.company.id, else: nil}"}>
-      <span class="logo">
-        <%= raw(get_logo_or_empty_span(if client.company, do: client.company.logo, else: nil)) %>
-      </span>
-
-      <%= raw(get_display_or_empty_span([get_company_display_name_from_client(client)])) %>
+  <:col :let={client} label="Client">
+    <a href={get_client_url_from_client(client)}>
+      <%= raw(get_client_display_name_email_from_client(client)) %>
     </a>
   </:col>
-  <%!-- <:col :let={client} label="Client UUID" class="client-uuid">
-      <a href={get_client_url_from_client(client)}>
-        <%= get_shortened_uuid(client.client_uuid) %>
-      </a>
-    </:col> --%>
-  <:col :let={client} label="Name, Email" class="logo-name-email">
-    <b>
-      <a href={get_client_url_from_client(client)}>
-        <%= raw(get_client_display_name_email_from_client(client)) %>
-      </a>
-    </b>
-  </:col>
   <:col :let={client} label="LinkedIn">
-    <span class="linkedin">
-      <a href={client.linkedin} target="_blank">
-        <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
-      </a>
-    </span>
+    <a :if={client.company} href={client.company.linkedin} target="_blank">
+      <img class="w3-image w3-round-large logo" src="/images/linkedin-logo.png" />
+    </a>
   </:col>
   <:col :let={client} label="Website">
-    <b>
-      <%= raw(get_domain_from_client(client)) %>
-    </b>
+    <%= raw(get_domain_from_client(client)) %>
   </:col>
-  <:col :let={client} label="Phone" class="phone">
+  <:col :let={client} label="Phone">
     <%= raw(get_display_or_empty_span([client.phone])) %>
   </:col>
-  <:col :let={client} label="Job-Title" class="title">
+  <:col :let={client} label="Job Title">
     <%= raw(get_display_or_empty_span([client.job_title])) %>
   </:col>
-  <:col :let={client} label="Country-State-City" class="country-state-city">
+  <:col :let={client} label="Country, State, City">
     <%= raw(get_display_or_empty_span([client.country, client.state, client.city])) %>
   </:col>
 
   <:action :let={client}>
-    <.link navigate={~p"/clients/#{client}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
-    <i copy-value={sponsored_link_shortened_from_client(client)} class="copy" data-feather="copy">
-    </i>
+    <div class="w3-container">
+      <.link navigate={~p"/clients/#{client}/edit"}>
+        <i data-feather="edit-2"></i>
+      </.link>
+    </div>
+    <div class="w3-container">
+      <a>
+        <i copy-value={sponsored_link_shortened_from_client(client)} data-feather="copy"></i>
+      </a>
+    </div>
+    <div class="w3-container">
+      <a data-method="post" href={~p"/clients/#{client.id}/resync"}>
+        <i data-feather="refresh-ccw"></i>
+      </a>
+    </div>
   </:action>
 </.table>

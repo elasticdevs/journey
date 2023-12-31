@@ -229,7 +229,7 @@ defmodule JourneyWeb.HTMLHelpers do
         "<span class='empty'>empty</span>"
 
       domain ->
-        "<a href=\"https://#{domain}\" class=\"domain\" target=\"_blank\">#{domain}</a>"
+        "<a href='https://#{domain}' class='domain' target='_blank'>#{domain}</a>"
     end
   end
 
@@ -243,13 +243,23 @@ defmodule JourneyWeb.HTMLHelpers do
     end
   end
 
+  def get_company_span(company) do
+    case company do
+      nil ->
+        "<span class='empty'>empty</span>"
+
+      c ->
+        "<span><img src='#{c.logo}' class='w3-image w3-border' style='width:40%' /> #{c.name}</span>"
+    end
+  end
+
   def get_logo_or_empty_span(logo) do
     case logo do
       nil ->
         "<span class='empty'>empty</span>"
 
       l ->
-        "<img src=\"#{l}\" />"
+        "<img src='#{l}' class='w3-image w3-border' style='width:40%' />"
     end
   end
 

@@ -1,16 +1,13 @@
-<.back navigate={~p"/emails"} class="back">Back to Emails</.back>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>Edit Email #<%= @email.id %></h2>
+  </div>
 
-<div class="page-heading center">
-  Edit Email #<%= @email.id %>
-  <div class="subheading">Use this form to manage email records in your database.</div>
+  <.email_form
+    changeset={@changeset}
+    action={~p"/emails/#{@email}"}
+    templates_options={@templates_options}
+    templates_map={@templates_map}
+    client={@client}
+  />
 </div>
-
-<.email_form
-  changeset={@changeset}
-  action={~p"/emails/#{@email}"}
-  client={@client}
-  templates_options={@templates_options}
-  templates_map={@templates_map}
-/>
-
-<.back navigate={~p"/emails"} class="back center">Back to Emails</.back>

@@ -1,19 +1,16 @@
-<.back navigate={~p"/companies"} class={~s"left"}>Back to Companies</.back>
-
-<div class="page-heading">
-  Company #<%= @company.id %>
-  <div class="subheading">This is a company record from your database.</div>
+<div class="w3-container">
+  <h2>Company</h2>
 </div>
-
-<div class="section">
+<div class="w3-container">
   <.companies_table companies={[@company]} />
 </div>
 
 <br /><br />
 
-<div class="section">
-  <div class="page-heading-2">Clients (<%= length(@company.clients) %>)</div>
-  <.clients_table clients={@company.clients} />
+<div class="w3-container">
+  <h3>Clients</h3>
 </div>
 
-<.back navigate={~p"/companies"} class={~s"center"}>Back to Companies</.back>
+<div class="w3-container">
+  <.clients_table clients={@company.clients} />
+</div>

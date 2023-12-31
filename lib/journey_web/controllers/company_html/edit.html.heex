@@ -1,13 +1,10 @@
-<.back navigate={~p"/companies"} class={~s"left"}>Back to companies</.back>
-
-<div class="page-heading">
-  Edit Company #<%= @company.id %>
-  <div class="subheading">Use this form to manage company records in your database.</div>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>Edit Company #<%= @company.id %></h2>
+  </div>
+  <.company_form
+    changeset={@changeset}
+    action={~p"/companies/#{@company}"}
+    users_options={@users_options}
+  />
 </div>
-
-<.company_form changeset={@changeset} 
-  action={~p"/companies/#{@company}"} 
-  users_options={@users_options}
-/>
-
-<.back navigate={~p"/companies"} class={~s"center"}>Back to companies</.back>

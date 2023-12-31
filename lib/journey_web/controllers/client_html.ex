@@ -2,6 +2,7 @@ defmodule JourneyWeb.ClientHTML do
   use JourneyWeb, :html
 
   embed_templates "client_html/*"
+  embed_templates "company_html/*"
   embed_templates "browsing_html/*"
   embed_templates "visit_html/*"
   embed_templates "activity_html/*"

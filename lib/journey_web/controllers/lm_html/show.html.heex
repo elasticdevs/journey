@@ -1,12 +1,6 @@
-<.back navigate={~p"/lms"} class="back">Back to LMs</.back>
-
-<div class="page-heading center">
-  LM #<%= @lm.id %>
-  <div class="subheading">This is a lm record from your database.</div>
+<div class="w3-container">
+  <h2>LinkedIn Message</h2>
 </div>
-
-<div class="section">
+<div class="w3-container">
   <.lms_table lms={[@lm]} />
 </div>
-
-<.back navigate={~p"/lms"} class="back center">Back to LMs</.back>

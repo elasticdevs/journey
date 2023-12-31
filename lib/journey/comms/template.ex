@@ -13,6 +13,8 @@ defmodule Journey.Comms.Template do
     field :read_tracking, :boolean, default: false
     field :subject, :string
     field :body, :string
+    field :template_id, :integer, virtual: true
+
     has_many :calls, Call, preload_order: [desc: :last_updated_at]
     has_many :lms, LM, preload_order: [desc: :last_updated_at]
     has_many :emails, Email, preload_order: [desc: :last_updated_at]

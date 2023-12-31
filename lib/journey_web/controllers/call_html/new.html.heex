@@ -1,15 +1,13 @@
-<.back navigate={~p"/calls"} class="back center">Back to Calls</.back>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>New Call</h2>
+  </div>
 
-<div class="page-heading center">
-  New Call
-  <div class="subheading">Use this form to manage call records in your database.</div>
+  <.call_form
+    changeset={@changeset}
+    action={~p"/calls"}
+    templates_options={@templates_options}
+    templates_map={@templates_map}
+    client={@client}
+  />
 </div>
-
-<.call_form changeset={@changeset} 
-  action={~p"/calls"} 
-  templates_options={@templates_options}
-  templates_map={@templates_map}
-  client={@client}
-/>
-
-<.back navigate={~p"/calls"} class="back center">Back to Calls</.back>

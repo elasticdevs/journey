@@ -1,15 +1,20 @@
-<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
-
-<div class="page-heading">
-  Listing Companies <a href="/companies/new" class="button">+ Add Company</a>
+<div class="w3-container">
+  <h2>Companies</h2>
+</div>
+<div class="w3-container">
+  <input
+    type="text"
+    id="search"
+    placeholder="Search ..."
+    class="w3-input w3-border"
+    style="width:30%"
+  />
+  <div id="search-results-info" class="w3-serif w3-margin-bottom">
+    Showing <span id="search-count"><%= length(@companies) %></span> / <%= length(@companies) %>
+  </div>
 </div>
 
-<input type="text" id="search" placeholder="Search ..." />
-<div id="search-results-info">
-  Showing <span id="search-count"><%= length(@companies) %></span> / <%= length(@companies) %>
-</div>
-
-<div class="section">
+<div class="w3-container">
   <.companies_table companies={@companies} />
 </div>
 

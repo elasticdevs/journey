@@ -1,12 +1,6 @@
-<.back navigate={~p"/templates"} class="back">Back to Templates</.back>
-
-<div class="page-heading">
-  Template #<%= @template.id %>
-  <div class="subheading">This is a template record from your database.</div>
+<div class="w3-container">
+  <h2>Template</h2>
 </div>
-
-<div class="section">
+<div class="w3-container">
   <.templates_table templates={[@template]} />
 </div>
-
-<.back navigate={~p"/templates"} class="back">Back to Templates</.back>

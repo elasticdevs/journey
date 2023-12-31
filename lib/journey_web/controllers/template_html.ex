@@ -8,6 +8,8 @@ defmodule JourneyWeb.TemplateHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :templates_options, :map, required: true
+  attr :templates_map, :map, required: true
 
   def template_form(assigns)
 

@@ -1,16 +1,19 @@
-<.table id="table" rows={@lms} row_click={&JS.navigate(~p"/lms/#{&1}")}>
-  <:col :let={lm} label="Activity Type" class="activity-type">
+<.table
+  id="table"
+  rows={@lms}
+  row_click={&JS.navigate(~p"/lms/#{&1}")}
+  class="w3-table-all w3-hoverable"
+>
+  <:col :let={lm} label="Activity Type">
     <a href={get_activity_url_from_activity(lm.activity)}>
       <%= lm.activity.type %>
     </a>
   </:col>
 
-  <:col :let={lm} label="Last Visited At" class="last-visited-at">
-    <div :if={lm.activity && lm.activity.visit} class="type">
+  <:col :let={lm} label="Last Visited At">
+    <div :if={lm.activity && lm.activity.visit}>
       <a href={get_activity_url_from_activity(lm.activity)}>
-        <span class={lm.activity.visit.type}>
-          <%= raw(get_display_or_empty_span([lm.activity.visit.type])) %>
-        </span>
+        <%= raw(get_display_or_empty_span([lm.activity.visit.type])) %>
       </a>
     </div>
     <div class="utc_to_local">
@@ -18,29 +21,25 @@
     </div>
   </:col>
 
-  <:col :let={lm} label="User" class="user-name">
+  <:col :let={lm} label="User">
     <a href={get_user_url_from_user(lm.client.user)}>
       <%= raw(get_user_display_name_or_email_from_user(lm.client.user)) %>
     </a>
   </:col>
   <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
   <:col :let={lm} label="Status">
-    <span class={lm.status}><%= lm.status %></span>
+    <%= lm.status %>
   </:col>
   <:action :let={lm}>
-    <.link :if={lm.status != "SENT"} class="edit" navigate={~p"/lms/#{lm}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
-    <.simple_form
-      :if={lm.status != "SENT"}
-      for={%{}}
-      action={~p"/lms/#{lm.id}/mark_as_sent"}
-      formtarget="_blank"
-      class="inline"
-    >
-      <:actions>
-        <.button class="send"><i class="action" data-feather="send"></i></.button>
-      </:actions>
-    </.simple_form>
+    <div class="w3-container">
+      <.link :if={lm.status != "SENT"} navigate={~p"/lms/#{lm}/edit"}>
+        <i data-feather="edit-2"></i>
+      </.link>
+    </div>
+    <div class="w3-container">
+      <a data-method="post" href={~p"/lms/#{lm.id}/mark_as_sent"}>
+        <i data-feather="send"></i>
+      </a>
+    </div>
   </:action>
 </.table>

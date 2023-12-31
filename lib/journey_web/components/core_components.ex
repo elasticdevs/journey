@@ -288,12 +288,20 @@ defmodule JourneyWeb.CoreComponents do
       end)
 
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div phx-feedback-for={@name} class="w3-section">
       <label>
         <%= @label %>
       </label>
       <input type="hidden" name={@name} value="false" />
-      <input type="checkbox" id={@id} name={@name} value="true" checked={@checked} {@rest} />
+      <input
+        type="checkbox"
+        id={@id}
+        name={@name}
+        value="true"
+        checked={@checked}
+        class="w3-input w3-border"
+        {@rest}
+      />
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
@@ -301,9 +309,9 @@ defmodule JourneyWeb.CoreComponents do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div phx-feedback-for={@name} class="w3-section">
       <.label for={@id}><%= @label %></.label>
-      <select id={@id} name={@name} multiple={@multiple} {@rest}>
+      <select id={@id} name={@name} multiple={@multiple} class="w3-input w3-border" {@rest}>
         <option :if={@prompt} value=""><%= @prompt %></option>
         <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
       </select>
@@ -314,9 +322,9 @@ defmodule JourneyWeb.CoreComponents do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div phx-feedback-for={@name} class="w3-section">
       <.label for={@id}><%= @label %></.label>
-      <textarea id={@id} name={@name} {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+      <textarea id={@id} name={@name} class="w3-input w3-border" {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
@@ -325,13 +333,14 @@ defmodule JourneyWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div phx-feedback-for={@name} class="w3-section">
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}
         name={@name}
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        class="w3-input w3-border"
         {@rest}
       />
       <.error :for={msg <- @errors}><%= msg %></.error>
@@ -406,6 +415,7 @@ defmodule JourneyWeb.CoreComponents do
   attr :rows, :list, required: true
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
+  attr :class, :string, default: nil
 
   attr :row_item, :any,
     default: &Function.identity/1,
@@ -427,7 +437,7 @@ defmodule JourneyWeb.CoreComponents do
 
     ~H"""
     <div>
-      <table>
+      <table class={assigns.class}>
         <thead>
           <tr>
             <th :for={col <- @col}><%= col[:label] %></th>

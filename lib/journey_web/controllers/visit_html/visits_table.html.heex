@@ -1,9 +1,7 @@
-<.table id="table" rows={@visits}>
+<.table id="table" rows={@visits} class="w3-table-all w3-hoverable">
   <:col :let={visit} label="Time ⬇">
-    <div class="type">
-      <span class={visit.type}>
-        <%= raw(get_display_or_empty_span([visit.type])) %>
-      </span>
+    <div>
+      <%= raw(get_display_or_empty_span([visit.type])) %>
     </div>
     <div class="utc_to_local">
       <%= visit.time %>
@@ -15,38 +13,25 @@
       <%= raw(get_client_display_name_from_client(visit.client)) %>
     </a>
   </:col>
-  <%!-- <:col :let={visit} label="Client UUID" class="client-uuid">
-      <a href={get_client_url_from_visit(visit)}>
-        <%= get_shortened_uuid(visit.client_uuid) %>
-      </a>
-    </:col> --%>
-  <:col :let={visit} label="Browsing UUID" class="browsing-uuid">
+  <:col :let={visit} label="Device ID">
     <a href={get_browsing_url_from_visit(visit)}>
       <%= get_shortened_uuid(visit.browsing_uuid) %>
     </a>
   </:col>
-  <%!-- <:col :let={visit} label="GDPR" class="gdpr">
-      <div class={"gdpr-#{visit.gdpr}"}>
-        <%= visit.gdpr %>
-      </div>
-    </:col> --%>
-  <:col :let={visit} label="IP Address" class="ip-address">
+  <:col :let={visit} label="IP Address">
     <%= raw(get_display_or_empty_span([visit.ipaddress])) %>
   </:col>
-  <:col :let={visit} label="Country-State-City" class="country-state-city">
+  <:col :let={visit} label="Country-State-City">
     <%= raw(get_display_or_empty_span([visit.country, visit.state, visit.city])) %>
   </:col>
-  <:col :let={visit} label="Lat, Lon" class="lat-lon">
+  <:col :let={visit} label="Lat, Lon">
     <a href={get_google_maps_link_from_visit(visit)} target="_blank">
       <%= raw(get_display_or_empty_span([visit.lat, visit.lon])) %>
     </a>
   </:col>
-  <:col :let={visit} label="Page-Hash" class="page-hash">
+  <:col :let={visit} label="Page-Hash">
     <%= visit.page %><%= visit.hash %>
   </:col>
-  <%!-- <:col :let={visit} label="UA" class="ua">
-    <%= raw(get_display_or_empty_span([visit.ua])) %>
-  </:col> --%>
   <:col :let={visit} label="UTM Terms">
     <%= raw(
       get_display_or_empty_span([
@@ -58,19 +43,4 @@
       ])
     ) %>
   </:col>
-  <%!-- <:col :let={visit} label="UTM Campaign">
-    <%= raw(get_display_or_empty_span([visit.utm_campaign])) %>
-  </:col>
-  <:col :let={visit} label="UTM Source">
-    <%= raw(get_display_or_empty_span([visit.utm_source])) %>
-  </:col>
-  <:col :let={visit} label="UTM Medium">
-    <%= raw(get_display_or_empty_span([visit.utm_medium])) %>
-  </:col>
-  <:col :let={visit} label="UTM Term">
-    <%= raw(get_display_or_empty_span([visit.utm_term])) %>
-  </:col>
-  <:col :let={visit} label="UTM Content">
-    <%= raw(get_display_or_empty_span([visit.utm_content])) %>
-  </:col> --%>
 </.table>

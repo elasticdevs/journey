@@ -19,13 +19,15 @@ defmodule Journey.Comms do
       [%Template{}, ...]
 
   """
-  def list_templates do
-    Repo.all(Template)
-  end
+  def list_templates(comm_type \\ nil) do
+    case comm_type do
+      nil ->
+        Repo.all(Template)
 
-  def list_templates(comm_type) do
-    from(t in Template, where: t.comm_type == ^comm_type)
-    |> Repo.all()
+      _ ->
+        from(t in Template, where: t.comm_type == ^comm_type)
+        |> Repo.all()
+    end
   end
 
   @doc """
@@ -517,13 +519,13 @@ defmodule Journey.Comms do
     Email.changeset(email, attrs)
   end
 
-  def templates_options(comm_type) do
+  def templates_options(comm_type \\ nil) do
     Enum.reduce(list_templates(comm_type), Keyword.new(), fn t, ts ->
       Keyword.put_new(ts, String.to_atom(t.name), t.id)
     end)
   end
 
-  def templates_map(comm_type) do
+  def templates_map(comm_type \\ nil) do
     Enum.reduce(list_templates(comm_type), %{}, fn template, map ->
       Map.put_new(map, template.id, Ecto.embedded_dump(template, :json))
     end)

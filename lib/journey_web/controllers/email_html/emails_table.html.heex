@@ -1,54 +1,52 @@
-<.table id="table" rows={@emails} row_click={&JS.navigate(~p"/emails/#{&1}")}>
-  <:col :let={email} label="Activity Type" class="activity-type">
+<.table
+  id="table"
+  rows={@emails}
+  row_click={&JS.navigate(~p"/emails/#{&1}")}
+  class="w3-table-all w3-hoverable"
+>
+  <:col :let={email} label="Activity Type">
     <a :if={email.activity} href={get_activity_url_from_activity(email.activity)}>
       <%= email.activity.type %>
     </a>
   </:col>
-  <:col :let={email} label="Last Visited At" class="last-visited-at">
-    <div :if={email.activity && email.activity.visit} class="type">
+  <:col :let={email} label="Last Visited At">
+    <div :if={email.activity && email.activity.visit}>
       <a :if={email.activity} href={get_activity_url_from_activity(email.activity)}>
-        <span class={email.activity.visit.type}>
-          <%= raw(get_display_or_empty_span([email.activity.visit.type])) %>
-        </span>
+        <%= raw(get_display_or_empty_span([email.activity.visit.type])) %>
       </a>
     </div>
     <div :if={email.activity} class="utc_to_local">
       <%= email.activity.last_visited_at %>
     </div>
   </:col>
-  <:col :let={email} label="User" class="user-name">
+  <:col :let={email} label="User">
     <a href={get_user_url_from_user(email.client.user)}>
       <%= raw(get_user_display_name_or_email_from_user(email.client.user)) %>
     </a>
   </:col>
-  <:col :let={email} label="Client" class="client-name">
+  <:col :let={email} label="Client">
     <a href={"#{get_client_url_from_client(email.client)}/#emails"}>
       <%= get_client_display_name_from_client(email.client) %>
     </a>
   </:col>
-  <:col :let={email} label="Subject"><%= email.subject %></:col>
+  <:col :let={email} label="Subject"><pre><%= email.subject %></pre></:col>
   <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>
   <:col :let={email} label="Read Tracking"><%= email.read_tracking %></:col>
   <:col :let={email} label="Status">
-    <span class={email.status}>
-      <a href={get_email_url_from_email(email)}>
-        <%= email.status %>
-      </a>
-    </span>
+    <a href={get_email_url_from_email(email)}>
+      <%= email.status %>
+    </a>
   </:col>
   <:action :let={email}>
-    <.link :if={email.status != "SENT"} class="edit" navigate={~p"/emails/#{email}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
-    <.simple_form
-      :if={email.status != "SENT"}
-      for={%{}}
-      action={~p"/emails/#{email.id}/send"}
-      class="inline"
-    >
-      <:actions>
-        <.button class="send"><i class="action" data-feather="send"></i></.button>
-      </:actions>
-    </.simple_form>
+    <div class="w3-container">
+      <.link :if={email.status != "SENT"} navigate={~p"/emails/#{email}/edit"}>
+        <i data-feather="edit-2"></i>
+      </.link>
+    </div>
+    <div class="w3-container">
+      <a data-method="post" href={~p"/emails/#{email.id}/send"}>
+        <i data-feather="send"></i>
+      </a>
+    </div>
   </:action>
 </.table>

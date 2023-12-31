@@ -1,26 +1,30 @@
-<.table id="table" rows={@calls} row_click={&JS.navigate(~p"/calls/#{&1}")}>
-  <:col :let={call} label="Activity Type" class="activity-type">
+<.table
+  id="table"
+  rows={@calls}
+  row_click={&JS.navigate(~p"/calls/#{&1}")}
+  class="w3-table-all w3-hoverable"
+>
+  <:col :let={call} label="Activity Type">
     <a href={get_activity_url_from_activity(call.activity)}>
       <%= call.activity.type %>
     </a>
   </:col>
-  <:col :let={call} label="User" class="user">
+  <:col :let={call} label="User">
     <a href={get_user_url_from_user(call.client.user)}>
       <%= raw(get_user_display_name_or_email_from_user(call.client.user)) %>
     </a>
   </:col>
-  <%!-- <:col :let={call} label="Call UUID" class="call-uuid">
-      <%= get_shortened_uuid(call.call_uuid) %>
-    </:col> --%>
-  <:col :let={call} label="Client" class="client-name"><%= call.client.name %></:col>
+  <:col :let={call} label="Client"><%= call.client.name %></:col>
   <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
   <:col :let={call} label="Status">
-    <span class={call.status}><%= call.status %></span>
+    <%= call.status %>
   </:col>
 
   <:action :let={call}>
-    <.link class="edit" navigate={~p"/calls/#{call}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
+    <div class="w3-container">
+      <.link navigate={~p"/calls/#{call}/edit"}>
+        <i data-feather="edit-2"></i>
+      </.link>
+    </div>
   </:action>
 </.table>

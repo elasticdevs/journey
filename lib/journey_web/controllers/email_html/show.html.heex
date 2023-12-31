@@ -1,12 +1,6 @@
-<.back navigate={~p"/emails"} class="back">Back to Emails</.back>
-
-<div class="page-heading center">
-  Email #<%= @email.id %>
-  <div class="subheading">This is a email record from your database.</div>
+<div class="w3-container">
+  <h2>Email</h2>
 </div>
-
-<div class="section">
+<div class="w3-container">
   <.emails_table emails={[@email]} />
 </div>
-
-<.back navigate={~p"/emails"} class="back center">Back to Emails</.back>

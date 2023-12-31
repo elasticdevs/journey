@@ -1,19 +1,13 @@
-<.back navigate={~p"/emails"} class="back">Back to Emails</.back>
-<div class="page-heading center">
-  New Email
-  <div class="subheading">Use this form to manage email records in your database.</div>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>New Email</h2>
+  </div>
+
+  <.email_form
+    changeset={@changeset}
+    action={~p"/emails"}
+    templates_options={@templates_options}
+    templates_map={@templates_map}
+    client={@client}
+  />
 </div>
-
-<div class="client center">
-  To: <span class="name"><%= get_client_display_name_from_client(@client) %></span>
-</div>
-
-<.email_form
-  changeset={@changeset}
-  action={~p"/emails"}
-  templates_options={@templates_options}
-  templates_map={@templates_map}
-  client={@client}
-/>
-
-<.back navigate={~p"/emails"} class="back center">Back to Emails</.back>

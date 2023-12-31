@@ -1,10 +1,7 @@
-<.back navigate={~p"/companies"} class="left">Back to Companies</.back>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>New Company</h2>
+  </div>
 
-<div class="page-heading center">
-  New Company
-  <div class="subheading">Use this form to manage company records in your database.</div>
+  <.company_form changeset={@changeset} action={~p"/companies"} users_options={@users_options} />
 </div>
-
-<.company_form changeset={@changeset} action={~p"/companies"} users_options={@users_options} />
-
-<.back navigate={~p"/companies"} class="center">Back to Companies</.back>

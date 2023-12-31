@@ -1,5 +1,5 @@
-<.table id="table" rows={@companies}>
-  <:col :let={company} label="User" class="user">
+<.table id="table" rows={@companies} class="w3-table-all w3-hoverable">
+  <:col :let={company} label="User">
     <a href={get_user_url_from_company(company)}>
       <%= raw(
         if company.user,
@@ -8,59 +8,42 @@
       ) %>
     </a>
   </:col>
-  <%!-- <:col :let={company} label="Company UUID" class="company-uuid">
-      <a href={get_company_url_from_company(company)}>
-        <%= get_shortened_uuid(company.company_uuid) %>
-      </a>
-    </:col> --%>
-  <:col :let={company} label="Name" class="company-name">
+  <:col :let={company} label="Company">
     <a href={get_company_url_from_company(company)}>
-      <span class="logo">
-        <%= raw(get_logo_or_empty_span(company.logo)) %>
-      </span>
-      <%= company.name %>
+      <.company_logo_name company={company} />
     </a>
   </:col>
-  <:col :let={company} label="Website" class="domain">
-    <b>
-      <%= raw(get_website_from_company(company)) %>
-    </b>
+  <:col :let={company} label="Website">
+    <%= raw(get_website_from_company(company)) %>
   </:col>
   <:col :let={company} label="LinkedIn">
-    <span class="linkedin">
-      <a href={company.linkedin} target="_blank">
-        <img src="https://static.vecteezy.com/system/resources/previews/023/986/900/original/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.png" />
-      </a>
-    </span>
+    <a href={company.linkedin} target="_blank">
+      <img class="w3-image w3-round-large logo" src="/images/linkedin-logo.png" />
+    </a>
   </:col>
-  <:col :let={company} label="Funding" class="funding">
+  <:col :let={company} label="Funding">
     <%= raw(get_display_or_empty_span([company.funding])) %>
   </:col>
-  <:col :let={company} label="Founded Year" class="founded">
+  <:col :let={company} label="Founded Year">
     <%= raw(get_display_or_empty_span([company.founded_year])) %>
   </:col>
-  <%!-- <:col :let={company} label="Team Size">
-    <%= raw(get_display_or_empty_span([company.team_size])) %>
-  </:col>
-  <:col :let={company} label="Industries">
-    <%= raw(get_display_or_empty_span([company.industries])) %>
-  </:col> --%>
   <:col :let={company} label="Annual Revenue">
     <%= raw(get_display_or_empty_span([company.annual_revenue])) %>
   </:col>
   <%!-- <:col :let={company} label="Market Cap"><%= company.market_cap %></:col> --%>
-  <:col :let={company} label="Phone" class="phone">
+  <:col :let={company} label="Phone">
     <%= raw(get_display_or_empty_span([company.phone])) %>
   </:col>
-  <:col :let={company} label="Country-State-City" class="country-state-city">
+  <:col :let={company} label="Country-State-City">
     <%= raw(get_display_or_empty_span([company.country, company.state, company.city])) %>
   </:col>
   <:col :let={company} label="Lat"><%= company.lat %></:col>
   <:col :let={company} label="Lon"><%= company.lon %></:col>
-  <%!-- <:col :let={company} label="Status"><%= company.status %></:col> --%>
   <:action :let={company}>
-    <.link navigate={~p"/companies/#{company}/edit"}>
-      <i class="action" data-feather="edit-2"></i>
-    </.link>
+    <div class="w3-container">
+      <.link navigate={~p"/companies/#{company}/edit"}>
+        <i data-feather="edit-2"></i>
+      </.link>
+    </div>
   </:action>
 </.table>

@@ -1,15 +1,13 @@
-<.back navigate={~p"/lms"} class="back">Back to LMs</.back>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>New LM</h2>
+  </div>
 
-<div class="page-heading center">
-  New LM
-  <div class="subheading">Use this form to manage lm records in your database.</div>
+  <.lm_form
+    changeset={@changeset}
+    action={~p"/lms"}
+    templates_options={@templates_options}
+    templates_map={@templates_map}
+    client={@client}
+  />
 </div>
-
-<.lm_form changeset={@changeset} 
-  action={~p"/lms"}
-  templates_options={@templates_options}
-  templates_map={@templates_map}
-  client={@client}
-/>
-
-<.back navigate={~p"/lms"} class="back center">Back to LMs</.back>

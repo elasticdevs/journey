@@ -169,7 +169,7 @@ $(function () {
 $(function () {
   var last_focused = null;
 
-  $("textarea.focus").focus(function () {
+  $("textarea").focus(function () {
     last_focused = $(this)
   })
 

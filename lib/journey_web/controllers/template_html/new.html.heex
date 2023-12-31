@@ -1,9 +1,12 @@
-<.back navigate={~p"/templates"} class="back">Back to Templates</.back>
-<div class="page-heading center">
-  New Template
-  <div class="subheading">Use this form to manage template records in your database.</div>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>New Template</h2>
+  </div>
+
+  <.template_form
+    changeset={@changeset}
+    action={~p"/templates"}
+    templates_options={@templates_options}
+    templates_map={@templates_map}
+  />
 </div>
-
-<.template_form changeset={@changeset} action={~p"/templates"} />
-
-<.back navigate={~p"/templates"} class="back center">Back to Templates</.back>

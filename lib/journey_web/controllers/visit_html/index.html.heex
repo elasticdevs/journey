@@ -1,17 +1,20 @@
-<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
-<div class="page-heading">
-  Listing Visits
-  <span class="data-point"><span class="data">(<%= length(@visits) %>)</span></span>
-  <span class="small">(based on time selected)</span>
+<div class="w3-container">
+  <h2>Visits</h2>
 </div>
 
-<input type="text" id="search" placeholder="Search ..." />
-<div id="search-results-info">
-  Showing <span id="search-count"><%= length(@visits) %></span> / <%= length(@visits) %>
+<div class="w3-container">
+  <input
+    type="text"
+    id="search"
+    placeholder="Search ..."
+    class="w3-input w3-border"
+    style="width:30%"
+  />
+  <div id="search-results-info" class="w3-serif w3-margin-bottom">
+    Showing <span id="search-count"><%= length(@visits) %></span> / <%= length(@visits) %>
+  </div>
 </div>
 
-<div class="section">
+<div class="w3-container">
   <.visits_table visits={@visits} />
 </div>
-
-<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

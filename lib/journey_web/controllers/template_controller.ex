@@ -11,7 +11,12 @@ defmodule JourneyWeb.TemplateController do
 
   def new(conn, _params) do
     changeset = Comms.change_template(%Template{})
-    render(conn, :new, changeset: changeset)
+
+    render(conn, :new,
+      changeset: changeset,
+      templates_options: Comms.templates_options(),
+      templates_map: Comms.templates_map()
+    )
   end
 
   def create(conn, %{"template" => template_params}) do
@@ -22,7 +27,11 @@ defmodule JourneyWeb.TemplateController do
         |> redirect(to: ~p"/templates/#{template}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        render(conn, :new,
+          changeset: changeset,
+          templates_options: Comms.templates_options(),
+          templates_map: Comms.templates_map()
+        )
     end
   end
 
@@ -34,7 +43,13 @@ defmodule JourneyWeb.TemplateController do
   def edit(conn, %{"id" => id}) do
     template = Comms.get_template!(id)
     changeset = Comms.change_template(template)
-    render(conn, :edit, template: template, changeset: changeset)
+
+    render(conn, :edit,
+      template: template,
+      changeset: changeset,
+      templates_options: Comms.templates_options(),
+      templates_map: Comms.templates_map()
+    )
   end
 
   def update(conn, %{"id" => id, "template" => template_params}) do
@@ -47,7 +62,12 @@ defmodule JourneyWeb.TemplateController do
         |> redirect(to: ~p"/templates/#{template}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, template: template, changeset: changeset)
+        render(conn, :edit,
+          template: template,
+          changeset: changeset,
+          templates_options: Comms.templates_options(),
+          templates_map: Comms.templates_map()
+        )
     end
   end
 

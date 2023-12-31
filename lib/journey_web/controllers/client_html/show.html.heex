@@ -1,123 +1,54 @@
-<.back navigate={~p"/clients"} class={~s"left"}>Back to Clients</.back>
-
-<div class="page-heading">
-  Client: <b><%= get_client_display_name_from_client(@client) %></b>
-  <.simple_form for={%{}} action={~p"/clients/#{@client.id}/resync"} class="inline">
-    <:actions>
-      <.button><i data-feather="refresh-ccw"></i> Resync</.button>
-      <a href={@client.linkedin} class="linkedin" target="_blank"><%= @client.linkedin %></a>
-    </:actions>
-  </.simple_form>
+<div class="w3-container">
+  <h2>Client</h2>
 </div>
-<div class="page-heading-3">
-  Sponsored Link:
-  <span class="link">
-    <b class="sponsored_url">
-      <%= raw(
-        sponsored_link_shortened_from_client(@client) || sponsored_link_full_from_client(@client)
-      ) %>
-    </b>
-  </span>
-  <span>
-    <i copy-value={sponsored_link_shortened_from_client(@client)} class="copy" data-feather="copy">
-    </i>
-  </span>
-</div>
-
-<br /><br />
-
-<div class="section">
+<div class="w3-container">
   <.clients_table clients={[@client]} />
 </div>
 
 <br /><br />
 
-<div class="section">
-  <div class="page-heading-2">
-    Activities (<%= length(@client.activities) %>)
-  </div>
-
-  <.activities_table activities={@client.activities} client={@client} />
+<div class="w3-container">
+  <h3>Visits</h3>
+</div>
+<div class="w3-container">
+  <.visits_table visits={@client.visits} />
 </div>
 
 <br /><br />
 
-<div id="calls" class="section">
-  <div class="page-heading-2">
-    Calls (<%= length(@client.calls) %>)
-    <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="button call">
-      New Call
-    </a>
-  </div>
+<div class="w3-container">
+  <h3>Activities</h3>
+</div>
+<div class="w3-container">
+  <.activities_table activities={@client.activities} />
+</div>
+
+<br /><br />
+
+<div class="w3-container">
+  <h3>Calls</h3>
+  <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ Call</a>
+</div>
+<div class="w3-container">
   <.calls_table calls={@client.calls} />
 </div>
 
 <br /><br />
 
-<div id="lms" class="section">
-  <div class="page-heading-2">
-    LinkedIn Messages (<%= length(@client.lms) %>)
-    <a href={~p"/lms/new?client_uuid=#{@client.client_uuid}"} class="button lm">
-      New LinkedIn Message
-    </a>
-  </div>
+<div class="w3-container">
+  <h3>LMs</h3>
+  <a href={~p"/lms/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ LM</a>
+</div>
+<div class="w3-container">
   <.lms_table lms={@client.lms} />
 </div>
 
 <br /><br />
 
-<div id="emails" class="section">
-  <div class="page-heading-2">
-    Emails (<%= length(@client.emails) %>)
-    <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="button email">
-      New Email
-    </a>
-  </div>
+<div class="w3-container">
+  <h3>Emails</h3>
+  <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ Email</a>
+</div>
+<div class="w3-container">
   <.emails_table emails={@client.emails} />
 </div>
-
-<br /><br />
-
-<div class="section">
-  <div class="page-heading-2">Browsings (<%= length(@client.browsings) %>)</div>
-  <.browsings_table browsings={@client.browsings} client={@client} />
-</div>
-
-<br /><br />
-
-<div class="section">
-  <div class="page-heading-2">
-    Visits (<%= length(enum_browsings_visits(@client.browsings)) %>)
-  </div>
-  <.table id="visits" rows={enum_browsings_visits(@client.browsings)}>
-    <:col :let={visit} label="Time ⬇" class="utc_to_local"><%= visit.time %></:col>
-    <:col :let={visit} label="Client UUID" class="client-uuid">
-      <%= get_shortened_uuid(visit.client_uuid) %>
-    </:col>
-    <:col :let={visit} label="Browsing UUID" class="browsing-uuid">
-      <a href={get_browsing_url_from_visit(visit)}>
-        <%= get_shortened_uuid(visit.browsing_uuid) %>
-      </a>
-    </:col>
-    <:col :let={visit} label="IP Address" class="ip-address"><%= visit.ipaddress %></:col>
-    <:col :let={visit} label="Country-State-City" class="country-state-city">
-      <%= visit.country %>, <%= visit.state %>, <%= visit.city %>
-    </:col>
-    <:col :let={visit} label="Lat, Lon" class="lat-lon">
-      <a href={get_google_maps_link_from_visit(visit)} target="_blank">
-        <%= visit.lat %>, <%= visit.lon %>
-      </a>
-    </:col>
-    <:col :let={visit} label="Page-Hash" class="page-hash">
-      <%= visit.page %><%= visit.hash %>
-    </:col>
-    <:col :let={visit} label="UA" class="ua"><%= visit.ua %></:col>
-    <:col :let={visit} label="UTM Campaign"><%= visit.utm_campaign %></:col>
-    <:col :let={visit} label="UTM Source"><%= visit.utm_source %></:col>
-    <:col :let={visit} label="UTM Medium"><%= visit.utm_medium %></:col>
-    <:col :let={visit} label="UTM Term"><%= visit.utm_term %></:col>
-    <:col :let={visit} label="UTM Content"><%= visit.utm_content %></:col>
-  </.table>
-</div>
-
-<.back navigate={~p"/clients"} class={~s"center"}>Back to Clients</.back>

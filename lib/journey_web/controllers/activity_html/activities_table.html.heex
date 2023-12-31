@@ -1,72 +1,62 @@
-<.table id="table" rows={@activities} row_click={&JS.navigate(~p"/activities/#{&1}")}>
-  <:col :let={activity} label="Activity Type" class="activity-type">
+<.table
+  id="table"
+  rows={@activities}
+  row_click={&JS.navigate(~p"/activities/#{&1}")}
+  class="w3-table-all w3-hoverable"
+>
+  <:col :let={activity} label="Activity Type">
     <a href={get_call_lm_email_url_from_activity(activity)}>
       <%= activity.type %>
     </a>
   </:col>
-  <:col :let={activity} label="Last Visited At" class="last-visited-at">
-    <div :if={activity.visit} class="type">
+  <:col :let={activity} label="Executed @" class="utc_to_local">
+    <div class="utc_to_local">
+      <%= activity.executed_at %>
+    </div>
+  </:col>
+  <:col :let={activity} label="Last Visited At">
+    <div :if={activity.visit}>
       <a href={get_call_lm_email_url_from_activity(activity)}>
-        <span class={activity.visit.type}>
-          <%= raw(get_display_or_empty_span([activity.visit.type])) %>
-        </span>
+        <%= raw(get_display_or_empty_span([activity.visit.type])) %>
       </a>
     </div>
     <div class="utc_to_local">
       <%= activity.last_visited_at %>
     </div>
   </:col>
-  <:col :let={activity} label="User" class="user">
+  <:col :let={activity} label="User">
     <a href={get_user_url_from_activity(activity)}>
       <%= raw(if activity.user, do: activity.user.name, else: "<span class='empty'>empty</span>") %>
     </a>
   </:col>
-  <:col :let={activity} label="Company" class="user">
+  <:col :let={activity} label="Company">
     <a :if={activity.company} href={get_company_url_from_activity(activity)}>
       <%= raw(get_company_display_name_from_company(activity.company)) %>
     </a>
   </:col>
-  <:col :let={activity} label="Client" class="logo-name-email">
-    <a
-      :if={activity.client}
-      href={get_client_url_from_client(activity.client)}
-      class="client-name"
-    >
+  <:col :let={activity} label="Client">
+    <a :if={activity.client} href={get_client_url_from_client(activity.client)}>
       <%= raw(get_client_display_name_from_client(activity.client)) %>
     </a>
   </:col>
-  <:col :let={activity} label="Call" class="type">
-    <a
-      :if={activity.call}
-      href={get_call_url_from_activity(activity)}
-      class={activity.call.status}
-    >
+  <:col :let={activity} label="Call">
+    <a :if={activity.call} href={get_call_url_from_activity(activity)}>
       <%= activity.call.status %>
     </a>
   </:col>
-  <:col :let={activity} label="LM" class="type">
-    <a :if={activity.lm} href={get_lm_url_from_activity(activity)} class={activity.lm.status}>
+  <:col :let={activity} label="LM">
+    <a :if={activity.lm} href={get_lm_url_from_activity(activity)}>
       <%= activity.lm.status %>
     </a>
   </:col>
-  <:col :let={activity} label="Email" class="type">
-    <a
-      :if={activity.email}
-      href={get_email_url_from_activity(activity)}
-      class={activity.email.status}
-    >
+  <:col :let={activity} label="Email">
+    <a :if={activity.email} href={get_email_url_from_activity(activity)}>
       <%= activity.email.status %>
     </a>
   </:col>
   <:col :let={activity} label="Message"><%= activity.message %></:col>
   <:col :let={activity} label="Details"><%= activity.details %></:col>
-  <:col :let={activity} label="Scheduled @" class="utc_to_local">
-    <%= activity.scheduled_at %>
-  </:col>
-  <:col :let={activity} label="Executed @" class="utc_to_local">
-    <%= activity.executed_at %>
-  </:col>
   <:col :let={activity} label="Status">
-    <span class={activity.status}><%= activity.status %></span>
+    <%= activity.status %>
   </:col>
 </.table>
