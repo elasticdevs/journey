@@ -32,7 +32,11 @@ defmodule JourneyWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Accounts.get_user_one!(conn.assigns.current_user, id)
+    in_last_secs = get_in_last_secs_from_cookie(conn)
+
+    user =
+      Accounts.get_user_one!(conn.assigns.current_user, %{in_last_secs: in_last_secs, id: id})
+
     render(conn, :show, user: user)
   end
 

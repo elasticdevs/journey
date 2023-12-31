@@ -1,11 +1,16 @@
-<.table id="users" rows={@users} row_click={&JS.navigate(~p"/users/#{&1}")}>
+<.table
+  id="users"
+  rows={@users}
+  row_click={&JS.navigate(~p"/users/#{&1}")}
+  class="w3-table-all w3-hoverable"
+>
   <:col :let={user} label="Picture">
-    <img src={user.picture} class="picture small" />
+    <img src={user.picture} class="logo w3-round-xxlarge" />
   </:col>
-  <:col :let={user} label="Name, Email" class="user-name-email">
+  <:col :let={user} label="Name, Email">
     <%= raw(get_user_display_name_and_email_from_user(user)) %>
   </:col>
-  <:col :let={user} label="Level" class="level">
+  <:col :let={user} label="Level">
     <%= user.level %>
   </:col>
 </.table>

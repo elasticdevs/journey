@@ -29,3 +29,8 @@ pre {
 label {
   font-weight: bold;
 }
+
+button.post {
+  border: none;
+  background: unset;
+}

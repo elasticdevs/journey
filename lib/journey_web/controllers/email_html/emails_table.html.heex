@@ -44,9 +44,17 @@
       </.link>
     </div>
     <div class="w3-container">
-      <a data-method="post" href={~p"/emails/#{email.id}/send"}>
-        <i data-feather="send"></i>
-      </a>
+      <.simple_form
+        :if={email.status != "SENT"}
+        for={%{}}
+        action={~p"/emails/#{email.id}/send"}
+        formtarget="_blank"
+        class="inline"
+      >
+        <:actions>
+          <.button class="post"><i data-feather="send"></i></.button>
+        </:actions>
+      </.simple_form>
     </div>
   </:action>
 </.table>

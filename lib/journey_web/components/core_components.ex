@@ -85,6 +85,14 @@ defmodule JourneyWeb.CoreComponents do
     """
   end
 
+  def kind_to_color(kind) do
+    %{
+      :error => :red,
+      :info => :blue,
+      :success => :green
+    }[kind]
+  end
+
   @doc """
   Renders flash notices.
 
@@ -105,20 +113,22 @@ defmodule JourneyWeb.CoreComponents do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
 
     ~H"""
-    <div
-      :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
-      id={@id}
-      phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
-      role="alert"
-      {@rest}
-      class="message"
-    >
-      <span :if={@title}>
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" />
-        <%= @title %>
-      </span>
-      <span><%= msg %></span>
+    <div class="w3-container">
+      <div
+        :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
+        id={@id}
+        phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
+        role="alert"
+        {@rest}
+        class={"w3-panel w3-padding w3-#{kind_to_color(@kind)}"}
+      >
+        <span :if={@title}>
+          <.icon :if={@kind == :info} name="hero-information-circle-mini" />
+          <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" />
+          <%= @title %>
+        </span>
+        <span><%= msg %></span>
+      </div>
     </div>
     """
   end

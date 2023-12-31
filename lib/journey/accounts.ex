@@ -7,6 +7,9 @@ defmodule Journey.Accounts do
   require Logger
   require Jason
 
+  alias Journey.Prospects.Client
+  alias Journey.Analytics.Visit
+  alias Journey.Analytics.Browsing
   alias Ueberauth.Auth
 
   alias Journey.Repo
@@ -74,8 +77,44 @@ defmodule Journey.Accounts do
   """
   def get_user!(_current_user, id), do: Repo.get!(User, id)
 
-  def get_user_one!(current_user, id),
-    do: Repo.one!(from u in User, where: u.id == ^id and u.level >= ^current_user.level)
+  def get_user_one!(current_user, %{in_last_secs: in_last_secs, id: id}) do
+    {browsings_where, visits_where} =
+      case in_last_secs do
+        "all" ->
+          {true, true}
+
+        nil ->
+          {true, true}
+
+        _ ->
+          {
+            dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
+            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+          }
+      end
+
+    browsings_query =
+      from b in Browsing,
+        where: ^browsings_where
+
+    visits_query = from v in Visit, where: ^visits_where
+
+    Repo.one!(
+      from u in User,
+        where:
+          (^current_user.level == 0 or is_nil(u) or
+             (not is_nil(u.level) and u.level >= ^current_user.level)) and u.id == ^id,
+        preload: [
+          [companies: :user],
+          [clients: [:user, :company, [browsings: :visits], :visits, :url]],
+          [activities: [:user, :company, :client, :call, :lm, :email, :visit]]
+        ]
+    )
+  end
+
+  def get_user_one!(current_user, %{id: id}) do
+    Repo.one!(from u in User, where: u.id == ^id and u.level >= ^current_user.level)
+  end
 
   ## User registration
 

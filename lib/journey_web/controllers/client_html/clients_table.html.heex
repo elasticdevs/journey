@@ -56,9 +56,11 @@
       </a>
     </div>
     <div class="w3-container">
-      <a data-method="post" href={~p"/clients/#{client.id}/resync"}>
-        <i data-feather="refresh-ccw"></i>
-      </a>
+      <.simple_form for={%{}} action={~p"/clients/#{client.id}/resync"} class="inline">
+        <:actions>
+          <.button class="post"><i data-feather="refresh-ccw"></i></.button>
+        </:actions>
+      </.simple_form>
     </div>
   </:action>
 </.table>

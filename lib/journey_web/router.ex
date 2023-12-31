@@ -2,7 +2,6 @@ defmodule JourneyWeb.Router do
   use JourneyWeb, :router
 
   import JourneyWeb.UserAuth
-  # import Plug.BasicAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -12,7 +11,6 @@ defmodule JourneyWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
-    # plug :basic_auth, username: "journey", password: "AmazingJourney@"
   end
 
   pipeline :api do
@@ -29,7 +27,6 @@ defmodule JourneyWeb.Router do
   end
 
   # Authentication routes
-
   scope "/", JourneyWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
@@ -67,10 +64,6 @@ defmodule JourneyWeb.Router do
   end
 
   scope "/", JourneyWeb, host: Application.compile_env(:journey, Journey.URLs)[:shortener_host] do
-    # scope "/", JourneyWeb, host: "sg.jou.im" do
-    # scope "/", JourneyWeb, host: "jou.im" do
-    # pipe_through :browser
-
     get "/:code", URLController, :url_redirect
   end
 
@@ -91,7 +84,7 @@ defmodule JourneyWeb.Router do
     get "/clients/bulk", ClientController, :bulk
     post "/clients/sync_fresh_sales", ClientController, :sync_fresh_sales
     get "/clients/linkedin", ClientController, :linkedin
-    # get "/clients/get", ClientController, :get
+
     resources "/clients", ClientController do
       post "/resync", ClientController, :resync
     end
@@ -102,7 +95,7 @@ defmodule JourneyWeb.Router do
 
     resources "/calls", CallController
 
-    post "/lms/:id/mark_as_sent", LMController, :mark_as_sent
+    post "/lms/:id/send", LMController, :send
     resources "/lms", LMController
 
     post "/emails/send_test_email", EmailController, :send_test_email

@@ -142,7 +142,7 @@ defmodule JourneyWeb.LMController do
     |> redirect(to: ~p"/lms")
   end
 
-  def mark_as_sent(conn, %{"id" => id}) do
+  def send(conn, %{"id" => id}) do
     lm = Comms.get_lm_one!(conn.assigns.current_user, id)
 
     lm |> Comms.update_lm!(%{"status" => "SENT"})
@@ -150,7 +150,7 @@ defmodule JourneyWeb.LMController do
     Logger.debug("CLIENT_LM_SENT_SUCCESSFULLY")
 
     conn
-    |> put_flash(:info, "LinkedIn Message marked as sent successfully!")
+    |> put_flash(:info, "LM sent successfully!")
     |> redirect(to: ~p"/clients/#{lm.client_id}/#lms")
   end
 end

@@ -37,9 +37,17 @@
       </.link>
     </div>
     <div class="w3-container">
-      <a data-method="post" href={~p"/lms/#{lm.id}/mark_as_sent"}>
-        <i data-feather="send"></i>
-      </a>
+      <.simple_form
+        :if={lm.status != "SENT"}
+        for={%{}}
+        action={~p"/lms/#{lm.id}/send"}
+        formtarget="_blank"
+        class="inline"
+      >
+        <:actions>
+          <.button class="post"><i data-feather="send"></i></.button>
+        </:actions>
+      </.simple_form>
     </div>
   </:action>
 </.table>

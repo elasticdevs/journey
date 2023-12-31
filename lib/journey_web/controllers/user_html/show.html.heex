@@ -1,13 +1,78 @@
-<.back navigate={~p"/users"} class="back">Back to Users</.back>
-
-<div class="page-heading">
-  User #<%= @user.id %>
-  <div class="subheading">This is a user record from your database.</div>
-  <a href={~p"/users/#{@user}/edit"} class="button">Edit User</a>
+<div class="w3-container">
+  <h2>User</h2>
 </div>
-
-<div class="section">
+<div class="w3-container">
   <.users_table users={[@user]} />
 </div>
 
-<.back navigate={~p"/users"} class="back center">Back to Users</.back>
+<br /><br />
+
+<div class="w3-container">
+  <h3>Companies</h3>
+</div>
+<div class="w3-container">
+  <.companies_table companies={@user.companies} />
+</div>
+
+<br /><br />
+
+<div class="w3-container">
+  <h3>Clients</h3>
+</div>
+<div class="w3-container">
+  <.clients_table clients={@user.clients} />
+</div>
+
+<br /><br />
+
+<div class="w3-container">
+  <h3>Activities</h3>
+</div>
+<div class="w3-container">
+  <.activities_table activities={@user.activities} />
+</div>
+
+<%!-- <br /><br />
+
+<div class="w3-container">
+  <h3>Visits</h3>
+</div>
+<div class="w3-container">
+  <.visits_table visits={@user.visits} />
+</div>
+
+<br /><br />
+
+<div class="w3-container">
+  <h3>Activities</h3>
+</div>
+<div class="w3-container">
+  <.activities_table activities={@user.activities} />
+</div>
+
+<br /><br />
+
+<div class="w3-container">
+  <h3>Calls</h3>
+</div>
+<div class="w3-container">
+  <.calls_table calls={@user.calls} />
+</div>
+
+<br /><br />
+
+<div class="w3-container">
+  <h3>LMs</h3>
+</div>
+<div class="w3-container">
+  <.lms_table lms={@user.lms} />
+</div>
+
+<br /><br />
+
+<div class="w3-container">
+  <h3>Emails</h3>
+</div>
+<div class="w3-container">
+  <.emails_table emails={@user.emails} />
+</div> --%>

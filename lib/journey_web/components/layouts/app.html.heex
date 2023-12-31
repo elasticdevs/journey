@@ -45,22 +45,36 @@
     <button class="w3-button">Communications</button>
     <div class="w3-dropdown-content w3-bar-block w3-card-4">
       <a href="/calls" class="w3-bar-item w3-button">Calls</a>
-      <a href="/lms" class="w3-bar-item w3-button">LinkedIn Messages</a>
+      <a href="/lms" class="w3-bar-item w3-button">LMs</a>
       <a href="/emails" class="w3-bar-item w3-button">Emails</a>
       <a href="/templates" class="w3-bar-item w3-button">Templates</a>
     </div>
   </div>
+  <div class="w3-dropdown-hover">
+    <button class="w3-button">Manage Users</button>
+    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+      <a href="/users" class="w3-bar-item w3-button">Users</a>
+    </div>
+  </div>
   <div class="w3-right">
     <div></div>
-    <div class="w3-dropdown-hover">
-      <button class="w3-button bold">
-        <span class="w3-badge w3-red"><%= @current_user.level || -1 %></span>/<%= @current_user.email %>
-        <img src={@current_user.picture} class="google-picture" />
-      </button>
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a class="w3-bar-item w3-button" href={~p"/auth/logout"} method="delete">Logout</a>
+    <%= if @current_user do %>
+      <div class="w3-dropdown-hover">
+        <button class="w3-button bold">
+          <span class="w3-badge w3-red"><%= @current_user.level || -1 %></span>/<%= @current_user.email %>
+          <img src={@current_user.picture} class="google-picture" />
+        </button>
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+          <.link href={~p"/auth/logout"} method="delete" class="w3-bar-item w3-button">
+            Logout
+          </.link>
+        </div>
       </div>
-    </div>
+    <% else %>
+      <div class="w3-container">
+        <.link href={~p"/auth/google"}><.google_sign_in /></.link>
+      </div>
+    <% end %>
   </div>
 </div>
 
