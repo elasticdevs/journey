@@ -1,4 +1,9 @@
-<.table id="table" rows={@companies} class="w3-table-all w3-hoverable">
+<.table
+  id="table"
+  rows={@companies}
+  row_click={&JS.navigate(~p"/companies/#{&1}")}
+  class="w3-table-all w3-hoverable"
+>
   <:col :let={company} label="User">
     <a href={get_user_url_from_company(company)}>
       <%= raw(
@@ -28,11 +33,14 @@
     <%= raw(get_display_or_empty_span([company.founded_year])) %>
   </:col>
   <:col :let={company} label="Annual Revenue">
-    <%= raw(get_display_or_empty_span([company.annual_revenue])) %>
+    <%!-- <%= raw(get_display_or_empty_span([company.annual_revenue])) %> --%>
+    <%= money_to_display(company.annual_revenue) %>
   </:col>
   <%!-- <:col :let={company} label="Market Cap"><%= company.market_cap %></:col> --%>
   <:col :let={company} label="Phone">
-    <%= raw(get_display_or_empty_span([company.phone])) %>
+    <span class="copy">
+      <%= raw(get_display_or_empty_span([company.phone])) %>
+    </span>
   </:col>
   <:col :let={company} label="Country-State-City">
     <%= raw(get_display_or_empty_span([company.country, company.state, company.city])) %>

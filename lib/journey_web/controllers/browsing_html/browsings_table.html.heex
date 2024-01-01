@@ -1,16 +1,21 @@
-<.table id="browsings" rows={@browsings} row_click={&JS.navigate(~p"/browsings/#{&1}")}>
+<.table
+  id="table"
+  rows={@browsings}
+  row_click={&JS.navigate(~p"/browsings/#{&1}")}
+  class="w3-table-all w3-hoverable"
+>
   <:col :let={browsing} label="Last Visited At ⬇" class="utc_to_local">
     <%= browsing.last_visited_at %>
   </:col>
-  <:col :let={browsing} label="Client" class="client-name">
+  <:col :let={browsing} label="Client">
     <a href={get_client_url_from_client(browsing.client)}>
       <%= raw(get_client_display_name_from_client(browsing.client)) %>
     </a>
   </:col>
-  <:col :let={browsing} label="Browsing UUID" class="browsing-uuid">
-    <a href={get_browsing_url_from_browsing(browsing)}>
+  <:col :let={browsing} label="Device ID">
+    <span class="copy">
       <%= get_shortened_uuid(browsing.browsing_uuid) %>
-    </a>
+    </span>
   </:col>
   <:col :let={browsing} label="# of Visits"><%= length(browsing.visits) %></:col>
 </.table>

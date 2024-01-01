@@ -1,4 +1,6 @@
 defmodule JourneyWeb.HTMLHelpers do
+  require Decimal
+
   def filter_clients_with_browsings(clients) do
     Enum.filter(clients, fn c -> length(c.browsings) > 0 end)
   end
@@ -296,5 +298,41 @@ defmodule JourneyWeb.HTMLHelpers do
     if url && url.code,
       do: "#{Application.fetch_env!(:journey, Journey.URLs)[:shortener_url]}/#{url.code}",
       else: "<span class='empty'>empty</span>"
+  end
+
+  def money_to_display(money, value \\ 1_000_000_000) do
+    # Currency Display Functions
+    # symbols_to_values = %{
+    #   B: 1_000_000_000,
+    #   M: 1_000_000,
+    #   K: 1_000
+    # }
+    values_to_symbols = %{
+      1_000_000_000 => :B,
+      1_000_000 => :M,
+      1_000 => :K
+    }
+
+    if money do
+      case Decimal.to_integer(Decimal.new(money)) do
+        :error ->
+          money
+
+        m ->
+          if(value <= 0) do
+            m
+          else
+            div = trunc(m / value)
+
+            if(div > 0) do
+              "#{div}#{values_to_symbols[value]}"
+            else
+              money_to_display(m, trunc(value / 1000))
+            end
+          end
+      end
+    else
+      money
+    end
   end
 end

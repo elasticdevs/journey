@@ -41,22 +41,28 @@ liveSocket.connect()
 window.liveSocket = liveSocket
 
 // Feather icons
-feather.replace();
+feather.replace()
 // Setup copy button
 $(function () {
   $(".copy").click(function () {
-    let value = $(this).attr("copy-value")
+    let value = $(this).attr("copy-value") || $(this).html().trim()
     navigator.clipboard.writeText(value)
+    $(this).append("<span class='copied w3-round w3-pale-yellow' style='padding: 2px 3px'>copied.</span>")
+    setTimeout(() => {
+      $(this).find('.copied').remove()
+    }, 3000)
+
+    return false
   })
 })
 
 let convert_dates = function () {
   $(".utc_to_local").html(function (index, utc_date) {
     utc_date = utc_date.trim()
-    return utc_date == "" ? "<span class='never'>never</span>" : moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS') + "<div class='time-ago'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").fromNow() + "</div>";
-  });
-};
-$(document).ready(convert_dates);
+    return utc_date == "" ? "<span class='never'>never</span>" : moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS') + "<div class='time-ago'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").fromNow() + "</div>"
+  })
+}
+$(document).ready(convert_dates)
 
 $(function () {
   // Function to set the value of the select element from a cookie
@@ -112,27 +118,27 @@ $(function () {
 $(function () {
   $("#search").keyup(function () {
     // Declare variables
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("search");
-    filter = input.value.toLowerCase();
-    table = document.getElementById("table");
-    tr = table.getElementsByTagName("tr");
+    var input, filter, table, tr, td, i, txtValue
+    input = document.getElementById("search")
+    filter = input.value.toLowerCase()
+    table = document.getElementById("table")
+    tr = table.getElementsByTagName("tr")
 
     // Loop through all table rows, and hide those who don't match the search query
-    count = 0;
+    count = 0
     for (i = 0; i < tr.length; i++) {
       if (tr[i]) {
-        txtValue = tr[i].textContent || tr[i].innerText;
+        txtValue = tr[i].textContent || tr[i].innerText
         if (txtValue.toLowerCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-          count++;
+          tr[i].style.display = ""
+          count++
         } else {
-          tr[i].style.display = "none";
+          tr[i].style.display = "none"
         }
       }
     }
 
-    $("#search-count").html(count);
+    $("#search-count").html(count)
   })
 })
 $(function () {
@@ -145,15 +151,15 @@ $(function () {
 $(function ($) {
   $.fn.invisible = function () {
     return this.each(function () {
-      $(this).css("visibility", "hidden");
-    });
-  };
+      $(this).css("visibility", "hidden")
+    })
+  }
   $.fn.visible = function () {
     return this.each(function () {
-      $(this).css("visibility", "visible");
-    });
-  };
-}(jQuery));
+      $(this).css("visibility", "visible")
+    })
+  }
+}(jQuery))
 
 $(function () {
   //check all images on the page
@@ -167,7 +173,7 @@ $(function () {
 })
 
 $(function () {
-  var last_focused = null;
+  var last_focused = null
 
   $("textarea").focus(function () {
     last_focused = $(this)
@@ -176,17 +182,17 @@ $(function () {
   function insertAtCaret(text) {
     last = last_focused[0]
     if (last) {
-      var scrollPos = last.scrollTop;
-      var caretPos = last.selectionStart;
+      var scrollPos = last.scrollTop
+      var caretPos = last.selectionStart
 
-      var front = (last.value).substring(0, caretPos);
-      var back = (last.value).substring(last.selectionEnd, last.value.length);
-      last.value = front + text + back;
-      caretPos = caretPos + text.length;
-      last.selectionStart = caretPos;
-      last.selectionEnd = caretPos;
-      last.focus();
-      last.scrollTop = scrollPos;
+      var front = (last.value).substring(0, caretPos)
+      var back = (last.value).substring(last.selectionEnd, last.value.length)
+      last.value = front + text + back
+      caretPos = caretPos + text.length
+      last.selectionStart = caretPos
+      last.selectionEnd = caretPos
+      last.focus()
+      last.scrollTop = scrollPos
     }
   }
 

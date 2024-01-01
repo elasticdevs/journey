@@ -34,3 +34,7 @@ button.post {
   border: none;
   background: unset;
 }
+
+.copy {
+  cursor: pointer;
+}

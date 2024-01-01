@@ -1,4 +1,9 @@
-<.table id="table" rows={@clients} class="w3-table-all w3-hoverable">
+<.table
+  id="table"
+  rows={@clients}
+  row_click={&JS.navigate(~p"/clients/#{&1}")}
+  class="w3-table-all w3-hoverable"
+>
   <:col :let={client} label="Last Visited ⬇">
     <div :if={length(client.visits) > 0}>
       <%= raw(get_display_or_empty_span([Enum.at(client.visits, 0).type])) %>

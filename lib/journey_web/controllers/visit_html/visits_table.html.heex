@@ -19,7 +19,9 @@
     </a>
   </:col>
   <:col :let={visit} label="IP Address">
-    <%= raw(get_display_or_empty_span([visit.ipaddress])) %>
+    <span class="copy">
+      <%= raw(get_display_or_empty_span([visit.ipaddress])) %>
+    </span>
   </:col>
   <:col :let={visit} label="Country-State-City">
     <%= raw(get_display_or_empty_span([visit.country, visit.state, visit.city])) %>

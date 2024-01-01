@@ -1,16 +1,20 @@
-<.back navigate={~p"/"} class={~s"left"}>Back to Home</.back>
-<div class="page-heading">
-  Listing Browsings
-  <span class="data-point"><span class="data">(<%= length(@browsings) %>)</span></span>
-  <span class="small">(based on time selected)</span>
+<div class="w3-container">
+  <h2>Devices</h2>
+</div>
 
-  <div class="data-point">
-    Total # of visits: <span class="data"><%= length(enum_browsings_visits(@browsings)) %></span>
+<div class="w3-container">
+  <input
+    type="text"
+    id="search"
+    placeholder="Search ..."
+    class="w3-input w3-border"
+    style="width:30%"
+  />
+  <div id="search-results-info" class="w3-serif w3-margin-bottom">
+    Showing <span id="search-count"><%= length(@browsings) %></span> / <%= length(@browsings) %>
   </div>
 </div>
 
-<div class="section">
+<div class="w3-container">
   <.browsings_table browsings={@browsings} />
 </div>
-
-<.back navigate={~p"/"} class={~s"center"}>Back to Home</.back>

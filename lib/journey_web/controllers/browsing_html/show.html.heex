@@ -1,19 +1,15 @@
-<.back navigate={~p"/browsings"} class={~s"left"}>Back to Browsings</.back>
-
-<div class="page-heading">
-  Browsing #<%= @browsing.id %>
-  <div class="subheading">This is a browsing record from your database.</div>
+<div class="w3-container">
+  <h2>Device</h2>
 </div>
-
-<div class="section">
+<div class="w3-container">
   <.browsings_table browsings={[@browsing]} />
 </div>
 
 <br /><br />
 
-<div class="page-heading-2">Visits (<%= length(@browsing.visits) %>)</div>
-<div class="section">
+<div class="w3-container">
+  <h3>Visits</h3>
+</div>
+<div class="w3-container">
   <.visits_table visits={@browsing.visits} />
 </div>
-
-<.back navigate={~p"/browsings"} class={~s"center"}>Back to Browsings</.back>
