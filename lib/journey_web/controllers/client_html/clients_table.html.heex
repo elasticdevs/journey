@@ -40,7 +40,9 @@
     <%= raw(get_domain_from_client(client)) %>
   </:col>
   <:col :let={client} label="Phone">
-    <%= raw(get_display_or_empty_span([client.phone])) %>
+    <span class="copy">
+      <%= raw(get_display_or_empty_span([client.phone])) %>
+    </span>
   </:col>
   <:col :let={client} label="Job Title">
     <%= raw(get_display_or_empty_span([client.job_title])) %>
