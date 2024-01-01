@@ -85,7 +85,7 @@ config :phoenix_live_view, :debug_heex_annotations, true
 # URL Config
 config :journey, Journey.URLs,
   website_url: "https://staging.elasticdevs.io",
-  shortener_url: "https://sg.jou.im" || "https://sg.eldv.io",
-  shortener_host: "sg.jou.im" || "sg.eldv.io"
+  shortener_url: "https://sg.eldv.io" || "https://sg.jou.im",
+  shortener_host: "sg.eldv.io" || "sg.jou.im"
 
 import_config "dev.secret.exs"
