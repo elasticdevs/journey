@@ -67,10 +67,24 @@ defmodule JourneyWeb.Endpoint do
     ]
   end
 
+  def ssloptions('sg.eldv.io') do
+    [
+      keyfile: "/etc/letsencrypt/live/sg.eldv.io/privkey.pem",
+      certfile: "/etc/letsencrypt/live/sg.eldv.io/fullchain.pem"
+    ]
+  end
+
   def ssloptions('sg.jou.im') do
     [
       keyfile: "/etc/letsencrypt/live/sg.jou.im/privkey.pem",
       certfile: "/etc/letsencrypt/live/sg.jou.im/fullchain.pem"
+    ]
+  end
+
+  def ssloptions('eldv.io') do
+    [
+      keyfile: "/etc/letsencrypt/live/eldv.io/privkey.pem",
+      certfile: "/etc/letsencrypt/live/eldv.io/fullchain.pem"
     ]
   end
 
