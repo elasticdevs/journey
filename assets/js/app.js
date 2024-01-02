@@ -40,6 +40,10 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+$("a").click(function (event) {
+  event.stopPropagation()
+})
+
 // Feather icons
 feather.replace()
 // Setup copy button
