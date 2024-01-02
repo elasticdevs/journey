@@ -1,10 +1,7 @@
-<.back navigate={~p"/users"} class="back">Back to Users</.back>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>New User</h2>
+  </div>
 
-<div class="page-heading">
-  New User
-  <div class="subheading">Use this form to manage user records in your database.</div>
+  <.user_form changeset={@changeset} action={~p"/users"} />
 </div>
-
-<.user_form changeset={@changeset} action={~p"/users"} />
-
-<.back navigate={~p"/users"} class="back center">Back to Users</.back>

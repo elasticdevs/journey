@@ -13,4 +13,11 @@
   <:col :let={user} label="Level">
     <%= user.level %>
   </:col>
+  <:action :let={user}>
+    <div class="w3-container">
+      <.link navigate={~p"/users/#{user}/edit"}>
+        <i data-feather="edit-2"></i>
+      </.link>
+    </div>
+  </:action>
 </.table>

@@ -1,9 +1,6 @@
-<.back navigate={~p"/users"} class="back">Back to Users</.back>
-<div class="page-heading">
-  Edit User <%= @user.id %>
-  <div class="subheading">Use this form to manage user records in your database.</div>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>Edit User #<%= @user.id %></h2>
+  </div>
+  <.user_form changeset={@changeset} action={~p"/users/#{@user}"} />
 </div>
-
-<.user_form changeset={@changeset} action={~p"/users/#{@user}"} />
-
-<.back navigate={~p"/users"} class="back center">Back to Users</.back>

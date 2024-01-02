@@ -41,7 +41,7 @@ defmodule JourneyWeb.UserController do
   end
 
   def edit(conn, %{"id" => id}) do
-    user = Accounts.get_user_one!(conn.assigns.current_user, id)
+    user = Accounts.get_user_one!(conn.assigns.current_user, %{id: id})
     changeset = Accounts.change_user_level(user)
     render(conn, :edit, user: user, changeset: changeset)
   end
@@ -49,7 +49,7 @@ defmodule JourneyWeb.UserController do
   def update(conn, %{"id" => id, "user" => user_params}) do
     case conn.assigns.current_user.level do
       0 ->
-        user = Accounts.get_user_one!(conn.assigns.current_user, id)
+        user = Accounts.get_user_one!(conn.assigns.current_user, %{id: id})
 
         case Accounts.update_user(user, user_params) do
           {:ok, user} ->
@@ -71,7 +71,7 @@ defmodule JourneyWeb.UserController do
   def delete(conn, %{"id" => id}) do
     case conn.assigns.current_user.level do
       0 ->
-        user = Accounts.get_user_one!(conn.assigns.current_user, id)
+        user = Accounts.get_user_one!(conn.assigns.current_user, %{id: id})
         user_token = get_session(conn, :user_token)
         user_token && Accounts.delete_user_session_token(user_token)
 
