@@ -6,9 +6,12 @@ defmodule Journey.Prospects do
   import Ecto.Query, warn: false
   require Logger
 
-  alias Journey.Accounts.User
-  alias Journey.Activities
+  alias Journey.Comms.Email
+  alias Journey.Comms.LM
+  alias Journey.Comms.Call
   alias Journey.Repo
+  alias Journey.Activities.Activity
+  alias Journey.Accounts.User
   alias Journey.Prospects.Client
   alias Journey.Analytics.Browsing
   alias Journey.Analytics.Visit
@@ -87,18 +90,22 @@ defmodule Journey.Prospects do
   def get_client!(id), do: Repo.get!(Client, id) |> Repo.preload(:company)
 
   def get_client_one!(current_user, %{in_last_secs: in_last_secs, id: id}) do
-    {browsings_where, visits_where} =
+    {browsings_where, visits_where, activities_where, calls_where, lms_where, emails_where} =
       case in_last_secs do
         "all" ->
-          {true, true}
+          {true, true, true, true, true, true}
 
         nil ->
-          {true, true}
+          {true, true, true, true, true, true}
 
         _ ->
           {
             dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
-            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at),
+            dynamic([a], ago(^in_last_secs, "second") < a.inserted_at),
+            dynamic([c], ago(^in_last_secs, "second") < c.inserted_at),
+            dynamic([l], ago(^in_last_secs, "second") < l.inserted_at),
+            dynamic([e], ago(^in_last_secs, "second") < e.inserted_at)
           }
       end
 
@@ -107,6 +114,10 @@ defmodule Journey.Prospects do
         where: ^browsings_where
 
     visits_query = from v in Visit, where: ^visits_where
+    activities_query = from a in Activity, where: ^activities_where
+    calls_query = from a in Call, where: ^calls_where
+    lms_query = from a in LM, where: ^lms_where
+    emails_query = from a in Email, where: ^emails_where
 
     Repo.one!(
       from c in Client,
@@ -120,12 +131,12 @@ defmodule Journey.Prospects do
           :user,
           :company,
           :url,
-          [visits: :client],
+          [visits: ^{visits_query, :client}],
           [browsings: ^{browsings_query, [:client, visits: visits_query]}],
-          [activities: [:user, :company, :client, :call, :lm, :email, :visit]],
-          [calls: [[client: :user], :template, [activity: :call]]],
-          [lms: [[client: :user], :template, [activity: :visit]]],
-          [emails: [[client: :user], :template, [activity: :visit]]]
+          [activities: ^{activities_query, [:user, :company, :client, :call, :lm, :email, :visit]}],
+          [calls: ^{calls_query, [[client: :user], :template, [activity: :call]]}],
+          [lms: ^{lms_query, [[client: :user], :template, [activity: :visit]]}],
+          [emails: ^{emails_query, [[client: :user], :template, [activity: :visit]]}]
         ]
     )
   end

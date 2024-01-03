@@ -66,9 +66,9 @@
           <img src={@current_user.picture} class="google-picture" />
         </button>
         <div class="w3-dropdown-content w3-bar-block w3-card-4">
-          <.link href={~p"/auth/logout"} method="delete" class="w3-bar-item w3-button">
-            Logout
-          </.link>
+          <.simple_form for={%{}} method="delete" action={~p"/auth/logout"} class="w3-bar-item w3-button">
+            <.button class="post">Logout</.button>
+          </.simple_form>
         </div>
       </div>
     <% else %>

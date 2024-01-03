@@ -172,7 +172,7 @@ defmodule JourneyWeb.EmailController do
       Map.put(
         email,
         :body,
-        "<pre>#{email.body}</pre><img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />"
+        "#{email.body}<img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />"
       )
 
     message =
