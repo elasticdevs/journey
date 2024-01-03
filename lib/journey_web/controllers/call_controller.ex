@@ -40,7 +40,7 @@ defmodule JourneyWeb.CallController do
 
         conn
         |> put_flash(:info, "Call created successfully.")
-        |> redirect(to: ~p"/clients/#{client_id}/#calls")
+        |> redirect(to: ~p"/clients/#{client_id}/?section=calls")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(changeset.changes.client_id) do
@@ -94,7 +94,7 @@ defmodule JourneyWeb.CallController do
       {:ok, call} ->
         conn
         |> put_flash(:info, "Call updated successfully.")
-        |> redirect(to: ~p"/clients/#{call.client.id}/#calls")
+        |> redirect(to: ~p"/clients/#{call.client.id}/?section=calls")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(call.client_id) do

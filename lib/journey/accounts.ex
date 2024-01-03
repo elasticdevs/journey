@@ -106,8 +106,18 @@ defmodule Journey.Accounts do
              (not is_nil(u.level) and u.level >= ^current_user.level)) and u.id == ^id,
         preload: [
           [companies: :user],
-          [clients: [:user, :company, [browsings: :visits], :visits, :url]],
-          [activities: [:user, :company, :client, :call, :lm, :email, :visit]]
+          [clients: [:user, :company, :visits, :url]],
+          [
+            activities: [
+              :user,
+              :company,
+              :client,
+              [call: [activity: :visit, client: :user]],
+              [lm: [activity: :visit, client: :user]],
+              [email: [activity: :visit, client: :user]],
+              :visit
+            ]
+          ]
         ]
     )
   end

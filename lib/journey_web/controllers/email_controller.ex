@@ -59,7 +59,7 @@ defmodule JourneyWeb.EmailController do
 
         conn
         |> put_flash(:info, "Email created successfully.")
-        |> redirect(to: ~p"/clients/#{client_id}/#emails")
+        |> redirect(to: ~p"/clients/#{client_id}/?section=emails")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(changeset.changes.client_id) do
@@ -115,7 +115,7 @@ defmodule JourneyWeb.EmailController do
       {:ok, email} ->
         conn
         |> put_flash(:info, "Email updated successfully.")
-        |> redirect(to: ~p"/clients/#{email.client.id}/#emails")
+        |> redirect(to: ~p"/clients/#{email.client.id}/?section=emails")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         case Prospects.get_client!(email.client_id) do
@@ -175,22 +175,22 @@ defmodule JourneyWeb.EmailController do
         "#{email.body}<img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />"
       )
 
-    message =
-      case Gmail.send(email) |> GmailAPIMailer.deliver(access_token: current_user.token) do
-        {:ok, result} ->
-          email |> Comms.update_email(%{status: "SENT"})
-          Activities.update_activity!(email.activity, %{type: "EMAILED", status: "DONE"})
-          Logger.debug("GMAIL_API_MAIL_SENT_SUCCESSFULLY, result=#{result.labels}")
-          "Email sent successfully !!"
+    case Gmail.send(email) |> GmailAPIMailer.deliver(access_token: current_user.token) do
+      {:ok, result} ->
+        email |> Comms.update_email(%{status: "SENT"})
+        Activities.update_activity!(email.activity, %{type: "EMAILED", status: "DONE"})
+        Logger.debug("GMAIL_API_MAIL_SENT_SUCCESSFULLY, result=#{result.labels}")
 
-        {:error, reason} ->
-          Logger.debug("GMAIL_API_MAIL_ERROR, reason=#{inspect(reason)}")
-          "Error sending email."
-      end
+        conn
+        |> put_flash(:info, "Email sent successfully !!")
+        |> redirect(to: ~p"/clients/#{email.client.id}/?section=emails")
 
-    conn
-    |> put_flash(:info, message)
-    |> redirect(to: ~p"/clients/#{email.client.id}/#emails
-    ")
+      {:error, reason} ->
+        Logger.debug("GMAIL_API_MAIL_ERROR, reason=#{inspect(reason)}")
+
+        conn
+        |> put_flash(:error, "Error sending email.")
+        |> redirect(to: ~p"/clients/#{email.client.id}/?section=emails")
+    end
   end
 end

@@ -9,8 +9,27 @@ defmodule JourneyWeb.HTMLHelpers do
     Enum.flat_map(clients, fn c -> c.browsings end)
   end
 
+  def enum_clients_visits(clients) do
+    Enum.flat_map(clients, fn c -> c.visits end)
+  end
+
   def enum_browsings_visits(browsings) do
     Enum.flat_map(browsings, fn b -> b.visits end)
+  end
+
+  def enum_activities_calls(activities) do
+    activities = activities || []
+    Enum.map(Enum.filter(activities, fn a -> a.call end), fn a -> a.call end)
+  end
+
+  def enum_activities_lms(activities) do
+    activities = activities || []
+    Enum.map(Enum.filter(activities, fn a -> a.lm end), fn a -> a.lm end)
+  end
+
+  def enum_activities_emails(activities) do
+    activities = activities || []
+    Enum.map(Enum.filter(activities, fn a -> a.email end), fn a -> a.email end)
   end
 
   def get_user_url_from_user(user) do

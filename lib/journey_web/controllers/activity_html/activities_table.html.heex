@@ -9,6 +9,11 @@
       <%= activity.type %>
     </a>
   </:col>
+  <:col :let={activity} label="User">
+    <a href={get_user_url_from_activity(activity)}>
+      <%= raw(if activity.user, do: activity.user.name, else: "<span class='empty'>empty</span>") %>
+    </a>
+  </:col>
   <:col :let={activity} label="Executed @" class="utc_to_local">
     <div class="utc_to_local">
       <%= activity.executed_at %>
@@ -24,14 +29,12 @@
       <%= activity.last_visited_at %>
     </div>
   </:col>
-  <:col :let={activity} label="User">
-    <a href={get_user_url_from_activity(activity)}>
-      <%= raw(if activity.user, do: activity.user.name, else: "<span class='empty'>empty</span>") %>
-    </a>
-  </:col>
   <:col :let={activity} label="Company">
-    <a :if={activity.company} href={get_company_url_from_activity(activity)}>
-      <%= raw(get_company_display_name_from_company(activity.company)) %>
+    <a
+      :if={activity.client && activity.client.company}
+      href={get_company_url_from_activity(activity)}
+    >
+      <%= raw(get_company_display_name_from_company(activity.client.company)) %>
     </a>
   </:col>
   <:col :let={activity} label="Client">

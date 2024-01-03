@@ -8,47 +8,81 @@
 <br /><br />
 
 <div class="w3-container">
-  <h3>Visits</h3>
-</div>
-<div class="w3-container">
-  <.visits_table visits={@client.visits} />
+  <div class="w3-row">
+    <a href="javascript:void(0)" onclick="openCity(event, 'visits');">
+      <div id="a_visits" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
+        <h3>Visits</h3>
+      </div>
+    </a>
+    <a href="javascript:void(0)" onclick="openCity(event, 'activities');">
+      <div id="a_activities" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
+        <h3>Activities</h3>
+      </div>
+    </a>
+    <a href="javascript:void(0)" onclick="openCity(event, 'calls');">
+      <div id="a_calls" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
+        <h3>Calls</h3>
+      </div>
+    </a>
+    <a href="javascript:void(0)" onclick="openCity(event, 'lms');">
+      <div id="a_lms" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
+        <h3>LMs</h3>
+      </div>
+    </a>
+    <a href="javascript:void(0)" onclick="openCity(event, 'emails');">
+      <div id="a_emails" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
+        <h3>Emails</h3>
+      </div>
+    </a>
+  </div>
+
+  <div id="visits" class="w3-margin-top city" style="display:none">
+    <.visits_table visits={@client.visits} />
+  </div>
+
+  <div id="activities" class="w3-margin-top city" style="display:none">
+    <.activities_table activities={@client.activities} />
+  </div>
+
+  <div id="calls" class="w3-margin-top city" style="display:none">
+    <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ Call</a>
+    <.calls_table calls={@client.calls} />
+  </div>
+
+  <div id="lms" class="w3-margin-top city" style="display:none">
+    <a href={~p"/lms/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ LM</a>
+    <.lms_table lms={@client.lms} />
+  </div>
+
+  <div id="emails" class="w3-margin-top city" style="display:none">
+    <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">
+      + Email
+    </a>
+    <.emails_table emails={@client.emails} />
+  </div>
 </div>
 
-<br /><br />
+<script>
+  function openCity(evt, cityName) {
+    var i, x, tablinks;
+    x = document.getElementsByClassName("city");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < x.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    if(evt) {
+      evt.currentTarget.firstElementChild.className += " w3-border-red";
+    } else {
+      document.getElementById("a_" + cityName).classList.add("w3-border-red");
+    }
+  }
 
-<div class="w3-container">
-  <h3>Activities</h3>
-</div>
-<div class="w3-container">
-  <.activities_table activities={@client.activities} />
-</div>
-
-<br /><br />
-
-<div class="w3-container">
-  <h3>Calls</h3>
-  <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ Call</a>
-</div>
-<div class="w3-container">
-  <.calls_table calls={@client.calls} />
-</div>
-
-<br /><br />
-
-<div class="w3-container">
-  <h3>LMs</h3>
-  <a href={~p"/lms/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ LM</a>
-</div>
-<div class="w3-container">
-  <.lms_table lms={@client.lms} />
-</div>
-
-<br /><br />
-
-<div class="w3-container">
-  <h3>Emails</h3>
-  <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ Email</a>
-</div>
-<div class="w3-container">
-  <.emails_table emails={@client.emails} />
-</div>
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const section = urlParams.get('section') || "visits";
+  openCity(null, section);
+</script>
