@@ -2,6 +2,7 @@ defmodule Journey.Comms.Email do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Journey.URLs
   alias Journey.Activities.Activity
   alias Journey.Comms.Template
   alias Journey.Prospects.Client
@@ -39,6 +40,9 @@ defmodule Journey.Comms.Email do
   def process_vars(email) do
     email
     |> Map.put(:subject, Template.process_vars(email.client_id, email.activity.id, email.subject))
-    |> Map.put(:body, Template.process_vars(email.client_id, email.activity.id, email.body))
+    |> Map.put(
+      :body,
+      "<pre>#{Template.process_vars(email.client_id, email.activity.id, email.body)}<pre><img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />"
+    )
   end
 end

@@ -138,13 +138,14 @@ defmodule JourneyWeb.LMController do
     {:ok, _lm} = Comms.delete_lm(lm)
 
     conn
-    |> put_flash(:info, "Lm deleted successfully.")
+    |> put_flash(:info, "LM deleted successfully.")
     |> redirect(to: ~p"/lms")
   end
 
   def send(conn, %{"id" => id}) do
     lm = Comms.get_lm_one!(conn.assigns.current_user, id)
 
+    lm = LM.process_vars(lm)
     lm |> Comms.update_lm!(%{"status" => "SENT"})
     Activities.update_activity!(lm.activity, %{type: "LM_SENT", status: "DONE"})
     Logger.debug("CLIENT_LM_SENT_SUCCESSFULLY")

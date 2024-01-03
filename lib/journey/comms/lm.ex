@@ -24,7 +24,6 @@ defmodule Journey.Comms.LM do
     lm
     |> cast(attrs, [:template_id, :message, :client_id, :activity_id, :status])
     |> validate_required([:status])
-    |> process_vars
   end
 
   def process_vars(changeset) do
