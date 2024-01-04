@@ -2,7 +2,7 @@
   <h2>Company</h2>
 </div>
 <div class="w3-container">
-  <.companies_table companies={[@company]} />
+  <.companies_table companies={[@company]} current_user={@current_user} />
 </div>
 
 <br /><br />
@@ -12,5 +12,5 @@
 </div>
 
 <div class="w3-container">
-  <.clients_table clients={@company.clients} />
+  <.clients_table clients={@company.clients} current_user={@current_user} />
 </div>
