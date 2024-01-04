@@ -166,12 +166,15 @@ defmodule JourneyWeb.EmailController do
     email = Comms.get_email_one!(conn.assigns.current_user, id)
     current_user = conn.assigns.current_user
 
-    email = Email.process_vars(email)
+    processed_email = Email.process_vars(email)
 
-    case Gmail.send(email) |> GmailAPIMailer.deliver(access_token: current_user.token) do
+    case Gmail.send(processed_email) |> GmailAPIMailer.deliver(access_token: current_user.token) do
       {:ok, result} ->
-        email = Map.put(email, :status, "SENT")
-        email |> Comms.update_email(email)
+        email |> Comms.update_email(%{
+          subject: processed_email.subject,
+          body: processed_email.body,
+          status: "SENT"
+        })
         Activities.update_activity!(email.activity, %{type: "EMAILED", status: "DONE"})
         Logger.debug("GMAIL_API_MAIL_SENT_SUCCESSFULLY, result=#{result.labels}")
 

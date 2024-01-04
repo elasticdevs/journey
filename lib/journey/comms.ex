@@ -12,7 +12,7 @@ defmodule Journey.Comms do
   alias Journey.Comms.Template
 
   def preload() do
-    [:template, [activity: [:user, :visit]], [client: [:user, :company]]]
+    [:template, [activity: [:user, :url, :visit]], [client: [:user, :company]]]
   end
 
   @doc """
