@@ -20,8 +20,8 @@
     </div>
   </:col>
   <:col :let={email} label="User">
-    <a href={get_user_url_from_user(email.client.user)}>
-      <%= raw(get_user_display_name_or_email_from_user(email.client.user)) %>
+    <a :if={email.activity} href={get_user_url_from_user(email.activity.user)}>
+      <%= raw(get_user_display_name_or_email_from_user(email.activity.user)) %>
     </a>
   </:col>
   <:col :let={email} label="Client">

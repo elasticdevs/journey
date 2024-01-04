@@ -138,9 +138,9 @@ defmodule Journey.Prospects do
               ^{activities_query,
                [:user, :company, [client: :company], :call, :lm, :email, :visit]}
           ],
-          [calls: ^{calls_query, [[client: :user], :template, [activity: :call]]}],
-          [lms: ^{lms_query, [[client: :user], :template, [activity: :visit]]}],
-          [emails: ^{emails_query, [[client: :user], :template, [activity: :visit]]}]
+          [calls: ^{calls_query, [[client: :user], :template, [activity: [:user, :call]]]}],
+          [lms: ^{lms_query, [[client: :user], :template, [activity: [:user, :lm, :visit]]]}],
+          [emails: ^{emails_query, [[client: :user], :template, [activity: [:user, :email, :visit]]]}]
         ]
     )
   end

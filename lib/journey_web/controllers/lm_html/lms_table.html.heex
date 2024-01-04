@@ -22,8 +22,8 @@
   </:col>
 
   <:col :let={lm} label="User">
-    <a href={get_user_url_from_user(lm.client.user)}>
-      <%= raw(get_user_display_name_or_email_from_user(lm.client.user)) %>
+    <a  :if={lm.activity} href={get_user_url_from_user(lm.activity.user)}>
+      <%= raw(get_user_display_name_or_email_from_user(lm.activity.user)) %>
     </a>
   </:col>
   <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>

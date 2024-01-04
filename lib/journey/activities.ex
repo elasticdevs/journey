@@ -76,7 +76,7 @@ defmodule Journey.Activities do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               activity.id == ^id,
-          preload: [:user, :company, :client, :call, :lm, :email, :visit]
+          preload: [:user, :company, [client: :company], :call, :lm, :email, :visit]
       )
 
   @doc """
