@@ -10,6 +10,10 @@ defmodule Journey.Comms do
 
   alias Journey.Comms.Template
 
+  def preload() do
+    [:template, [activity: [:user, :visit]], [client: [:user, :company]]]
+  end
+
   @doc """
   Returns the list of templates.
 
@@ -137,7 +141,7 @@ defmodule Journey.Comms do
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
-        preload: [:template, [activity: [:user, :visit]], [client: :user]]
+        preload: ^preload()
     )
   end
 
@@ -173,7 +177,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               call.id == ^id,
-              preload: [:template, [activity: [:user, :visit]], [client: :user]]
+        preload: ^preload()
       )
 
   @doc """
@@ -267,7 +271,7 @@ defmodule Journey.Comms do
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
-        preload: [:template, [activity: [:user, :visit]], [client: :user]]
+        preload: ^preload()
     )
   end
 
@@ -303,7 +307,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               lm.id == ^id,
-              preload: [:template, [activity: [:user, :visit]], [client: :user]]
+              preload: ^preload()
       )
 
   @doc """
@@ -403,7 +407,7 @@ defmodule Journey.Comms do
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
-        preload: [:template, [activity: [:user, :visit]], [client: :user]]
+        preload: ^preload()
     )
   end
 
@@ -439,7 +443,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               email.id == ^id,
-              preload: [:template, [activity: [:user, :visit]], [client: :user]]
+              preload: ^preload()
       )
 
   @doc """

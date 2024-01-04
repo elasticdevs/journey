@@ -26,6 +26,15 @@
       <%= raw(get_user_display_name_or_email_from_user(lm.activity.user)) %>
     </a>
   </:col>
+  <:col :let={lm} label="Company">
+    <a
+      :if={lm.client && lm.client.company}
+      href={get_company_url_from_company(lm.client.company)}
+    >
+      <%= raw(get_company_display_name_from_company(lm.client.company)) %>
+    </a>
+  </:col>
+  <:col :let={lm} label="Client"><%= lm.client.name %></:col>
   <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
   <:col :let={lm} label="Status">
     <%= lm.status %>

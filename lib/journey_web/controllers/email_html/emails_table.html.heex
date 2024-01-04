@@ -24,6 +24,14 @@
       <%= raw(get_user_display_name_or_email_from_user(email.activity.user)) %>
     </a>
   </:col>
+  <:col :let={email} label="Company">
+    <a
+      :if={email.client && email.client.company}
+      href={get_company_url_from_company(email.client.company)}
+    >
+      <%= raw(get_company_display_name_from_company(email.client.company)) %>
+    </a>
+  </:col>
   <:col :let={email} label="Client">
     <a href={"#{get_client_url_from_client(email.client)}/#emails"}>
       <%= get_client_display_name_from_client(email.client) %>

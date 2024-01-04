@@ -14,6 +14,14 @@
       <%= raw(get_user_display_name_or_email_from_user(call.activity.user)) %>
     </a>
   </:col>
+  <:col :let={call} label="Company">
+    <a
+      :if={call.client && call.client.company}
+      href={get_company_url_from_company(call.client.company)}
+    >
+      <%= raw(get_company_display_name_from_company(call.client.company)) %>
+    </a>
+  </:col>
   <:col :let={call} label="Client"><%= call.client.name %></:col>
   <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
   <:col :let={call} label="Status">
