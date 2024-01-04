@@ -4,6 +4,7 @@ defmodule Journey.Comms do
   """
 
   import Ecto.Query, warn: false
+  alias Journey.Activities.Activity
   alias Journey.Accounts.User
   alias Journey.Prospects.Client
   alias Journey.Repo
@@ -129,14 +130,10 @@ defmodule Journey.Comms do
   def list_calls(current_user) do
     Repo.all(
       from call in Call,
-        join: c in Client,
-        on:
-          c.id ==
-            call.client_id,
+        join: a in Activity,
+        on: a.call_id == call.id,
         join: u in User,
-        on:
-          u.id ==
-            c.user_id,
+        on: u.id == a.user_id,
         where:
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
@@ -165,14 +162,10 @@ defmodule Journey.Comms do
     do:
       Repo.one!(
         from call in Call,
-          join: c in Client,
-          on:
-            c.id ==
-              call.client_id,
+          join: a in Activity,
+          on: a.call_id == call.id,
           join: u in User,
-          on:
-            u.id ==
-              c.user_id,
+          on: u.id == a.user_id,
           where:
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
@@ -259,17 +252,13 @@ defmodule Journey.Comms do
   def list_lms(current_user) do
     Repo.all(
       from lm in LM,
-        join: c in Client,
-        on:
-          c.id ==
-            lm.client_id,
+        join: a in Activity,
+        on: a.lm_id == lm.id,
         join: u in User,
-        on:
-          u.id ==
-            c.user_id,
+        on: u.id == a.user_id,
         where:
-          ^current_user.level == 0 or is_nil(u) or
-            (not is_nil(u.level) and u.level >= ^current_user.level),
+            ^current_user.level == 0 or is_nil(u) or
+              (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
         preload: ^preload()
     )
@@ -295,14 +284,10 @@ defmodule Journey.Comms do
     do:
       Repo.one!(
         from lm in LM,
-          join: c in Client,
-          on:
-            c.id ==
-              lm.client_id,
+          join: a in Activity,
+          on: a.lm_id == lm.id,
           join: u in User,
-          on:
-            u.id ==
-              c.user_id,
+          on: u.id == a.user_id,
           where:
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
@@ -394,15 +379,11 @@ defmodule Journey.Comms do
   """
   def list_emails(current_user) do
     Repo.all(
-      from e in Email,
-        join: c in Client,
-        on:
-          c.id ==
-            e.client_id,
+      from email in Email,
+        join: a in Activity,
+        on: a.email_id == email.id,
         join: u in User,
-        on:
-          u.id ==
-            c.user_id,
+        on: u.id == a.user_id,
         where:
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
@@ -431,14 +412,10 @@ defmodule Journey.Comms do
     do:
       Repo.one!(
         from email in Email,
-          left_join: c in Client,
-          on:
-            c.id ==
-              email.client_id,
-          left_join: u in User,
-          on:
-            u.id ==
-              c.user_id,
+          join: a in Activity,
+          on: a.email_id == email.id,
+          join: u in User,
+          on: u.id == a.user_id,
           where:
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
