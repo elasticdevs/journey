@@ -3,7 +3,7 @@ defmodule JourneyWeb.CompanyHTML do
 
   embed_templates "company_html/*"
   embed_templates "client_html/*"
-  embed_templates "browsing_html/*"
+  # embed_templates "browsing_html/*"
   embed_templates "visit_html/*"
   embed_templates "activity_html/*"
   embed_templates "call_html/*"
@@ -19,6 +19,7 @@ defmodule JourneyWeb.CompanyHTML do
   def company_form(assigns)
 
   attr :companies, :list, required: true
+  attr :current_user, :map, required: true
   def companies_table(assigns)
 
   attr :company, :map, required: true

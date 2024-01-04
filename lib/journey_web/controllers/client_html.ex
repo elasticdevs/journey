@@ -20,6 +20,6 @@ defmodule JourneyWeb.ClientHTML do
   def client_form(assigns)
 
   attr :clients, :list, required: true
-
+  attr :current_user, :map, required: true
   def clients_table(assigns)
 end

@@ -243,7 +243,7 @@ defmodule Journey.Analytics do
             (not is_nil(u.level) and u.level >= ^current_user.level) or
             is_nil(c),
         order_by: [desc_nulls_last: v.inserted_at],
-        preload: [:activity, :client, browsing: :client]
+        preload: [:activity, [client: :company], browsing: :client]
     )
   end
 

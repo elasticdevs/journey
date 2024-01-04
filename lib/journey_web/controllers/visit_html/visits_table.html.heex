@@ -1,15 +1,31 @@
 <.table id="table" rows={@visits} class="w3-table-all w3-hoverable">
   <:col :let={visit} label="Time ⬇">
-    <div>
-      <%= raw(get_display_or_empty_span([visit.type])) %>
+    <div :if={visit && visit.type == "EMAIL"} class="w3-2020-cinnamon-stick w3-center w3-bold">
+      <%= visit.type %>
+    </div>
+    <div :if={visit && visit.type != "EMAIL"}>
+      <%= visit.type %>
     </div>
     <div class="utc_to_local">
       <%= visit.time %>
     </div>
   </:col>
-  <:col :let={visit} label="Origin" class="origin"><%= visit.origin %></:col>
+  <%!-- <:col :let={visit} label="Origin" class="origin"><%= visit.origin %></:col> --%>
+  <:col :let={visit} label="Company">
+    <a
+      :if={visit.client && visit.client.company}
+      href={get_company_url_from_company(visit.client.company)}
+      class="w3-font-weight-500"
+    >
+      <.company_logo_name company={visit.client.company} />
+    </a>
+  </:col>
   <:col :let={visit} label="Client" class="client-name">
-    <a href={get_client_url_from_client(visit.client)}>
+    <a
+      :if={visit.client}
+      href={get_client_url_from_client(visit.client)}
+      class="w3-font-weight-600"
+    >
       <%= raw(get_client_display_name_from_client(visit.client)) %>
     </a>
   </:col>

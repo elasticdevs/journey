@@ -2,7 +2,7 @@
   <h2>Client</h2>
 </div>
 <div class="w3-container">
-  <.clients_table clients={[@client]} />
+  <.clients_table clients={[@client]} current_user={@current_user} />
 </div>
 
 <br /><br />
@@ -37,29 +37,29 @@
   </div>
 
   <div id="visits" class="w3-margin-top city" style="display:none">
-    <br>
+    <br />
     <.visits_table visits={@client.visits} />
   </div>
 
   <div id="activities" class="w3-margin-top city" style="display:none">
-    <br>
+    <br />
     <.activities_table activities={@client.activities} />
   </div>
 
   <div id="calls" class="w3-margin-top city" style="display:none">
-    <br>
+    <br />
     <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ Call</a>
     <.calls_table calls={@client.calls} />
   </div>
 
   <div id="lms" class="w3-margin-top city" style="display:none">
-    <br>
+    <br />
     <a href={~p"/lms/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ LM</a>
     <.lms_table lms={@client.lms} />
   </div>
 
   <div id="emails" class="w3-margin-top city" style="display:none">
-    <br>
+    <br />
     <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">
       + Email
     </a>

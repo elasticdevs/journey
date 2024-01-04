@@ -5,20 +5,26 @@
   class="w3-table-all w3-hoverable"
 >
   <:col :let={company} label="User">
-    <a href={get_user_url_from_company(company)}>
-      <%= raw(
-        if company.user,
-          do: get_user_display_name_or_email_from_user(company.user),
-          else: "<span class='empty'>empty</span>"
-      ) %>
+    <a
+      :if={company.user == @current_user}
+      href={get_user_url_from_company(company)}
+      class="w3-text-2020-faded-denim w3-bold"
+    >
+      <%= raw(get_user_display_name_or_email_from_user(company.user)) %>
+    </a>
+    <a
+      :if={company.user && company.user != @current_user}
+      href={get_user_url_from_company(company)}
+    >
+      <%= raw(get_user_display_name_or_email_from_user(company.user)) %>
     </a>
   </:col>
   <:col :let={company} label="Company">
-    <a href={get_company_url_from_company(company)}>
+    <a href={get_company_url_from_company(company)} class="w3-font-weight-500">
       <.company_logo_name company={company} />
     </a>
   </:col>
-  <:col :let={company} label="Website">
+  <:col :let={company} label="Website" class="w3-text-2021-french-blue w3-font-weight-600">
     <%= raw(get_website_from_company(company)) %>
   </:col>
   <:col :let={company} label="LinkedIn">
@@ -26,20 +32,24 @@
       <img class="w3-image w3-round-large logo" src="/images/linkedin-logo.png" />
     </a>
   </:col>
-  <:col :let={company} label="Funding">
-    <%= raw(get_display_or_empty_span([company.funding])) %>
+  <:col :let={company} label="Funding" class="w3-text-2021-mint w3-font-weight-600">
+    <span :if={company.funding}>
+      <%= company.funding %>
+    </span>
   </:col>
   <:col :let={company} label="Founded Year">
-    <%= raw(get_display_or_empty_span([company.founded_year])) %>
+    <span :if={company.founded_year} class="w3-italic">
+      <%= company.founded_year %>
+    </span>
   </:col>
-  <:col :let={company} label="Annual Revenue">
+  <:col :let={company} label="Annual Revenue" class="w3-text-2021-mint w3-font-weight-600">
     <%!-- <%= raw(get_display_or_empty_span([company.annual_revenue])) %> --%>
     <%= money_to_display(company.annual_revenue) %>
   </:col>
   <%!-- <:col :let={company} label="Market Cap"><%= company.market_cap %></:col> --%>
   <:col :let={company} label="Phone">
-    <span class="copy">
-      <%= raw(get_display_or_empty_span([company.phone])) %>
+    <span :if={company.phone} class="copy w3-text-2020-flame-scarlet w3-bold">
+      <%= company.phone %>
     </span>
   </:col>
   <:col :let={company} label="Country-State-City">

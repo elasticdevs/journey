@@ -5,29 +5,49 @@
   class="w3-table-all w3-hoverable"
 >
   <:col :let={client} label="Last Visited ⬇">
-    <div :if={length(client.visits) > 0}>
-      <%= raw(get_display_or_empty_span([Enum.at(client.visits, 0).type])) %>
+    <div
+      :if={length(client.visits) > 0 && Enum.at(client.visits, 0).type == "EMAIL"}
+      class="w3-2020-cinnamon-stick w3-center w3-bold"
+    >
+      <%= Enum.at(client.visits, 0).type %>
+    </div>
+    <div :if={length(client.visits) > 0 && Enum.at(client.visits, 0).type != "EMAIL"}>
+      <%= Enum.at(client.visits, 0).type %>
     </div>
     <div :if={length(client.visits) > 0} class="utc_to_local">
       <%= Enum.at(client.visits, 0).time %>
     </div>
   </:col>
   <:col :let={client} label="User">
-    <a href={get_user_url_from_client(client)}>
-      <%= raw(if client.user, do: client.user.name, else: "<span class='empty'>empty</span>") %>
+    <a
+      :if={client.user == @current_user}
+      href={get_user_url_from_user(client.user)}
+      class="w3-text-2020-faded-denim w3-bold"
+    >
+      <%= raw(get_user_display_name_or_email_from_user(client.user)) %>
+    </a>
+    <a
+      :if={client.user && client.user != @current_user}
+      href={get_user_url_from_user(client.user)}
+    >
+      <%= raw(get_user_display_name_or_email_from_user(client.user)) %>
     </a>
   </:col>
   <:col :let={client} label="Company">
-    <a :if={client.company} href={get_company_url_from_company(client.company)}>
+    <a
+      :if={client.company}
+      href={get_company_url_from_company(client.company)}
+      class="w3-font-weight-500"
+    >
       <.company_logo_name company={client.company} />
     </a>
   </:col>
-  <:col :let={client} label="Browsings"><%= length(client.browsings) %></:col>
-  <:col :let={client} label="Visits">
+  <:col :let={client} label="#Devices"><%= length(client.browsings) %></:col>
+  <:col :let={client} label="#Visits">
     <%= length(enum_browsings_visits(client.browsings)) %>
   </:col>
   <:col :let={client} label="Client">
-    <a href={get_client_url_from_client(client)}>
+    <a href={get_client_url_from_client(client)} class="w3-font-weight-600">
       <%= raw(get_client_display_name_email_from_client(client)) %>
     </a>
   </:col>
@@ -36,11 +56,8 @@
       <img class="w3-image w3-round-large logo" src="/images/linkedin-logo.png" />
     </a>
   </:col>
-  <:col :let={client} label="Website">
-    <%= raw(get_domain_from_client(client)) %>
-  </:col>
   <:col :let={client} label="Phone">
-    <span class="copy">
+    <span class="copy w3-text-2020-flame-scarlet w3-bold">
       <%= raw(get_display_or_empty_span([client.phone])) %>
     </span>
   </:col>
