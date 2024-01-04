@@ -22,7 +22,11 @@
       <%= raw(get_company_display_name_from_company(call.client.company)) %>
     </a>
   </:col>
-  <:col :let={call} label="Client"><%= call.client.name %></:col>
+  <:col :let={call} label="Client">
+    <a href={"#{get_client_url_from_client(call.client)}/?section=calls"}>
+      <%= get_client_display_name_from_client(call.client) %>
+    </a>
+  </:col>
   <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
   <:col :let={call} label="Status">
     <%= call.status %>

@@ -34,7 +34,11 @@
       <%= raw(get_company_display_name_from_company(lm.client.company)) %>
     </a>
   </:col>
-  <:col :let={lm} label="Client"><%= lm.client.name %></:col>
+  <:col :let={lm} label="Client">
+    <a href={"#{get_client_url_from_client(lm.client)}/?section=lms"}>
+      <%= get_client_display_name_from_client(lm.client) %>
+    </a>
+  </:col>
   <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
   <:col :let={lm} label="Status">
     <%= lm.status %>
