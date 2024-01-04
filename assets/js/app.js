@@ -173,7 +173,7 @@ $(function () {
         $(this).invisible()
       }
     })
-  }, 1000)
+  }, 5000)
 })
 
 $(function () {
