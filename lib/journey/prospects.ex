@@ -6,6 +6,7 @@ defmodule Journey.Prospects do
   import Ecto.Query, warn: false
   require Logger
 
+  alias Journey.Activities
   alias Journey.Comms.Email
   alias Journey.Comms.LM
   alias Journey.Comms.Call
