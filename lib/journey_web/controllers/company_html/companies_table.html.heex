@@ -4,6 +4,11 @@
   row_click={&JS.navigate(~p"/companies/#{&1}")}
   class="w3-table-all w3-hoverable"
 >
+  <:col :let={company} label="Added">
+    <div class="utc_to_local">
+      <%= company.inserted_at %>
+    </div>
+  </:col>
   <:col :let={company} label="User">
     <a
       :if={company.user == @current_user}
