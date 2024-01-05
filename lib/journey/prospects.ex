@@ -428,7 +428,11 @@ defmodule Journey.Prospects do
 
   """
   def list_companies do
-    Repo.all(Company) |> Repo.preload(:user)
+    Repo.all(
+      from c in Company,
+        order_by: [desc: :inserted_at],
+        preload: :user
+    )
   end
 
   @doc """
