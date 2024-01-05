@@ -93,11 +93,11 @@ defmodule Journey.Accounts do
           }
       end
 
-    browsings_query =
-      from b in Browsing,
-        where: ^browsings_where
+    # browsings_query =
+    #   from b in Browsing,
+    #     where: ^browsings_where
 
-    visits_query = from v in Visit, where: ^visits_where
+    # visits_query = from v in Visit, where: ^visits_where
 
     Repo.one!(
       from u in User,

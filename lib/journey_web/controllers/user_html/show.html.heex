@@ -8,81 +8,90 @@
 <br /><br />
 
 <div class="w3-container">
-  <div class="w3-row">
-    <a href="javascript:void(0)" onclick="openCity(event, 'visits');">
-      <div id="a_visits" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
-        <h4>Visits</h4>
-      </div>
-    </a>
-    <a href="javascript:void(0)" onclick="openCity(event, 'activities');">
-      <div id="a_activities" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
-        <h4>Activities</h4>
-      </div>
-    </a>
-    <a href="javascript:void(0)" onclick="openCity(event, 'calls');">
-      <div id="a_calls" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
-        <h4>Calls</h4>
-      </div>
-    </a>
-    <a href="javascript:void(0)" onclick="openCity(event, 'lms');">
-      <div id="a_lms" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
-        <h4>LMs</h4>
-      </div>
-    </a>
-    <a href="javascript:void(0)" onclick="openCity(event, 'emails');">
-      <div id="a_emails" class="w3-col m1 tablink w3-bottombar w3-hover-light-grey w3-padding">
-        <h4>Emails</h4>
-      </div>
-    </a>
-  </div>
+  <div class="w3-border">
+    <div class="w3-bar w3-border-bottom w3-light-grey intronav">
+      <a
+        class="w3-bar-item w3-button testbtn w3-dark-grey"
+        onclick="openCity(event, 'visits')"
+        id="a_visits"
+      >
+        Visits
+      </a>
+      <a
+        id="a_activities"
+        class="w3-bar-item w3-button testbtn"
+        onclick="openCity(event, 'activities')"
+      >
+        Activities
+      </a>
+      <a id="a_calls" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'calls')">
+        Calls
+      </a>
+      <a id="a_lms" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'lms')">LMs</a>
+      <a id="a_emails" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'emails')">
+        Emails
+      </a>
+    </div>
 
-  <div id="visits" class="w3-margin-top city" style="display:none">
-    <br />
-    <.visits_table visits={enum_clients_visits(@user.clients)} />
-  </div>
+    <div id="visits" class="w3-container city w3-animate-opacity" style="display: block;">
+      <h2>Visits</h2>
+      <.visits_table visits={enum_clients_visits(@user.clients)} />
+    </div>
 
-  <div id="activities" class="w3-margin-top city" style="display:none">
-    <br />
-    <.activities_table activities={@user.activities} current_user={@current_user} />
-  </div>
+    <div id="activities" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h2>Activities</h2>
+      <.activities_table activities={@user.activities} current_user={@current_user} />
+    </div>
 
-  <div id="calls" class="w3-margin-top city" style="display:none">
-    <br />
-    <.calls_table calls={enum_activities_calls(@user.activities)} current_user={@current_user} />
-  </div>
+    <div id="calls" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h2>Calls</h2>
+      <.calls_table calls={enum_activities_calls(@user.activities)} current_user={@current_user} />
+    </div>
 
-  <div id="lms" class="w3-margin-top city" style="display:none">
-    <br />
-    <.lms_table lms={enum_activities_lms(@user.activities)} current_user={@current_user} />
-  </div>
+    <div id="lms" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h2>LMs</h2>
+      <.lms_table lms={enum_activities_lms(@user.activities)} current_user={@current_user} />
+    </div>
 
-  <div id="emails" class="w3-margin-top city" style="display:none">
-    <br />
-    <.emails_table emails={enum_activities_emails(@user.activities)} current_user={@current_user} />
+    <div id="emails" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h2>Emails</h2>
+      <.emails_table
+        emails={enum_activities_emails(@user.activities)}
+        current_user={@current_user}
+      />
+    </div>
   </div>
 </div>
 
 <script>
   function openCity(evt, cityName) {
-    var i, x, tablinks;
-    x = document.getElementsByClassName("city");
+    var i;
+    var x = document.getElementsByClassName("city");
     for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";
+       x[i].style.display = "none";
     }
-    tablinks = document.getElementsByClassName("tablink");
+    var activebtn = document.getElementsByClassName("testbtn");
     for (i = 0; i < x.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+      activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
     }
     document.getElementById(cityName).style.display = "block";
     if(evt) {
-      evt.currentTarget.firstElementChild.className += " w3-border-red";
+      evt.currentTarget.className += " w3-dark-grey";
     } else {
-      document.getElementById("a_" + cityName).classList.add("w3-border-red");
-    }
+      document.getElementById("a_" + cityName).classList.add("w3-dark-grey");
+    }    
   }
-
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const section = urlParams.get('section') || "visits";
   openCity(null, section);
+
+  function openc(cityn) {
+      var i;
+      var x = document.getElementsByClassName("cityclose");
+      for (i = 0; i < x.length; i++) {
+         x[i].style.display = "none";  
+      }
+      document.getElementById(cityn).style.display = "block";  
+  }
 </script>
