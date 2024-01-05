@@ -15,6 +15,6 @@ defmodule JourneyWeb.LMHTML do
   def lm_form(assigns)
 
   attr :lms, :list, required: true
-
+  attr :current_user, :map, required: true
   def lms_table(assigns)
 end

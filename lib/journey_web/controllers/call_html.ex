@@ -15,6 +15,6 @@ defmodule JourneyWeb.CallHTML do
   def call_form(assigns)
 
   attr :calls, :list, required: true
-
+  attr :current_user, :map, required: true
   def calls_table(assigns)
 end

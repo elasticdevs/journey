@@ -1,7 +1,9 @@
 <.table id="table" rows={@visits} class="w3-table-all w3-hoverable">
   <:col :let={visit} label="Time ⬇">
     <div :if={visit && visit.type == "EMAIL"} class="w3-vivid-bluish-green w3-center w3-bold">
-      <%= visit.type %>
+      <a href={get_call_lm_email_url_from_activity(visit.activity)}>
+        <%= visit.type %>
+      </a>
     </div>
     <div :if={visit && visit.type != "EMAIL"} class="w3-bold">
       <%= visit.type %>

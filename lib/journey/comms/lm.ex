@@ -26,17 +26,8 @@ defmodule Journey.Comms.LM do
     |> validate_required([:status])
   end
 
-  def process_vars(changeset) do
-    client_id = get_field(changeset, :client_id)
-    activity_id = get_field(changeset, :activity_id)
-
-    case get_change(changeset, :message) do
-      nil ->
-        changeset
-
-      message ->
-        changeset
-        |> change(message: Template.process_vars(client_id, activity_id, message))
-    end
+  def process_vars(lm) do
+    lm
+    |> Map.put(:message, Template.process_vars(lm.client_id, lm.activity_id, lm.message))
   end
 end

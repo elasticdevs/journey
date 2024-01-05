@@ -9,15 +9,31 @@
       <%= call.activity.type %>
     </a>
   </:col>
+  <:col :let={call} label="Executed @" class="utc_to_local">
+    <div :if={call.activity} class="utc_to_local">
+      <%= call.activity.executed_at %>
+    </div>
+  </:col>
   <:col :let={call} label="User">
-    <a :if={call.activity} href={get_user_url_from_user(call.activity.user)}>
-      <%= raw(get_user_display_name_or_email_from_user(call.activity.user)) %>
+    <a
+      :if={call.client && call.client.user == @current_user}
+      href={get_user_url_from_user(call.client.user)}
+      class="w3-text-2020-faded-denim w3-bold"
+    >
+      <%= raw(get_user_display_name_or_email_from_user(call.client.user)) %>
+    </a>
+    <a
+      :if={call.client && call.client.user && call.client.user != @current_user}
+      href={get_user_url_from_user(call.client.user)}
+    >
+      <%= raw(get_user_display_name_or_email_from_user(call.client.user)) %>
     </a>
   </:col>
   <:col :let={call} label="Company">
     <a
       :if={call.client && call.client.company}
       href={get_company_url_from_company(call.client.company)}
+      class="w3-font-weight-500"
     >
       <%= raw(get_company_display_name_from_company(call.client.company)) %>
     </a>

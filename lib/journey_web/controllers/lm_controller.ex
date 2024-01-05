@@ -144,10 +144,19 @@ defmodule JourneyWeb.LMController do
 
   def send(conn, %{"id" => id}) do
     lm = Comms.get_lm_one!(conn.assigns.current_user, id)
+    current_user = conn.assigns.current_user
 
-    lm = LM.process_vars(lm)
-    lm |> Comms.update_lm!(%{"status" => "SENT"})
-    Activities.update_activity!(lm.activity, %{type: "LM_SENT", status: "DONE"})
+    lm = lm |> Map.put(:activity_id, lm.activity.id)
+    lm = lm |> LM.process_vars()
+    lm = lm |> Comms.update_lm!(%{message: lm.message, status: "SENT"})
+
+    Activities.update_activity!(lm.activity, %{
+      type: "LM_SENT",
+      user_id: current_user.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    })
+
     Logger.debug("CLIENT_LM_SENT_SUCCESSFULLY")
 
     conn

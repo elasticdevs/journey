@@ -9,7 +9,26 @@
       <%= lm.activity.type %>
     </a>
   </:col>
-
+  <:col :let={lm} label="Executed @" class="utc_to_local">
+    <div :if={lm.activity} class="utc_to_local">
+      <%= lm.activity.executed_at %>
+    </div>
+  </:col>
+  <:col :let={lm} label="User">
+    <a
+      :if={lm.client && lm.client.user == @current_user}
+      href={get_user_url_from_user(lm.client.user)}
+      class="w3-text-2020-faded-denim w3-bold"
+    >
+      <%= raw(get_user_display_name_or_email_from_user(lm.client.user)) %>
+    </a>
+    <a
+      :if={lm.client && lm.client.user && lm.client.user != @current_user}
+      href={get_user_url_from_user(lm.client.user)}
+    >
+      <%= raw(get_user_display_name_or_email_from_user(lm.client.user)) %>
+    </a>
+  </:col>
   <:col :let={lm} label="Last Visited At">
     <div :if={lm.activity && lm.activity.visit}>
       <a href={get_activity_url_from_activity(lm.activity)}>
@@ -21,15 +40,11 @@
     </div>
   </:col>
 
-  <:col :let={lm} label="User">
-    <a  :if={lm.activity} href={get_user_url_from_user(lm.activity.user)}>
-      <%= raw(get_user_display_name_or_email_from_user(lm.activity.user)) %>
-    </a>
-  </:col>
   <:col :let={lm} label="Company">
     <a
       :if={lm.client && lm.client.company}
       href={get_company_url_from_company(lm.client.company)}
+      class="w3-font-weight-500"
     >
       <%= raw(get_company_display_name_from_company(lm.client.company)) %>
     </a>

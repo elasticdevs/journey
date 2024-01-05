@@ -490,7 +490,7 @@ defmodule Journey.Prospects do
         :user,
         :company,
         :url,
-        :visits,
+        [visits: [activity: [:call, :lm, :email]]],
         browsings: {browsings_query, [visits: visits_query]}
       ]
     )

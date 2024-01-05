@@ -39,11 +39,12 @@ defmodule Journey.Comms.Email do
 
   def process_vars(email) do
     body = """
-<pre>
-#{Template.process_vars(email.client_id, email.activity.id, email.body)}
-<pre>
-<img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />
+    <pre>
+    #{Template.process_vars(email.client_id, email.activity.id, email.body)}
+    <pre>
+    <img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />
     """
+
     email
     |> Map.put(:subject, Template.process_vars(email.client_id, email.activity.id, email.subject))
     |> Map.put(:body, body)

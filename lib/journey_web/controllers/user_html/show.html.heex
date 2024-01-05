@@ -37,28 +37,28 @@
   </div>
 
   <div id="visits" class="w3-margin-top city" style="display:none">
-    <br>
+    <br />
     <.visits_table visits={enum_clients_visits(@user.clients)} />
   </div>
 
   <div id="activities" class="w3-margin-top city" style="display:none">
-    <br>
+    <br />
     <.activities_table activities={@user.activities} />
   </div>
 
   <div id="calls" class="w3-margin-top city" style="display:none">
-    <br>
-    <.calls_table calls={enum_activities_calls(@user.activities)} />
+    <br />
+    <.calls_table calls={enum_activities_calls(@user.activities)} current_user={@current_user} />
   </div>
 
   <div id="lms" class="w3-margin-top city" style="display:none">
-    <br>
-    <.lms_table lms={enum_activities_lms(@user.activities)} />
+    <br />
+    <.lms_table lms={enum_activities_lms(@user.activities)} current_user={@current_user} />
   </div>
 
   <div id="emails" class="w3-margin-top city" style="display:none">
-    <br>
-    <.emails_table emails={enum_activities_emails(@user.activities)} />
+    <br />
+    <.emails_table emails={enum_activities_emails(@user.activities)} current_user={@current_user} />
   </div>
 </div>
 
@@ -86,48 +86,3 @@
   const section = urlParams.get('section') || "visits";
   openCity(null, section);
 </script>
-
-<%!-- <br /><br />
-
-<div class="w3-container">
-  <h3>Visits</h3>
-</div>
-<div class="w3-container">
-  <.visits_table visits={@user.visits} />
-</div>
-
-<br /><br />
-
-<div class="w3-container">
-  <h3>Activities</h3>
-</div>
-<div class="w3-container">
-  <.activities_table activities={@user.activities} />
-</div>
-
-<br /><br />
-
-<div class="w3-container">
-  <h3>Calls</h3>
-</div>
-<div class="w3-container">
-  <.calls_table calls={@user.calls} />
-</div>
-
-<br /><br />
-
-<div class="w3-container">
-  <h3>LMs</h3>
-</div>
-<div class="w3-container">
-  <.lms_table lms={@user.lms} />
-</div>
-
-<br /><br />
-
-<div class="w3-container">
-  <h3>Emails</h3>
-</div>
-<div class="w3-container">
-  <.emails_table emails={@user.emails} />
-</div> --%>
