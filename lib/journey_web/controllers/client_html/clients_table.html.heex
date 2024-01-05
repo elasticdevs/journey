@@ -7,9 +7,11 @@
   <:col :let={client} label="Last Visited ⬇">
     <div
       :if={length(client.visits) > 0 && Enum.at(client.visits, 0).type == "EMAIL"}
-      class="w3-2020-cinnamon-stick w3-center w3-bold"
+      class="w3-vivid-bluish-green w3-center w3-bold"
     >
-      <%= Enum.at(client.visits, 0).type %>
+      <a href={get_call_lm_email_url_from_activity(Enum.at(client.visits, 0).activity)}>
+        <%= Enum.at(client.visits, 0).type %>
+      </a>
     </div>
     <div :if={length(client.visits) > 0 && Enum.at(client.visits, 0).type != "EMAIL"}>
       <%= Enum.at(client.visits, 0).type %>

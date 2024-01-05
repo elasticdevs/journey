@@ -1,9 +1,9 @@
 <.table id="table" rows={@visits} class="w3-table-all w3-hoverable">
   <:col :let={visit} label="Time ⬇">
-    <div :if={visit && visit.type == "EMAIL"} class="w3-2020-cinnamon-stick w3-center w3-bold">
+    <div :if={visit && visit.type == "EMAIL"} class="w3-vivid-bluish-green w3-center w3-bold">
       <%= visit.type %>
     </div>
-    <div :if={visit && visit.type != "EMAIL"}>
+    <div :if={visit && visit.type != "EMAIL"} class="w3-bold">
       <%= visit.type %>
     </div>
     <div class="utc_to_local">
@@ -30,12 +30,12 @@
     </a>
   </:col>
   <:col :let={visit} label="Device ID">
-    <a href={get_browsing_url_from_visit(visit)}>
+    <a href={get_browsing_url_from_visit(visit)} class="w3-text-safety-red w3-font-weight-600">
       <%= get_shortened_uuid(visit.browsing_uuid) %>
     </a>
   </:col>
   <:col :let={visit} label="IP Address">
-    <span class="copy">
+    <span class="copy w3-text-signal-blue w3-italic w3-font-weight-600">
       <%= raw(get_display_or_empty_span([visit.ipaddress])) %>
     </span>
   </:col>
@@ -51,14 +51,19 @@
     <%= visit.page %><%= visit.hash %>
   </:col>
   <:col :let={visit} label="UTM Terms">
-    <%= raw(
-      get_display_or_empty_span([
-        visit.utm_campaign,
-        visit.utm_source,
-        visit.utm_medium,
-        visit.utm_term,
+    <span :if={
+      visit.utm_campaign || visit.utm_source || visit.utm_medium || visit.utm_term ||
         visit.utm_content
-      ])
-    ) %>
+    }>
+      <%= raw(
+        get_display_or_empty_span([
+          visit.utm_campaign,
+          visit.utm_source,
+          visit.utm_medium,
+          visit.utm_term,
+          visit.utm_content
+        ])
+      ) %>
+    </span>
   </:col>
 </.table>

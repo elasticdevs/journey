@@ -1,0 +1,42 @@
+@import "https://www.w3schools.com/lib/w3-colors-signal.css";
+
+.w3-text-signal-yellow {
+  color: #f7ba0b !important
+}
+
+.w3-text-signal-orange {
+  color: #d4652f !important
+}
+
+.w3-text-signal-red {
+  color: #a02128 !important
+}
+
+.w3-text-signal-violet {
+  color: #904684 !important
+}
+
+.w3-text-signal-blue {
+  color: #154889 !important
+}
+
+.w3-text-signal-green {
+  color: #317f43 !important
+}
+
+.w3-text-signal-grey {
+  color: #9b9b9b !important
+}
+
+.w3-text-signal-brown {
+  color: #7b5141 !important
+}
+
+.w3-signal-white {
+  color: #000;
+  color: #f4f4f4 !important
+}
+
+.w3-text-signal-black {
+  color: #282828 !important
+}

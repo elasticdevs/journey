@@ -3,6 +3,11 @@
 @import "https://www.w3schools.com/w3css/4/w3.css";
 @import "../css/w3-colors-2021.css";
 @import "../css/w3-colors-2020.css";
+@import "../css/w3-colors-highway.css";
+@import "../css/w3-colors-safety.css";
+@import "../css/w3-colors-signal.css";
+@import "../css/w3-colors-vivid.css";
+@import "../css/w3-colors-food.css";
 
 w3-pointer {
   cursor: pointer;

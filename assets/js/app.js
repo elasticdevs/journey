@@ -63,7 +63,7 @@ $(function () {
 let convert_dates = function () {
   $(".utc_to_local").html(function (index, utc_date) {
     utc_date = utc_date.trim()
-    return utc_date == "" ? "<span class='never'>never</span>" : "<div class='w3-tiny'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS') + "</div>" + "<div class='w3-text-2020-cinnamon-stick w3-bold'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").fromNow() + "</div>"
+    return utc_date == "" ? "<span class='never'>never</span>" : "<div class='w3-tiny'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").local().format('MMM DD, LTS') + "</div>" + "<div class='w3-text-vivid-bluish-green w3-bold'>" + moment(utc_date + " +0000", "YYYY-MM-DDTHH:mm:ss.SSSSSS Z").fromNow() + "</div>"
   })
 }
 $(document).ready(convert_dates)
@@ -211,3 +211,6 @@ $(function () {
   })
 })
 
+$("form").submit(function () {
+
+})
