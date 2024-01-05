@@ -136,7 +136,7 @@ defmodule Journey.Prospects do
           [
             activities:
               ^{activities_query,
-               [:user, :company, [client: :company], :call, :lm, :email, :visit]}
+               [:user, :company, [client: [:user, :company]], :call, :lm, :email, :visit]}
           ],
           [
             calls:
