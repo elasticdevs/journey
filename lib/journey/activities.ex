@@ -41,7 +41,7 @@ defmodule Journey.Activities do
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :executed_at],
-        preload: [:user, :company, [client: :company], :call, :lm, :email, :visit]
+        preload: [:user, :company, :call, :lm, :email, :visit, client: [:user, :company]]
     )
   end
 

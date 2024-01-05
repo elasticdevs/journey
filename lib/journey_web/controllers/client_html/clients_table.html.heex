@@ -59,7 +59,7 @@
     </a>
   </:col>
   <:col :let={client} label="Phone">
-    <span class="copy w3-text-2020-flame-scarlet w3-bold">
+    <span :if={client.phone} class="copy w3-text-2020-flame-scarlet w3-bold">
       <%= raw(get_display_or_empty_span([client.phone])) %>
     </span>
   </:col>

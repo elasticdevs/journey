@@ -10,8 +10,18 @@
     </a>
   </:col>
   <:col :let={activity} label="User">
-    <a href={get_user_url_from_activity(activity)}>
-      <%= raw(if activity.user, do: activity.user.name, else: "<span class='empty'>empty</span>") %>
+    <a
+      :if={activity.client && activity.client.user == @current_user}
+      href={get_user_url_from_user(activity.client.user)}
+      class="w3-text-2020-faded-denim w3-bold"
+    >
+      <%= raw(get_user_display_name_or_email_from_user(activity.client.user)) %>
+    </a>
+    <a
+      :if={activity.client && activity.client.user && activity.client.user != @current_user}
+      href={get_user_url_from_user(activity.client.user)}
+    >
+      <%= raw(get_user_display_name_or_email_from_user(activity.client.user)) %>
     </a>
   </:col>
   <:col :let={activity} label="Executed @" class="utc_to_local">
@@ -20,21 +30,28 @@
     </div>
   </:col>
   <:col :let={activity} label="Last Visited At">
-    <div :if={activity.visit}>
+    <div
+      :if={activity.visit && activity.visit.type == "EMAIL"}
+      class="w3-vivid-bluish-green w3-center w3-bold"
+    >
       <a href={get_call_lm_email_url_from_activity(activity)}>
-        <%= raw(get_display_or_empty_span([activity.visit.type])) %>
+        <%= activity.visit.type %>
       </a>
     </div>
-    <div class="utc_to_local">
-      <%= activity.last_visited_at %>
+    <div :if={activity.visit && activity.visit.type != "EMAIL"} class="w3-bold">
+      <%= activity.visit.type %>
+    </div>
+    <div :if={activity.visit} class="utc_to_local">
+      <%= activity.visit.time %>
     </div>
   </:col>
   <:col :let={activity} label="Company">
     <a
       :if={activity.client && activity.client.company}
       href={get_company_url_from_company(activity.client.company)}
+      class="w3-font-weight-500"
     >
-      <%= raw(get_company_display_name_from_company(activity.client.company)) %>
+      <.company_logo_name company={activity.client.company} />
     </a>
   </:col>
   <:col :let={activity} label="Client">
