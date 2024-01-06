@@ -11,17 +11,17 @@
   </:col>
   <:col :let={activity} label="User">
     <a
-      :if={activity.client && activity.client.user == @current_user}
-      href={get_user_url_from_user(activity.client.user)}
+      :if={activity.user && activity.user == @current_user}
+      href={get_user_url_from_user(activity.user)}
       class="w3-text-2020-faded-denim w3-bold"
     >
-      <%= raw(get_user_display_name_or_email_from_user(activity.client.user)) %>
+      <%= raw(get_user_display_name_or_email_from_user(activity.user)) %>
     </a>
     <a
-      :if={activity.client && activity.client.user && activity.client.user != @current_user}
-      href={get_user_url_from_user(activity.client.user)}
+      :if={activity.user && activity.user != @current_user}
+      href={get_user_url_from_user(activity.user)}
     >
-      <%= raw(get_user_display_name_or_email_from_user(activity.client.user)) %>
+      <%= raw(get_user_display_name_or_email_from_user(activity.user)) %>
     </a>
   </:col>
   <:col :let={activity} label="Executed @" class="utc_to_local">

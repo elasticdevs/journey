@@ -16,17 +16,17 @@
   </:col>
   <:col :let={call} label="User">
     <a
-      :if={call.client && call.client.user == @current_user}
-      href={get_user_url_from_user(call.client.user)}
+      :if={call.activity && call.activity.user == @current_user}
+      href={get_user_url_from_user(call.activity.user)}
       class="w3-text-2020-faded-denim w3-bold"
     >
-      <%= raw(get_user_display_name_or_email_from_user(call.client.user)) %>
+      <%= raw(get_user_display_name_or_email_from_user(call.activity.user)) %>
     </a>
     <a
-      :if={call.client && call.client.user && call.client.user != @current_user}
-      href={get_user_url_from_user(call.client.user)}
+      :if={call.activity && call.activity.user && call.activity.user != @current_user}
+      href={get_user_url_from_user(call.activity.user)}
     >
-      <%= raw(get_user_display_name_or_email_from_user(call.client.user)) %>
+      <%= raw(get_user_display_name_or_email_from_user(call.activity.user)) %>
     </a>
   </:col>
   <:col :let={call} label="Company">

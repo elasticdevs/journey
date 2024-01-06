@@ -32,7 +32,11 @@
     </a>
   </:col>
   <:col :let={visit} label="Device ID">
-    <a href={get_browsing_url_from_visit(visit)} class="w3-text-safety-red w3-font-weight-600">
+    <a
+      :if={visit.browsing}
+      href={get_browsing_url_from_browsing(visit.browsing)}
+      class="w3-text-safety-red w3-font-weight-600"
+    >
       <%= get_shortened_uuid(visit.browsing_uuid) %>
     </a>
   </:col>

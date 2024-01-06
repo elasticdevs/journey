@@ -11,15 +11,15 @@
   </:col>
   <:col :let={company} label="User">
     <a
-      :if={company.user == @current_user}
-      href={get_user_url_from_company(company)}
+      :if={company.user && company.user == @current_user}
+      href={get_user_url_from_user(company.user)}
       class="w3-text-2020-faded-denim w3-bold"
     >
       <%= raw(get_user_display_name_or_email_from_user(company.user)) %>
     </a>
     <a
       :if={company.user && company.user != @current_user}
-      href={get_user_url_from_company(company)}
+      href={get_user_url_from_user(company.user)}
     >
       <%= raw(get_user_display_name_or_email_from_user(company.user)) %>
     </a>

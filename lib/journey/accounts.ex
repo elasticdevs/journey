@@ -110,7 +110,7 @@ defmodule Journey.Accounts do
             clients: [
               :user,
               :company,
-              [visits: [[client: :company], [activity: [:call, :lm, :email]]]],
+              [visits: [[client: :company], :browsing, [activity: [:call, :lm, :email]]]],
               :url
             ]
           ],

@@ -16,17 +16,17 @@
   </:col>
   <:col :let={email} label="User">
     <a
-      :if={email.client && email.client.user == @current_user}
-      href={get_user_url_from_user(email.client.user)}
+      :if={email.activity && email.activity.user == @current_user}
+      href={get_user_url_from_user(email.activity.user)}
       class="w3-text-2020-faded-denim w3-bold"
     >
-      <%= raw(get_user_display_name_or_email_from_user(email.client.user)) %>
+      <%= raw(get_user_display_name_or_email_from_user(email.activity.user)) %>
     </a>
     <a
-      :if={email.client && email.client.user && email.client.user != @current_user}
-      href={get_user_url_from_user(email.client.user)}
+      :if={email.activity && email.activity.user && email.activity.user != @current_user}
+      href={get_user_url_from_user(email.activity.user)}
     >
-      <%= raw(get_user_display_name_or_email_from_user(email.client.user)) %>
+      <%= raw(get_user_display_name_or_email_from_user(email.activity.user)) %>
     </a>
   </:col>
   <:col :let={email} label="Last Visited At">

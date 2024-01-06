@@ -86,34 +86,12 @@ defmodule JourneyWeb.HTMLHelpers do
     if activity, do: "/activities/#{activity.id}", else: nil
   end
 
-  def get_user_url_from_company(company) do
-    if company && company.user, do: "/users/#{company.user.id}", else: nil
-  end
-
-  def get_user_url_from_client(client) do
-    if client && client.user, do: "/users/#{client.user.id}", else: nil
-  end
-
   def get_company_url_from_company(company) do
     if company, do: "/companies/#{company.id}", else: nil
   end
 
   def get_client_url_from_client(client) do
     if client, do: "/clients/#{client.id}", else: nil
-  end
-
-  def get_client_url_from_browsing(browsing) do
-    if browsing && browsing.client, do: "/clients/#{browsing.client.id}", else: nil
-  end
-
-  def get_client_url_from_visit(visit) do
-    if visit && visit.browsing && visit.browsing.client do
-      "/clients/#{visit.browsing.client.id}"
-    else
-      if visit && visit.client_uuid,
-        do: "/clients/get/?client_uuid=#{visit.client_uuid}",
-        else: nil
-    end
   end
 
   def get_browsing_url_from_browsing(browsing) do
