@@ -15,21 +15,23 @@
         onclick="openCity(event, 'visits')"
         id="a_visits"
       >
-        Visits
+        Visits (<%= length(enum_clients_visits(@user.clients)) %>)
       </a>
       <a
         id="a_activities"
         class="w3-bar-item w3-button testbtn"
         onclick="openCity(event, 'activities')"
       >
-        Activities
+        Activities (<%= length(@user.activities) %>)
       </a>
       <a id="a_calls" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'calls')">
-        Calls
+        Calls (<%= length(enum_activities_calls(@user.activities)) %>)
       </a>
-      <a id="a_lms" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'lms')">LMs</a>
+      <a id="a_lms" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'lms')">
+        LMs (<%= length(enum_activities_lms(@user.activities)) %>)
+      </a>
       <a id="a_emails" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'emails')">
-        Emails
+        Emails (<%= length(enum_activities_emails(@user.activities)) %>)
       </a>
     </div>
 

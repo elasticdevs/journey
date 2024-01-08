@@ -5,7 +5,7 @@
   class="w3-table-all w3-hoverable"
 >
   <:col :let={activity} label="Activity Type">
-    <a href={get_call_lm_email_url_from_activity(activity)}>
+    <a href={get_call_lm_email_url_from_activity(activity)} class="w3-small w3-bold">
       <%= activity.type %>
     </a>
   </:col>

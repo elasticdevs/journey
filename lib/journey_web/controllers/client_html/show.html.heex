@@ -15,21 +15,23 @@
         onclick="openCity(event, 'visits')"
         id="a_visits"
       >
-        Visits
+        Visits (<%= length(@client.visits) %>)
       </a>
       <a
         id="a_activities"
         class="w3-bar-item w3-button testbtn"
         onclick="openCity(event, 'activities')"
       >
-        Activities
+        Activities (<%= length(@client.activities) %>)
       </a>
       <a id="a_calls" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'calls')">
-        Calls
+        Calls (<%= length(@client.calls) %>)
       </a>
-      <a id="a_lms" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'lms')">LMs</a>
+      <a id="a_lms" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'lms')">
+        LMs (<%= length(@client.lms) %>)
+      </a>
       <a id="a_emails" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'emails')">
-        Emails
+        Emails (<%= length(@client.emails) %>)
       </a>
     </div>
 
