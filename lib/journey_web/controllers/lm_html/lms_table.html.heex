@@ -64,14 +64,27 @@
     </div>
     <div class="w3-container">
       <.simple_form
-        :if={lm.status != "SENT"}
+        :if={lm.status == "DRAFT"}
         for={%{}}
-        action={~p"/lms/#{lm.id}/send"}
-        formtarget="_blank"
+        action={~p"/lms/#{lm.id}/package"}
         class="inline"
       >
         <:actions>
-          <.button class="post"><i data-feather="send"></i></.button>
+          <.button class="post"><i data-feather="package"></i></.button>
+        </:actions>
+      </.simple_form>
+
+      <.simple_form
+        :if={lm.status == "PACKAGED"}
+        for={%{}}
+        action={~p"/lms/#{lm.id}/send"}
+        class="inline"
+        target="_blank"
+      >
+        <:actions>
+          <.button class="post send_lm" copy_value={lm.message}>
+            <i data-feather="send"></i>
+          </.button>
         </:actions>
       </.simple_form>
     </div>

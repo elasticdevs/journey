@@ -95,6 +95,7 @@ defmodule JourneyWeb.Router do
 
     resources "/calls", CallController
 
+    post "/lms/:id/package", LMController, :package
     post "/lms/:id/send", LMController, :send
     resources "/lms", LMController
 

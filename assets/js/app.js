@@ -211,9 +211,49 @@ $(function () {
   })
 })
 
-$("body").on("submit", "form", function () {
-  $(this).submit(function () {
-    return false;
-  });
-  return true;
-});
+// $("body").on("submit", "form", function () {
+//   $(this).submit(function () {
+//     return false;
+//   });
+//   return true;
+// });
+
+// $(function () {
+//   $(".send_lm").submit(function (e) {
+//     navigator.clipboard.writeText(this.getAttribute("copy_value"))
+//     $(this).append("<span class='copied w3-round w3-pale-yellow' style='padding: 2px 3px'>copied.</span>")
+//     setTimeout((this) => {
+//       $(this).find('.copied').remove()
+//       $(this).append("<span class='redirecting w3-round w3-pale-yellow' style='padding: 2px 3px'>redirecting...</span>")
+//       setTimeout((this) => {
+//         $(this).find('.redirecting').remove()
+//         setTimeout(() => {
+//           $(this).submit()
+//           location.reload()
+//         }, 1000)
+//       }, 3000)
+//     }, 2000)
+//   })
+// })
+
+$(function () {
+  $(".send_lm").click(function () {
+    let value = this.getAttribute("copy_value")
+    navigator.clipboard.writeText(value)
+    $(this).append("<span class='copied w3-round w3-pale-yellow' style='padding: 2px 3px'>copied.</span>")
+    setTimeout(() => {
+      $(this).find('.copied').remove()
+      $(this).append("<span class='redirecting w3-round w3-pale-yellow' style='padding: 2px 3px'>redirecting...</span>")
+      setTimeout(() => {
+        $(this).find('.redirecting').remove()
+
+        $(this).closest('td').find('form').submit()
+        setTimeout(() => {
+          location.reload()
+        }, 3000)
+      }, 3000)
+    }, 1500)
+
+    return false
+  })
+})

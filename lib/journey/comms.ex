@@ -4,12 +4,11 @@ defmodule Journey.Comms do
   """
 
   import Ecto.Query, warn: false
+
+  alias Journey.Repo
+  alias Journey.Comms.Template
   alias Journey.Activities.Activity
   alias Journey.Accounts.User
-  alias Journey.Prospects.Client
-  alias Journey.Repo
-
-  alias Journey.Comms.Template
 
   def preload() do
     [:template, [activity: [:user, :url, :visit]], [client: [:user, :company]]]
@@ -170,7 +169,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               call.id == ^id,
-        preload: ^preload()
+          preload: ^preload()
       )
 
   @doc """
@@ -257,8 +256,8 @@ defmodule Journey.Comms do
         join: u in User,
         on: u.id == a.user_id,
         where:
-            ^current_user.level == 0 or is_nil(u) or
-              (not is_nil(u.level) and u.level >= ^current_user.level),
+          ^current_user.level == 0 or is_nil(u) or
+            (not is_nil(u.level) and u.level >= ^current_user.level),
         order_by: [desc_nulls_last: :updated_at],
         preload: ^preload()
     )
@@ -292,7 +291,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               lm.id == ^id,
-              preload: ^preload()
+          preload: ^preload()
       )
 
   @doc """
@@ -420,7 +419,7 @@ defmodule Journey.Comms do
             (^current_user.level == 0 or is_nil(u) or
                (not is_nil(u.level) and u.level >= ^current_user.level)) and
               email.id == ^id,
-              preload: ^preload()
+          preload: ^preload()
       )
 
   @doc """

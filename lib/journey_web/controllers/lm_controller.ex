@@ -48,7 +48,7 @@ defmodule JourneyWeb.LMController do
 
     Activities.update_activity!(activity, %{url_id: url.id})
 
-    lm_params = Map.put(lm_params, "activity_id", activity.id)
+    lm_params = Map.merge(lm_params, %{"activity_id" => activity.id, "status" => "DRAFT"})
 
     case Comms.create_lm(lm_params) do
       {:ok, lm} ->
@@ -105,8 +105,7 @@ defmodule JourneyWeb.LMController do
 
   def update(conn, %{"id" => id, "lm" => lm_params}) do
     lm = Comms.get_lm_one!(conn.assigns.current_user, id)
-
-    lm_params = Map.put(lm_params, "activity_id", lm.activity.id)
+    lm_params = Map.merge(lm_params, %{"activity_id" => lm.activity.id, "status" => "DRAFT"})
 
     case Comms.update_lm(lm, lm_params) do
       {:ok, lm} ->
@@ -142,13 +141,35 @@ defmodule JourneyWeb.LMController do
     |> redirect(to: ~p"/lms")
   end
 
+  def package(conn, %{"id" => id}) do
+    lm = Comms.get_lm_one!(conn.assigns.current_user, id)
+    current_user = conn.assigns.current_user
+
+    lm = lm |> Map.put(:activity_id, lm.activity.id)
+    processed_lm = lm |> LM.process_vars()
+
+    lm = lm |> Comms.update_lm!(%{message: processed_lm.message, status: "PACKAGED"})
+
+    Activities.update_activity!(lm.activity, %{
+      type: "LM_PACKAGED",
+      user_id: current_user.id,
+      executed_at: DateTime.now!("Etc/UTC"),
+      status: "DONE"
+    })
+
+    Logger.debug("CLIENT_LM_PACKAGED_SUCCESSFULLY")
+
+    conn
+    |> put_flash(:info, "LM packaged successfully!")
+    |> redirect(to: ~p"/clients/#{lm.client_id}/?section=lms")
+  end
+
   def send(conn, %{"id" => id}) do
     lm = Comms.get_lm_one!(conn.assigns.current_user, id)
     current_user = conn.assigns.current_user
 
     lm = lm |> Map.put(:activity_id, lm.activity.id)
-    lm = lm |> LM.process_vars()
-    lm = lm |> Comms.update_lm!(%{message: lm.message, status: "SENT"})
+    lm = lm |> Comms.update_lm!(%{status: "SENT"})
 
     Activities.update_activity!(lm.activity, %{
       type: "LM_SENT",
@@ -160,7 +181,6 @@ defmodule JourneyWeb.LMController do
     Logger.debug("CLIENT_LM_SENT_SUCCESSFULLY")
 
     conn
-    |> put_flash(:info, "LM sent successfully!")
-    |> redirect(to: ~p"/clients/#{lm.client_id}/?section=lms")
+    |> redirect(external: lm.client.linkedin)
   end
 end

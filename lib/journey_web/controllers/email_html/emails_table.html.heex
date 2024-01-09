@@ -67,7 +67,6 @@
         :if={email.status != "SENT"}
         for={%{}}
         action={~p"/emails/#{email.id}/send"}
-        formtarget="_blank"
         class="inline"
       >
         <:actions>
