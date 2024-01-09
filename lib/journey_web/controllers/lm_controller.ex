@@ -146,9 +146,9 @@ defmodule JourneyWeb.LMController do
     current_user = conn.assigns.current_user
 
     lm = lm |> Map.put(:activity_id, lm.activity.id)
-    processed_lm = lm |> LM.process_vars()
+    message = lm |> LM.process_vars()
 
-    lm = lm |> Comms.update_lm!(%{message: processed_lm.message, status: "PACKAGED"})
+    lm = lm |> Comms.update_lm!(%{message: message, status: "PACKAGED"})
 
     Activities.update_activity!(lm.activity, %{
       type: "LM_PACKAGED",

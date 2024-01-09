@@ -27,7 +27,6 @@ defmodule Journey.Comms.LM do
   end
 
   def process_vars(lm) do
-    lm
-    |> Map.put(:message, Template.process_vars(lm.client_id, lm.activity_id, lm.message))
+    Template.process_vars(lm.client_id, lm.activity_id, lm.message)
   end
 end
