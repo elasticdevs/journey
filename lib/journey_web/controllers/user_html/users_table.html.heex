@@ -10,7 +10,7 @@
   <:col :let={user} label="Name, Email">
     <%= raw(get_user_display_name_and_email_from_user(user)) %>
   </:col>
-  <:col :let={user} label="Level">
+  <:col :let={user} label="Level" class="w3-badge w3-red">
     <%= user.level %>
   </:col>
   <:action :let={user}>

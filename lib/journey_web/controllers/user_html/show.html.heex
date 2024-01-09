@@ -11,6 +11,13 @@
   <div class="w3-border">
     <div class="w3-bar w3-border-bottom w3-light-grey intronav">
       <a
+        id="a_companies"
+        class="w3-bar-item w3-button testbtn"
+        onclick="openCity(event, 'companies')"
+      >
+        Companies (<%= length(@user.companies) %>)
+      </a>
+      <a
         class="w3-bar-item w3-button testbtn w3-dark-grey"
         onclick="openCity(event, 'visits')"
         id="a_visits"
@@ -33,6 +40,11 @@
       <a id="a_emails" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'emails')">
         Emails (<%= length(enum_activities_emails(@user.activities)) %>)
       </a>
+    </div>
+
+    <div id="companies" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h2>Companies</h2>
+      <.companies_table companies={@user.companies} current_user={@current_user} />
     </div>
 
     <div id="visits" class="w3-container city w3-animate-opacity" style="display: block;">
@@ -86,7 +98,7 @@
   }
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const section = urlParams.get('section') || "visits";
+  const section = urlParams.get('section') || "companies";
   openCity(null, section);
 
   function openc(cityn) {
