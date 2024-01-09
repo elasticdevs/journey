@@ -30,13 +30,7 @@
     </a>
   </:col>
   <:col :let={call} label="Company">
-    <a
-      :if={call.client && call.client.company}
-      href={get_company_url_from_company(call.client.company)}
-      class="w3-font-weight-500"
-    >
-      <%= raw(get_company_display_name_from_company(call.client.company)) %>
-    </a>
+    <.company_cell :if={call.client && call.client.company} company={call.client.company} />
   </:col>
   <:col :let={call} label="Client">
     <a href={"#{get_client_url_from_client(call.client)}/?section=calls"}>

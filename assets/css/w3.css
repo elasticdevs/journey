@@ -40,11 +40,6 @@ img {
   border-radius: 50%;
 }
 
-/* .w3-button:hover {
-  color: #000 !important;
-  background-color: #f1f1f1 !important
-} */
-
 button:hover,
 a:hover {
   cursor: pointer;
@@ -100,4 +95,8 @@ a:hover {
 
 .w3-center {
   text-align: center;
+}
+
+pre {
+  font-size: 0.7em;
 }

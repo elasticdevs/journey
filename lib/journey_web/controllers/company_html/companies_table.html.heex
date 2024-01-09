@@ -25,9 +25,7 @@
     </a>
   </:col>
   <:col :let={company} label="Company">
-    <a href={get_company_url_from_company(company)} class="w3-font-weight-500">
-      <.company_logo_name company={company} />
-    </a>
+    <.company_cell company={company} />
   </:col>
   <:col :let={company} label="Website" class="w3-text-2021-french-blue w3-font-weight-600">
     <%= raw(get_website_from_company(company)) %>

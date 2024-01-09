@@ -46,13 +46,10 @@
     </div>
   </:col>
   <:col :let={activity} label="Company">
-    <a
+    <.company_cell
       :if={activity.client && activity.client.company}
-      href={get_company_url_from_company(activity.client.company)}
-      class="w3-font-weight-500"
-    >
-      <.company_logo_name company={activity.client.company} />
-    </a>
+      company={activity.client.company}
+    />
   </:col>
   <:col :let={activity} label="Client">
     <a :if={activity.client} href={get_client_url_from_client(activity.client)}>

@@ -36,13 +36,7 @@
     </a>
   </:col>
   <:col :let={client} label="Company">
-    <a
-      :if={client.company}
-      href={get_company_url_from_company(client.company)}
-      class="w3-font-weight-500"
-    >
-      <.company_logo_name company={client.company} />
-    </a>
+    <.company_cell :if={client.company} company={client.company} />
   </:col>
   <:col :let={client} label="#Devices"><%= length(client.browsings) %></:col>
   <:col :let={client} label="#Visits">
