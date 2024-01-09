@@ -8,9 +8,7 @@
     <%= browsing.last_visited_at %>
   </:col>
   <:col :let={browsing} label="Client">
-    <a href={get_client_url_from_client(browsing.client)}>
-      <%= raw(get_client_display_name_from_client(browsing.client)) %>
-    </a>
+    <.client_cell :if={browsing.client} client={browsing.client} />
   </:col>
   <:col :let={browsing} label="Device ID">
     <span class="copy">

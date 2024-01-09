@@ -52,9 +52,7 @@
     />
   </:col>
   <:col :let={activity} label="Client">
-    <a :if={activity.client} href={get_client_url_from_client(activity.client)}>
-      <%= raw(get_client_display_name_from_client(activity.client)) %>
-    </a>
+    <.client_cell :if={activity.client} client={activity.client} />
   </:col>
   <:col :let={activity} label="Call">
     <a :if={activity.call} href={get_call_url_from_activity(activity)}>

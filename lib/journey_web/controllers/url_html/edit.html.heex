@@ -1,10 +1,6 @@
-<.back navigate={~p"/urls"} class="back">Back to URLs</.back>
-
-<div class="page-heading center">
-  Edit URL <%= @url.id %>
-  <div class="subheading">Use this form to manage url records in your database.</div>
+<div class="w3-container w3-margin w3-padding">
+  <div class="w3-container">
+    <h2>Edit URL #<%= @url.id %></h2>
+  </div>
+  <.url_form changeset={@changeset} action={~p"/urls/#{@url}"} />
 </div>
-
-<.url_form changeset={@changeset} action={~p"/urls/#{@url}"} />
-
-<.back navigate={~p"/urls"} class="back center">Back to URLs</.back>

@@ -26,7 +26,6 @@ defmodule Journey.URLs.URL do
     |> check_http_https(:url)
     |> validate_url(:url)
     |> add_code()
-    |> unique_constraint(:code)
   end
 
   @doc false
@@ -35,6 +34,7 @@ defmodule Journey.URLs.URL do
     |> cast(attrs, [:name, :purpose, :url, :fallback_url, :status])
     |> check_http_https(:url)
     |> validate_url(:url)
+    |> update_code()
   end
 
   def check_http_https(changeset, field) do
@@ -53,6 +53,16 @@ defmodule Journey.URLs.URL do
 
   def add_code(changeset) do
     change(changeset, %{code: generate_code(get_change(changeset, :url))})
+  end
+
+  def update_code(changeset) do
+    case get_change(changeset, :url) do
+      nil ->
+        changeset
+
+      url ->
+        change(changeset, %{code: generate_code(url)})
+    end
   end
 
   def generate_code(url) do

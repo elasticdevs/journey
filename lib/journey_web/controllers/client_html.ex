@@ -22,4 +22,7 @@ defmodule JourneyWeb.ClientHTML do
   attr :clients, :list, required: true
   attr :current_user, :map, required: true
   def clients_table(assigns)
+
+  attr :client, :map, required: true
+  def client_cell(assigns)
 end

@@ -52,6 +52,13 @@
     </div>
   </div>
   <div class="w3-dropdown-hover">
+    <button class="w3-button">URLs</button>
+    <div class="w3-dropdown-content w3-bar-block w3-card-4">
+      <a href="/urls" class="w3-bar-item w3-button">URLs</a>
+      <a href="/urls/new" class="w3-bar-item w3-button">URL Shortener</a>
+    </div>
+  </div>
+  <div class="w3-dropdown-hover">
     <button class="w3-button">Manage Users</button>
     <div class="w3-dropdown-content w3-bar-block w3-card-4">
       <a href="/users" class="w3-bar-item w3-button">Users</a>
@@ -66,7 +73,12 @@
           <img src={@current_user.picture} class="google-picture" />
         </button>
         <div class="w3-dropdown-content w3-bar-block w3-card-4">
-          <.simple_form for={%{}} method="delete" action={~p"/auth/logout"} class="w3-bar-item w3-button">
+          <.simple_form
+            for={%{}}
+            method="delete"
+            action={~p"/auth/logout"}
+            class="w3-bar-item w3-button"
+          >
             <.button class="post">Logout</.button>
           </.simple_form>
         </div>

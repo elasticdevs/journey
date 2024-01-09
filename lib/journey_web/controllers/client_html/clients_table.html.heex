@@ -35,17 +35,15 @@
       <%= raw(get_user_display_name_or_email_from_user(client.user)) %>
     </a>
   </:col>
-  <:col :let={client} label="Company">
-    <.company_cell :if={client.company} company={client.company} />
-  </:col>
   <:col :let={client} label="#Devices"><%= length(client.browsings) %></:col>
   <:col :let={client} label="#Visits">
     <%= length(enum_browsings_visits(client.browsings)) %>
   </:col>
+  <:col :let={client} label="Company">
+    <.company_cell :if={client.company} company={client.company} />
+  </:col>
   <:col :let={client} label="Client">
-    <a href={get_client_url_from_client(client)} class="w3-font-weight-600">
-      <%= raw(get_client_display_name_email_from_client(client)) %>
-    </a>
+    <.client_cell client={client} />
   </:col>
   <:col :let={client} label="LinkedIn">
     <a href={client.linkedin} target="_blank">

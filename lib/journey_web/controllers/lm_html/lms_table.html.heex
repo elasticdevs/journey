@@ -50,9 +50,7 @@
     </a>
   </:col>
   <:col :let={lm} label="Client">
-    <a href={"#{get_client_url_from_client(lm.client)}/?section=lms"}>
-      <%= get_client_display_name_from_client(lm.client) %>
-    </a>
+    <.client_cell :if={lm.client} client={lm.client} />
   </:col>
   <:col :let={lm} label="Message"><pre><%= lm.message %></pre></:col>
   <:col :let={lm} label="Status">

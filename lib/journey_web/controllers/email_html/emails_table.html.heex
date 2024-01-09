@@ -46,6 +46,7 @@
     <a href={"#{get_client_url_from_client(email.client)}/?section=emails"}>
       <%= get_client_display_name_from_client(email.client) %>
     </a>
+    <.client_cell :if={email.client} client={email.client} />
   </:col>
   <:col :let={email} label="Subject"><pre><%= email.subject %></pre></:col>
   <:col :let={email} label="Body"><pre><%= email.body %></pre></:col>

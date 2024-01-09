@@ -1,8 +1,19 @@
-<div class="page-heading">
-  Listing Urls <span class="data-point"><span class="data">(<%= length(@urls) %>)</span></span>
-  <a href={~p"/urls/new"} class="button">+ New URL</a>
+<div class="w3-container">
+  <h2>URLs</h2>
+</div>
+<div class="w3-container">
+  <input
+    type="text"
+    id="search"
+    placeholder="Search ..."
+    class="w3-input w3-border"
+    style="width:30%"
+  />
+  <div id="search-results-info" class="w3-serif w3-margin-bottom">
+    Showing <span id="search-count"><%= length(@urls) %></span> / <%= length(@urls) %>
+  </div>
 </div>
 
-<div class="section">
-  <.urls_table urls={@urls} />
+<div class="w3-container">
+  <.urls_table urls={@urls} current_user={@current_user} />
 </div>

@@ -167,10 +167,10 @@ defmodule JourneyWeb.HTMLHelpers do
         "<span class='client-name'>#{name}</span>"
 
       {nil, email} ->
-        "<span class='email'>&lt;#{email}&gt;</span>"
+        "<span class='w3-text-safety-blue'>&lt;#{email}&gt;</span>"
 
       {name, email} ->
-        "<span class='client-name'>#{name}</span> <span class='email'>&lt;#{email}&gt;</span>"
+        "<span class='client-name'>#{name}</span> <span class='w3-text-safety-blue'>&lt;#{email}&gt;</span>"
     end
   end
 

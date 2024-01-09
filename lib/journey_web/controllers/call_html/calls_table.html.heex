@@ -33,9 +33,7 @@
     <.company_cell :if={call.client && call.client.company} company={call.client.company} />
   </:col>
   <:col :let={call} label="Client">
-    <a href={"#{get_client_url_from_client(call.client)}/?section=calls"}>
-      <%= get_client_display_name_from_client(call.client) %>
-    </a>
+    <.client_cell :if={call.client} client={call.client} />
   </:col>
   <:col :let={call} label="Message"><pre><%= call.message %></pre></:col>
   <:col :let={call} label="Status">
