@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', function () {
   loginBtn.addEventListener('click', function () {
     chrome.identity.getAuthToken({ 'interactive': true }, function (token) {
       if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError);
+        // console.error(chrome.runtime.lastError);
         return;
       }
 
       // Save the access token under the specified domain
       chrome.storage.local.set({ 'access_token': token }, function () {
         if (chrome.runtime.lastError) {
-          console.error(chrome.runtime.lastError);
+          // console.error(chrome.runtime.lastError);
           return;
         }
 
@@ -47,19 +47,19 @@ document.addEventListener('DOMContentLoaded', function () {
         // Remove the access token from storage
         chrome.storage.local.remove('access_token', function () {
           if (chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError);
+            // console.error(chrome.runtime.lastError);
             return;
           }
-          console.log('Access token removed successfully.');
+          // console.log('Access token removed successfully.');
         });
 
         // Revoke the access token
         chrome.identity.removeCachedAuthToken({ 'token': currentToken }, function () {
           if (chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError);
+            // console.error(chrome.runtime.lastError);
             return;
           }
-          console.log('Access token revoked successfully.');
+          // console.log('Access token revoked successfully.');
         });
 
         chrome.identity.launchWebAuthFlow(
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const currentTab = tabs[0];
       if (currentTab) {
-        console.log("ADD_TO_JOURNEY_READ_URL, current_url=" + currentTab.url)
+        // console.log("ADD_TO_JOURNEY_READ_URL, current_url=" + currentTab.url)
         chrome.tabs.create({
           url: "https://elasticdevs.journey.im/clients/linkedin?linkedin=" + currentTab.url
         })
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const currentTab = tabs[0];
     if (currentTab) {
-      console.log("EXTENSION_OPENED_CHECK_URL, current_url=" + currentTab.url)
+      // console.log("EXTENSION_OPENED_CHECK_URL, current_url=" + currentTab.url)
       updateAddToJourneyButton(currentTab.id, { status: 'complete' }, currentTab);
     }
   });
