@@ -182,8 +182,12 @@ defmodule JourneyWeb.VisitController do
     ua = headers["user-agent"]
     visit_params = Map.put(visit_params, "ua", ua)
 
-    if String.match?(ua, ~r/bot/i) || String.match?(ua, ~r/headless/i) do
-      Logger.debug("BOT_IGNORED_SUCCESSFULLY, ua=#{ua}")
+    # grab IP address and geolocation data
+    remote_ip = conn.remote_ip |> :inet_parse.ntoa() |> to_string()
+
+    if String.match?(ua, ~r/bot/i) || String.match?(ua, ~r/headless/i) ||
+         Enum.member?(["20.169.168.224"], remote_ip) do
+      Logger.debug("BOT_IGNORED_SUCCESSFULLY, remote_ip=#{remote_ip}, ua=#{ua}")
 
       if headers["content-type"] == "application/json" do
         json(conn, %{
@@ -196,9 +200,6 @@ defmodule JourneyWeb.VisitController do
         |> redirect(to: ~p"/visits")
       end
     else
-      # grab IP address and geolocation data
-      remote_ip = conn.remote_ip |> :inet_parse.ntoa() |> to_string()
-
       visit_params =
         case GeoIP.lookup(remote_ip) do
           {:ok, geoip} ->
