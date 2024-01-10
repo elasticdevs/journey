@@ -43,9 +43,6 @@
     <.company_cell :if={email.client && email.client.company} company={email.client.company} />
   </:col>
   <:col :let={email} label="Client">
-    <a href={"#{get_client_url_from_client(email.client)}/?section=emails"}>
-      <%= get_client_display_name_from_client(email.client) %>
-    </a>
     <.client_cell :if={email.client} client={email.client} />
   </:col>
   <:col :let={email} label="Subject"><pre><%= email.subject %></pre></:col>
