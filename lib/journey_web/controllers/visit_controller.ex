@@ -186,7 +186,7 @@ defmodule JourneyWeb.VisitController do
     remote_ip = conn.remote_ip |> :inet_parse.ntoa() |> to_string()
 
     if String.match?(ua, ~r/bot/i) || String.match?(ua, ~r/headless/i) ||
-         Enum.member?(["20.169.168.224"], remote_ip) do
+         Enum.member?(["20.169.168.224", "172.176.75.89"], remote_ip) do
       Logger.debug("BOT_IGNORED_SUCCESSFULLY, remote_ip=#{remote_ip}, ua=#{ua}")
 
       if headers["content-type"] == "application/json" do
