@@ -3,7 +3,7 @@ defmodule JourneyWeb.Endpoint do
 
   plug Plug.RequestId, assign_as: :request_id
   plug RemoteIp
-  plug CORSPlug
+  plug CORSPlug, origin: ["https://journey.im"]
   plug JourneyWeb.Plugs.ClientIp
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
