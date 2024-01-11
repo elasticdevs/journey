@@ -166,7 +166,8 @@ defmodule JourneyWeb.EmailController do
     email = Comms.get_email_one!(conn.assigns.current_user, id)
     current_user = conn.assigns.current_user
 
-    {subject, body} = Email.process_vars(email)
+    {subject, body} = Email.process_vars(email, true)
+    {subject_nt, body_nt} = Email.process_vars(email)
     processed_email = Map.merge(email, %{subject: subject, body: body})
 
     case Gmail.send(processed_email)
@@ -174,6 +175,8 @@ defmodule JourneyWeb.EmailController do
       {:ok, result} ->
         email
         |> Comms.update_email(%{
+          subject: subject_nt,
+          body: body_nt,
           status: "SENT"
         })
 

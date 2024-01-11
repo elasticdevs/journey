@@ -37,15 +37,22 @@ defmodule Journey.Comms.Email do
     |> validate_required([:subject, :body, :read_tracking, :client_id, :status])
   end
 
-  def process_vars(email) do
+  def process_vars(email, tracking \\ false) do
     subject = Template.process_vars(email.client_id, email.activity.id, email.subject)
 
-    body = """
-    <pre>
-    #{Template.process_vars(email.client_id, email.activity.id, email.body)}
-    <pre>
-    <img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />
-    """
+    body =
+      case tracking do
+        false ->
+          Template.process_vars(email.client_id, email.activity.id, email.body)
+
+        true ->
+          """
+          <pre>
+          #{Template.process_vars(email.client_id, email.activity.id, email.body)}
+          <pre>
+          <img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />
+          """
+      end
 
     {subject, body}
   end
