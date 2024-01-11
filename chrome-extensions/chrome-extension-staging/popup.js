@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (currentTab) {
         console.log("ADD_TO_JOURNEY_READ_URL, current_url=" + currentTab.url)
         chrome.tabs.create({
-          url: "https://staging.elasticdevs.journey.im/clients/linkedin?linkedin=" + currentTab.url
+          url: "https://staging." + userData["hd"].split(".")[0] + ".journey.im/clients/linkedin?linkedin=" + currentTab.url
         })
       }
     });
