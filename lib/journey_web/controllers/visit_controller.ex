@@ -184,10 +184,32 @@ defmodule JourneyWeb.VisitController do
 
     # grab IP address and geolocation data
     remote_ip = conn.remote_ip |> :inet_parse.ntoa() |> to_string()
+    visit_params = Map.put(visit_params, "ipaddress", remote_ip)
+
+    # grab geoip data
+    visit_params =
+      case GeoIP.lookup(remote_ip) do
+        {:ok, geoip} ->
+          Map.merge(visit_params, %{
+            "as" => geoip.as,
+            "country" => geoip.country_code,
+            "state" => geoip.region_name,
+            "city" => geoip.city_name,
+            "lat" => :erlang.float_to_binary(geoip.latitude, decimals: 2),
+            "lon" => :erlang.float_to_binary(geoip.longitude, decimals: 2)
+          })
+
+        _ ->
+          visit_params
+      end
 
     if String.match?(ua, ~r/bot/i) || String.match?(ua, ~r/headless/i) ||
-         Enum.member?(["20.169.168.224", "172.176.75.89"], remote_ip) do
-      Logger.debug("BOT_IGNORED_SUCCESSFULLY, remote_ip=#{remote_ip}, ua=#{ua}")
+         Enum.member?(["20.169.168.224", "172.176.75.89", "52.165.149.97"], remote_ip) ||
+         String.match?(visit_params["as"], ~r/Microsoft/i) ||
+         String.match?(visit_params["as"], ~r/Google/i) do
+      Logger.debug(
+        "BOT_IGNORED_SUCCESSFULLY, remote_ip=#{remote_ip}, as=#{visit_params["as"]}, ua=#{ua}"
+      )
 
       if headers["content-type"] == "application/json" do
         json(conn, %{
@@ -200,23 +222,6 @@ defmodule JourneyWeb.VisitController do
         |> redirect(to: ~p"/visits")
       end
     else
-      visit_params =
-        case GeoIP.lookup(remote_ip) do
-          {:ok, geoip} ->
-            Map.merge(visit_params, %{
-              "country" => geoip.country_code,
-              "state" => geoip.region_name,
-              "city" => geoip.city_name,
-              "lat" => :erlang.float_to_binary(geoip.latitude, decimals: 2),
-              "lon" => :erlang.float_to_binary(geoip.longitude, decimals: 2)
-            })
-
-          _ ->
-            visit_params
-        end
-
-      visit_params = Map.put(visit_params, "ipaddress", remote_ip)
-
       # grab gdpr_accepted
       gdpr_accepted = visit_params["gdpr_accepted"]
 
