@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const userName = document.getElementById('user-name');
   const userEmail = document.getElementById('user-email');
   const userPic = document.getElementById('user-pic');
+  var userData;
 
   // Check if the user is already logged in
   chrome.identity.getAuthToken({ 'interactive': false }, function (token) {
@@ -108,6 +109,8 @@ document.addEventListener('DOMContentLoaded', function () {
     })
       .then(response => response.json())
       .then(data => {
+        userData = data;
+        console.log("USER_DATA, userData=" + JSON.stringify(userData));
         userName.textContent = data.name;
         userEmail.textContent = data.email;
         userPic.src = data.picture;
