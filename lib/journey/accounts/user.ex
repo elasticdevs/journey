@@ -18,9 +18,9 @@ defmodule Journey.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
-    has_many :companies, Company, preload_order: [desc: :inserted_at]
-    has_many :clients, Client, preload_order: [desc: :last_visited_at]
-    has_many :activities, Activity, preload_order: [desc: :inserted_at]
+    has_many :companies, Company, preload_order: [desc_nulls_last: :updated_at]
+    has_many :clients, Client, preload_order: [desc_nulls_last: :last_visited_at]
+    has_many :activities, Activity, preload_order: [desc_nulls_last: :updated_at]
 
     timestamps(type: :utc_datetime)
   end

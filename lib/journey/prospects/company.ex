@@ -27,7 +27,7 @@ defmodule Journey.Prospects.Company do
     field :website, :string
     field :source, :string
     field :external_id, :string
-    has_many :clients, Client, preload_order: [:inserted_at]
+    has_many :clients, Client, preload_order: [desc_nulls_last: :last_visited_at]
     belongs_to :user, User
 
     timestamps(type: :utc_datetime)

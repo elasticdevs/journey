@@ -32,12 +32,12 @@ defmodule Journey.Prospects.Client do
     field :comments, :string
     field :source, :string
     field :last_visited_at, :utc_datetime_usec
-    has_many :visits, Visit, preload_order: [desc: :inserted_at]
-    has_many :browsings, Browsing, preload_order: [desc: :last_visited_at]
-    has_many :activities, Activity, preload_order: [desc: :inserted_at]
-    has_many :calls, Call, preload_order: [desc: :inserted_at]
-    has_many :lms, LM, preload_order: [desc: :inserted_at]
-    has_many :emails, Email, preload_order: [desc: :inserted_at]
+    has_many :visits, Visit, preload_order: [desc_nulls_last: :updated_at]
+    has_many :browsings, Browsing, preload_order: [desc_nulls_last: :last_visited_at]
+    has_many :activities, Activity, preload_order: [desc_nulls_last: :updated_at]
+    has_many :calls, Call, preload_order: [desc_nulls_last: :updated_at]
+    has_many :lms, LM, preload_order: [desc_nulls_last: :updated_at]
+    has_many :emails, Email, preload_order: [desc_nulls_last: :updated_at]
     has_one :url, URL
     belongs_to :company, Company
     belongs_to :user, User
