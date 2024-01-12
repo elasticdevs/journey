@@ -24,7 +24,7 @@ defmodule Journey.Comms.Gmail do
 
     new()
     |> to({email.client.name, email.client.email})
-    |> bcc("mgmt@elasticdevs.io")
+    # |> bcc("mgmt@elasticdevs.io")
     |> from({"Shailesh Narayan", "shailesh@elasticdevs.io"})
     |> subject(email.subject)
     |> html_body(email.body)
