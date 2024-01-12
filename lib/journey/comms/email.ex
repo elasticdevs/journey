@@ -47,7 +47,7 @@ defmodule Journey.Comms.Email do
 
         true ->
           """
-          <pre>
+          <pre style="font-family: inherit;">
           #{Template.process_vars(email.client_id, email.activity.id, email.body)}
           <pre>
           <img src='#{URLs.sponsored_img_url_shortened_from_url(email.activity.url)}' style='display:none' />
