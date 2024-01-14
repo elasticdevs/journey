@@ -33,7 +33,7 @@ defmodule Journey.Analytics do
         _ ->
           {
             dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
-            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+            dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
           }
       end
 
@@ -81,7 +81,7 @@ defmodule Journey.Analytics do
           true
 
         _ ->
-          dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+          dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
       end
 
     visits_query = from v in Visit, where: ^visits_where
@@ -114,7 +114,7 @@ defmodule Journey.Analytics do
           true
 
         _ ->
-          dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+          dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
       end
 
     visits_query = from v in Visit, where: ^visits_where
@@ -228,7 +228,7 @@ defmodule Journey.Analytics do
           true
 
         _ ->
-          dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+          dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
       end
 
     Repo.all(
@@ -242,7 +242,7 @@ defmodule Journey.Analytics do
           ^current_user.level == 0 or is_nil(u) or
             (not is_nil(u.level) and u.level >= ^current_user.level) or
             is_nil(c),
-        order_by: [desc_nulls_last: v.inserted_at],
+        order_by: [desc_nulls_last: v.updated_at],
         preload: [[activity: [:call, :lm, :email]], [client: :company], browsing: :client]
     )
   end

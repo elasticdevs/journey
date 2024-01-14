@@ -29,7 +29,7 @@ defmodule Journey.Activities do
           true
 
         _ ->
-          dynamic([a], ago(^in_last_secs, "second") < a.inserted_at)
+          dynamic([a], ago(^in_last_secs, "second") < a.updated_at)
       end
 
     Repo.all(

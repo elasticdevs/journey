@@ -42,7 +42,7 @@ defmodule Journey.Prospects do
           {
             dynamic([c], ago(^in_last_secs, "second") < c.last_visited_at),
             dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
-            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+            dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
           }
       end
 
@@ -102,11 +102,11 @@ defmodule Journey.Prospects do
         _ ->
           {
             dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
-            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at),
-            dynamic([a], ago(^in_last_secs, "second") < a.inserted_at),
-            dynamic([c], ago(^in_last_secs, "second") < c.inserted_at),
-            dynamic([l], ago(^in_last_secs, "second") < l.inserted_at),
-            dynamic([e], ago(^in_last_secs, "second") < e.inserted_at)
+            dynamic([v], ago(^in_last_secs, "second") < v.updated_at),
+            dynamic([a], ago(^in_last_secs, "second") < a.updated_at),
+            dynamic([c], ago(^in_last_secs, "second") < c.updated_at),
+            dynamic([l], ago(^in_last_secs, "second") < l.updated_at),
+            dynamic([e], ago(^in_last_secs, "second") < e.updated_at)
           }
       end
 
@@ -176,7 +176,7 @@ defmodule Journey.Prospects do
         _ ->
           {
             dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
-            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+            dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
           }
       end
 
@@ -434,7 +434,7 @@ defmodule Journey.Prospects do
   def list_companies do
     Repo.all(
       from c in Company,
-        order_by: [desc: :inserted_at],
+        order_by: [desc: :updated_at],
         preload: :user
     )
   end
@@ -478,7 +478,7 @@ defmodule Journey.Prospects do
         _ ->
           {
             dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
-            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+            dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
           }
       end
 

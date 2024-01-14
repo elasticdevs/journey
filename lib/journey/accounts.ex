@@ -89,7 +89,7 @@ defmodule Journey.Accounts do
         _ ->
           {
             dynamic([b], ago(^in_last_secs, "second") < b.last_visited_at),
-            dynamic([v], ago(^in_last_secs, "second") < v.inserted_at)
+            dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
           }
       end
 
