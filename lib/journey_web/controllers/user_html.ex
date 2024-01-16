@@ -19,6 +19,6 @@ defmodule JourneyWeb.UserHTML do
   def user_form(assigns)
 
   attr :users, :list, required: true
-
+  attr :search_count_id, :string, required: true
   def users_table(assigns)
 end

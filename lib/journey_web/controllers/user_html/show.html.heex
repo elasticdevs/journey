@@ -2,7 +2,7 @@
   <h2>User</h2>
 </div>
 <div class="w3-container">
-  <.users_table users={[@user]} />
+  <.users_table search_count_id="users_count_id" users={[@user]} />
 </div>
 
 <br /><br />
@@ -44,32 +44,52 @@
 
     <div id="companies" class="w3-container city w3-animate-opacity" style="display: none;">
       <h2>Companies</h2>
-      <.companies_table companies={@user.companies} current_user={@current_user} />
+      <.companies_table
+        search_count_id="companies_count_id"
+        companies={@user.companies}
+        current_user={@current_user}
+      />
     </div>
 
     <div id="visits" class="w3-container city w3-animate-opacity" style="display: block;">
       <h2>Visits</h2>
-      <.visits_table visits={enum_clients_visits(@user.clients)} />
+      <.visits_table
+        search_count_id="visits_count_id"
+        visits={enum_clients_visits(@user.clients)}
+      />
     </div>
 
     <div id="activities" class="w3-container city w3-animate-opacity" style="display: none;">
       <h2>Activities</h2>
-      <.activities_table activities={@user.activities} current_user={@current_user} />
+      <.activities_table
+        search_count_id="activities_count_id"
+        activities={@user.activities}
+        current_user={@current_user}
+      />
     </div>
 
     <div id="calls" class="w3-container city w3-animate-opacity" style="display: none;">
       <h2>Calls</h2>
-      <.calls_table calls={enum_activities_calls(@user.activities)} current_user={@current_user} />
+      <.calls_table
+        search_count_id="calls_count_id"
+        calls={enum_activities_calls(@user.activities)}
+        current_user={@current_user}
+      />
     </div>
 
     <div id="lms" class="w3-container city w3-animate-opacity" style="display: none;">
       <h2>LMs</h2>
-      <.lms_table lms={enum_activities_lms(@user.activities)} current_user={@current_user} />
+      <.lms_table
+        search_count_id="lms_count_id"
+        lms={enum_activities_lms(@user.activities)}
+        current_user={@current_user}
+      />
     </div>
 
     <div id="emails" class="w3-container city w3-animate-opacity" style="display: none;">
       <h2>Emails</h2>
       <.emails_table
+        search_count_id="emails_count_id"
         emails={enum_activities_emails(@user.activities)}
         current_user={@current_user}
       />
@@ -94,7 +114,7 @@
       evt.currentTarget.className += " w3-dark-grey";
     } else {
       document.getElementById("a_" + cityName).classList.add("w3-dark-grey");
-    }    
+    }
   }
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -105,8 +125,8 @@
       var i;
       var x = document.getElementsByClassName("cityclose");
       for (i = 0; i < x.length; i++) {
-         x[i].style.display = "none";  
+         x[i].style.display = "none";
       }
-      document.getElementById(cityn).style.display = "block";  
+      document.getElementById(cityn).style.display = "block";
   }
 </script>
