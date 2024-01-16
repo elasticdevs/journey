@@ -2,7 +2,7 @@
   <h2>Device</h2>
 </div>
 <div class="w3-container">
-  <.browsings_table browsings={[@browsing]} />
+  <.browsings_table search_count_id="browsings_count_id" browsings={[@browsing]} />
 </div>
 
 <br /><br />
@@ -11,5 +11,5 @@
   <h3>Visits</h3>
 </div>
 <div class="w3-container">
-  <.visits_table visits={@browsing.visits} />
+  <.visits_table search_count_id="visits_count_id" visits={@browsing.visits} />
 </div>

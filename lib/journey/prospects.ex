@@ -438,7 +438,7 @@ defmodule Journey.Prospects do
           true
 
         cu ->
-          dynamic([c], c.id == ^cu.id)
+          dynamic([c], c.user_id == ^cu.id)
       end
 
     Repo.all(

@@ -2,5 +2,9 @@
   <h2>Activity</h2>
 </div>
 <div class="w3-container">
-  <.activities_table activities={[@activity]} current_user={@current_user} />
+  <.activities_table
+    search_count_id="activities_count_id"
+    activities={[@activity]}
+    current_user={@current_user}
+  />
 </div>
