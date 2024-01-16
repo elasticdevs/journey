@@ -1,8 +1,9 @@
 <.table
   id="table"
+  search_count_id={@search_count_id}
   rows={@calls}
   row_click={&JS.navigate(~p"/calls/#{&1}")}
-  class="w3-table-all w3-hoverable"
+  class="search-table w3-table-all w3-hoverable"
 >
   <:col :let={call} label="Activity Type">
     <a href={get_activity_url_from_activity(call.activity)}>

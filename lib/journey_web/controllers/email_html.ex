@@ -23,5 +23,6 @@ defmodule JourneyWeb.EmailHTML do
 
   attr :emails, :list, required: true
   attr :current_user, :map, required: true
+  attr :search_count_id, :string, required: true
   def emails_table(assigns)
 end

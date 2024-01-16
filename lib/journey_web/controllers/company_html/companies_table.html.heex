@@ -1,8 +1,9 @@
 <.table
   id="table"
+  search_count_id={@search_count_id}
   rows={@companies}
   row_click={&JS.navigate(~p"/companies/#{&1}")}
-  class="w3-table-all w3-hoverable"
+  class="search-table w3-table-all w3-hoverable"
 >
   <:col :let={company} label="Added">
     <div class="utc_to_local">
@@ -23,6 +24,11 @@
     >
       <%= raw(get_user_display_name_or_email_from_user(company.user)) %>
     </a>
+  </:col>
+  <:col :let={company} label="Status">
+    <span :if={company.status}>
+      <%= company.status %>
+    </span>
   </:col>
   <:col :let={company} label="Company">
     <.company_cell company={company} />

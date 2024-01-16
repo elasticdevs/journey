@@ -11,10 +11,10 @@
     style="width:30%"
   />
   <div id="search-results-info" class="w3-serif w3-margin-bottom">
-    Showing <span id="search-count"><%= length(@users) %></span> / <%= length(@users) %>
+    Showing <span id="users_count_id"><%= length(@users) %></span> / <%= length(@users) %>
   </div>
 </div>
 
 <div class="w3-container">
-  <.users_table users={@users} />
+  <.users_table search_count_id="users_count_id" users={@users} />
 </div>

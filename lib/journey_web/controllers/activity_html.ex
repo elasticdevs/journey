@@ -22,5 +22,6 @@ defmodule JourneyWeb.ActivityHTML do
 
   attr :activities, :list, required: true
   attr :current_user, :map, required: true
+  attr :search_count_id, :string, required: true
   def activities_table(assigns)
 end

@@ -1,0 +1,100 @@
+<div class="w3-row-padding" style="margin:0 -16px">
+  <div class="w3-quarter">
+    <a href="/companies">
+      <div class="w3-card w3-margin w3-border w3-no-box-shadow">
+        <header class="w3-container w3-sand">
+          <h3>
+            Clients
+            <span class="w3-pink w3-round-large w3-padding w3-margin">
+              <%= length(@companies_all) %>
+            </span>
+          </h3>
+        </header>
+
+        <div class="w3-container">
+          <h5><%= @in_last_secs_string %>:</h5>
+          <p>
+            # of user companies:
+            <span class="w3-pink w3-round-large w3-padding w3-margin">
+              <%= length(@companies) %>
+            </span>
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="w3-quarter">
+    <a href="/clients">
+      <div class="w3-card w3-margin w3-border w3-no-box-shadow">
+        <header class="w3-container w3-sand">
+          <h3>
+            Clients
+            <span class="w3-brown w3-round-large w3-padding w3-margin">
+              <%= length(@clients_all) %>
+            </span>
+          </h3>
+        </header>
+
+        <div class="w3-container">
+          <h5><%= @in_last_secs_string %>:</h5>
+          <p>
+            # of clients with visits:
+            <span class="w3-brown w3-round-large w3-padding w3-margin">
+              <%= length(@clients) %>
+            </span>
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="w3-quarter">
+    <a href="/visits">
+      <div class="w3-card w3-margin w3-border w3-no-box-shadow">
+        <header class="w3-container w3-pale-blue">
+          <h3>
+            Visits
+            <span class="w3-indigo w3-round-large w3-padding w3-margin">
+              <%= length(@visits_all) %>
+            </span>
+          </h3>
+        </header>
+
+        <div class="w3-container">
+          <h5><%= @in_last_secs_string %>:</h5>
+          <p>
+            # of visits:
+            <span class="w3-indigo w3-round-large w3-padding w3-margin">
+              <%= length(@visits) %>
+            </span>
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="w3-quarter">
+    <a href="/activities">
+      <div class="w3-card w3-margin w3-border w3-no-box-shadow">
+        <header class="w3-container w3-light-gray">
+          <h3>
+            Activities
+            <span class="w3-dark-gray w3-round-large w3-padding w3-margin">
+              <%= length(@activities_all) %>
+            </span>
+          </h3>
+        </header>
+
+        <div class="w3-container">
+          <h5><%= @in_last_secs_string %>:</h5>
+          <p>
+            # of activities:
+            <span class="w3-dark-gray w3-round-large w3-padding w3-margin">
+              <%= length(@activities) %>
+            </span>
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

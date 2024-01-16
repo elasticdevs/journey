@@ -7,26 +7,27 @@ defmodule Journey.Prospects.Company do
 
   @derive {Jason.Encoder, only: [:company_uuid]}
   schema "companies" do
-    field :annual_revenue, :string
-    field :city, :string
     field :company_uuid, Ecto.UUID
-    field :country, :string
+    field :external_id, :string
+    field :name, :string
+    field :phone, :string
+    field :annual_revenue, :string
     field :founded_year, :string
     field :funding, :string
     field :industries, :string
     field :lat, :string
+    field :lon, :string
     field :linkedin, :string
     field :logo, :string
-    field :lon, :string
     field :market_cap, :string
-    field :name, :string
-    field :phone, :string
+    field :city, :string
     field :state, :string
+    field :country, :string
     field :status, :string
     field :team_size, :string
     field :website, :string
     field :source, :string
-    field :external_id, :string
+
     has_many :clients, Client, preload_order: [desc_nulls_last: :last_visited_at]
     belongs_to :user, User
 

@@ -125,24 +125,26 @@ $(function () {
     var input, filter, table, tr, td, i, txtValue
     input = document.getElementById("search")
     filter = input.value.toLowerCase()
-    table = document.getElementById("table")
-    tr = table.getElementsByTagName("tr")
+    tables = document.getElementsByClassName("search-table")
+    tables.length > 0 && Array.from(tables).forEach(table => {
+      trs = table.getElementsByClassName("table")[0].getElementsByTagName("tr")
 
-    // Loop through all table rows, and hide those who don't match the search query
-    count = 0
-    for (i = 0; i < tr.length; i++) {
-      if (tr[i]) {
-        txtValue = tr[i].textContent || tr[i].innerText
-        if (txtValue.toLowerCase().indexOf(filter) > -1) {
-          tr[i].style.display = ""
-          count++
-        } else {
-          tr[i].style.display = "none"
+      // Loop through all table rows, and hide those who don't match the search query
+      count = 0
+      for (i = 0; i < trs.length; i++) {
+        if (trs[i]) {
+          txtValue = trs[i].textContent || trs[i].innerText
+          if (!filter.trim() || txtValue.toLowerCase().indexOf(filter) > -1) {
+            trs[i].style.display = ""
+            count++
+          } else {
+            trs[i].style.display = "none"
+          }
         }
       }
-    }
-
-    $("#search-count").html(count)
+      search_count_id = "#" + table.getAttribute("search_count_id")
+      $(search_count_id).html(count)
+    });
   })
 })
 $(function () {

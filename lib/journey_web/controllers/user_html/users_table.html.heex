@@ -1,8 +1,9 @@
 <.table
   id="users"
+  search_count_id={@search_count_id}
   rows={@users}
   row_click={&JS.navigate(~p"/users/#{&1}")}
-  class="w3-table-all w3-hoverable"
+  class="search-table w3-table-all w3-hoverable"
 >
   <:col :let={user} label="Picture">
     <img src={user.picture} class="logo w3-round-xxlarge" />

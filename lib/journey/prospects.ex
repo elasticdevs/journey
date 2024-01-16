@@ -431,9 +431,19 @@ defmodule Journey.Prospects do
       [%Company{}, ...]
 
   """
-  def list_companies do
+  def list_companies(current_user \\ nil) do
+    companies_where =
+      case current_user do
+        nil ->
+          true
+
+        cu ->
+          dynamic([c], c.id == ^cu.id)
+      end
+
     Repo.all(
       from c in Company,
+        where: ^companies_where,
         order_by: [desc: :updated_at],
         preload: :user
     )

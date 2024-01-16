@@ -1,8 +1,9 @@
 <.table
   id="table"
+  search_count_id={@search_count_id}
   rows={@lms}
   row_click={&JS.navigate(~p"/lms/#{&1}")}
-  class="w3-table-all w3-hoverable"
+  class="search-table w3-table-all w3-hoverable"
 >
   <:col :let={lm} label="Activity Type">
     <a href={get_activity_url_from_activity(lm.activity)}>
@@ -41,13 +42,7 @@
   </:col>
 
   <:col :let={lm} label="Company">
-    <a
-      :if={lm.client && lm.client.company}
-      href={get_company_url_from_company(lm.client.company)}
-      class="w3-font-weight-500"
-    >
-      <%= raw(get_company_display_name_from_company(lm.client.company)) %>
-    </a>
+    <.company_cell :if={lm.client && lm.client.company} company={lm.client.company} />
   </:col>
   <:col :let={lm} label="Client">
     <.client_cell :if={lm.client} client={lm.client} />

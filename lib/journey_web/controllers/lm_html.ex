@@ -23,5 +23,6 @@ defmodule JourneyWeb.LMHTML do
 
   attr :lms, :list, required: true
   attr :current_user, :map, required: true
+  attr :search_count_id, :string, required: true
   def lms_table(assigns)
 end

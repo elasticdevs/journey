@@ -6,11 +6,43 @@ defmodule JourneyWeb.ActivityController do
 
   def index(conn, _params) do
     in_last_secs = get_in_last_secs_from_cookie(conn)
+    current_user = conn.assigns.current_user
+
+    lead =
+      Activities.list_activities(conn.assigns.current_user, %{
+        in_last_secs: in_last_secs,
+        types: ["COMPANY_LINKEDIN_ADDED", "CLIENT_LINKEDIN_ADDED"]
+      })
+
+    communicational =
+      Activities.list_activities(conn.assigns.current_user, %{
+        in_last_secs: in_last_secs,
+        types: ["CALLED", "LM_SENT", "EMAILED"]
+      })
+
+    draft =
+      Activities.list_activities(conn.assigns.current_user, %{
+        in_last_secs: in_last_secs,
+        types: ["LM_DRAFTED", "EMAIL_DRAFTED"]
+      })
+
+    operational =
+      Activities.list_activities(conn.assigns.current_user, %{
+        in_last_secs: in_last_secs,
+        types: ["LOGGED_IN", "LOGGED_OUT"]
+      })
 
     activities =
       Activities.list_activities(conn.assigns.current_user, %{in_last_secs: in_last_secs})
 
-    render(conn, :index, activities: activities)
+    render(conn, :index,
+      current_user: current_user,
+      lead: lead,
+      communicational: communicational,
+      draft: draft,
+      operational: operational,
+      activities: activities
+    )
   end
 
   def new(conn, _params) do

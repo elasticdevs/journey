@@ -23,5 +23,6 @@ defmodule JourneyWeb.CallHTML do
 
   attr :calls, :list, required: true
   attr :current_user, :map, required: true
+  attr :search_count_id, :string, required: true
   def calls_table(assigns)
 end

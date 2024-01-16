@@ -218,17 +218,26 @@ defmodule Journey.Analytics do
 
   """
 
-  def list_visits(current_user, %{in_last_secs: in_last_secs}) do
+  def list_visits(current_user, %{in_last_secs: in_last_secs, type: type}) do
     visits_where =
-      case in_last_secs do
-        "all" ->
+      case {in_last_secs, type} do
+        {nil, nil} ->
           true
 
-        nil ->
+        {"all", nil} ->
           true
 
-        _ ->
+        {"all", type} ->
+          dynamic([v], v.type == ^type)
+
+        {nil, type} ->
+          dynamic([v], v.type == ^type)
+
+        {in_last_secs, nil} ->
           dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
+
+        {in_last_secs, type} ->
+          dynamic([v], ago(^in_last_secs, "second") < v.updated_at and v.type == ^type)
       end
 
     Repo.all(
@@ -245,6 +254,18 @@ defmodule Journey.Analytics do
         order_by: [desc_nulls_last: v.updated_at],
         preload: [[activity: [:call, :lm, :email]], [client: :company], browsing: :client]
     )
+  end
+
+  def list_visits(current_user, %{in_last_secs: in_last_secs}) do
+    list_visits(current_user, %{in_last_secs: in_last_secs, type: nil})
+  end
+
+  def list_visits(current_user, %{type: type}) do
+    list_visits(current_user, %{in_last_secs: nil, type: type})
+  end
+
+  def list_visits(current_user) do
+    list_visits(current_user, %{in_last_secs: nil, type: nil})
   end
 
   @doc """

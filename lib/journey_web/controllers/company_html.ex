@@ -20,6 +20,7 @@ defmodule JourneyWeb.CompanyHTML do
 
   attr :companies, :list, required: true
   attr :current_user, :map, required: true
+  attr :search_count_id, :string, required: true
   def companies_table(assigns)
 
   attr :company, :map, required: true

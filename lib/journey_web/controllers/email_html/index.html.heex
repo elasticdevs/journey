@@ -11,10 +11,10 @@
     style="width:30%"
   />
   <div id="search-results-info" class="w3-serif w3-margin-bottom">
-    Showing <span id="search-count"><%= length(@emails) %></span> / <%= length(@emails) %>
+    Showing <span id="emails_count_id"><%= length(@emails) %></span> / <%= length(@emails) %>
   </div>
 </div>
 
 <div class="w3-container">
-  <.emails_table emails={@emails} current_user={@current_user} />
+  <.emails_table search_count_id="emails_count_id" emails={@emails} current_user={@current_user} />
 </div>

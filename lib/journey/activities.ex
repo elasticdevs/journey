@@ -19,17 +19,35 @@ defmodule Journey.Activities do
       [%Activity{}, ...]
 
   """
-  def list_activities(current_user, %{in_last_secs: in_last_secs}) do
+  def list_activities(current_user, %{in_last_secs: in_last_secs, types: types}) do
     activities_where =
-      case in_last_secs do
-        "all" ->
+      case {in_last_secs, types} do
+        {nil, nil} ->
           true
 
-        nil ->
+        {nil, []} ->
           true
 
-        _ ->
-          dynamic([a], ago(^in_last_secs, "second") < a.updated_at)
+        {"all", nil} ->
+          true
+
+        {"all", []} ->
+          true
+
+        {"all", types} ->
+          dynamic([v], v.type in ^types)
+
+        {nil, types} ->
+          dynamic([v], v.type in ^types)
+
+        {in_last_secs, nil} ->
+          dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
+
+        {in_last_secs, []} ->
+          dynamic([v], ago(^in_last_secs, "second") < v.updated_at)
+
+        {in_last_secs, types} ->
+          dynamic([v], ago(^in_last_secs, "second") < v.updated_at and v.type in ^types)
       end
 
     Repo.all(
@@ -43,6 +61,10 @@ defmodule Journey.Activities do
         order_by: [desc_nulls_last: :executed_at],
         preload: [:user, :company, :call, :lm, :email, :visit, client: [:user, :company]]
     )
+  end
+
+  def list_activities(current_user, %{in_last_secs: in_last_secs}) do
+    list_activities(current_user, %{in_last_secs: in_last_secs, types: nil})
   end
 
   @doc """

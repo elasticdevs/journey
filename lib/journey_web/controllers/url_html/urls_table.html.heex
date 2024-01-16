@@ -1,8 +1,9 @@
 <.table
   id="urls"
+  search_count_id={@search_count_id}
   rows={@urls}
   row_click={&JS.navigate(~p"/urls/#{&1}")}
-  class="w3-table-all w3-hoverable"
+  class="search-table w3-table-all w3-hoverable"
 >
   <:col :let={url} label="Shortened URL" class="shortened">
     <%= raw(sponsored_link_shortened_from_url_or_empty(url)) %>

@@ -1,8 +1,9 @@
 <.table
   id="table"
+  search_count_id={@search_count_id}
   rows={@clients}
   row_click={&JS.navigate(~p"/clients/#{&1}")}
-  class="w3-table-all w3-hoverable"
+  class="search-table w3-table-all w3-hoverable"
 >
   <:col :let={client} label="Last Visited ⬇">
     <div

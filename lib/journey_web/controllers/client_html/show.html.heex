@@ -2,7 +2,7 @@
   <h2>Client</h2>
 </div>
 <div class="w3-container">
-  <.clients_table clients={[@client]} current_user={@current_user} />
+  <.clients_table search_count_id="search" clients={[@client]} current_user={@current_user} />
 </div>
 
 <br /><br />
@@ -37,12 +37,16 @@
 
     <div id="visits" class="w3-container city w3-animate-opacity" style="display: block;">
       <h2>Visits</h2>
-      <.visits_table visits={@client.visits} />
+      <.visits_table search_count_id="visits_count_id" visits={@client.visits} />
     </div>
 
     <div id="activities" class="w3-container city w3-animate-opacity" style="display: none;">
       <h2>Activities</h2>
-      <.activities_table activities={@client.activities} current_user={@current_user} />
+      <.activities_table
+        search_count_id="activities_count_id"
+        activities={@client.activities}
+        current_user={@current_user}
+      />
     </div>
 
     <div id="calls" class="w3-container city w3-animate-opacity" style="display: none;">
@@ -50,13 +54,17 @@
       <a href={~p"/calls/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">
         + Call
       </a>
-      <.calls_table calls={@client.calls} current_user={@current_user} />
+      <.calls_table
+        search_count_id="calls_count_id"
+        calls={@client.calls}
+        current_user={@current_user}
+      />
     </div>
 
     <div id="lms" class="w3-container city w3-animate-opacity" style="display: none;">
       <h2>LMs</h2>
       <a href={~p"/lms/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">+ LM</a>
-      <.lms_table lms={@client.lms} current_user={@current_user} />
+      <.lms_table search_count_id="lms_count_id" lms={@client.lms} current_user={@current_user} />
     </div>
 
     <div id="emails" class="w3-container city w3-animate-opacity" style="display: none;">
@@ -64,7 +72,11 @@
       <a href={~p"/emails/new?client_uuid=#{@client.client_uuid}"} class="w3-btn w3-black">
         + Email
       </a>
-      <.emails_table emails={@client.emails} current_user={@current_user} />
+      <.emails_table
+        search_count_id="emails_count_id"
+        emails={@client.emails}
+        current_user={@current_user}
+      />
     </div>
     <br />
   </div>
@@ -86,7 +98,7 @@
       evt.currentTarget.className += " w3-dark-grey";
     } else {
       document.getElementById("a_" + cityName).classList.add("w3-dark-grey");
-    }    
+    }
   }
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -97,8 +109,8 @@
       var i;
       var x = document.getElementsByClassName("cityclose");
       for (i = 0; i < x.length; i++) {
-         x[i].style.display = "none";  
+         x[i].style.display = "none";
       }
-      document.getElementById(cityn).style.display = "block";  
+      document.getElementById(cityn).style.display = "block";
   }
 </script>

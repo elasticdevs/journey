@@ -426,6 +426,7 @@ defmodule JourneyWeb.CoreComponents do
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
   attr :class, :string, default: nil
+  attr :search_count_id, :string, default: nil
 
   attr :row_item, :any,
     default: &Function.identity/1,
@@ -447,7 +448,7 @@ defmodule JourneyWeb.CoreComponents do
 
     ~H"""
     <div>
-      <table class={assigns.class}>
+      <table search_count_id={assigns.search_count_id} class={assigns.class}>
         <thead>
           <tr>
             <th :for={col <- @col}><%= col[:label] %></th>
@@ -456,7 +457,11 @@ defmodule JourneyWeb.CoreComponents do
             </th>
           </tr>
         </thead>
-        <tbody id={@id} phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}>
+        <tbody
+          class="table"
+          id={@id}
+          phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
+        >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
             <td :for={{col, _} <- Enum.with_index(@col)} phx-click={@row_click && @row_click.(row)}>
               <div>

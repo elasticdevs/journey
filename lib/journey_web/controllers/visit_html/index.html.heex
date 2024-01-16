@@ -10,11 +10,89 @@
     class="w3-input w3-border"
     style="width:30%"
   />
-  <div id="search-results-info" class="w3-serif w3-margin-bottom">
-    Showing <span id="search-count"><%= length(@visits) %></span> / <%= length(@visits) %>
+</div>
+
+<br />
+
+<div class="w3-container">
+  <div class="w3-border">
+    <div class="w3-bar w3-border-bottom w3-light-grey intronav">
+      <a
+        id="a_web_visits"
+        class="w3-bar-item w3-button testbtn"
+        onclick="openCity(event, 'web_visits')"
+      >
+        Web Visits
+        (<span id="web_visits_count"><%= length(@web_visits) %></span> / <%= length(@web_visits) %>)
+      </a>
+      <a
+        class="w3-bar-item w3-button testbtn w3-dark-grey"
+        onclick="openCity(event, 'emails_read')"
+        id="a_emails_read"
+      >
+        Emails Read
+        (<span id="emails_read_count"><%= length(@emails_read) %></span> / <%= length(
+          @emails_read
+        ) %>)
+      </a>
+      <a
+        class="w3-bar-item w3-button testbtn w3-dark-grey"
+        onclick="openCity(event, 'visits')"
+        id="a_visits"
+      >
+        All Visits
+        (<span id="visits_count"><%= length(@visits) %></span> / <%= length(@visits) %>)
+      </a>
+    </div>
+
+    <div id="web_visits" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h3>Web Visits</h3>
+      <.visits_table search_count_id="web_visits_count" visits={@web_visits} />
+    </div>
+
+    <div id="emails_read" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h3>Emails Read</h3>
+      <.visits_table search_count_id="emails_read_count" visits={@emails_read} />
+    </div>
+
+    <div id="visits" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h3>All Visits</h3>
+      <.visits_table search_count_id="visits_count" visits={@visits} />
+    </div>
+
+    <br />
   </div>
 </div>
 
-<div class="w3-container">
-  <.visits_table visits={@visits} />
-</div>
+<script>
+  function openCity(evt, cityName) {
+    var i;
+    var x = document.getElementsByClassName("city");
+    for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";
+    }
+    var activebtn = document.getElementsByClassName("testbtn");
+    for (i = 0; i < x.length; i++) {
+      activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    if(evt) {
+      evt.currentTarget.className += " w3-dark-grey";
+    } else {
+      document.getElementById("a_" + cityName).classList.add("w3-dark-grey");
+    }
+  }
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const section = urlParams.get('section') || "web_visits";
+  openCity(null, section);
+
+  function openc(cityn) {
+      var i;
+      var x = document.getElementsByClassName("cityclose");
+      for (i = 0; i < x.length; i++) {
+         x[i].style.display = "none";
+      }
+      document.getElementById(cityn).style.display = "block";
+  }
+</script>

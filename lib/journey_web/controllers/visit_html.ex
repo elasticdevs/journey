@@ -19,6 +19,6 @@ defmodule JourneyWeb.VisitHTML do
   def visit_form(assigns)
 
   attr :visits, :list, required: true
-
+  attr :search_count_id, :string, required: true
   def visits_table(assigns)
 end

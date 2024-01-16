@@ -10,11 +10,129 @@
     class="w3-input w3-border"
     style="width:30%"
   />
-  <div id="search-results-info" class="w3-serif w3-margin-bottom">
-    Showing <span id="search-count"><%= length(@activities) %></span> / <%= length(@activities) %>
+</div>
+
+<br />
+
+<div class="w3-container">
+  <div class="w3-border">
+    <div class="w3-bar w3-border-bottom w3-light-grey intronav">
+      <a id="a_lead" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'lead')">
+        Lead Gen
+        (<span id="lead_count"><%= length(@lead) %></span> / <%= length(@lead) %>)
+      </a>
+      <a
+        id="a_communicational"
+        class="w3-bar-item w3-button testbtn"
+        onclick="openCity(event, 'communicational')"
+      >
+        Communication
+        (<span id="communicational_count"><%= length(@communicational) %></span> / <%= length(
+          @communicational
+        ) %>)
+      </a>
+      <a id="a_draft" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'draft')">
+        Draft
+        (<span id="draft_count"><%= length(@draft) %></span> / <%= length(@draft) %>)
+      </a>
+      <a
+        class="w3-bar-item w3-button testbtn w3-dark-grey"
+        onclick="openCity(event, 'operational')"
+        id="a_operational"
+      >
+        Operational
+        (<span id="operational_count"><%= length(@operational) %></span> / <%= length(
+          @operational
+        ) %>)
+      </a>
+      <a
+        class="w3-bar-item w3-button testbtn w3-dark-grey"
+        onclick="openCity(event, 'activities')"
+        id="a_activities"
+      >
+        All Activities
+        (<span id="activities_count"><%= length(@activities) %></span> / <%= length(@activities) %>)
+      </a>
+    </div>
+
+    <div id="lead" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h3>Lead Gen Activities</h3>
+      <.activities_table
+        search_count_id="lead_count"
+        current_user={@current_user}
+        activities={@lead}
+      />
+    </div>
+
+    <div id="communicational" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h3>Communicational Activities</h3>
+      <.activities_table
+        search_count_id="communicational_count"
+        current_user={@current_user}
+        activities={@communicational}
+      />
+    </div>
+
+    <div id="draft" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h3>Draft Activities</h3>
+      <.activities_table
+        search_count_id="draft_count"
+        current_user={@current_user}
+        activities={@draft}
+      />
+    </div>
+
+    <div id="operational" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h3>Operational Activities</h3>
+      <.activities_table
+        search_count_id="operational_count"
+        current_user={@current_user}
+        activities={@operational}
+      />
+    </div>
+
+    <div id="activities" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h3>All Activities</h3>
+      <.activities_table
+        search_count_id="activities_count"
+        current_user={@current_user}
+        activities={@activities}
+      />
+    </div>
+
+    <br />
   </div>
 </div>
 
-<div class="w3-container">
-  <.activities_table activities={@activities} current_user={@current_user} />
-</div>
+<script>
+  function openCity(evt, cityName) {
+    var i;
+    var x = document.getElementsByClassName("city");
+    for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";
+    }
+    var activebtn = document.getElementsByClassName("testbtn");
+    for (i = 0; i < x.length; i++) {
+      activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    if(evt) {
+      evt.currentTarget.className += " w3-dark-grey";
+    } else {
+      document.getElementById("a_" + cityName).classList.add("w3-dark-grey");
+    }
+  }
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const section = urlParams.get('section') || "lead";
+  openCity(null, section);
+
+  function openc(cityn) {
+      var i;
+      var x = document.getElementsByClassName("cityclose");
+      for (i = 0; i < x.length; i++) {
+         x[i].style.display = "none";
+      }
+      document.getElementById(cityn).style.display = "block";
+  }
+</script>

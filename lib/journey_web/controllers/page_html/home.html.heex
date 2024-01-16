@@ -1,90 +1,74 @@
-<div class="w3-row-padding" style="margin:0 -16px">
-  <div class="w3-quarter">
-    <a href="/companies">
-      <div class="w3-card w3-margin w3-border w3-no-box-shadow">
-        <header class="w3-container w3-pale-red">
-          <h3>
-            Companies
-            <span class="w3-pink w3-round-large w3-padding w3-margin">
-              <%= length(@companies) %>
-            </span>
-          </h3>
-        </header>
-      </div>
-    </a>
-  </div>
+<div class="w3-container">
+  <div class="w3-border">
+    <div class="w3-bar w3-border-bottom w3-light-grey intronav">
+      <a id="a_stats" class="w3-bar-item w3-button testbtn" onclick="openCity(event, 'stats')">
+        Stats
+      </a>
+      <a
+        class="w3-bar-item w3-button testbtn w3-dark-grey"
+        onclick="openCity(event, 'companies')"
+        id="a_companies"
+      >
+        Companies (<%= length(@companies) %>)
+      </a>
+    </div>
 
-  <div class="w3-quarter">
-    <a href="/clients">
-      <div class="w3-card w3-margin w3-border w3-no-box-shadow">
-        <header class="w3-container w3-sand">
-          <h3>
-            Clients
-            <span class="w3-brown w3-round-large w3-padding w3-margin">
-              <%= length(@clients_all) %>
-            </span>
-          </h3>
-        </header>
+    <div id="stats" class="w3-container city w3-animate-opacity" style="display: block;">
+      <h2>Stats</h2>
+      <.stats
+        companies_all={@companies_all}
+        companies={@companies}
+        clients_all={@clients_all}
+        clients={@clients}
+        visits_all={@visits_all}
+        visits={@visits}
+        activities_all={@activities_all}
+        activities={@activities}
+        in_last_secs_string={@in_last_secs_string}
+      />
+    </div>
 
-        <div class="w3-container">
-          <h5><%= @in_last_secs_string %>:</h5>
-          <p>
-            # of clients with visits:
-            <span class="w3-brown w3-round-large w3-padding w3-margin">
-              <%= length(@clients) %>
-            </span>
-          </p>
-        </div>
-      </div>
-    </a>
-  </div>
-
-  <div class="w3-quarter">
-    <a href="/visits">
-      <div class="w3-card w3-margin w3-border w3-no-box-shadow">
-        <header class="w3-container w3-pale-blue">
-          <h3>
-            Visits
-            <span class="w3-indigo w3-round-large w3-padding w3-margin">
-              <%= length(@visits_all) %>
-            </span>
-          </h3>
-        </header>
-
-        <div class="w3-container">
-          <h5><%= @in_last_secs_string %>:</h5>
-          <p>
-            # of visits:
-            <span class="w3-indigo w3-round-large w3-padding w3-margin">
-              <%= length(@visits) %>
-            </span>
-          </p>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="w3-quarter">
-    <a href="/activities">
-      <div class="w3-card w3-margin w3-border w3-no-box-shadow">
-        <header class="w3-container w3-light-gray">
-          <h3>
-            Activities
-            <span class="w3-dark-gray w3-round-large w3-padding w3-margin">
-              <%= length(@activities_all) %>
-            </span>
-          </h3>
-        </header>
-
-        <div class="w3-container">
-          <h5><%= @in_last_secs_string %>:</h5>
-          <p>
-            # of activities:
-            <span class="w3-dark-gray w3-round-large w3-padding w3-margin">
-              <%= length(@activities) %>
-            </span>
-          </p>
-        </div>
-      </div>
-    </a>
+    <div id="companies" class="w3-container city w3-animate-opacity" style="display: none;">
+      <h2>Companies</h2>
+      <.companies_table
+        search_count_id="companies_count_id"
+        companies={@companies}
+        current_user={@current_user}
+      />
+    </div>
+    <br />
   </div>
 </div>
+
+<script>
+  function openCity(evt, cityName) {
+    var i;
+    var x = document.getElementsByClassName("city");
+    for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";
+    }
+    var activebtn = document.getElementsByClassName("testbtn");
+    for (i = 0; i < x.length; i++) {
+      activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    if(evt) {
+      evt.currentTarget.className += " w3-dark-grey";
+    } else {
+      document.getElementById("a_" + cityName).classList.add("w3-dark-grey");
+    }
+  }
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const section = urlParams.get('section') || "stats";
+  openCity(null, section);
+
+  function openc(cityn) {
+      var i;
+      var x = document.getElementsByClassName("cityclose");
+      for (i = 0; i < x.length; i++) {
+         x[i].style.display = "none";
+      }
+      document.getElementById(cityn).style.display = "block";
+  }
+</script>

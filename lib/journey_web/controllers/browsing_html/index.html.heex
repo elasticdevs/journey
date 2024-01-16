@@ -11,10 +11,11 @@
     style="width:30%"
   />
   <div id="search-results-info" class="w3-serif w3-margin-bottom">
-    Showing <span id="search-count"><%= length(@browsings) %></span> / <%= length(@browsings) %>
+    Showing <span id="browsings_count_id"><%= length(@browsings) %></span>
+    / <%= length(@browsings) %>
   </div>
 </div>
 
 <div class="w3-container">
-  <.browsings_table browsings={@browsings} />
+  <.browsings_table search_count_id="browsings_count_id" browsings={@browsings} />
 </div>
